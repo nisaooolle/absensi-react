@@ -1,5 +1,42 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import Swal from "sweetalert2";
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const history = useHistory();
+
+  const login = async (e) => {
+    e.preventDefault();
+    axios.get("http://localhost:2024/api/login").then(({ data }) => {
+      const user = data.find(
+        (x) => x.email === email && x.password === password
+      );
+      if (user) {
+        Swal.fire({
+          icon: "success",
+          title: "Selamat Datang!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        localStorage.setItem("id", user.id);
+        history.push("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Email Or Password Not Found",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+  };
+
   return (
     // <!-- component -->
     <body class="bg-gray-700 ">
@@ -16,27 +53,37 @@ function Login() {
               </g>
             </svg>
 
-            <h1 class="text-white text-2xl">selamat datang di aplikasi absensi</h1>
-            <input
-              class="w-full p-2 bg-gray-900 rounded-md  border border-gray-700 focus:border-blue-700"
-              placeholder="email"
-              type="email"
-              name="email"
-              id=""
-            />
-            <input
-              class="w-full p-2 bg-gray-900 rounded-md border border-gray-700 "
-              placeholder="password*"
-              type="password"
-              name="correo"
-              id=""
-            />
-            <input
-              class="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
-              type="submit"
-              name="correo"
-              id=""
-            />
+            <h1 class="text-white text-2xl">
+              selamat datang di aplikasi absensi
+            </h1>
+            <form
+              action=""
+              onSubmit={login}
+              method="POST"
+              className="w-72 "
+            >
+              <input
+                className="w-full p-2 bg-gray-900 rounded-md  border border-gray-700 focus:border-blue-700 mb-3"
+                placeholder="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+
+              <input
+                className="w-full p-2 bg-gray-900 rounded-md border border-gray-700 mb-3"
+                placeholder="password*"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+                <button className="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
+                type="submit">
+                Login
+              </button>
+            </form>
 
             <p>
               Tidak memiliki akun?
