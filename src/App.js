@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/admin/Dashboard";
 import DashboardUser from "./pages/user/DashboardUser";
+import TabelAbsen from "./pages/user/TabelAbsen";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/register" component={Register} exact />
           <Route path="/dashboard" component={Dashboard} exact />
           <Route path="/user/dashboard" component={DashboardUser} exact />
+          <Route path="/user/history_absen" component={TabelAbsen} exact />
         </Switch>
       </main>
     </BrowserRouter>
