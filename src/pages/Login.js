@@ -3,40 +3,79 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 function Login() {
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+
+  // const history = useHistory();
+
+  // const login = async (e) => {
+  //   e.preventDefault();
+  //   axios.get("http://localhost:2024/api/login").then(({ data }) => {
+  //     const user = data.find(
+  //       (x) => x.email === email && x.password === password
+  //     );
+  //     if (user) {
+  //       Swal.fire({
+  //         icon: "success",
+  //         title: "Selamat Datang!",
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //       localStorage.setItem("id", user.id);
+  //       history.push("/");
+  //       setTimeout(() => {
+  //         window.location.reload();
+  //       }, 1000);
+  //     } else {
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Email Or Password Not Found",
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //     }
+  //   });
+  // };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [role, seRole] = useState("admin");
   const history = useHistory();
+  const [showPassword, setShowPassword] = useState(false);
 
-  const login = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    axios.get("http://localhost:2024/api/login").then(({ data }) => {
-      const user = data.find(
-        (x) => x.email === email && x.password === password
-      );
-      if (user) {
+
+    const data = {
+      email: email,
+      password: password,
+      role: role,
+    };
+    try {
+      const response = await axios.post(`http://localhost:2024/api/login`, data);
+
+      if (response.status === 200) {
         Swal.fire({
           icon: "success",
-          title: "Selamat Datang!",
+          title: "Berhasil Login Sebagai Adminn",
           showConfirmButton: false,
           timer: 1500,
         });
-        localStorage.setItem("id", user.id);
-        history.push("/");
+        history.push("/admin/dashboard");
         setTimeout(() => {
           window.location.reload();
-        }, 1000);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Email Or Password Not Found",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        }, 1500);
+        // localStorage.setItem("id", response.data.userData.id);
+        // localStorage.setItem("role", response.data.userData.role);
+        localStorage.setItem("token", response.data.token);
       }
-    });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Username / Password Salah",
+      });
+      console.error(error);
+    }
   };
-
   return (
     // <!-- component -->
     <body class="bg-gray-700 ">
@@ -56,12 +95,7 @@ function Login() {
             <h1 class="text-white text-2xl">
               selamat datang di aplikasi absensi
             </h1>
-            <form
-              action=""
-              onSubmit={login}
-              method="POST"
-              className="w-72 "
-            >
+            <form action="" onSubmit={handleLogin} method="POST" className="w-72 ">
               <input
                 className="w-full p-2 bg-gray-900 rounded-md  border border-gray-700 focus:border-blue-700 mb-3"
                 placeholder="email"
@@ -79,8 +113,10 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-                <button className="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
-                type="submit">
+              <button
+                className="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
+                type="submit"
+              >
                 Login
               </button>
             </form>
