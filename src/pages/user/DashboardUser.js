@@ -8,6 +8,7 @@ import {
   faClockFour,
 } from "@fortawesome/free-regular-svg-icons";
 import Navbar from "../../components/NavbarUser";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -81,49 +82,53 @@ function Dashboard() {
                     <p className="text-lg">Absen pulang.</p>
                   </div>
                   <div className="my-auto">
-                    <FontAwesomeIcon icon={faArrowRightFromBracket} size="2x" />{" "}
+                    <FontAwesomeIcon icon={faArrowRightFromBracket} size="2x" />
                     {/* Menggunakan properti size untuk memperbesar ikon */}
                   </div>
                 </div>
               </div>
-              <div className="pl-2 h-32 bg-red-800 rounded-lg shadow-md md:w-auto">
-                <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
-                  <div className="my-auto">
-                    <p className="font-bold">Izin</p>
-                    <p className="text-lg">Ajukan Izin.</p>
-                  </div>
-                  <div className="my-auto">
-                    <FontAwesomeIcon icon={faCircleXmark} size="2x" />{" "}
-                    {/* Menggunakan properti size untuk memperbesar ikon */}
+              <Link to="/user/izin">
+                <div className="pl-2 h-32 bg-red-800 rounded-lg shadow-md md:w-auto">
+                  <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
+                    <div className="my-auto">
+                      <p className="font-bold">Izin</p>
+                      <p className="text-lg">Ajukan Izin.</p>
+                    </div>
+                    <div className="my-auto">
+                      <FontAwesomeIcon icon={faCircleXmark} size="2x" />
+                      {/* Menggunakan properti size untuk memperbesar ikon */}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
             <div className="flex justify-center mt-3 gap-4 flex-col md:flex-row">
-              <div className="pl-2 h-32 w-full md:w-80 bg-blue-400 rounded-lg shadow-md md:mr-20">
-                <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
-                  <div className="my-auto">
-                    <p className="font-bold">Cuti</p>
-                    <p className="text-lg">Ajukan cuti.</p>
-                  </div>
-                  <div className="my-auto">
-                    <FontAwesomeIcon icon={faCalendarDays} size="2x" />{" "}
-                    {/* Menggunakan properti size untuk memperbesar ikon */}
-                  </div>
-                </div>
-              </div>
-              <div className="pl-2 h-32 w-full md:w-80 bg-yellow-400 rounded-lg shadow-md md:ml-0 mt-4 md:mt-0">
-                <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
-                  <div className="my-auto">
-                    <p className="font-bold">Lembur</p>
-                    <p className="text-lg">Ajukan lembur.</p>
-                  </div>
-                  <div className="my-auto">
-                    <FontAwesomeIcon icon={faClockFour} size="2x" />{" "}
-                    {/* Menggunakan properti size untuk memperbesar ikon */}
+              <Link to="/user/cuti">
+                <div className="pl-2 h-32 w-full md:w-80 bg-blue-400 rounded-lg shadow-md md:mr-20 cursor-pointer">
+                  <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
+                    <div className="my-auto">
+                      <p className="font-bold">Cuti</p>
+                      <p className="text-lg">Ajukan cuti.</p>
+                    </div>
+                    <div className="my-auto">
+                      <FontAwesomeIcon icon={faCalendarDays} size="2x" />{" "}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
+              <Link to="/user/lembur">
+                <div className="pl-2 h-32 w-full md:w-80 bg-yellow-400 rounded-lg shadow-md md:ml-0 mt-4 md:mt-0 cursor-pointer">
+                  <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
+                    <div className="my-auto">
+                      <p className="font-bold">Lembur</p>
+                      <p className="text-lg">Ajukan lembur.</p>
+                    </div>
+                    <div className="my-auto">
+                      <FontAwesomeIcon icon={faClockFour} size="2x" />{" "}
+                    </div>
+                  </div>
+                </div>
+              </Link>
             </div>
           </div>
 
