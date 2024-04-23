@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 import DashboardUser from "./pages/user/DashboardUser";
+import TabelAbsen from "./pages/user/TabelAbsen";
 import Dashboard from "./pages/admin/Dashboard";
 import Karyawan from "./pages/admin/Karyawan";
 import Jabatan from "./pages/admin/Jabatan";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/admin/organisasi" component={Organisasi} exact /> 
           {/* end admin */}
           <Route path="/user/dashboard" component={DashboardUser} exact />
+          <Route path="/user/history_absen" component={TabelAbsen} exact />
         </Switch>
       </main>
     </BrowserRouter>
