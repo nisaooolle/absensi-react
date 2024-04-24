@@ -22,6 +22,20 @@ import {
   Route,
   Switch,
 } from "react-router-dom/cjs/react-router-dom.min";
+import Addkaryawan from "./pages/admin/add/Addkaryawan";
+import AddJabatan from "./pages/admin/add/AddJabatan";
+import AddShift from "./pages/admin/add/AddShift";
+import AddLokasi from "./pages/admin/add/AddLokasi";
+import AddOrganisasi from "./pages/admin/add/AddOrganisasi";
+import EditKaryawan from "./pages/admin/edit/EditKaryawan";
+import EditJabatan from "./pages/admin/edit/EditJabatan";
+import EditLokasi from "./pages/admin/edit/EditLokasi";
+import EditOrganisasi from "./pages/admin/edit/EditOrganisasi";
+import Perkaryawan from "./pages/admin/rekapan/Perkaryawan";
+import Harian from "./pages/admin/rekapan/Harian";
+import Mingguan from "./pages/admin/rekapan/Mingguan";
+import Bulanan from "./pages/admin/rekapan/Bulanan";
+import Absensi from "./pages/admin/data absensi/Absensi";
 
 function App() {
   const role = localStorage.getItem("role");
@@ -36,6 +50,7 @@ function App() {
           {role === "ADMIN" && (
             <>
               <Route path="/admin/dashboard" component={Dashboard} exact />
+              {/* master data */}
               <Route path="/admin/karyawan" component={Karyawan} exact />
               <Route path="/admin/jabatan" component={Jabatan} exact />
               <Route path="/admin/shift" component={Shift} exact />
@@ -44,7 +59,24 @@ function App() {
               <Route path="/admin/detailK" component={DetailKaryawan} exact />
               <Route path="/admin/detailL" component={DetailLokasi} exact />
               <Route path="/admin/detailO" component={DetailOrganisasi} exact />
+              <Route path="/admin/addkary" component={Addkaryawan} exact />
+              <Route path="/admin/addjab" component={AddJabatan} exact />
+              <Route path="/admin/addshift" component={AddShift} exact />
+              <Route path="/admin/addlok" component={AddLokasi} exact />
+              <Route path="/admin/addor" component={AddOrganisasi} exact />
+              <Route path="/admin/editK" component={EditKaryawan} exact />
+              <Route path="/admin/editJ" component={EditJabatan} exact />
+              <Route path="/admin/editL" component={EditLokasi} exact />
+              <Route path="/admin/editO" component={EditOrganisasi} exact />
+              {/* rekapan */}
               <Route path="/admin/simpel" component={Simpel} exact />
+              <Route path="/admin/perkaryawan" component={Perkaryawan} exact />
+              <Route path="/admin/harian" component={Harian} exact />
+              <Route path="/admin/mingguan" component={Mingguan} exact />
+              <Route path="/admin/bulanan" component={Bulanan} exact />
+              {/* data absensi */}
+              <Route path="/admin/absensi" component={Absensi} exact />
+
             </>
           )}
           {/* end admin */}

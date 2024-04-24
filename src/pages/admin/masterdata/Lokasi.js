@@ -29,8 +29,8 @@ function Lokasi() {
                 </h6>
                 <a
                   type="button"
-                  href="https://demo-absen.excellentsistem.com/admin/tambah_user"
-                  class="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                  href="/admin/addlok"
+                  class="text-white bg-indigo-500 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                 >
                   <FontAwesomeIcon icon={faPlus} size="lg" />
                 </a>
@@ -41,7 +41,7 @@ function Lokasi() {
               <div class="relative overflow-x-auto mt-5">
                 <table
                   id="dataJabatan"
-                  class="w-full text-center text-sm text-left text-gray-500 dark:text-gray-400"
+                  class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                 >
                   {/* <!-- Tabel Head --> */}
                   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -61,7 +61,7 @@ function Lokasi() {
                       <th scope="col" class="px-6 py-3">
                         Organisasi
                       </th>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" class="px-6 py-3 text-center">
                         Aksi
                       </th>
                     </tr>
@@ -84,21 +84,21 @@ function Lokasi() {
                           <a
                             type="button"
                             href="/admin/detailL"
-                            class="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 mx-1 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                            class="text-white bg-indigo-500 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 mx-1 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                           >
                             <FontAwesomeIcon icon={faCircleInfo} size="lg" />
                           </a>
                           <a
                             type="button"
                             href="/admin/editL"
-                            class="text-white bg-yellow-400 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                            class="text-white bg-yellow-400 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                           >
                             <FontAwesomeIcon icon={faPenToSquare} size="lg" />
                           </a>
                           <a
                             type="button"
                             onclick="hapusUser(4)"
-                            class="text-white bg-red-600 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                            class="text-white bg-red-600 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                           >
                             <FontAwesomeIcon icon={faTrash} size="lg" />
                           </a>
