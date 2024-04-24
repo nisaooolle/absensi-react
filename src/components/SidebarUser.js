@@ -2,6 +2,8 @@ import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import {
   faArrowRightFromBracket,
   faBusinessTime,
+  faChevronDown,
+  faChevronUp,
   faClock,
   faCube,
   faDatabase,
@@ -10,14 +12,60 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 const Sidebar = () => {
   const role = localStorage.getItem("role");
-  const [isOpen, setIsOpen] = useState(true);
+  // State untuk mengelola status dropdown
+  const [masterDataOpen, setMasterDataOpen] = useState(false);
+  const [rekapanOpen, setRekapanOpen] = useState(false);
+  const [absenOpen, setAbsenOpen] = useState(false);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+  // Fungsi untuk menampilkan atau menyembunyikan dropdown master data
+  const toggleMasterData = () => {
+    setMasterDataOpen(!masterDataOpen);
   };
+
+  // Fungsi untuk menampilkan atau menyembunyikan dropdown rekapan
+  const toggleRekapan = () => {
+    setRekapanOpen(!rekapanOpen);
+  };
+
+  // Fungsi untuk menampilkan atau menyembunyikan dropdown absen
+  const toggleAbsen = () => {
+    setAbsenOpen(!absenOpen);
+  };
+
+  function logout() {
+    // Tampilkan SweetAlert2 konfirmasi sebelum logout
+    Swal.fire({
+      title: "Logout",
+      text: "Apakah Anda yakin ingin logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Logout",
+      cancelButtonText: "Batal",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Hapus item dari local storage saat logout
+        localStorage.removeItem("token");
+        // Tampilkan pesan berhasil logout
+        Swal.fire({
+          title: "Logout Berhasil",
+          text: "Anda telah berhasil logout.",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "OK",
+        }).then(() => {
+          // Redirect ke halaman login setelah menekan tombol OK
+          window.location.href = "/";
+        });
+      }
+    });
+  }
+
   return (
     <aside
       id="logo-sidebar"
@@ -47,7 +95,7 @@ const Sidebar = () => {
                   class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   // aria-controls="dropdown-masterdata"
                   // data-dropdown-toggle="dropdown-masterdata"
-                  onClick={toggleDropdown}
+                  onClick={toggleMasterData}
                 >
                   <FontAwesomeIcon
                     className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -56,86 +104,85 @@ const Sidebar = () => {
                   <span class="flex-1 ml-3 text-left whitespace-nowrap">
                     Master Data
                   </span>
-                  <i class="fa-solid fa-chevron-down fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                  <FontAwesomeIcon
+                    icon={masterDataOpen ? faChevronUp : faChevronDown}
+                    className="flex-shrink-0 w-4 h-4 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  />
                 </button>
+                <ul
+                  // id="dropdown-masterdata"
+                  className={`${
+                    masterDataOpen ? "" : "hidden" // Tampilkan atau sembunyikan dropdown berdasarkan state masterDataOpen
+                  } py-2 space-y-2`}
+                >
+                  {/* <!-- Menu Karyawan --> */}
+                  <li>
+                    <a
+                      href=""
+                      class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <i class="fa-solid fa-users-gear fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                      <span class="flex-1 ml-3 whitespace-nowrap">
+                        Karyawan
+                      </span>
+                    </a>
+                  </li>
 
-                {isOpen && (
-                  <ul
-                    // id="dropdown-masterdata"
-                    class="hidden py-2 space-y-2"
-                  >
-                    {/* <!-- Menu Karyawan --> */}
-                    <li>
-                      <a
-                        href=""
-                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                      >
-                        <i class="fa-solid fa-users-gear fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                        <span class="flex-1 ml-3 whitespace-nowrap">
-                          Karyawan
-                        </span>
-                      </a>
-                    </li>
+                  {/* <!-- Menu Jabatan --> */}
+                  <li>
+                    <a
+                      href="https://demo-absen.excellentsistem.com/admin/jabatan"
+                      class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <i class="fa-solid fa-briefcase fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                      <span class="flex-1 ml-3 whitespace-nowrap">Jabatan</span>
+                    </a>
+                  </li>
 
-                    {/* <!-- Menu Jabatan --> */}
-                    <li>
-                      <a
-                        href="https://demo-absen.excellentsistem.com/admin/jabatan"
-                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                      >
-                        <i class="fa-solid fa-briefcase fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                        <span class="flex-1 ml-3 whitespace-nowrap">
-                          Jabatan
-                        </span>
-                      </a>
-                    </li>
+                  {/* <!-- Menu Jam Kerja --> */}
+                  <li>
+                    <a
+                      href="https://demo-absen.excellentsistem.com/admin/shift"
+                      class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <i class="fa-solid fa-business-time fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                      <span class="flex-1 ml-3 whitespace-nowrap">Shift</span>
+                    </a>
+                  </li>
 
-                    {/* <!-- Menu Jam Kerja --> */}
-                    <li>
-                      <a
-                        href="https://demo-absen.excellentsistem.com/admin/shift"
-                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                      >
-                        <i class="fa-solid fa-business-time fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                        <span class="flex-1 ml-3 whitespace-nowrap">Shift</span>
-                      </a>
-                    </li>
+                  {/* <!-- Menu Lokasi --> */}
+                  <li>
+                    <a
+                      href="https://demo-absen.excellentsistem.com/admin/lokasi"
+                      class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <i class="fa-solid fa-map-location-dot fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                      <span class="flex-1 ml-3 whitespace-nowrap">Lokasi</span>
+                    </a>
+                  </li>
 
-                    {/* <!-- Menu Lokasi --> */}
-                    <li>
-                      <a
-                        href="https://demo-absen.excellentsistem.com/admin/lokasi"
-                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                      >
-                        <i class="fa-solid fa-map-location-dot fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                        <span class="flex-1 ml-3 whitespace-nowrap">
-                          Lokasi
-                        </span>
-                      </a>
-                    </li>
-
-                    {/* <!-- Menu Organisasi --> */}
-                    <li>
-                      <a
-                        href="https://demo-absen.excellentsistem.com/admin/all_organisasi"
-                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                      >
-                        <i class="fa-solid fa-building fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                        <span class="flex-1 ml-3 whitespace-nowrap">
-                          Organisasi
-                        </span>
-                      </a>
-                    </li>
-                  </ul>
-                )}
+                  {/* <!-- Menu Organisasi --> */}
+                  <li>
+                    <a
+                      href="https://demo-absen.excellentsistem.com/admin/all_organisasi"
+                      class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <i class="fa-solid fa-building fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                      <span class="flex-1 ml-3 whitespace-nowrap">
+                        Organisasi
+                      </span>
+                    </a>
+                  </li>
+                </ul>
               </li>
               {/* <!-- Dropdown Rekapan --> */}
               <li>
                 <button
                   type="button"
                   class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  aria-controls="dropdown-example"
-                  data-collapse-toggle="dropdown-example"
+                  // aria-controls="dropdown-example"
+                  // data-collapse-toggle="dropdown-example"
+                  onClick={toggleRekapan}
                 >
                   <FontAwesomeIcon
                     className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -144,10 +191,18 @@ const Sidebar = () => {
                   <span class="flex-1 ml-3 text-left whitespace-nowrap">
                     Rekapan
                   </span>
-                  <i class="fa-solid fa-chevron-down fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                  <FontAwesomeIcon
+                    icon={rekapanOpen ? faChevronUp : faChevronDown}
+                    className="flex-shrink-0 w-4 h-4 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  />
                 </button>
 
-                <ul id="dropdown-example" class="hidden py-2 space-y-2">
+                <ul
+                  // id="dropdown-masterdata"
+                  className={`${
+                    rekapanOpen ? "" : "hidden" // Tampilkan atau sembunyikan dropdown berdasarkan state masterDataOpen
+                  } py-2 space-y-2`}
+                >
                   {/* <!-- Menu Simpel --> */}
                   <li>
                     <a
@@ -210,8 +265,9 @@ const Sidebar = () => {
                 <button
                   type="button"
                   class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  aria-controls="dropdown-data"
-                  data-collapse-toggle="dropdown-data"
+                  // aria-controls="dropdown-data"
+                  // data-collapse-toggle="dropdown-data"
+                  onClick={toggleAbsen}
                 >
                   <FontAwesomeIcon
                     className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -220,10 +276,18 @@ const Sidebar = () => {
                   <span class="flex-1 ml-3 text-left whitespace-nowrap">
                     Data Absensi
                   </span>
-                  <i class="fa-solid fa-chevron-down fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                  <FontAwesomeIcon
+                    icon={absenOpen ? faChevronUp : faChevronDown}
+                    className="flex-shrink-0 w-4 h-4 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  />
                 </button>
 
-                <ul id="dropdown-data" class="hidden py-2 space-y-2">
+                <ul
+                  id="dropdown-masterdata"
+                  className={`${
+                    absenOpen ? "" : "hidden" // Tampilkan atau sembunyikan dropdown berdasarkan state masterDataOpen
+                  } py-2 space-y-2`}
+                >
                   {/* <!-- Menu Absensi --> */}
                   <li>
                     <a
@@ -275,7 +339,7 @@ const Sidebar = () => {
               {" "}
               <li>
                 <a
-                  href="#"
+                  href="/user/dashboard"
                   className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                 >
                   <FontAwesomeIcon
@@ -287,7 +351,7 @@ const Sidebar = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/user/history_absen"
                   className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                 >
                   <FontAwesomeIcon
@@ -299,7 +363,7 @@ const Sidebar = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/user/history_cuti"
                   className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                 >
                   <FontAwesomeIcon
@@ -311,7 +375,7 @@ const Sidebar = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/user/history_lembur"
                   className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                 >
                   <FontAwesomeIcon
@@ -325,7 +389,11 @@ const Sidebar = () => {
           )}
           <li>
             <a
-              href="#"
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                logout();
+              }}
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <FontAwesomeIcon

@@ -3,7 +3,6 @@ import Navbar from "../../components/NavbarUser";
 import Sidebar from "../../components/SidebarUser";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { faInfo, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 function TabelAbsen() {

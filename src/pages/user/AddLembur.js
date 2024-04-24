@@ -20,7 +20,7 @@ function AddLembur() {
         <div className="content-page max-h-screen container p-8 min-h-screen ml-64">
           {" "}
           <h1 className="judul text-3xl font-semibold">Halaman Lembur</h1>
-          <div className="add-cuti mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
+          <div className="add-lembur mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
             <p className="text-lg sm:text-xl font-medium mb-4 sm:mb-7">
               Halaman Lembur
             </p>
@@ -34,7 +34,7 @@ function AddLembur() {
                     type="date"
                     id="tanggallembur"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukan Tanggal Lembur"
+                    placeholder="Masukkan Tanggal Lembur"
                     //   value={nama}
                     //   onChange={(e) => setNama(e.target.value)}
                     required
@@ -48,7 +48,7 @@ function AddLembur() {
                     type="text"
                     id="keterangan"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukan Keterangan Lembur"
+                    placeholder="Masukkan Keterangan Lembur"
                     // value={jabatan}
                     // onChange={(e) => setJabatan(e.target.value)}
                     required
@@ -64,7 +64,7 @@ function AddLembur() {
                     type="time"
                     id="mulai"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukan Jam Mulai"
+                    placeholder="Masukkan Jam Mulai"
                     // value={tanggalLahir}
                     // onChange={(e) => setTanggalLahir(e.target.value)}
                     required
@@ -78,7 +78,7 @@ function AddLembur() {
                     type="time"
                     id="selsai"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukan Jam Selesai"
+                    placeholder="Masukkan Jam Selesai"
                     // value={noTelepon}
                     // onChange={(e) => setNoTelepon(e.target.value)}
                     required
