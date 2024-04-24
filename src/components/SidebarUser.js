@@ -4,12 +4,20 @@ import {
   faBusinessTime,
   faClock,
   faCube,
+  faDatabase,
+  faSignal,
+  faTable,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 
 const Sidebar = () => {
   const role = localStorage.getItem("role");
+  const [isOpen, setIsOpen] = useState(true);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <aside
       id="logo-sidebar"
@@ -18,95 +26,108 @@ const Sidebar = () => {
     >
       <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
         <ul className="space-y-2 font-medium">
-          <li>
-            <a
-              href="#"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            >
-              <FontAwesomeIcon
-                className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                icon={faCube}
-              />
-              <span className="ms-3">Dashboard</span>
-            </a>
-          </li>
-          {(role === "rw" || role === "admin") && (
+          {role === "ADMIN" && (
             <ul>
+              <li>
+                <a
+                  href="/admin/dashboard"
+                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                >
+                  <FontAwesomeIcon
+                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    icon={faCube}
+                  />
+                  <span className="ms-3">Dashboard</span>
+                </a>
+              </li>
               {/* // <!-- Dropdown Master Data --> */}
               <li>
                 <button
                   type="button"
                   class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  aria-controls="dropdown-masterdata"
-                  data-collapse-toggle="dropdown-masterdata"
+                  // aria-controls="dropdown-masterdata"
+                  // data-dropdown-toggle="dropdown-masterdata"
+                  onClick={toggleDropdown}
                 >
-                  <i class="fa-solid fa-database fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                  <FontAwesomeIcon
+                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    icon={faDatabase}
+                  />
                   <span class="flex-1 ml-3 text-left whitespace-nowrap">
                     Master Data
                   </span>
                   <i class="fa-solid fa-chevron-down fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                 </button>
 
-                <ul id="dropdown-masterdata" class="hidden py-2 space-y-2">
-                  {/* <!-- Menu Karyawan --> */}
-                  <li>
-                    <a
-                      href="https://demo-absen.excellentsistem.com/admin/user"
-                      class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                    >
-                      <i class="fa-solid fa-users-gear fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                      <span class="flex-1 ml-3 whitespace-nowrap">
-                        Karyawan
-                      </span>
-                    </a>
-                  </li>
+                {isOpen && (
+                  <ul
+                    // id="dropdown-masterdata"
+                    class="hidden py-2 space-y-2"
+                  >
+                    {/* <!-- Menu Karyawan --> */}
+                    <li>
+                      <a
+                        href=""
+                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                      >
+                        <i class="fa-solid fa-users-gear fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <span class="flex-1 ml-3 whitespace-nowrap">
+                          Karyawan
+                        </span>
+                      </a>
+                    </li>
 
-                  {/* <!-- Menu Jabatan --> */}
-                  <li>
-                    <a
-                      href="https://demo-absen.excellentsistem.com/admin/jabatan"
-                      class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                    >
-                      <i class="fa-solid fa-briefcase fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                      <span class="flex-1 ml-3 whitespace-nowrap">Jabatan</span>
-                    </a>
-                  </li>
+                    {/* <!-- Menu Jabatan --> */}
+                    <li>
+                      <a
+                        href="https://demo-absen.excellentsistem.com/admin/jabatan"
+                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                      >
+                        <i class="fa-solid fa-briefcase fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <span class="flex-1 ml-3 whitespace-nowrap">
+                          Jabatan
+                        </span>
+                      </a>
+                    </li>
 
-                  {/* <!-- Menu Jam Kerja --> */}
-                  <li>
-                    <a
-                      href="https://demo-absen.excellentsistem.com/admin/shift"
-                      class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                    >
-                      <i class="fa-solid fa-business-time fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                      <span class="flex-1 ml-3 whitespace-nowrap">Shift</span>
-                    </a>
-                  </li>
+                    {/* <!-- Menu Jam Kerja --> */}
+                    <li>
+                      <a
+                        href="https://demo-absen.excellentsistem.com/admin/shift"
+                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                      >
+                        <i class="fa-solid fa-business-time fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <span class="flex-1 ml-3 whitespace-nowrap">Shift</span>
+                      </a>
+                    </li>
 
-                  {/* <!-- Menu Lokasi --> */}
-                  <li>
-                    <a
-                      href="https://demo-absen.excellentsistem.com/admin/lokasi"
-                      class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                    >
-                      <i class="fa-solid fa-map-location-dot fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                      <span class="flex-1 ml-3 whitespace-nowrap">Lokasi</span>
-                    </a>
-                  </li>
+                    {/* <!-- Menu Lokasi --> */}
+                    <li>
+                      <a
+                        href="https://demo-absen.excellentsistem.com/admin/lokasi"
+                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                      >
+                        <i class="fa-solid fa-map-location-dot fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <span class="flex-1 ml-3 whitespace-nowrap">
+                          Lokasi
+                        </span>
+                      </a>
+                    </li>
 
-                  {/* <!-- Menu Organisasi --> */}
-                  <li>
-                    <a
-                      href="https://demo-absen.excellentsistem.com/admin/all_organisasi"
-                      class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                    >
-                      <i class="fa-solid fa-building fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                      <span class="flex-1 ml-3 whitespace-nowrap">
-                        Organisasi
-                      </span>
-                    </a>
-                  </li>
-                </ul>
+                    {/* <!-- Menu Organisasi --> */}
+                    <li>
+                      <a
+                        href="https://demo-absen.excellentsistem.com/admin/all_organisasi"
+                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                      >
+                        <i class="fa-solid fa-building fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <span class="flex-1 ml-3 whitespace-nowrap">
+                          Organisasi
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+                )}
               </li>
               {/* <!-- Dropdown Rekapan --> */}
               <li>
@@ -116,7 +137,10 @@ const Sidebar = () => {
                   aria-controls="dropdown-example"
                   data-collapse-toggle="dropdown-example"
                 >
-                  <i class="fa-solid fa-list fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                  <FontAwesomeIcon
+                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    icon={faSignal}
+                  />
                   <span class="flex-1 ml-3 text-left whitespace-nowrap">
                     Rekapan
                   </span>
@@ -189,7 +213,10 @@ const Sidebar = () => {
                   aria-controls="dropdown-data"
                   data-collapse-toggle="dropdown-data"
                 >
-                  <i class="fa-solid fa-clock fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                  <FontAwesomeIcon
+                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    icon={faTable}
+                  />
                   <span class="flex-1 ml-3 text-left whitespace-nowrap">
                     Data Absensi
                   </span>
@@ -243,42 +270,59 @@ const Sidebar = () => {
               </li>
             </ul>
           )}
-          <li>
-            <a
-              href="#"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            >
-              <FontAwesomeIcon
-                className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                icon={faClock}
-              />
-              <span className="flex-1 ms-3 whitespace-nowrap">Absen</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            >
-              <FontAwesomeIcon
-                className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                icon={faCalendarDays}
-              />
-              <span className="flex-1 ms-3 whitespace-nowrap">Cuti</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            >
-              <FontAwesomeIcon
-                className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                icon={faBusinessTime}
-              />
-              <span className="flex-1 ms-3 whitespace-nowrap">Lembur</span>
-            </a>
-          </li>
+          {role === "USER" && (
+            <ul>
+              {" "}
+              <li>
+                <a
+                  href="#"
+                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                >
+                  <FontAwesomeIcon
+                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    icon={faCube}
+                  />
+                  <span className="ms-3">Dashboard</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                >
+                  <FontAwesomeIcon
+                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    icon={faClock}
+                  />
+                  <span className="flex-1 ms-3 whitespace-nowrap">Absen</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                >
+                  <FontAwesomeIcon
+                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    icon={faCalendarDays}
+                  />
+                  <span className="flex-1 ms-3 whitespace-nowrap">Cuti</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                >
+                  <FontAwesomeIcon
+                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    icon={faBusinessTime}
+                  />
+                  <span className="flex-1 ms-3 whitespace-nowrap">Lembur</span>
+                </a>
+              </li>
+            </ul>
+          )}
           <li>
             <a
               href="#"
