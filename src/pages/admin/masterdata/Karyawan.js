@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,8 +8,50 @@ import {
   faPlus,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 function Karyawan() {
+  const [username, setUsername] = useState([]); //useState berfungsi untuk menyimpan data sementara
+
+  //untuk melihat semua data
+  const getAll = () => {
+    axios
+      .get("http://localhost:2024/api/karyawan/all")
+      .then((res) => {
+        setUsername(res.data);
+      })
+      .catch((error) => {
+        alert("Terjadi kesalahan" + error);
+      });
+  };
+
+  useEffect(() => {
+    //mengambil data, memperbarui DOM secara langsung,
+    getAll();
+  }, []);
+
+  //menghapus data
+  const deleteUser = async (id) => {
+    Swal.fire({
+      title: "Yakin ingin menghapus data ini?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete("http://localhost:8000/daftarBuku/" + id);
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+    }); // untuk pemberitahuan jika sudah berhasil menghapus
+    getAll();
+  };
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -29,10 +71,10 @@ function Karyawan() {
                 </h6>
                 <a
                   type="button"
-                  href="https://demo-absen.excellentsistem.com/admin/tambah_user"
-                  class="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                  href="/admin/addkary"
+                  class="text-white bg-indigo-500  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                 >
-                  <FontAwesomeIcon icon={faPlus}  size="lg"/>
+                  <FontAwesomeIcon icon={faPlus} size="lg" />
                 </a>
               </div>
               <hr />
@@ -41,7 +83,7 @@ function Karyawan() {
               <div class="relative overflow-x-auto mt-5">
                 <table
                   id="dataKaryawan"
-                  class="w-full text-center text-sm text-left text-gray-500 dark:text-gray-400"
+                  class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                 >
                   {/* <!-- Tabel Head --> */}
                   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -58,11 +100,7 @@ function Karyawan() {
                       <th scope="col" class="px-6 py-3">
                         Admin
                       </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3"
-                        style={{ textalign: "center" }}
-                      >
+                      <th scope="col" class="px-6 py-3 text-center">
                         Aksi
                       </th>
                     </tr>
@@ -92,21 +130,21 @@ function Karyawan() {
                           <a
                             type="button"
                             href="/admin/detailK"
-                            class="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 mx-1 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                            class="text-white bg-indigo-500  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 mx-1 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                           >
                             <FontAwesomeIcon icon={faCircleInfo} size="lg" />
                           </a>
                           <a
                             type="button"
                             href="/admin/editK"
-                            class="text-white bg-yellow-400 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                            class="text-white bg-yellow-400  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                           >
                             <FontAwesomeIcon icon={faPenToSquare} size="lg" />
                           </a>
                           <a
                             type="button"
                             onclick="hapusUser(4)"
-                            class="text-white bg-red-600 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                            class="text-white bg-red-600  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                           >
                             <FontAwesomeIcon icon={faTrash} size="lg" />
                           </a>

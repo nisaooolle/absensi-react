@@ -1,5 +1,5 @@
 import React from "react";
-
+import Logo from "../components/absensi.png";
 const Navbar = () => {
   return (
     <nav className="fixed top-0 z-50 w-full bg-gray-700 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -28,11 +28,11 @@ const Navbar = () => {
                 ></path>
               </svg>
             </button>
-            <a href="https://flowbite.com" className="flex ms-2 md:me-24">
+            <a href="" className="flex ms-2 md:me-24">
               <img
-                src="https://absenbootcamp.ecomp.id/src/assets/image/absensi.png"
-                className="h-10 me-3 text-white"
-                alt="FlowBite Logo"
+                src={Logo}
+                className="h-11 me-3 text-white"
+                alt=""
               />
               <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
               </span>
