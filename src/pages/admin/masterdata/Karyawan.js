@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../../components/NavbarUser";
-import Sidebar from "../../components/SidebarUser";
+import Navbar from "../../../components/NavbarUser";
+import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleInfo,
@@ -91,14 +91,14 @@ function Karyawan() {
                         <div class=" flex justify-center">
                           <a
                             type="button"
-                            href="https://demo-absen.excellentsistem.com/admin/detail_user/4"
+                            href="/admin/detailK"
                             class="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 mx-1 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                           >
                             <FontAwesomeIcon icon={faCircleInfo} size="lg" />
                           </a>
                           <a
                             type="button"
-                            href="https://demo-absen.excellentsistem.com/admin/update_user/4"
+                            href="/admin/editK"
                             class="text-white bg-yellow-400 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                           >
                             <FontAwesomeIcon icon={faPenToSquare} size="lg" />

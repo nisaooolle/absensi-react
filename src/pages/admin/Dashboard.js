@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faClipboardUser, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUsers,
+  faClipboardUser,
+  faCalendarDays,
+} from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../../components/NavbarUser";
 // import Highcharts from "highcharts";
 
@@ -78,14 +82,17 @@ function Dashboard() {
           <Sidebar />
         </div>
         <div className="content-page container p-8  ml-0 md:ml-64 mt-12">
-          <div class="menu-items text-center bg-slate-300 h-28 ">
-          <h1 className="judul text-3xl font-semibold text-center mb-6">
-            Selamat Datang di Absensi
-          </h1>
-            <a class="profile-menu-link">{day}, </a>
+          <div class="mt-5 w-full">
+            <div class="p-4 text-center bg-slate-300 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+              <h2 class="text-2xl font-semibold mb-4">
+              Selamat Datang di Absensi
+                <span>@admin_demo</span>
+              </h2>
+              <a class="profile-menu-link">{day}, </a>
             <a class="profile-menu-link active">{date} - </a>
             <a class="profile-menu-link">{time}</a>
-          </div>{" "}
+            </div>
+          </div>
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 mt-12">
             {/* Ubah class untuk lebar saat di mode desktop */}
             <div className="pl-2 h-32 bg-green-400 rounded-lg shadow-md md:w-auto">
@@ -118,7 +125,7 @@ function Dashboard() {
                   <p className="text-lg">Jumlah Cuti</p>
                 </div>
                 <div className="my-auto">
-                <FontAwesomeIcon icon={faCalendarDays} size="2x" />
+                  <FontAwesomeIcon icon={faCalendarDays} size="2x" />
                   {/* Menggunakan properti size untuk memperbesar ikon */}
                 </div>
               </div>
@@ -482,12 +489,12 @@ function Dashboard() {
             </div>
           </footer>
         </div>
-          {/* <div
+        {/* <div
             class="w-full mt-5 mb-5 p-4 text-center bg-white border border-gray-200 rounded-lg"
             id="container"
           ></div> */}
-        </div>
       </div>
+    </div>
   );
 }
 

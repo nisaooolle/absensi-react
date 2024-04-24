@@ -64,9 +64,9 @@ function Login() {
         setTimeout(() => {
           window.location.reload();
         }, 1500);
-        // localStorage.setItem("id", response.data.userData.id);
-        // localStorage.setItem("role", response.data.userData.role);
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("id", response.data.data.id);
+        localStorage.setItem("role", response.data.data.data.role);
+        localStorage.setItem("token", response.data.data.token);
       }
     } catch (error) {
       Swal.fire({
