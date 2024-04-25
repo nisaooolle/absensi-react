@@ -36,6 +36,7 @@ import Harian from "./pages/admin/rekapan/Harian";
 import Mingguan from "./pages/admin/rekapan/Mingguan";
 import Bulanan from "./pages/admin/rekapan/Bulanan";
 import Absensi from "./pages/admin/data absensi/Absensi";
+import Profile from "./pages/user/Profile";
 
 function App() {
   const role = localStorage.getItem("role");
@@ -76,7 +77,6 @@ function App() {
               <Route path="/admin/bulanan" component={Bulanan} exact />
               {/* data absensi */}
               <Route path="/admin/absensi" component={Absensi} exact />
-
             </>
           )}
           {/* end admin */}
@@ -95,6 +95,7 @@ function App() {
               <Route path="/user/cuti" component={AddCuti} exact />
               <Route path="/user/lembur" component={AddLembur} exact />
               <Route path="/user/izin" component={AddIzin} exact />
+              <Route path="/user/profile" component={Profile} exact />
             </>
           )}
           {/* end user */}

@@ -34,7 +34,7 @@ function AddCuti() {
                     type="date"
                     id="awalcuti"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukan Tanggal Awal Cuti"
+                    placeholder="Masukkan Tanggal Awal Cuti"
                     //   value={nama}
                     //   onChange={(e) => setNama(e.target.value)}
                     required
@@ -48,7 +48,7 @@ function AddCuti() {
                     type="date"
                     id="akhircuti"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukan Tanggal Akhir Cuti"
+                    placeholder="Masukkan Tanggal Akhir Cuti"
                     // value={jabatan}
                     // onChange={(e) => setJabatan(e.target.value)}
                     required
@@ -64,7 +64,7 @@ function AddCuti() {
                     type="date"
                     id="masuk"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukan Tanggal Masuk Kerja"
+                    placeholder="Masukkan Tanggal Masuk Kerja"
                     // value={tanggalLahir}
                     // onChange={(e) => setTanggalLahir(e.target.value)}
                     required
@@ -78,7 +78,7 @@ function AddCuti() {
                     type="text"
                     id="keperluan"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukan Keperluan"
+                    placeholder="Masukkan Keperluan"
                     // value={noTelepon}
                     // onChange={(e) => setNoTelepon(e.target.value)}
                     required

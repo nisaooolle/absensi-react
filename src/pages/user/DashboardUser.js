@@ -15,14 +15,31 @@ function Dashboard() {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   useEffect(() => {
-    // Fungsi untuk memperbarui waktu saat ini setiap detik
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
-    }, 1000);
+    }, 1000); // Perbarui setiap detik
 
-    // Bersihkan interval setelah komponen unmount
     return () => clearInterval(interval);
-  }, []); // Kita hanya ingin menggunakan efek ini sekali saat komponen dimuat
+  }, []); // Tidak ada dependensi, jadi efek ini hanya dipanggil sekali saat komponen dimuat
+
+  // Fungsi untuk menambah nol di depan angka jika angka kurang dari 10
+  const addLeadingZero = (num) => {
+    return num < 10 ? "0" + num : num;
+  };
+
+  // Mendapatkan informasi hari, tanggal, dan waktu
+  const day = currentDateTime.toLocaleDateString("id-ID", { weekday: "long" });
+  const date = currentDateTime.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  const time =
+    addLeadingZero(currentDateTime.getHours()) +
+    ":" +
+    addLeadingZero(currentDateTime.getMinutes()) +
+    ":" +
+    addLeadingZero(currentDateTime.getSeconds());
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -38,31 +55,14 @@ function Dashboard() {
           <Sidebar isOpen={sidebarOpen} />
         </div>
         <div className="content-page container p-8 min-h-screen ml-0 md:ml-64 mt-12">
-          <h1 className="judul text-3xl font-semibold text-center">
-            Selamat Datang
-          </h1>
-          <p className="text-lg text-center mt-2">
-            <strong>
-              {currentDateTime.toLocaleDateString("id-ID", { weekday: "long" })}
-            </strong>{" "}
-            <strong>
-              {currentDateTime.toLocaleDateString("id-ID", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
-            </strong>{" "}
-            <strong>
-              {currentDateTime.toLocaleTimeString("id-ID", {
-                hour: "numeric",
-                minute: "numeric",
-                second: "numeric",
-              })}
-            </strong>
-            .
-          </p>
           <div className="mt-12 bg-slate-200 p-5 rounded-xl shadow-xl">
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 mt-12">
+            <h1 className="judul text-3xl font-semibold text-center">
+              Selamat Datang
+            </h1>
+            <div className="text-lg text-center mt-2">
+              {day},{date}-{time}
+            </div>
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 mt-7">
               {/* Ubah class untuk lebar saat di mode desktop */}
               <div className="pl-2 h-32 bg-green-400 rounded-lg shadow-md md:w-auto">
                 <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
