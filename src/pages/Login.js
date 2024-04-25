@@ -14,12 +14,13 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const data = {
-      email: email,
-      password: password,
-      role: role,
-    };
     try {
+      const data = {
+        email: email,
+        password: password,
+        role: role,
+      };
+
       const response = await axios.post(
         `http://localhost:2024/api/login`,
         data
@@ -28,14 +29,19 @@ function Login() {
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
-          title: "Berhasil Login Sebagai Adminn",
+          title: `Berhasil Login Sebagai ${
+            role.charAt(0).toUpperCase() + role.slice(1)
+          }`,
           showConfirmButton: false,
           timer: 1500,
         });
-        history.push("/admin/dashboard");
+
+        history.push(role === "admin" ? "/admin/dashboard" : "/user/dashboard");
+
         setTimeout(() => {
           window.location.reload();
         }, 1500);
+
         localStorage.setItem("id", response.data.data.id);
         localStorage.setItem("role", response.data.data.data.role);
         localStorage.setItem("token", response.data.data.token);

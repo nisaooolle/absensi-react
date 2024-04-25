@@ -15,8 +15,8 @@ function EditShift() {
           <Sidebar />
         </div>
         <div class=" sm:ml-64 content-page container p-8  ml-14 md:ml-64 mt-12">
-          <div class="p-4 sm:ml-64">
-            <div class="p-5 mt-10">
+          <div class="p-4">
+            <div class="p-5 ">
               {/* <!-- Card --> */}
               <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                 <div class="flex justify-between">
