@@ -1,14 +1,25 @@
-import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import {
+  faAddressCard,
   faArrowRightFromBracket,
+  faBriefcase,
+  faBuilding,
   faBusinessTime,
+  faCalendar,
+  faCalendarDay,
+  faCalendarDays,
+  faCalendarWeek,
   faChevronDown,
   faChevronUp,
   faClock,
   faCube,
   faDatabase,
+  faMapLocationDot,
   faSignal,
   faTable,
+  faUserCheck,
+  faUserGear,
+  faUserPen,
+  faUsersGear,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
@@ -118,10 +129,13 @@ const Sidebar = () => {
                   {/* <!-- Menu Karyawan --> */}
                   <li>
                     <a
-                      href=""
+                      href="/admin/karyawan"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-users-gear fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                      <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faUsersGear}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">
                         Karyawan
                       </span>
@@ -131,10 +145,13 @@ const Sidebar = () => {
                   {/* <!-- Menu Jabatan --> */}
                   <li>
                     <a
-                      href="https://demo-absen.excellentsistem.com/admin/jabatan"
+                      href="/admin/jabatan"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-briefcase fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                     <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faBriefcase}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">Jabatan</span>
                     </a>
                   </li>
@@ -142,10 +159,13 @@ const Sidebar = () => {
                   {/* <!-- Menu Jam Kerja --> */}
                   <li>
                     <a
-                      href="https://demo-absen.excellentsistem.com/admin/shift"
+                      href="/admin/shift"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-business-time fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                       <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faBusinessTime}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">Shift</span>
                     </a>
                   </li>
@@ -153,10 +173,13 @@ const Sidebar = () => {
                   {/* <!-- Menu Lokasi --> */}
                   <li>
                     <a
-                      href="https://demo-absen.excellentsistem.com/admin/lokasi"
+                      href="/admin/lokasi"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-map-location-dot fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                     <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faMapLocationDot}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">Lokasi</span>
                     </a>
                   </li>
@@ -164,10 +187,13 @@ const Sidebar = () => {
                   {/* <!-- Menu Organisasi --> */}
                   <li>
                     <a
-                      href="https://demo-absen.excellentsistem.com/admin/all_organisasi"
+                      href="/admin/organisasi"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-building fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                      <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faBuilding}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">
                         Organisasi
                       </span>
@@ -206,20 +232,26 @@ const Sidebar = () => {
                   {/* <!-- Menu Simpel --> */}
                   <li>
                     <a
-                      href="https://demo-absen.excellentsistem.com/admin/rekap_simpel"
+                      href="/admin/simpel"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-users-gear fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                       <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faUserGear}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">Simpel</span>
                     </a>
                   </li>
                   {/* <!-- Menu PerKaryawan --> */}
                   <li>
                     <a
-                      href="https://demo-absen.excellentsistem.com/admin/rekap_perkaryawan"
+                      href="/admin/perkaryawan"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-user fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faUserPen}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">
                         Perkaryawan
                       </span>
@@ -228,20 +260,26 @@ const Sidebar = () => {
                   {/* <!-- Menu Harian --> */}
                   <li>
                     <a
-                      href="https://demo-absen.excellentsistem.com/admin/rekap_harian"
+                      href="/admin/harian"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-calendar-day fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                       <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faCalendarDay}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">Harian</span>
                     </a>
                   </li>
                   {/* <!-- Menu Mingguan --> */}
                   <li>
                     <a
-                      href="https://demo-absen.excellentsistem.com/admin/rekap_mingguan"
+                      href="/admin/mingguan"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-calendar-week fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faCalendarWeek}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">
                         Mingguan
                       </span>
@@ -250,10 +288,13 @@ const Sidebar = () => {
                   {/* <!-- Menu Bulanan --> */}
                   <li>
                     <a
-                      href="https://demo-absen.excellentsistem.com/admin/rekap_bulanan"
+                      href="/admin/bulanan"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-calendar fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                       <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faCalendar}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">Bulanan</span>
                     </a>
                   </li>
@@ -291,30 +332,39 @@ const Sidebar = () => {
                   {/* <!-- Menu Absensi --> */}
                   <li>
                     <a
-                      href="https://demo-absen.excellentsistem.com/admin/absensi"
+                      href="/admin/absensi"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-address-card fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                       <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faAddressCard}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">Absensi</span>
                     </a>
                   </li>
                   {/* <!-- Menu Cuti --> */}
                   <li>
                     <a
-                      href="https://demo-absen.excellentsistem.com/admin/cuti"
+                      href="/admin/cuti"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-calendar-alt fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faCalendarDays}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">Cuti</span>
                     </a>
                   </li>
                   {/* <!-- Menu Kehadiran --> */}
                   <li>
                     <a
-                      href="https://demo-absen.excellentsistem.com/admin/kehadiran"
+                      href="/admin/kehadiran"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-user-check fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                       <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faUserCheck}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">
                         Kehadiran
                       </span>
@@ -323,10 +373,13 @@ const Sidebar = () => {
                   {/* <!-- Menu Mingguan --> */}
                   <li>
                     <a
-                      href="https://demo-absen.excellentsistem.com/admin/lembur"
+                      href="/admin/lembur"
                       class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i class="fa-solid fa-business-time fa-lg me-3 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        icon={faBusinessTime}
+                      />{" "}
                       <span class="flex-1 ml-3 whitespace-nowrap">Lembur</span>
                     </a>
                   </li>

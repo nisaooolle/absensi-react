@@ -37,6 +37,10 @@ import Mingguan from "./pages/admin/rekapan/Mingguan";
 import Bulanan from "./pages/admin/rekapan/Bulanan";
 import Absensi from "./pages/admin/data absensi/Absensi";
 import Profile from "./pages/user/Profile";
+import EditShift from "./pages/admin/edit/EditShift";
+import Cuti from "./pages/admin/data absensi/Cuti";
+import Kehadiran from "./pages/admin/data absensi/Kehadiran";
+import Lembur from "./pages/admin/data absensi/Lembur";
 
 function App() {
   const role = localStorage.getItem("role");
@@ -69,6 +73,7 @@ function App() {
               <Route path="/admin/editJ" component={EditJabatan} exact />
               <Route path="/admin/editL" component={EditLokasi} exact />
               <Route path="/admin/editO" component={EditOrganisasi} exact />
+              <Route path="/admin/editS" component={EditShift} exact />
               {/* rekapan */}
               <Route path="/admin/simpel" component={Simpel} exact />
               <Route path="/admin/perkaryawan" component={Perkaryawan} exact />
@@ -77,6 +82,9 @@ function App() {
               <Route path="/admin/bulanan" component={Bulanan} exact />
               {/* data absensi */}
               <Route path="/admin/absensi" component={Absensi} exact />
+              <Route path="/admin/cuti" component={Cuti} exact />
+              <Route path="/admin/kehadiran" component={Kehadiran} exact />
+              <Route path="/admin/lembur" component={Lembur} exact />
             </>
           )}
           {/* end admin */}

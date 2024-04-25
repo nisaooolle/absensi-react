@@ -83,21 +83,27 @@ function Jabatan() {
                         </a>{" "}
                       </td>
                       <td class="px-6 py-4">admin_demo </td>
-                      <td class="px-6 py-4 ">
-                        <div class=" flex justify-center">
-                          <a
-                            type="button"
-                            href="/admin/editJ"
-                            class="text-white bg-yellow-400  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
-                          >
-                            <FontAwesomeIcon icon={faPenToSquare} size="lg" />
+                      <td className="py-3">
+                        <div className="flex items-center -space-x-4 ml-12">
+                          <a href="/admin/editJ">
+                            <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                              <span className="relative inline-block">
+                                <FontAwesomeIcon
+                                  icon={faPenToSquare}
+                                  className="h-4 w-4"
+                                />
+                              </span>
+                            </button>
                           </a>
-                          <a
-                            type="button"
-                            onclick="hapusUser(4)"
-                            class="text-white bg-red-600  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
-                          >
-                            <FontAwesomeIcon icon={faTrash} size="lg" />
+                          <a href="" onclick="hapusUser(4)">
+                            <button className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50">
+                              <span className="relative inline-block">
+                                <FontAwesomeIcon
+                                  icon={faTrash}
+                                  className="h-4 w-4"
+                                />
+                              </span>
+                            </button>
                           </a>
                         </div>
                       </td>
