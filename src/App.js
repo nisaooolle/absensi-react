@@ -41,6 +41,8 @@ import EditShift from "./pages/admin/edit/EditShift";
 import Cuti from "./pages/admin/data absensi/Cuti";
 import Kehadiran from "./pages/admin/data absensi/Kehadiran";
 import Lembur from "./pages/admin/data absensi/Lembur";
+import AbsenMasuk from "./pages/user/AbsenMasuk";
+import AbsenPulang from "./pages/user/AbsenPulang";
 
 function App() {
   const role = localStorage.getItem("role");
@@ -104,6 +106,8 @@ function App() {
               <Route path="/user/lembur" component={AddLembur} exact />
               <Route path="/user/izin" component={AddIzin} exact />
               <Route path="/user/profile" component={Profile} exact />
+              <Route path="/user/absen" component={AbsenMasuk} exact />
+              <Route path="/user/pulang" component={AbsenPulang} exact />
             </>
           )}
           {/* end user */}
