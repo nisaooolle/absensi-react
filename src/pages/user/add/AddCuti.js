@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Navbar from "../../components/NavbarUser";
-import Sidebar from "../../components/SidebarUser";
+import Navbar from "../../../components/NavbarUser";
+import Sidebar from "../../../components/SidebarUser";
 
-function AddLembur() {
+function AddCuti() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -19,22 +19,22 @@ function AddLembur() {
         </div>
         <div className="content-page max-h-screen container p-8 min-h-screen ml-64">
           {" "}
-          <h1 className="judul text-3xl font-semibold">Halaman Lembur</h1>
-          <div className="add-lembur mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
+          <h1 className="judul text-3xl font-semibold">Halaman Cuti</h1>
+          <div className="add-cuti mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
             <p className="text-lg sm:text-xl font-medium mb-4 sm:mb-7">
-              Halaman Lembur
+              Halaman Cuti
             </p>
             <form onSubmit={""}>
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative mb-3">
                   <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
-                    Tanggal Lembur
+                    Awal Cuti
                   </label>
                   <input
                     type="date"
-                    id="tanggallembur"
+                    id="awalcuti"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukkan Tanggal Lembur"
+                    placeholder="Masukkan Tanggal Awal Cuti"
                     //   value={nama}
                     //   onChange={(e) => setNama(e.target.value)}
                     required
@@ -42,13 +42,13 @@ function AddLembur() {
                 </div>
                 <div className="relative">
                   <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
-                    Keterangan Lembur
+                    Akhir Cuti
                   </label>
                   <input
-                    type="text"
-                    id="keterangan"
+                    type="date"
+                    id="akhircuti"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukkan Keterangan Lembur"
+                    placeholder="Masukkan Tanggal Akhir Cuti"
                     // value={jabatan}
                     // onChange={(e) => setJabatan(e.target.value)}
                     required
@@ -58,33 +58,34 @@ function AddLembur() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative">
                   <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
-                    Jam Mulai
+                    Masuk Kerja
                   </label>
                   <input
-                    type="time"
-                    id="mulai"
+                    type="date"
+                    id="masuk"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukkan Jam Mulai"
+                    placeholder="Masukkan Tanggal Masuk Kerja"
                     // value={tanggalLahir}
                     // onChange={(e) => setTanggalLahir(e.target.value)}
                     required
                   />
-                </div>
+                </div>{" "}
                 <div className="relative">
                   <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
-                    Jam Selesai
+                    Keperluan
                   </label>
                   <input
-                    type="time"
-                    id="selsai"
+                    type="text"
+                    id="keperluan"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukkan Jam Selesai"
+                    placeholder="Masukkan Keperluan"
                     // value={noTelepon}
                     // onChange={(e) => setNoTelepon(e.target.value)}
                     required
                   />
                 </div>
               </div>
+
               <div className="flex justify-between mt-6">
                 <button
                   type="submit"
@@ -101,4 +102,4 @@ function AddLembur() {
   );
 }
 
-export default AddLembur;
+export default AddCuti;

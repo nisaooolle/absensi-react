@@ -1,13 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
-import Sidebar from "../../components/SidebarUser";
-import Navbar from "../../components/NavbarUser";
-import Webcam from "react-webcam";
+import React, { useEffect, useState } from "react";
+import Navbar from "../../../components/NavbarUser";
+import Sidebar from "../../../components/SidebarUser";
 
-function AbsenMasuk() {
+function AddIzin() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
-  const webcamRef = useRef(null);
-  const [capturedImage, setCapturedImage] = useState(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -41,11 +38,6 @@ function AbsenMasuk() {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const handleCapture = () => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    setCapturedImage(imageSrc);
-  };
-
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -58,7 +50,7 @@ function AbsenMasuk() {
         <div className="content-page max-h-screen container p-8 min-h-screen ml-64">
           <div className="add-izin mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
             <h1 className="text-lg sm:text-2xl font-medium mb-4 sm:mb-7">
-              Absen Masuk
+              Halaman Izin
             </h1>
             <div className="text-base text-center mt-2">
               {currentDateTime.toLocaleDateString("id-ID", {
@@ -76,48 +68,28 @@ function AbsenMasuk() {
             </div>
             <div className="text-base text-center mt-2">{ucapan}</div>
             <form onSubmit={""}>
-              <p className="font-bold text-center mt-8">Foto:</p>
-              <div className="flex justify-center">
-                <Webcam audio={false} ref={webcamRef} />
-              </div>
-              <div className="flex justify-center mt-6">
-                <button
-                  type="button"
-                  onClick={handleCapture}
-                  className="block w-20 sm:w-24 rounded-lg text-black outline outline-[#0b409c] py-3 text-sm sm:text-xs font-medium"
-                >
-                  Ambil Foto
-                </button>
-              </div>
-              <div className="flex justify-center">
-                {capturedImage && (
-                  <img
-                    src={capturedImage}
-                    alt="Captured"
-                    className="mt-4 rounded-lg"
-                  />
-                )}
-              </div>
-              <div className="relative mb-3 mt-5">
+              <div className="relative mb-3">
+                <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
+                  Keterangan Izin
+                </label>
                 <input
                   type="text"
                   id="keterangan"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-5"
-                  placeholder="Keterangan Terlambat"
+                  placeholder="Masukkan Keterangan Izin"
                   // value={keteranganIzin}
                   // onChange={(e) => setKeteranganIzin(e.target.value)}
                   required
                 />
               </div>
-              {/* <div className="flex justify-between mt-6">
+              <div className="flex justify-between mt-6">
                 <button
-                  type="button"
-                  onClick={handleCapture}
+                  type="submit"
                   className="block w-20 sm:w-24 rounded-lg text-black outline outline-[#0b409c] py-3 text-sm sm:text-xs font-medium"
                 >
-                  Ambil Foto
+                  Simpan
                 </button>
-              </div> */}
+              </div>
             </form>
           </div>
         </div>
@@ -126,4 +98,4 @@ function AbsenMasuk() {
   );
 }
 
-export default AbsenMasuk;
+export default AddIzin;

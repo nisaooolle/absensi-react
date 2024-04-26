@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import Sidebar from "../../components/SidebarUser";
-import Navbar from "../../components/NavbarUser";
+import Sidebar from "../../../components/SidebarUser";
+import Navbar from "../../../components/NavbarUser";
 import Webcam from "react-webcam";
 
 function AbsenPulang() {

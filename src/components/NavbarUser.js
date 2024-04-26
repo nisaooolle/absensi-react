@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "../components/absensi.png";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 const Navbar = () => {
   return (
     <nav className="fixed top-0 z-50 w-full bg-gray-700 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -29,13 +30,8 @@ const Navbar = () => {
               </svg>
             </button>
             <a href="" className="flex ms-2 md:me-24">
-              <img
-                src={Logo}
-                className="h-11 me-3 text-white"
-                alt=""
-              />
-              <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-              </span>
+              <img src={Logo} className="h-11 me-3 text-white" alt="" />
+              <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"></span>
             </a>
           </div>
           <div className="flex items-center">
@@ -48,11 +44,13 @@ const Navbar = () => {
                   data-dropdown-toggle="dropdown-user"
                 >
                   <span className="sr-only">Open user menu</span>
-                  <img
-                    className="w-8 h-8 rounded-full"
-                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                    alt="user photo"
-                  />
+                  <Link to="/user/profile">
+                    <img
+                      className="w-8 h-8 rounded-full"
+                      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                      alt="user photo"
+                    />
+                  </Link>
                 </button>
               </div>
             </div>

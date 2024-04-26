@@ -1,6 +1,4 @@
 import Register from "./pages/Register";
-import DashboardUser from "./pages/user/DashboardUser";
-import TabelAbsen from "./pages/user/TabelAbsen";
 import Dashboard from "./pages/admin/Dashboard";
 import Karyawan from "./pages/admin/masterdata/Karyawan";
 import Jabatan from "./pages/admin/masterdata/Jabatan";
@@ -12,11 +10,6 @@ import DetailLokasi from "./pages/admin/detail/DetailLokasi";
 import Simpel from "./pages/admin/rekapan/simpel";
 import DetailOrganisasi from "./pages/admin/detail/DetailOrganisasi";
 import Login from "./pages/Login";
-import TabelCuti from "./pages/user/TabelCuti";
-import TabelLembur from "./pages/user/TabelLembur";
-import AddCuti from "./pages/user/AddCuti";
-import AddLembur from "./pages/user/AddLembur";
-import AddIzin from "./pages/user/AddIzin";
 import {
   BrowserRouter,
   Route,
@@ -36,13 +29,22 @@ import Harian from "./pages/admin/rekapan/Harian";
 import Mingguan from "./pages/admin/rekapan/Mingguan";
 import Bulanan from "./pages/admin/rekapan/Bulanan";
 import Absensi from "./pages/admin/data absensi/Absensi";
-import Profile from "./pages/user/Profile";
 import EditShift from "./pages/admin/edit/EditShift";
 import Cuti from "./pages/admin/data absensi/Cuti";
 import Kehadiran from "./pages/admin/data absensi/Kehadiran";
 import Lembur from "./pages/admin/data absensi/Lembur";
-import AbsenMasuk from "./pages/user/AbsenMasuk";
-import AbsenPulang from "./pages/user/AbsenPulang";
+import DashboardUser from "./pages/user/DashboardUser";
+import DetailAbsen from "./pages/user/DetailAbsen";
+import IzinAbsen from "./pages/user/IzinAbsen";
+import Profile from "./pages/user/Profile";
+import AbsenMasuk from "./pages/user/absen/AbsenMasuk";
+import AbsenPulang from "./pages/user/absen/AbsenPulang";
+import AddCuti from "./pages/user/add/AddCuti";
+import AddIzin from "./pages/user/add/AddIzin";
+import AddLembur from "./pages/user/add/AddLembur";
+import TabelAbsen from "./pages/user/tabel/TabelAbsen";
+import TabelCuti from "./pages/user/tabel/TabelCuti";
+import TabelLembur from "./pages/user/tabel/TabelLembur";
 
 function App() {
   const role = localStorage.getItem("role");
@@ -95,7 +97,6 @@ function App() {
             <>
               <Route path="/user/dashboard" component={DashboardUser} exact />
               <Route path="/user/history_absen" component={TabelAbsen} exact />
-              <Route path="/user/history_absen" component={TabelAbsen} exact />
               <Route path="/user/history_cuti" component={TabelCuti} exact />
               <Route
                 path="/user/history_lembur"
@@ -108,6 +109,8 @@ function App() {
               <Route path="/user/profile" component={Profile} exact />
               <Route path="/user/absen" component={AbsenMasuk} exact />
               <Route path="/user/pulang" component={AbsenPulang} exact />
+              <Route path="/user/detail_absen" component={DetailAbsen} exact />
+              <Route path="/user/izin_absen" component={IzinAbsen} exact />
             </>
           )}
           {/* end user */}

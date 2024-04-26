@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Tabs } from "flowbite-react";
 import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
@@ -6,6 +6,16 @@ import Navbar from "../../components/NavbarUser";
 import Sidebar from "../../components/SidebarUser";
 
 function Profile() {
+  // State untuk menyimpan URL gambar profil
+  const [profileImage, setProfileImage] = useState("");
+
+  // Fungsi untuk menangani peristiwa pengunggahan gambar
+  const handleImageUpload = (event) => {
+    const selectedFile = event.target.files[0];
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setProfileImage(objectUrl);
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
@@ -18,15 +28,28 @@ function Profile() {
               <div className="font-medium text-gray-800 dark:text-white">
                 <div className="profile mt-12 bg-white p-5 rounded-xl shadow-xl border border-gray-300">
                   <h2 className="text-xl font-bold">Profile Picture</h2>
-                  <div className="flex justify-between items-center mt-4"></div>
-                  <div className="overflow-x-auto rounded-lg border border-gray-200 mt-4">
-                    <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm border border-gray-300">
-                      <thead className="text-left"></thead>
-                    </table>
+                  <div className="flex flex-col items-center mt-4">
+                    {/* Placeholder untuk menampilkan gambar profil yang dipilih */}
+                    <img
+                      src={profileImage}
+                      alt="Profile"
+                      className="w-24 h-24 rounded-full"
+                    />
+                  </div>
+                  <div className="flex flex-col items-center mt-6">
+                    {/* Input file untuk upload gambar profil */}
+                    <input
+                      id="fileInput"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="flex flex-col items-center "
+                    />
                   </div>
                 </div>
               </div>
             </Tabs.Item>
+
             <Tabs.Item title="Detail" icon={MdDashboard}>
               {/* Konten tab Dashboard */}
               <div className="font-medium text-gray-800 dark:text-white">
