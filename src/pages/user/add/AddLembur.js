@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Navbar from "../../components/NavbarUser";
-import Sidebar from "../../components/SidebarUser";
+import Navbar from "../../../components/NavbarUser";
+import Sidebar from "../../../components/SidebarUser";
 
-function AddCuti() {
+function AddLembur() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -19,22 +19,22 @@ function AddCuti() {
         </div>
         <div className="content-page max-h-screen container p-8 min-h-screen ml-64">
           {" "}
-          <h1 className="judul text-3xl font-semibold">Halaman Cuti</h1>
-          <div className="add-cuti mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
+          <h1 className="judul text-3xl font-semibold">Halaman Lembur</h1>
+          <div className="add-lembur mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
             <p className="text-lg sm:text-xl font-medium mb-4 sm:mb-7">
-              Halaman Cuti
+              Halaman Lembur
             </p>
             <form onSubmit={""}>
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative mb-3">
                   <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
-                    Awal Cuti
+                    Tanggal Lembur
                   </label>
                   <input
                     type="date"
-                    id="awalcuti"
+                    id="tanggallembur"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukkan Tanggal Awal Cuti"
+                    placeholder="Masukkan Tanggal Lembur"
                     //   value={nama}
                     //   onChange={(e) => setNama(e.target.value)}
                     required
@@ -42,13 +42,13 @@ function AddCuti() {
                 </div>
                 <div className="relative">
                   <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
-                    Akhir Cuti
+                    Keterangan Lembur
                   </label>
                   <input
-                    type="date"
-                    id="akhircuti"
+                    type="text"
+                    id="keterangan"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukkan Tanggal Akhir Cuti"
+                    placeholder="Masukkan Keterangan Lembur"
                     // value={jabatan}
                     // onChange={(e) => setJabatan(e.target.value)}
                     required
@@ -58,34 +58,33 @@ function AddCuti() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative">
                   <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
-                    Masuk Kerja
+                    Jam Mulai
                   </label>
                   <input
-                    type="date"
-                    id="masuk"
+                    type="time"
+                    id="mulai"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukkan Tanggal Masuk Kerja"
+                    placeholder="Masukkan Jam Mulai"
                     // value={tanggalLahir}
                     // onChange={(e) => setTanggalLahir(e.target.value)}
                     required
                   />
-                </div>{" "}
+                </div>
                 <div className="relative">
                   <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
-                    Keperluan
+                    Jam Selesai
                   </label>
                   <input
-                    type="text"
-                    id="keperluan"
+                    type="time"
+                    id="selsai"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukkan Keperluan"
+                    placeholder="Masukkan Jam Selesai"
                     // value={noTelepon}
                     // onChange={(e) => setNoTelepon(e.target.value)}
                     required
                   />
                 </div>
               </div>
-
               <div className="flex justify-between mt-6">
                 <button
                   type="submit"
@@ -102,4 +101,4 @@ function AddCuti() {
   );
 }
 
-export default AddCuti;
+export default AddLembur;

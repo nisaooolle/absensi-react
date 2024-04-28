@@ -64,29 +64,39 @@ function Dashboard() {
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 mt-7">
               {/* Ubah class untuk lebar saat di mode desktop */}
-              <div className="pl-2 h-32 bg-green-400 rounded-lg shadow-md md:w-auto">
-                <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
-                  <div className="my-auto">
-                    <p className="font-bold">Masuk</p>
-                    <p className="text-lg">Absen masuk.</p>
-                  </div>
-                  <div className="my-auto">
-                    <FontAwesomeIcon icon={faArrowRightFromBracket} size="2x" />
-                  </div>
-                </div>
-              </div>
-              <div className="pl-2 h-32 bg-red-400 rounded-lg shadow-md md:w-auto">
-                <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
-                  <div className="my-auto">
-                    <p className="font-bold">Pulang</p>
-                    <p className="text-lg">Absen pulang.</p>
-                  </div>
-                  <div className="my-auto">
-                    <FontAwesomeIcon icon={faArrowRightFromBracket} size="2x" />
-                    {/* Menggunakan properti size untuk memperbesar ikon */}
+              <Link to="/user/absen">
+                <div className="pl-2 h-32 bg-green-400 rounded-lg shadow-md md:w-auto">
+                  <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
+                    <div className="my-auto">
+                      <p className="font-bold">Masuk</p>
+                      <p className="text-lg">Absen masuk.</p>
+                    </div>
+                    <div className="my-auto">
+                      <FontAwesomeIcon
+                        icon={faArrowRightFromBracket}
+                        size="2x"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
+              <Link to="/user/pulang">
+                <div className="pl-2 h-32 bg-red-400 rounded-lg shadow-md md:w-auto">
+                  <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
+                    <div className="my-auto">
+                      <p className="font-bold">Pulang</p>
+                      <p className="text-lg">Absen pulang.</p>
+                    </div>
+                    <div className="my-auto">
+                      <FontAwesomeIcon
+                        icon={faArrowRightFromBracket}
+                        size="2x"
+                      />
+                      {/* Menggunakan properti size untuk memperbesar ikon */}
+                    </div>
+                  </div>
+                </div>
+              </Link>
               <Link to="/user/izin">
                 <div className="pl-2 h-32 bg-red-800 rounded-lg shadow-md md:w-auto">
                   <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
@@ -183,13 +193,13 @@ function Dashboard() {
                 <thead className="text-left">
                   <tr>
                     <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                      No
+                      NO
                     </th>
                     <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                      Tanggal
+                      TANGGAL
                     </th>
                     <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                      Kehadiran
+                      KEHADIRAN
                     </th>
                   </tr>
                 </thead>
@@ -255,10 +265,10 @@ function Dashboard() {
                 <thead className="text-left">
                   <tr>
                     <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                      No
+                      NO
                     </th>
                     <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                      Keperluan Cuti
+                      KEPERLUAN CUTI
                     </th>
                   </tr>
                 </thead>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/NavbarUser";
 import Sidebar from "../../components/SidebarUser";
 
-function AddIzin() {
+function IzinAbsen() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
@@ -50,7 +50,7 @@ function AddIzin() {
         <div className="content-page max-h-screen container p-8 min-h-screen ml-64">
           <div className="add-izin mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
             <h1 className="text-lg sm:text-2xl font-medium mb-4 sm:mb-7">
-              Halaman Izin
+              Izin Tengah Hari
             </h1>
             <div className="text-base text-center mt-2">
               {currentDateTime.toLocaleDateString("id-ID", {
@@ -98,4 +98,4 @@ function AddIzin() {
   );
 }
 
-export default AddIzin;
+export default IzinAbsen;
