@@ -22,7 +22,7 @@ function Login() {
       };
 
       const response = await axios.post(
-        `http://localhost:2024/api/login`,
+        "http://localhost:2024/api/login",
         data
       );
 
@@ -36,15 +36,15 @@ function Login() {
           timer: 1500,
         });
 
-        history.push(role === "admin" ? "/admin/dashboard" : "/user/dashboard");
+        history.push(role === "ADMIN" ? "/admin/dashboard" : "/user/dashboard");
 
         setTimeout(() => {
           window.location.reload();
         }, 1500);
 
         localStorage.setItem("id", response.data.data.id);
-        localStorage.setItem("role", response.data.data.data.role);
-        localStorage.setItem("token", response.data.data.token);
+        localStorage.setItem("role", response.data.data.role);
+        localStorage.setItem("token", response.data.token);
       }
     } catch (error) {
       Swal.fire({

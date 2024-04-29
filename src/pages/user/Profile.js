@@ -33,17 +33,27 @@ function Profile() {
                     <img
                       src={profileImage}
                       alt="Profile"
-                      className="w-24 h-24 rounded-full"
+                      className="w-48 h-48 rounded-full"
                     />
+                    {/* Pesan instruksi */}
+                    <p className="mt-2 text-sm text-gray-600">
+                      JPG atau PNG tidak lebih besar dari 5 MB. Disarankan
+                      Berukuran 1:1.
+                    </p>
                   </div>
                   <div className="flex flex-col items-center mt-6">
-                    {/* Input file untuk upload gambar profil */}
+                    <label htmlFor="fileInput" className="cursor-pointer">
+                      <span className="flex items-center justify-center w-48 h-12 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                        Pilih Gambar Profil
+                      </span>
+                    </label>
+                    {/* Input file tersembunyi */}
                     <input
                       id="fileInput"
                       type="file"
                       accept="image/*"
                       onChange={handleImageUpload}
-                      className="flex flex-col items-center "
+                      className="hidden"
                     />
                   </div>
                 </div>

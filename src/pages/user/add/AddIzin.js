@@ -9,20 +9,17 @@ function AddIzin() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
-    }, 1000); // Perbarui setiap detik
+    }, 1000); // Update every second
 
     return () => clearInterval(interval);
-  }, []); // Tidak ada dependensi, sehingga efek ini hanya dipanggil sekali saat komponen dimuat
+  }, []); // No dependencies, so this effect runs only once when the component is mounted
 
-  // Fungsi untuk menambahkan nol di depan angka jika angka kurang dari 10
   const tambahkanNolDepan = (num) => {
     return num < 10 ? "0" + num : num;
   };
 
-  // Dapatkan jam saat ini untuk menentukan waktu hari
   const jamSekarang = currentDateTime.getHours();
 
-  // Tentukan ucapan berdasarkan waktu hari
   let ucapan;
   if (jamSekarang < 10) {
     ucapan = "Selamat Pagi";
@@ -47,7 +44,7 @@ function AddIzin() {
         <div className="fixed">
           <Sidebar isOpen={sidebarOpen} />
         </div>
-        <div className="content-page max-h-screen container p-8 min-h-screen ml-64">
+        <div className="content-page max-h-screen container p-8 min-h-screen ml-0 sm:ml-64">
           <div className="add-izin mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
             <h1 className="text-lg sm:text-2xl font-medium mb-4 sm:mb-7">
               Halaman Izin
