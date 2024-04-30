@@ -2,6 +2,7 @@ import React from "react";
 import Logo from "../components/absensi.png";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 const Navbar = () => {
+  const role = localStorage.getItem("role");
   return (
     <nav className="fixed top-0 z-50 w-full bg-gray-700 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
       <div className="px-3 py-3 lg:px-5 lg:pl-3">
@@ -35,25 +36,48 @@ const Navbar = () => {
             </a>
           </div>
           <div className="flex items-center">
-            <div className="flex items-center ms-3">
-              <div>
-                <button
-                  type="button"
-                  className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                  aria-expanded="false"
-                  data-dropdown-toggle="dropdown-user"
-                >
-                  <span className="sr-only">Open user menu</span>
-                  <Link to="/user/profile">
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                      alt="user photo"
-                    />
-                  </Link>
-                </button>
+            {role === "ADMIN" && (
+              <div className="flex items-center ms-3">
+                <div>
+                  <button
+                    type="button"
+                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    aria-expanded="false"
+                    data-dropdown-toggle="dropdown-user"
+                  >
+                    <span className="sr-only">Open user menu</span>
+                    <Link to="/admin/profil">
+                      <img
+                        className="w-8 h-8 rounded-full"
+                        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                        alt="user photo"
+                      />
+                    </Link>
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
+            {role === "USER" && (
+              <div className="flex items-center ms-3">
+                <div>
+                  <button
+                    type="button"
+                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    aria-expanded="false"
+                    data-dropdown-toggle="dropdown-user"
+                  >
+                    <span className="sr-only">Open user menu</span>
+                    <Link to="/user/profile">
+                      <img
+                        className="w-8 h-8 rounded-full"
+                        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                        alt="user photo"
+                      />
+                    </Link>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
