@@ -22,12 +22,17 @@ function AddCuti() {
     };
 
     const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
+
+    if (!userId) {
+      // Jika userId tidak tersedia
+      console.error("UserID tidak tersedia");
+      return;
+    }
 
     try {
       await axios.post(
-        `http://localhost:2024/api/cuti/tambahCuti/${localStorage.getItem(
-          "userId"
-        )}`,
+        `http://localhost:2024/api/cuti/tambahCuti/${userId}`,
         add,
         {
           headers: {

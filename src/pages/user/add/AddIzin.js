@@ -1,10 +1,64 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 function AddIzin() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [keterangan_izin, setKeteranganIzin] = useState("");
+  const [tanggal_izin, setTanggalIzin] = useState("");
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
+
+  const AddIzin = async (e) => {
+    e.preventDefault();
+
+    const add = {
+      keternganIzin: keterangan_izin,
+      tanggalIzin: tanggal_izin,
+    };
+
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
+
+    if (!userId) {
+      // Jika userId tidak tersedia
+      console.error("UserID tidak tersedia");
+      return;
+    }
+
+    try {
+      await axios.post(
+        `http://localhost:2024/api/izin/tambahIzin/${userId}`,
+        add,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Berhasil ditambahkan",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setTimeout(() => {
+        window.location.href = "/user/history_absen";
+      }, 1500);
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Terjadi Kesalahan!",
+        text: "Mohon coba lagi",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,6 +87,21 @@ function AddIzin() {
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+  };
+
+  // Function to update keterangan_izin and tanggal_izin
+  const updateKeteranganIzin = (value) => {
+    setKeteranganIzin(value); // Update keterangan_izin
+
+    // Set tanggal_izin to current date only if keterangan_izin is not empty
+    if (value.trim() !== "") {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+      const day = String(currentDate.getDate()).padStart(2, "0");
+      const formattedDate = `${year}-${month}-${day}`;
+      setTanggalIzin(formattedDate); // Update tanggal_izin
+    }
   };
 
   return (
@@ -64,7 +133,7 @@ function AddIzin() {
                 tambahkanNolDepan(currentDateTime.getSeconds())}
             </div>
             <div className="text-base text-center mt-2">{ucapan}</div>
-            <form onSubmit={""}>
+            <form onSubmit={AddIzin}>
               <div className="relative mb-3">
                 <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                   Keterangan Izin
@@ -74,8 +143,8 @@ function AddIzin() {
                   id="keterangan"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-5"
                   placeholder="Masukkan Keterangan Izin"
-                  // value={keteranganIzin}
-                  // onChange={(e) => setKeteranganIzin(e.target.value)}
+                  value={keterangan_izin}
+                  onChange={(e) => updateKeteranganIzin(e.target.value)} // Use the updated function
                   required
                 />
               </div>
