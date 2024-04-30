@@ -2,12 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../../components/SidebarUser";
 import Navbar from "../../../components/NavbarUser";
 import Webcam from "react-webcam";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 function AbsenMasuk() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const webcamRef = useRef(null);
-  const [capturedImage, setCapturedImage] = useState(null);
+  const [keterangan, setKeterangan] = useState("");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,10 +24,8 @@ function AbsenMasuk() {
     return num < 10 ? "0" + num : num;
   };
 
-  // Dapatkan jam saat ini untuk menentukan waktu hari
-  const jamSekarang = currentDateTime.getHours();
-
   // Tentukan ucapan berdasarkan waktu hari
+  const jamSekarang = currentDateTime.getHours();
   let ucapan;
   if (jamSekarang < 10) {
     ucapan = "Selamat Pagi";
@@ -41,9 +41,72 @@ function AbsenMasuk() {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const handleCapture = () => {
+  const handleCaptureAndSubmit = async () => {
+    // Ambil foto
     const imageSrc = webcamRef.current.getScreenshot();
-    setCapturedImage(imageSrc);
+
+    // Lakukan absen masuk
+    handleSubmit(imageSrc);
+  };
+
+  const handleSubmit = async (capturedImage) => {
+    // Pastikan keterangan tidak kosong
+    const keteranganAbsen = keterangan || "-";
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
+
+    if (!userId) {
+      // Jika userId tidak tersedia
+      console.error("UserID tidak tersedia");
+      return;
+    }
+
+    try {
+      await axios.post(
+        `http://localhost:2024/api/absensi/absensi-masuk/${userId}`,
+        {
+          jamMasuk: `${tambahkanNolDepan(
+            currentDateTime.getHours()
+          )}:${tambahkanNolDepan(currentDateTime.getMinutes())}`,
+          jamPulang: `${tambahkanNolDepan(
+            currentDateTime.getHours()
+          )}:${tambahkanNolDepan(currentDateTime.getMinutes())}`,
+          tanggalAbsen: currentDateTime.toLocaleDateString("id-ID", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          }),
+          fotoMasuk: capturedImage,
+          keterangan: keterangan,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Berhasil ditambahkan",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setTimeout(() => {
+        window.location.href = "/user/history_absen";
+      }, 1500);
+    } catch (err) {
+      console.error("Error:", err);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Terjadi Kesalahan!",
+        text: "Mohon coba lagi",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   return (
@@ -75,7 +138,7 @@ function AbsenMasuk() {
                 tambahkanNolDepan(currentDateTime.getSeconds())}
             </div>
             <div className="text-base text-center mt-2">{ucapan}</div>
-            <form onSubmit={""}>
+            <form onSubmit={(e) => e.preventDefault()}>
               <p className="font-bold text-center mt-8">Foto:</p>
               <div className="flex justify-center">
                 <Webcam audio={false} ref={webcamRef} />
@@ -83,41 +146,22 @@ function AbsenMasuk() {
               <div className="flex justify-center mt-6">
                 <button
                   type="button"
-                  onClick={handleCapture}
-                  className="block w-20 sm:w-24 rounded-lg text-black outline outline-[#0b409c] py-3 text-sm sm:text-xs font-medium"
+                  onClick={handleCaptureAndSubmit}
+                  className="block w-32 sm:w-40 bg-blue-500 text-white rounded-lg py-3 text-sm sm:text-xs font-medium"
                 >
-                  Ambil Foto
+                  Ambil Foto dan Absen Masuk
                 </button>
-              </div>
-              <div className="flex justify-center">
-                {capturedImage && (
-                  <img
-                    src={capturedImage}
-                    alt="Captured"
-                    className="mt-4 rounded-lg"
-                  />
-                )}
               </div>
               <div className="relative mb-3 mt-5">
                 <input
                   type="text"
                   id="keterangan"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-5"
-                  placeholder="Keterangan Terlambat"
-                  // value={keteranganIzin}
-                  // onChange={(e) => setKeteranganIzin(e.target.value)}
-                  required
+                  placeholder="Keterangan"
+                  value={keterangan}
+                  onChange={(e) => setKeterangan(e.target.value)}
                 />
               </div>
-              {/* <div className="flex justify-between mt-6">
-                <button
-                  type="button"
-                  onClick={handleCapture}
-                  className="block w-20 sm:w-24 rounded-lg text-black outline outline-[#0b409c] py-3 text-sm sm:text-xs font-medium"
-                >
-                  Ambil Foto
-                </button>
-              </div> */}
             </form>
           </div>
         </div>
