@@ -52,10 +52,10 @@ function AbsenMasuk() {
         <Navbar toggleSidebar={toggleSidebar} />
       </div>
       <div className="flex h-full">
-        <div className="fixed">
+        <div className={`${sidebarOpen ? "fixed" : "hidden"} lg:flex`}>
           <Sidebar isOpen={sidebarOpen} />
         </div>
-        <div className="content-page max-h-screen container p-8 min-h-screen ml-64">
+        <div className="content-page max-h-screen container p-8 min-h-screen ml-0 lg:ml-64">
           <div className="add-izin mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
             <h1 className="text-lg sm:text-2xl font-medium mb-4 sm:mb-7">
               Absen Masuk

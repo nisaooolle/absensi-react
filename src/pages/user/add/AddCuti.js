@@ -1,9 +1,62 @@
 import React, { useState } from "react";
 import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 function AddCuti() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [awal_cuti, setAwalCuti] = useState("");
+  const [akhir_cuti, setAkhirCuti] = useState("");
+  const [masuk_kerja, setMasukKerja] = useState("");
+  const [keperluan, setKeperluan] = useState("");
+
+  const addCuti = async (e) => {
+    e.preventDefault();
+
+    const add = {
+      awalCuti: awal_cuti,
+      akhirCuti: akhir_cuti,
+      masukKerja: masuk_kerja,
+      keperluan: keperluan,
+    };
+
+    const token = localStorage.getItem("token");
+
+    try {
+      await axios.post(
+        `http://localhost:2024/api/cuti/tambahCuti/${localStorage.getItem(
+          "userId"
+        )}`,
+        add,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Berhasil ditambahkan",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setTimeout(() => {
+        window.location.href = "/user/history_cuti";
+      }, 1500);
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Terjadi Kesalahan!",
+        text: "Mohon coba lagi",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -18,14 +71,12 @@ function AddCuti() {
           <Sidebar isOpen={sidebarOpen} />
         </div>
         <div className="content-page max-h-screen container p-8 min-h-screen ml-64">
-          {" "}
-          <h1 className="judul text-3xl font-semibold">Halaman Cuti</h1>
           <div className="add-cuti mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
-            <p className="text-lg sm:text-xl font-medium mb-4 sm:mb-7">
+            <h1 className="text-lg sm:text-xl font-medium mb-4 sm:mb-7">
               Halaman Cuti
-            </p>
-            <form onSubmit={""}>
-              <div className="grid grid-cols-2 gap-4">
+            </h1>
+            <form onSubmit={addCuti}>
+              <div className="md:grid grid-cols-2 gap-4">
                 <div className="relative mb-3">
                   <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                     Awal Cuti
@@ -35,8 +86,8 @@ function AddCuti() {
                     id="awalcuti"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     placeholder="Masukkan Tanggal Awal Cuti"
-                    //   value={nama}
-                    //   onChange={(e) => setNama(e.target.value)}
+                    value={awal_cuti}
+                    onChange={(e) => setAwalCuti(e.target.value)}
                     required
                   />
                 </div>
@@ -49,8 +100,8 @@ function AddCuti() {
                     id="akhircuti"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     placeholder="Masukkan Tanggal Akhir Cuti"
-                    // value={jabatan}
-                    // onChange={(e) => setJabatan(e.target.value)}
+                    value={akhir_cuti}
+                    onChange={(e) => setAkhirCuti(e.target.value)}
                     required
                   />
                 </div>
@@ -65,8 +116,8 @@ function AddCuti() {
                     id="masuk"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     placeholder="Masukkan Tanggal Masuk Kerja"
-                    // value={tanggalLahir}
-                    // onChange={(e) => setTanggalLahir(e.target.value)}
+                    value={masuk_kerja}
+                    onChange={(e) => setMasukKerja(e.target.value)}
                     required
                   />
                 </div>{" "}
@@ -79,8 +130,8 @@ function AddCuti() {
                     id="keperluan"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     placeholder="Masukkan Keperluan"
-                    // value={noTelepon}
-                    // onChange={(e) => setNoTelepon(e.target.value)}
+                    value={keperluan}
+                    onChange={(e) => setKeperluan(e.target.value)}
                     required
                   />
                 </div>
