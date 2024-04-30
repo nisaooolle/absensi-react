@@ -7,11 +7,12 @@ import {
   faCalendarDays,
 } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../../components/NavbarUser";
+import axios from "axios";
 // import Highcharts from "highcharts";
 
 function Dashboard() {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
-
+  const [userData, setUserData] = useState([]);
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
@@ -39,39 +40,27 @@ function Dashboard() {
     ":" +
     addLeadingZero(currentDateTime.getSeconds());
 
-  // useEffect(() => {
-  //   const chartOptions = {
-  //     chart: {
-  //       type: "column",
-  //     },
-  //     title: {
-  //       text: "Total Absensi per Hari",
-  //     },
-  //     xAxis: {
-  //       type: "category",
-  //       categories: ["2024-02-29"],
-  //     },
-  //     yAxis: {
-  //       title: {
-  //         text: "Jumlah Absensi",
-  //       },
-  //     },
-  //     series: [
-  //       {
-  //         name: "Total Absensi",
-  //         colorByPoint: true,
-  //         data: [
-  //           {
-  //             name: "2024-02-29",
-  //             y: 1,
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //   };
-
-  //   Highcharts.chart("container", chartOptions);
-  // }, []);
+    const getEmailUser = async () => {
+      const token = localStorage.getItem("token");
+  
+      try {
+        const response = await axios.get(
+          `http://localhost:2024/api/user/get-allUser`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
+        setUserData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    useEffect(() => {
+      getEmailUser();
+    }, []);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -82,17 +71,19 @@ function Dashboard() {
           <Sidebar />
         </div>
         <div className="content-page container p-8  ml-0 md:ml-64 mt-12">
+        {userData.map((user) => (
           <div class="mt-5 w-full">
             <div class="p-4 text-center bg-slate-300 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
               <h2 class="text-2xl font-semibold mb-4">
               Selamat Datang di Absensi
-                <span>@admin_demo</span>
+                <span> @{user.username}</span>
               </h2>
               <a class="profile-menu-link">{day}, </a>
             <a class="profile-menu-link active">{date} - </a>
             <a class="profile-menu-link">{time}</a>
             </div>
           </div>
+           ))}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 mt-12">
             {/* Ubah class untuk lebar saat di mode desktop */}
             <div className="pl-2 h-32 bg-green-400 rounded-lg shadow-md md:w-auto">

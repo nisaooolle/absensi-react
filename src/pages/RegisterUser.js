@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 import Logo from "../components/absensi.png";
-function Register() {
+
+function RegisterUser() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [idOrganisasi, setidOrganisasi] = useState("");
-  const [role, setRole] = useState("ADMIN");
+  const [role, setRole] = useState("USER");
   const [errorMessage, setErrorMessage] = useState("");
   const [show, setShow] = useState(false);
   const history = useHistory();
@@ -18,7 +19,7 @@ function Register() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:2024/api/admin/register`,
+        `http://localhost:2024/api/user/register`,
         {
           username,
           email,
@@ -141,4 +142,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default RegisterUser;

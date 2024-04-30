@@ -10,49 +10,70 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 
 function Karyawan() {
-  // const [username, setUsername] = useState([]); //useState berfungsi untuk menyimpan data sementara
+  const [userData, setUserData] = useState([]);
+  const getAllKaryawan = async () => {
+    const token = localStorage.getItem("token");
 
-  // //untuk melihat semua data
-  // const getAll = () => {
-  //   axios
-  //     .get("http://localhost:2024/api/karyawan/all")
-  //     .then((res) => {
-  //       setUsername(res.data);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi kesalahan" + error);
-  //     });
-  // };
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/user/get-allUser`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-  // useEffect(() => {
-  //   //mengambil data, memperbarui DOM secara langsung,
-  //   getAll();
-  // }, []);
+      setUserData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-  // //menghapus data
-  // const deleteUser = async (id) => {
-  //   Swal.fire({
-  //     title: "Yakin ingin menghapus data ini?",
-  //     text: "You won't be able to revert this!",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "Yes, delete it!",
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       axios.delete("http://localhost:8000/daftarBuku/" + id);
-  //       Swal.fire("Deleted!", "Your file has been deleted.", "success");
-  //       setTimeout(() => {
-  //         window.location.reload();
-  //       }, 1000);
-  //     }
-  //   }); // untuk pemberitahuan jika sudah berhasil menghapus
-  //   getAll();
-  // };
+  const deleteData = async (id) => {
+    Swal.fire({
+      title: "Anda Ingin Menghapus Data ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`http://localhost:2024/api/user/delete/` + id, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+
+          Swal.fire({
+            icon: "success",
+            title: "Dihapus!",
+            showConfirmButton: false,
+          });
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        } catch (error) {
+          console.error(error);
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menghapus Data",
+          });
+        }
+      }
+    });
+  };
+  useEffect(() => {
+    getAllKaryawan();
+  }, []);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -108,56 +129,66 @@ function Karyawan() {
                   </thead>
                   {/* <!-- Tabel Body --> */}
                   <tbody class="text-left">
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                      <th
-                        scope="row"
-                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    {userData.map((user, index) => (
+                      <tr
+                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        key={index}
                       >
-                        1{" "}
-                      </th>
-                      <td class="px-6 py-4">Khoirul Nisa </td>
-                      <td class="px-6 py-4">
-                        <a
-                          href="/cdn-cgi/l/email-protection"
-                          class="__cf_email__"
-                          data-cfemail="5a363b23363b1a3d373b333674393537"
+                        <th
+                          scope="row"
+                          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          [email&#160;protected]
-                        </a>{" "}
-                      </td>
-                      <td class="px-6 py-4">admin_demo </td>
-                      <td className=" py-3">
-                        <div className="flex items-center -space-x-4 ml-12">
-                          <a  href="/admin/detailK">
-                          <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
-                            <span className="relative inline-block">
-                              <FontAwesomeIcon
-                                icon={faInfo}
-                                className="h-4 w-4"
-                              />
-                            </span>
-                          </button>
-                          </a>
-                          <a href="/admin/editK">
-                          <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
-                            <span className="relative inline-block">
-                              <FontAwesomeIcon
-                                icon={faPenToSquare}
-                                className="h-4 w-4"
-                              />
-                            </span>
-                          </button>
-                          </a>
-                          <a href="" onclick="hapusUser(4)">
-                          <button className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50">
-                            <span className="relative inline-block">
-                            <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
-                            </span>
-                          </button>
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
+                          {index + 1}
+                        </th>
+                        <td class="px-6 py-4">{user.username}</td>
+                        <td class="px-6 py-4">
+                          <a
+                            href="/cdn-cgi/l/email-protection"
+                            class="__cf_email__"
+                            data-cfemail="5a363b23363b1a3d373b333674393537"
+                          >
+                            {user.email}
+                          </a>{" "}
+                        </td>
+                        <td class="px-6 py-4">admin_demo </td>
+                        <td className=" py-3">
+                          <div className="flex items-center -space-x-4 ml-12">
+                            <a href={`/admin/detailK/${user.id}`}>
+                              <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faInfo}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+                            </a>
+                            <a href={`/admin/editK/${user.id}`}>
+                              <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faPenToSquare}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+                            </a>
+
+                            <button
+                              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                              onClick={() => deleteData(user.id)}
+                            >
+                              <span className="relative inline-block">
+                                <FontAwesomeIcon
+                                  icon={faTrash}
+                                  className="h-4 w-4"
+                                />
+                              </span>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

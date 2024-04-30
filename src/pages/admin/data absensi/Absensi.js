@@ -24,7 +24,7 @@ function Absensi() {
               <div class="bg-white rounded-lg shadow-md p-4">
                 <div class="flex justify-between">
                   <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                    Rekap Simpel
+                    Detail History Absensi
                   </h6>
                   {/* <!-- <a type="button" href="https://demo-absen.excellentsistem.com/admin/tambah_lokasi"
                   class="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"><i
@@ -157,7 +157,7 @@ function Absensi() {
                         </td>
                         <td class="px-6 py-4">00 jam 00 menit </td>
                         <td class="px-6 py-4">
-                          <a href="/admin/detailK">
+                          <a href="/admin/detailA">
                             <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
                               <span className="relative inline-block">
                                 <FontAwesomeIcon

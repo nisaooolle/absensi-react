@@ -3,8 +3,99 @@ import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function EditKaryawan() {
+  // const [author, setAuthor] = useState("");
+  // const [judulBerita, setJudulBerita] = useState("");
+  // const [image, setImage] = useState(null);
+  // const [categoryId, setCategoryId] = useState(0);
+  // const [category, setCategory] = useState([]);
+  // const [isiBerita, setIsiBerita] = useState("");
+
+  // const param = useParams();
+  // const history = useHistory();
+
+  // const updateKaryawan = async (e) => {
+  //   e.preventDefault();
+  //   e.persist();
+
+  //   const formData = new FormData();
+  //   formData.append("author", author);
+  //   formData.append("judulBerita", judulBerita);
+  //   formData.append("isiBerita", isiBerita);
+  //   formData.append("categoryId", categoryId);
+  //   formData.append("file", image);
+
+  //   await axios
+  //     .put(`${API_DUMMY}/bawaslu/api/berita/put/` + param.id, formData, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     })
+  //     .then(() => {
+  //       Swal.fire({
+  //         icon: "success",
+  //         title: "Berhasil Mengedit Berita",
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //         history.push("/admin-berita");
+  //       setTimeout(() => {
+  //         window.location.reload();
+  //       }, 1500);
+  //     })
+  //     .catch((error) => {
+  //       if (error.ressponse && error.response.status === 401) {
+  //         localStorage.clear();
+  //         history.push("/login");
+  //       } else {
+  //         console.log(error);
+  //       }
+  //     });
+  // };
+
+  // //get by id category
+  // const getAllCategoryId = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${API_DUMMY}/bawaslu/api/category-berita/all`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       }
+  //     );
+  //     setCategory(response.data.data.content);
+  //     console.log(response.data.data.content);
+  //   } catch (error) {
+  //     console.error("Terjadi Kesalahan", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`${API_DUMMY}/bawaslu/api/berita/get/` + param.id, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     })
+  //     .then((ress) => {
+  //       const response = ress.data.data;
+  //       setAuthor(response.author);
+  //       setJudulBerita(response.judulBerita);
+  //       setIsiBerita(response.isiBerita);
+  //       setCategoryId(response.categoryBerita);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  //   getAllCategoryId();
+  // }, []);
+
+  // useEffect(() => {
+  //   AOS.init();
+  // },[]);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">

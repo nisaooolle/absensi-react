@@ -7,49 +7,54 @@ import Logo from "../components/absensi.png";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, seRole] = useState("admin");
+  // const [role, setRole] = useState("USER");
   const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    const data = {
+      email: email,
+      password: password,
+      // role: role,
+    };
     try {
-      const data = {
-        email: email,
-        password: password,
-        role: role,
-      };
-
       const response = await axios.post(
-        "http://localhost:2024/api/login",
+        `http://localhost:2024/api/login`,
         data
       );
 
       if (response.status === 200) {
+        const userRole = response.data.data.role; // Role received from server
+        // setRole(userRole); // Set user role
+
         Swal.fire({
           icon: "success",
           title: `Berhasil Login Sebagai ${
-            role.charAt(0).toUpperCase() + role.slice(1)
+            userRole.charAt(0).toUpperCase() + userRole.slice(1)
           }`,
           showConfirmButton: false,
           timer: 1500,
         });
 
-        history.push(role === "ADMIN" ? "/admin/dashboard" : "/user/dashboard");
-
+        // Redirect user based on role
+        if (userRole === "ADMIN") {
+          history.push("/admin/dashboard");
+        } else if (userRole === "USER") {
+          history.push("/user/dashboard");
+        }
         setTimeout(() => {
           window.location.reload();
         }, 1500);
-
         localStorage.setItem("id", response.data.data.id);
-        localStorage.setItem("role", response.data.data.role);
+        localStorage.setItem("role", userRole);
         localStorage.setItem("token", response.data.token);
       }
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Username / Password Salah",
+        title: "email / Password Salah",
       });
       console.error(error);
     }
@@ -84,15 +89,19 @@ function Login() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-
               <input
                 className="w-full p-2 bg-gray-900 rounded-md border border-gray-700 mb-3"
                 placeholder="password*"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-              />
+              />{" "}
+              <input
+                type="checkbox"
+                onChange={() => setShowPassword(!showPassword)}
+              />{" "}
+              Show Password
               <button
                 className="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
                 type="submit"
@@ -102,7 +111,7 @@ function Login() {
             </form>
             <p>
               Tidak memiliki akun?
-              <a class="font-semibold text-sky-700" href="/register">
+              <a class="font-semibold text-sky-700" href="/registerUser">
                 Registrate
               </a>{" "}
             </p>
