@@ -16,6 +16,7 @@ function Dashboard() {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [username, setUsername] = useState({});
   const [absensi, setAbsensi] = useState([]);
+  const [cuti, setCuti] = useState([]);
 
   const getUsername = async () => {
     const token = localStorage.getItem("token");
@@ -57,6 +58,26 @@ function Dashboard() {
     }
   };
 
+  const getCuti = async () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/cuti/getByUser/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setCuti(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
@@ -64,6 +85,7 @@ function Dashboard() {
 
     getUsername();
     getAbsensi();
+    getCuti();
 
     return () => clearInterval(interval);
   }, []);
@@ -71,10 +93,6 @@ function Dashboard() {
   useEffect(() => {
     setUsername(username); // Setelah mendapatkan respons, atur username
   }, [username]); // Tambahkan username sebagai dependensi
-
-  // useEffect(() => {
-  //   setIzin(izin); // This line is causing the error
-  // }, [izin]);
 
   // Fungsi untuk menambah nol di depan angka jika angka kurang dari 10
   const addLeadingZero = (num) => {
@@ -333,17 +351,16 @@ function Dashboard() {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                  {/* {currentItems.map((guruData, index) => ( */}
-                  {/* <tr key={index}> */}
-                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                    {/* {indexOfFirstItem + index + 1} */}1
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                    {/* {guruData.nama} */}Menikah
-                  </td>
-
-                  {/* </tr> */}
-                  {/* ))} */}
+                  {cuti.map((item, index) => (
+                    <tr key={index}>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                        {index + 1}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                        {item.keperluan}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

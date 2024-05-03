@@ -20,10 +20,11 @@ function TabelCuti() {
 
   const getAllCuti = async () => {
     const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/cuti/getall`,
+        `http://localhost:2024/api/cuti/getByUser/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

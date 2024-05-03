@@ -24,7 +24,7 @@ function TabelLembur() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/lembur/getByUserId/${userId}`, // Perbaikan pada penulisan URL endpoint
+        `http://localhost:2024/api/lembur/getByuserId/${userId}`, // Perbaikan pada penulisan URL endpoint
         {
           headers: {
             Authorization: `Bearer ${token}`,
