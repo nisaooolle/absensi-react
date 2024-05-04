@@ -9,18 +9,90 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import Navbar from "../../components/NavbarUser";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import axios from "axios";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [username, setUsername] = useState({});
+  const [absensi, setAbsensi] = useState([]);
+  const [cuti, setCuti] = useState([]);
+
+  const getUsername = async () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/user/getUserBy/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setUsername(response.data);
+    } catch (error) {
+      console.error("Error fetching username:", error);
+    }
+  };
+
+  const getAbsensi = async () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/absensi/getByUserId/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setAbsensi(response.data);
+    } catch (error) {
+      console.error("Error fetching absensi:", error);
+    }
+  };
+
+  const getCuti = async () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/cuti/getByUser/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setCuti(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
-    }, 1000); // Perbarui setiap detik
+    }, 1000);
+
+    getUsername();
+    getAbsensi();
+    getCuti();
 
     return () => clearInterval(interval);
-  }, []); // Tidak ada dependensi, jadi efek ini hanya dipanggil sekali saat komponen dimuat
+  }, []);
+
+  useEffect(() => {
+    setUsername(username); // Setelah mendapatkan respons, atur username
+  }, [username]); // Tambahkan username sebagai dependensi
 
   // Fungsi untuk menambah nol di depan angka jika angka kurang dari 10
   const addLeadingZero = (num) => {
@@ -57,8 +129,9 @@ function Dashboard() {
         <div className="content-page container p-8 min-h-screen ml-0 md:ml-64 mt-12">
           <div className="mt-12 bg-slate-200 p-5 rounded-xl shadow-xl">
             <h1 className="judul text-3xl font-semibold text-center">
-              Selamat Datang
+              Selamat Datang @{username.username}
             </h1>
+
             <div className="text-lg text-center mt-2">
               {day},{date}-{time}
             </div>
@@ -153,7 +226,9 @@ function Dashboard() {
                     Jumlah absen yang tercatat
                   </p>
                 </div>
-                <div className="text-white text-2xl font-semibold">100</div>
+                <div className="text-white text-2xl font-semibold">
+                  {absensi.length}
+                </div>
               </div>
             </div>
             <div className="bg-red-800 rounded-lg shadow-md p-4 md:w-full lg:w-auto">
@@ -166,7 +241,9 @@ function Dashboard() {
                     Jumlah izin yang diajukan
                   </p>
                 </div>
-                <div className="text-white text-2xl font-semibold">2</div>
+                <div className="text-white text-2xl font-semibold">
+                  {/* {izin.length} */}100
+                </div>
               </div>
             </div>
           </div>
@@ -274,17 +351,16 @@ function Dashboard() {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                  {/* {currentItems.map((guruData, index) => ( */}
-                  {/* <tr key={index}> */}
-                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                    {/* {indexOfFirstItem + index + 1} */}1
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                    {/* {guruData.nama} */}Menikah
-                  </td>
-
-                  {/* </tr> */}
-                  {/* ))} */}
+                  {cuti.map((item, index) => (
+                    <tr key={index}>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                        {index + 1}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                        {item.keperluan}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

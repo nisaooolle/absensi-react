@@ -13,6 +13,9 @@ import axios from "axios";
 function Dashboard() {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [userData, setUserData] = useState([]);
+  const [absenData, setAbsenData] = useState([]);
+  const [cutiData, setCutiData] = useState([]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
@@ -40,27 +43,82 @@ function Dashboard() {
     ":" +
     addLeadingZero(currentDateTime.getSeconds());
 
-    const getEmailUser = async () => {
-      const token = localStorage.getItem("token");
-  
-      try {
-        const response = await axios.get(
-          `http://localhost:2024/api/user/get-allUser`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-  
-        setUserData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    useEffect(() => {
-      getEmailUser();
-    }, []);
+  const getUser = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/user/get-allUser`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setUserData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const getAbsensi = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/absensi/getAll`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setAbsenData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const getCuti = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/cuti/getall`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setCutiData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // Mendefinisikan fungsi untuk memformat tanggal
+  const formatDate = (tanggal) => {
+    // Membuat objek Date dari string tanggal
+    const date = new Date(tanggal);
+    // Mengonversi tanggal menjadi string dengan format yang diinginkan
+    const formattedDate = date.toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+    return formattedDate;
+  };
+
+  useEffect(() => {
+    getUser();
+    getAbsensi();
+    getCuti();
+  }, []);
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -71,19 +129,19 @@ function Dashboard() {
           <Sidebar />
         </div>
         <div className="content-page container p-8  ml-0 md:ml-64 mt-12">
-        {userData.map((user) => (
+          {/* {userData.map((user) => ( */}
           <div class="mt-5 w-full">
             <div class="p-4 text-center bg-slate-300 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
               <h2 class="text-2xl font-semibold mb-4">
-              Selamat Datang di Absensi
-                <span> @{user.username}</span>
+                Selamat Datang di Absensi
+                {/* <span> @{user.username}</span> */}
               </h2>
               <a class="profile-menu-link">{day}, </a>
-            <a class="profile-menu-link active">{date} - </a>
-            <a class="profile-menu-link">{time}</a>
+              <a class="profile-menu-link active">{date} - </a>
+              <a class="profile-menu-link">{time}</a>
             </div>
           </div>
-           ))}
+          {/* ))} */}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 mt-12">
             {/* Ubah class untuk lebar saat di mode desktop */}
             <div className="pl-2 h-32 bg-green-400 rounded-lg shadow-md md:w-auto">
@@ -91,6 +149,7 @@ function Dashboard() {
                 <div className="my-auto">
                   <p className="font-bold">User</p>
                   <p className="text-lg">Jumlah User</p>
+                  <p className="text-lg">{userData.length}</p>
                 </div>
                 <div className="my-auto">
                   <FontAwesomeIcon icon={faUsers} size="2x" />
@@ -102,6 +161,7 @@ function Dashboard() {
                 <div className="my-auto">
                   <p className="font-bold">Absensi</p>
                   <p className="text-lg">Jumlah Absen</p>
+                  <p className="text-lg">{absenData.length}</p>
                 </div>
                 <div className="my-auto">
                   <FontAwesomeIcon icon={faClipboardUser} size="2x" />{" "}
@@ -114,6 +174,7 @@ function Dashboard() {
                 <div className="my-auto">
                   <p className="font-bold">Cuti</p>
                   <p className="text-lg">Jumlah Cuti</p>
+                  <p className="text-lg">{cutiData.length}</p>
                 </div>
                 <div className="my-auto">
                   <FontAwesomeIcon icon={faCalendarDays} size="2x" />
@@ -160,19 +221,26 @@ function Dashboard() {
 
                 {/* <!-- Tabel Body --> */}
                 <tbody class="text-center">
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  {absenData.map((absen, index) => (
+                    <tr
+                      key={index}
+                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
-                      1{" "}
-                    </th>
-                    <td class="px-6 py-4">Layla Rabi'atus Syarifah </td>
-                    <td class="px-6 py-4">29 Februari 2024 </td>
-                    <td class="px-6 py-4">22:27:53 </td>
-                    <td class="px-6 py-4">22:27:58 </td>
-                    <td class="px-6 py-4">Terlambat </td>
-                  </tr>
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {index + 1}
+                      </th>
+                      <td class="px-6 py-4">{absen.username}</td>
+                      <td class="px-6 py-4">
+                        {formatDate(absen.tanggalAbsen)}
+                      </td>
+                      <td class="px-6 py-4">{absen.jamMasuk}</td>
+                      <td class="px-6 py-4">{absen.jamPulang}</td>
+                      <td class="px-6 py-4">{absen.keterangan} </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -409,60 +477,21 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody class="text-center">
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  {userData.map((user, index) => (
+                    <tr
+                      key={index}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
-                      1{" "}
-                    </th>
-                    <td class="px-6 py-4">Layla Rabi'atus Syarifah </td>
-                    <td class="px-6 py-4">
-                      <a
-                        href="/cdn-cgi/l/email-protection"
-                        class="__cf_email__"
-                        data-cfemail="81ede0f8ede0c1e6ece0e8edafe2eeec"
+                      <th
+                        scope="row"
+                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        [email&#160;protected]
-                      </a>{" "}
-                    </td>
-                  </tr>
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      2{" "}
-                    </th>
-                    <td class="px-6 py-4">Hidayatul Muna </td>
-                    <td class="px-6 py-4">
-                      <a
-                        href="/cdn-cgi/l/email-protection"
-                        class="__cf_email__"
-                        data-cfemail="2f425a414e6f48424e4643014c4042"
-                      >
-                        [email&#160;protected]
-                      </a>{" "}
-                    </td>
-                  </tr>
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      3{" "}
-                    </th>
-                    <td class="px-6 py-4">Kamilia Qotrunnada </td>
-                    <td class="px-6 py-4">
-                      <a
-                        href="/cdn-cgi/l/email-protection"
-                        class="__cf_email__"
-                        data-cfemail="ef848e828683868eaf88828e8683c18c8082"
-                      >
-                        [email&#160;protected]
-                      </a>{" "}
-                    </td>
-                  </tr>
+                        {index + 1}
+                      </th>
+                      <td className="px-6 py-4">{user.username}</td>
+                      <td className="px-6 py-4">{user.email}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

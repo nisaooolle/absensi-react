@@ -20,10 +20,11 @@ function TabelLembur() {
 
   const getAllLembur = async () => {
     const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/lembur/getall`,
+        `http://localhost:2024/api/lembur/getByuserId/${userId}`, // Perbaikan pada penulisan URL endpoint
         {
           headers: {
             Authorization: `Bearer ${token}`,
