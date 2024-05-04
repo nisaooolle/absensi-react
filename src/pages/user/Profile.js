@@ -4,10 +4,16 @@ import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import Navbar from "../../components/NavbarUser";
 import Sidebar from "../../components/SidebarUser";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 function Profile() {
   // State untuk menyimpan URL gambar profil
   const [profileImage, setProfileImage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordd, setShowPasswordd] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Fungsi untuk menangani peristiwa pengunggahan gambar
   const handleImageUpload = (event) => {
@@ -41,20 +47,28 @@ function Profile() {
                       Berukuran 1:1.
                     </p>
                   </div>
-                  <div className="flex flex-col items-center mt-6">
-                    <label htmlFor="fileInput" className="cursor-pointer">
-                      <span className="flex items-center justify-center w-48 h-12 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                        Pilih Gambar Profil
-                      </span>
-                    </label>
-                    {/* Input file tersembunyi */}
-                    <input
-                      id="fileInput"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                    />
+                  <div className="flex justify-between mt-6">
+                    <div>
+                      <label htmlFor="fileInput" className="cursor-pointer">
+                        <span className="flex items-center justify-center w-20 sm:w-24 rounded-lg bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                        </span>
+                      </label>
+                      {/* Input file tersembunyi */}
+                      <input
+                        id="fileInput"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="block w-20 sm:w-24 rounded-lg bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:bg-blue-600 py-3 text-sm sm:text-xs font-medium"
+                    >
+                      Simpan
+                    </button>
                   </div>
                 </div>
               </div>
@@ -156,7 +170,6 @@ function Profile() {
               </div>
             </Tabs.Item>
             <Tabs.Item title="Settings" icon={HiAdjustments}>
-              {/* Konten tab Pengaturan */}
               <div className="font-medium text-gray-800 dark:text-white">
                 <div className="settings mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
                   <p className="text-lg sm:text-xl font-medium mb-4 sm:mb-7">
@@ -168,39 +181,54 @@ function Profile() {
                         Password Lama
                       </label>
                       <input
-                        type="text"
+                        type={showPasswordd ? "text" : "password"}
                         id="pw-lama"
                         className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                        //   value={nama}
-                        //   onChange={(e) => setNama(e.target.value)}
                         required
+                      />
+                      <FontAwesomeIcon
+                        icon={showPasswordd ? faEye : faEyeSlash}
+                        className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer mt-3"
+                        onClick={() => setShowPasswordd(!showPasswordd)}
                       />
                     </div>
                     <div className="relative mb-3">
                       <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                         Password Baru
                       </label>
-                      <input
-                        type="text"
-                        id="pw-baru"
-                        className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                        //   value={nama}
-                        //   onChange={(e) => setNama(e.target.value)}
-                        required
-                      />
+                      <div className="relative">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          id="pw-baru"
+                          className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                          required
+                        />
+                        <FontAwesomeIcon
+                          icon={showPassword ? faEye : faEyeSlash}
+                          className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+                          onClick={() => setShowPassword(!showPassword)}
+                        />
+                      </div>
                     </div>
                     <div className="relative mb-3">
                       <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                         Konfirmasi Password Baru
                       </label>
-                      <input
-                        type="text"
-                        id="konfirmasi-pw"
-                        className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                        //   value={nama}
-                        //   onChange={(e) => setNama(e.target.value)}
-                        required
-                      />
+                      <div className="relative">
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          id="konfirmasi-pw"
+                          className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                          required
+                        />
+                        <FontAwesomeIcon
+                          icon={showConfirmPassword ? faEye : faEyeSlash}
+                          className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
+                        />
+                      </div>
                     </div>
 
                     <div className="flex justify-between mt-6">
