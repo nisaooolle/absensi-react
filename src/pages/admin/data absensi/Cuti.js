@@ -72,7 +72,7 @@ function Cuti() {
                         >
                           1{" "}
                         </th>
-                        <td class="px-6 py-4">Layla Rabi'atus Syarifah </td>
+                        <td class="px-6 py-4">Khoirul Nisa </td>
                         <td class="px-6 py-4">26 Januari 2024 </td>
                         <td class="px-6 py-4">28 Januari 2024 </td>
                         <td class="px-6 py-4">29 Januari 2024 </td>

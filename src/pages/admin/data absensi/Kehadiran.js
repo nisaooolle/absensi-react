@@ -59,7 +59,7 @@ function Kehadiran() {
                         >
                           1{" "}
                         </th>
-                        <td class="px-6 py-4">Layla Rabi'atus Syarifah </td>
+                        <td class="px-6 py-4">Khoirul Nisa </td>
 
                         <td class="px-6 py-4">Magang </td>
                         <td class="px-6 py-4">1 </td>
@@ -72,7 +72,7 @@ function Kehadiran() {
                         >
                           2{" "}
                         </th>
-                        <td class="px-6 py-4">Hidayatul muna </td>
+                        <td class="px-6 py-4">Davina Cahyani </td>
 
                         <td class="px-6 py-4">Magang </td>
                         <td class="px-6 py-4">0 </td>
@@ -85,7 +85,7 @@ function Kehadiran() {
                         >
                           3{" "}
                         </th>
-                        <td class="px-6 py-4">Kamilia Qotrunnada </td>
+                        <td class="px-6 py-4">satria candra </td>
 
                         <td class="px-6 py-4">Magang </td>
                         <td class="px-6 py-4">0 </td>

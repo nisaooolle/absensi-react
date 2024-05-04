@@ -36,9 +36,9 @@ function Perkaryawan() {
                 name="id_user"
               >
                 <option>Pilih Karyawan</option>
-                <option value="4">Layla Rabi'atus Syarifah </option>
-                <option value="35">Hidayatul Muna </option>
-                <option value="36">Kamilia Qotrunnada </option>
+                <option value="4">Khoirul Nisa </option>
+                <option value="35">Davina Cahyani </option>
+                <option value="36">satria candra </option>
                 <option value="41">Nia </option>
               </select>
               <div class="flex sm:flex-row gap-4 mx-auto items-center">

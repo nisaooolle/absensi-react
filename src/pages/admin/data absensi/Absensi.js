@@ -134,7 +134,7 @@ function Absensi() {
                         >
                           1{" "}
                         </th>
-                        <td class="px-6 py-4">Layla Rabi'atus Syarifah </td>
+                        <td class="px-6 py-4">Khoirul Nisa </td>
                         <td class="px-6 py-4">29 Februari 2024 </td>
                         <td class="px-6 py-4">Terlambat </td>
                         <td class="px-6 py-4">22:27:53 </td>
@@ -157,7 +157,7 @@ function Absensi() {
                         </td>
                         <td class="px-6 py-4">00 jam 00 menit </td>
                         <td class="px-6 py-4">
-                          <a href="/admin/detailA">
+                          <a href="/admin/detailA/1">
                             <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
                               <span className="relative inline-block">
                                 <FontAwesomeIcon

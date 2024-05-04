@@ -61,7 +61,7 @@ function Lembur() {
                         >
                           1{" "}
                         </th>
-                        <td class="px-6 py-4">Layla Rabi'atus Syarifah </td>
+                        <td class="px-6 py-4">Khoirul Nisa </td>
 
                         <td class="px-6 py-4">Magang </td>
                         <td class="px-6 py-4">1 </td>

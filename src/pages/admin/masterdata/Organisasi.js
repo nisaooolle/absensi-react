@@ -9,7 +9,46 @@ import {
   faPlus,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
+import axios from "axios";
 function Organisasi() {
+  const deleteData = async (id) => {
+    Swal.fire({
+      title: "Anda Ingin Menghapus Data ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`http://localhost:2024/api/user/delete/` + id, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+
+          Swal.fire({
+            icon: "success",
+            title: "Dihapus!",
+            showConfirmButton: false,
+          });
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        } catch (error) {
+          console.error(error);
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menghapus Data",
+          });
+        }
+      }
+    });
+  };
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">

@@ -106,22 +106,25 @@ function RegisterUser() {
                 onChange={(e) => setidOrganisasi(e.target.value)}
                 required
               />
-
               <datalist id="organisasiList">
                 <option value="SMK Bina Nusantara Semarang"></option>
                 <option value="SMK Bina Nusantara Demak"></option>
                 <option value="Excellent Computer"></option>
                 {/* <!-- tambahkan opsi lainnya sesuai kebutuhan --> */}
               </datalist>
-
               <input
                 className="w-full p-2 bg-gray-900 rounded-md border border-gray-700 mb-3"
                 placeholder="password*"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-              />
+              />{" "}
+              <input
+                type="checkbox"
+                onChange={() => setShowPassword(!showPassword)}
+              />{" "}
+              Show Password
               <button
                 className="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
                 type="submit"
@@ -129,6 +132,7 @@ function RegisterUser() {
                 Register
               </button>
             </form>
+            <br />
             <p>
               Sudah mempunyai akun?
               <a className="font-semibold text-sky-700" href="/">
