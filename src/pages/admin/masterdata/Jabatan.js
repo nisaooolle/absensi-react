@@ -151,7 +151,7 @@ function Jabatan() {
                         <td class="px-6 py-4">admin_demo </td>
                         <td className="py-3">
                           <div className="flex items-center -space-x-4 ml-12">
-                            <a href={`/admin/editJ/${jabatan.id}`}>
+                            <a href={`/admin/editJ/${jabatan.idJabatan}`}>
                               <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
                                 <span className="relative inline-block">
                                   <FontAwesomeIcon
