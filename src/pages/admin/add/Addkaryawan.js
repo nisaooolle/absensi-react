@@ -35,7 +35,7 @@ function Addkaryawan() {
 
                 {/* <!-- Form Input --> */}
                 <form
-                  action="https://demo-absen.excellentsistem.com/admin/aksi_tambah_user"
+                  action="/admin/aksi_tambah_user"
                   method="post"
                   enctype="multipart/form-data"
                 >

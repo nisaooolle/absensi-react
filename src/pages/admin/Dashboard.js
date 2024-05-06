@@ -51,7 +51,7 @@ function Dashboard() {
         `http://localhost:2024/api/user/get-allUser`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
         }
       );
@@ -70,7 +70,7 @@ function Dashboard() {
         `http://localhost:2024/api/absensi/getAll`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
         }
       );

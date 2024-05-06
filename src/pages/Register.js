@@ -16,6 +16,17 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "Password tidak sesuai",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return;
+    }
     try {
       const response = await axios.post(
         `http://localhost:2024/api/admin/register`,
@@ -113,14 +124,24 @@ function Register() {
                 {/* <!-- tambahkan opsi lainnya sesuai kebutuhan --> */}
               </datalist>
 
-              <input
+             <div className="justify-center">
+             <input
                 className="w-full p-2 bg-gray-900 rounded-md border border-gray-700 mb-3"
                 placeholder="password*"
-                type="password"
+                type={showPassword? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+                 <span className="text-rose-500 text-[10px]">
+                  *Password harus besertakan angka dan huruf minimal 8 angka
+                </span>
+             </div>
+             <input
+                type="checkbox"
+                onChange={() => setShowPassword(!showPassword)}
+              />{" "}
+              Show Password
               <button
                 className="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
                 type="submit"
