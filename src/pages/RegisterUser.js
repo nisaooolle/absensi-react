@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 import Logo from "../components/absensi.png";
@@ -8,15 +8,44 @@ function RegisterUser() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [idOrganisasi, setidOrganisasi] = useState("");
+  const [idOrganisasi, setIdOrganisasi] = useState("");
   const [role, setRole] = useState("USER");
   const [errorMessage, setErrorMessage] = useState("");
   const [show, setShow] = useState(false);
   const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
+  const [organisasiList, setOrganisasiList] = useState([]);
+  const [organisasi, setOrganisasi] = useState("");
+
+  useEffect(() => {
+    GetALLOrganisasi();
+  }, []);
+
+  const GetALLOrganisasi = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:2024/api/organisasi/all"
+      );
+      setOrganisasiList(response.data);
+    } catch (error) {
+      console.log(error);
+      Swal.fire("Error", "Gagal mendapatkan data organisasi", "error");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "Password tidak sesuai",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return;
+    }
     try {
       const response = await axios.post(
         `http://localhost:2024/api/user/register`,
@@ -60,7 +89,7 @@ function RegisterUser() {
       });
     }
   };
-
+  console.log(organisasiList);
   return (
     <body className="bg-gray-700 ">
       <div className="flex min-h-screen items-center justify-center">
@@ -98,42 +127,54 @@ function RegisterUser() {
                 onChange={(e) => setUsername(e.target.value)}
                 required
               />
-              <input
+              <select
                 className="w-full p-2 bg-gray-900 rounded-md border border-gray-700 focus:border-blue-700 mb-3"
-                placeholder="organisasi"
-                list="organisasiList"
-                value={idOrganisasi}
-                onChange={(e) => setidOrganisasi(e.target.value)}
+                value={organisasi}
+                onChange={(e) => {
+                  const selectedOrg = organisasiList.find(
+                    (org) => org.namaOrganisasi === e.target.value
+                  );
+                  setOrganisasi(selectedOrg ? selectedOrg.id : "");
+                }}
                 required
-              />
-              <datalist id="organisasiList">
-                <option value="SMK Bina Nusantara Semarang"></option>
-                <option value="SMK Bina Nusantara Demak"></option>
-                <option value="Excellent Computer"></option>
-                {/* <!-- tambahkan opsi lainnya sesuai kebutuhan --> */}
-              </datalist>
-              <input
-                className="w-full p-2 bg-gray-900 rounded-md border border-gray-700 mb-3"
-                placeholder="password*"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />{" "}
+              >
+                <option value="" disabled hidden>
+                  Pilih Organisasi
+                </option>
+                {organisasiList &&
+                  organisasiList.map((org) => (
+                    <option key={org.id} value={org.namaOrganisasi}>
+                      {org.namaOrganisasi}
+                    </option>
+                  ))}
+              </select>
+              <div className="justify-center">
+                <input
+                  className="w-full p-2 bg-gray-900 rounded-md border border-gray-700 mb-3"
+                  placeholder="password*"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <span className="text-rose-500 text-[10px]">
+                  *Password harus besertakan angka dan huruf minimal 8 angka
+                </span>
+              </div>
               <input
                 type="checkbox"
                 onChange={() => setShowPassword(!showPassword)}
               />{" "}
               Show Password
               <button
-                className="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
+                className="w-full mt-2 h-10   bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
                 type="submit"
               >
                 Register
               </button>
             </form>
             <br />
-            <p>
+            <p className="py-4 ">
               Sudah mempunyai akun?
               <a className="font-semibold text-sky-700" href="/">
                 Login

@@ -5,60 +5,53 @@ import Swal from "sweetalert2";
 import Logo from "../components/absensi.png";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // const [role, setRole] = useState("USER");
   const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordType, setPasswordType] = useState("password");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = async (e) => {
+  const login = async (e) => {
     e.preventDefault();
 
-    const data = {
-      email: email,
-      password: password,
-      // role: role,
-    };
     try {
-      const response = await axios.post(
-        `http://localhost:2024/api/login`,
-        data
-      );
+      const { data } = await axios.post("http://localhost:2024/api/login", {
+        email: email,
+        password: password,
+      });
 
-      if (response.status === 200) {
-        const userRole = response.data.data.role; // Role received from server
-        // setRole(userRole); // Set user role
+      if (data.data.role === "ADMIN") {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.data.role);
+        localStorage.setItem("adminId", data.data.id);
 
         Swal.fire({
           icon: "success",
-          title: `Berhasil Login Sebagai ${
-            userRole.charAt(0).toUpperCase() + userRole.slice(1)
-          }`,
-          showConfirmButton: false,
-          timer: 1500,
+          title: "Berhasil masuk",
         });
-
-        // Redirect user based on role
-        if (userRole === "ADMIN") {
-          history.push("/admin/dashboard");
-        } else if (userRole === "USER") {
-          history.push("/user/dashboard");
-        }
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-        localStorage.setItem("id", response.data.data.id);
-        localStorage.setItem("role", userRole);
-        localStorage.setItem("token", response.data.token);
+        history.push("/admin/dashboard");
+      } else if (data.data.role === "USER") {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.data.role);
+        localStorage.setItem("userId", data.data.id);
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil masuk",
+        });
+        history.push("/user/dashboard ");
       }
     } catch (error) {
       Swal.fire({
-        icon: "error",
-        title: "email / Password Salah",
+        position: "center",
+        icon: "warning",
+        title: "Email atau Password yang Anda masukan salah  ",
+        showConfirmButton: false,
+        timer: 1500,
       });
-      console.error(error);
+      console.log(error);
     }
   };
+
   return (
     // <!-- component -->
     <body class="bg-gray-700 ">
@@ -72,38 +65,36 @@ function Login() {
               src={Logo}
               alt=""
             />{" "}
-            <h1 class="text-white text-2xl">
+            <h1 class="text-white text-2xl ">
               selamat datang di aplikasi absensi
             </h1>
-            <form
-              action=""
-              onSubmit={handleLogin}
-              method="POST"
-              className="w-72 "
-            >
+            <form action="" onSubmit={login} method="POST" className="w-72 ">
               <input
-                className="w-full p-2 bg-gray-900 rounded-md  border border-gray-700 focus:border-blue-700 mb-3"
+                className="w-full p-2 bg-gray-900 text-gray-100 rounded-md  border border-gray-700 focus:border-blue-700 mb-3"
                 placeholder="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <input
-                className="w-full p-2 bg-gray-900 rounded-md border border-gray-700 mb-3"
-                placeholder="password*"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />{" "}
+              <div className="justify-center my-2">
+                {" "}
+                <input
+                  className="w-full p-2 bg-gray-900 text-gray-100 rounded-md border border-gray-700 mb-3"
+                  placeholder="password*"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
               <input
                 type="checkbox"
                 onChange={() => setShowPassword(!showPassword)}
               />{" "}
               Show Password
               <button
-                className="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
+                className="w-full my-5 h-10 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
                 type="submit"
               >
                 Login
@@ -112,7 +103,7 @@ function Login() {
             <p>
               Tidak memiliki akun?
               <a class="font-semibold text-sky-700" href="/registerUser">
-                Registrate
+                Register
               </a>{" "}
             </p>
           </div>
