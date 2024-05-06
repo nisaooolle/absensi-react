@@ -4,14 +4,35 @@ import Sidebar from "../../../components/SidebarUser";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 function TabelAbsen() {
+  const [absensi, setAbsensi] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
+  const getAbsensi = async () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/absensi/getByUserId/${userId}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
+      setAbsensi(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   return (
     <div className="flex flex-col min-h-screen">
       <div className="sticky top-0 z-50">

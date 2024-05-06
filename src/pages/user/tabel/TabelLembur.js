@@ -20,14 +20,14 @@ function TabelLembur() {
 
   const getAllLembur = async () => {
     const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("id");
+    const userId = localStorage.getItem("userId");
 
     try {
       const response = await axios.get(
         `http://localhost:2024/api/lembur/getByuserId/${userId}`, // Perbaikan pada penulisan URL endpoint
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
         }
       );
@@ -55,7 +55,7 @@ function TabelLembur() {
         axios
           .delete(`http://localhost:2024/api/lembur/delete/${id}`, {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `${token}`,
             },
           })
           .then(() => {

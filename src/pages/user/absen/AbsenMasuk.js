@@ -53,7 +53,7 @@ function AbsenMasuk() {
     // Pastikan keterangan tidak kosong
     const keteranganAbsen = keterangan || "-";
     const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("id");
+    const userId = localStorage.getItem("userId");
 
     if (!userId) {
       // Jika userId tidak tersedia
