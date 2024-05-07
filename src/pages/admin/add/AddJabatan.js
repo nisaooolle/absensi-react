@@ -1,10 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 function AddJabatan() {
+  const [namaJabatan, setNamaJabatan] = useState("");
+  const adminId = localStorage.getItem("adminId");
+
+  const tambahJabatan = async (e) => {
+    e.preventDefault();
+    try {
+      const add = {
+        namaJabatan: namaJabatan,
+        adminId: adminId,
+      };
+      const response = await axios.post(
+        `http://localhost:2024/api/jabatan/add/${adminId}`,
+        add
+      );
+      console.log(response);
+      Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
+
+      window.location.href = "/admin/jabatan";
+    } catch (error) {
+      console.log(error);
+      Swal.fire("Error", "Gagal mengambil data", "error");
+    }
+  };
+
+  useEffect(() => {}, [adminId]);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -27,17 +54,15 @@ function AddJabatan() {
                 <hr />
                 <div class="mt-5 text-left">
                   {/* <!-- Form Input --> */}
-                  <form
-                    action="https://demo-absen.excellentsistem.com/admin/aksi_tambah_jabatan"
-                    method="post"
-                    enctype="multipart/form-data"
-                  >
+                  <form onSubmit={tambahJabatan}>
                     <div class="grid md:grid-cols-2 md:gap-6">
                       <div class="relative z-0 w-full mb-6 group">
                         <input
                           type="text"
                           name="nama_jabatan"
                           id="name"
+                          value={namaJabatan}
+                          onChange={(e) => setNamaJabatan(e.target.value)}
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
                           autocomplete="off"
@@ -58,7 +83,7 @@ function AddJabatan() {
                         class="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                         href="/admin/jabatan"
                       >
-                       <FontAwesomeIcon icon={faArrowLeft} />
+                        <FontAwesomeIcon icon={faArrowLeft} />
                       </a>
                       <button
                         type="submit"
