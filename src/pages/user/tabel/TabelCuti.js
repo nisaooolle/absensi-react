@@ -20,14 +20,14 @@ function TabelCuti() {
 
   const getAllCuti = async () => {
     const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("id");
+    const userId = localStorage.getItem("userId");
 
     try {
       const response = await axios.get(
         `http://localhost:2024/api/cuti/getByUser/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
         }
       );
@@ -55,7 +55,7 @@ function TabelCuti() {
         axios
           .delete(`http://localhost:2024/api/cuti/delete/${id}`, {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `${token}`,
             },
           })
           .then(() => {

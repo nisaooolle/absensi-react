@@ -1,10 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/NavbarUser";
 import Sidebar from "../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 function DetailAbsen() {
+  const [absensi, setAbsensi] = useState([]);
+
+  const getAbsensi = async () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/absensi/getByUserId/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setAbsensi(response.data);
+    } catch (error) {
+      console.error("Error fetching absensi:", error);
+    }
+  };
+
+  useEffect(() => {
+    getAbsensi();
+  }, []);
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -22,7 +49,6 @@ function DetailAbsen() {
                 {/* <!-- Header --> */}
                 <div class="flex justify-between">
                   <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                    {" "}
                     Detail Absen
                   </h6>
                 </div>

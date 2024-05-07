@@ -17,17 +17,18 @@ function Dashboard() {
   const [username, setUsername] = useState({});
   const [absensi, setAbsensi] = useState([]);
   const [cuti, setCuti] = useState([]);
+  const [izin, setIzin] = useState([]);
 
   const getUsername = async () => {
     const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("id");
+    const userId = localStorage.getItem("userId");
 
     try {
       const response = await axios.get(
         `http://localhost:2024/api/user/getUserBy/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
         }
       );
@@ -38,16 +39,36 @@ function Dashboard() {
     }
   };
 
+  const getIzin = async () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/izin/getByUserId/${userId}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
+      setIzin(response.data);
+    } catch (error) {
+      console.error("Error fetching absensi:", error);
+    }
+  };
+
   const getAbsensi = async () => {
     const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("id");
+    const userId = localStorage.getItem("userId");
 
     try {
       const response = await axios.get(
         `http://localhost:2024/api/absensi/getByUserId/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
         }
       );
@@ -60,14 +81,14 @@ function Dashboard() {
 
   const getCuti = async () => {
     const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("id");
+    const userId = localStorage.getItem("userId");
 
     try {
       const response = await axios.get(
         `http://localhost:2024/api/cuti/getByUser/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
         }
       );
@@ -86,6 +107,7 @@ function Dashboard() {
     getUsername();
     getAbsensi();
     getCuti();
+    getIzin();
 
     return () => clearInterval(interval);
   }, []);
@@ -232,7 +254,6 @@ function Dashboard() {
               </div>
             </div>
             <div className="bg-red-800 rounded-lg shadow-md p-4 md:w-full lg:w-auto">
-              {" "}
               {/* Ubah lebar saat di mode ponsel */}
               <div className="flex justify-between items-center">
                 <div>
@@ -242,7 +263,7 @@ function Dashboard() {
                   </p>
                 </div>
                 <div className="text-white text-2xl font-semibold">
-                  {/* {izin.length} */}100
+                  {izin.length}
                 </div>
               </div>
             </div>

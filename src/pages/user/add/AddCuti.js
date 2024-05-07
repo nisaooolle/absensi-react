@@ -22,7 +22,7 @@ function AddCuti() {
     };
 
     const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("id");
+    const userId = localStorage.getItem("userId");
 
     if (!userId) {
       // Jika userId tidak tersedia
@@ -36,7 +36,7 @@ function AddCuti() {
         add,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
         }
       );
