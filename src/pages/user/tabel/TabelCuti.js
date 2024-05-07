@@ -59,6 +59,7 @@ function TabelCuti() {
             },
           })
           .then(() => {
+            setCuti((prevCuti) => prevCuti.filter((item) => item.id !== id)); // Menghapus item dari state tanpa reload halaman
             Swal.fire({
               position: "center",
               icon: "success",
@@ -66,7 +67,6 @@ function TabelCuti() {
               showConfirmButton: false,
               timer: 1500,
             });
-            window.location.reload();
           })
           .catch((error) => {
             console.error("Error deleting data:", error);

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRightFromBracket,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   faCalendarDays,
   faCircleXmark,
@@ -18,6 +21,8 @@ function Dashboard() {
   const [absensi, setAbsensi] = useState([]);
   const [cuti, setCuti] = useState([]);
   const [izin, setIzin] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
 
   const getUsername = async () => {
     const token = localStorage.getItem("token");
@@ -138,6 +143,23 @@ function Dashboard() {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+
+  // Function to format date in Indonesian
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString("id-ID", options);
+  };
+
+  // Pagination
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = absensi.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="flex flex-col h-screen">
@@ -271,21 +293,6 @@ function Dashboard() {
 
           <div className="tabel-absen mt-12 bg-white p-5 rounded-xl shadow-xl border border-gray-300">
             <h2 className="text-xl font-bold">History Absensi</h2>
-            <div className="flex justify-between items-center mt-4">
-              <div className="flex items-center">
-                {/* <FontAwesomeIcon
-                  icon={faSearch}
-                  className="mr-2 text-gray-500"
-                /> */}
-                <input
-                  // type="text"
-                  // placeholder="Cari guru..."
-                  // value={searchTerm1}
-                  // onChange={handleSearch1}
-                  className="px-3 py-2 border rounded-md"
-                />
-              </div>
-            </div>
             <div className="overflow-x-auto rounded-lg border border-gray-200 mt-4">
               <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm border border-gray-300">
                 <thead className="text-left">
@@ -303,25 +310,25 @@ function Dashboard() {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                  {/* {currentItems.map((guruData, index) => ( */}
-                  {/* <tr key={index}> */}
-                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                    {/* {indexOfFirstItem + index + 1} */}1
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                    {/* {guruData.nama} */}22 April 2024
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                    {/* {guruData.jabatan} */}Terlambat
-                  </td>
-                  {/* </tr> */}
-                  {/* ))} */}
+                  {currentItems.map((absenData, index) => (
+                    <tr key={index}>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                        {indexOfFirstItem + index + 1}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                        {formatDate(absenData.tanggalAbsen)}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                        {absenData.status}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
             <div className="flex justify-center mt-4">
               <ul className="pagination">
-                {/* {Array(Math.ceil(guru.length / itemsPerPage))
+                {Array(Math.ceil(absensi.length / itemsPerPage))
                   .fill()
                   .map((_, index) => (
                     <li
@@ -337,27 +344,12 @@ function Dashboard() {
                         {index + 1}
                       </button>
                     </li>
-                  ))} */}
+                  ))}
               </ul>
             </div>
           </div>
           <div className="tabel-cuti mt-12 bg-white p-5 rounded-xl shadow-xl border border-gray-300">
             <h2 className="text-xl font-bold">Permohonan Cuti</h2>
-            <div className="flex justify-between items-center mt-4">
-              <div className="flex items-center">
-                {/* <FontAwesomeIcon
-                  icon={faSearch}
-                  className="mr-2 text-gray-500"
-                /> */}
-                <input
-                  // type="text"
-                  // placeholder="Cari guru..."
-                  // value={searchTerm1}
-                  // onChange={handleSearch1}
-                  className="px-3 py-2 border rounded-md"
-                />
-              </div>
-            </div>
             <div className="overflow-x-auto rounded-lg border border-gray-200 mt-4">
               <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm border border-gray-300">
                 <thead className="text-left">
@@ -387,7 +379,7 @@ function Dashboard() {
             </div>
             <div className="flex justify-center mt-4">
               <ul className="pagination">
-                {/* {Array(Math.ceil(guru.length / itemsPerPage))
+                {Array(Math.ceil(cuti.length / itemsPerPage))
                   .fill()
                   .map((_, index) => (
                     <li
@@ -403,7 +395,7 @@ function Dashboard() {
                         {index + 1}
                       </button>
                     </li>
-                  ))} */}
+                  ))}
               </ul>
             </div>
           </div>
