@@ -20,9 +20,9 @@ function Jabatan() {
       const response = await axios.get(
         `http://localhost:2024/api/jabatan/all`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          // headers: {
+          //   Authorization: `${token}`,
+          // },
         }
       );
 

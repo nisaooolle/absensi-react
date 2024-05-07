@@ -15,6 +15,7 @@ function Dashboard() {
   const [userData, setUserData] = useState([]);
   const [absenData, setAbsenData] = useState([]);
   const [cutiData, setCutiData] = useState([]);
+  const [username, setUsername] = useState({});
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -51,7 +52,7 @@ function Dashboard() {
         `http://localhost:2024/api/user/get-allUser`,
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: ` ${token}`,
           },
         }
       );
@@ -70,7 +71,7 @@ function Dashboard() {
         `http://localhost:2024/api/absensi/getAll`,
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: ` ${token}`,
           },
         }
       );
@@ -89,7 +90,7 @@ function Dashboard() {
         `http://localhost:2024/api/cuti/getall`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
         }
       );
@@ -100,6 +101,25 @@ function Dashboard() {
     }
   };
 
+  const getUsername = async () => {
+    const token = localStorage.getItem("token");
+    const adminId = localStorage.getItem("adminId");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/admin/getById/${adminId}`,
+        {
+          // headers: {
+          //   Authorization: `Bearer ${token}`,
+          // },
+        }
+      );
+
+      setUsername(response.data);
+    } catch (error) {
+      console.error("Error fetching username:", error);
+    }
+  };
   // Mendefinisikan fungsi untuk memformat tanggal
   const formatDate = (tanggal) => {
     // Membuat objek Date dari string tanggal
@@ -117,6 +137,7 @@ function Dashboard() {
     getUser();
     getAbsensi();
     getCuti();
+    getUsername();
   }, []);
 
   return (
@@ -129,12 +150,12 @@ function Dashboard() {
           <Sidebar />
         </div>
         <div className="content-page container p-8  ml-0 md:ml-64 mt-12">
-          {/* {userData.map((user) => ( */}
+          {/* {username.map((user) => ( */}
           <div class="mt-5 w-full">
             <div class="p-4 text-center bg-slate-300 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
               <h2 class="text-2xl font-semibold mb-4">
                 Selamat Datang di Absensi
-                {/* <span> @{user.username}</span> */}
+                <span> @{username.username}</span>
               </h2>
               <a class="profile-menu-link">{day}, </a>
               <a class="profile-menu-link active">{date} - </a>
