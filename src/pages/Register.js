@@ -149,6 +149,8 @@ function Register() {
                 Register
               </button>
             </form>
+            <br />
+            <br />
             <p>
               Sudah mempunyai akun?
               <a className="font-semibold text-sky-700" href="/">
