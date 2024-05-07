@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +12,25 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 function Shift() {
+  const [userData, setUserData] = useState([]);
+  const getAllShift = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/shift/getall`,
+        {
+          // headers: {
+          //   Authorization: `${token}`,
+          // },
+        }
+      );
+
+      setUserData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   const deleteData = async (id) => {
     Swal.fire({
       title: "Anda Ingin Menghapus Data ?",
@@ -49,6 +68,10 @@ function Shift() {
       }
     });
   };
+
+  useEffect(() => {
+    getAllShift();
+  }, []);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -110,43 +133,48 @@ function Shift() {
                   </thead>
                   {/* <!-- Tabel Body --> */}
                   <tbody class="text-left">
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                      <th
-                        scope="row"
-                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    {userData.map((shift, index) => (
+                      <tr
+                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        key={index}
                       >
-                        1{" "}
-                      </th>
-                      <td class="px-6 py-4">Normal </td>
-                      <td class="px-6 py-4">07:45:00 </td>
-                      <td class="px-6 py-4">16:45:00 </td>
-                      <td class="px-6 py-4">17 </td>
-                      <td class="px-6 py-4">admin_demo </td>
-                      <td className="py-3">
-                        <div className="flex items-center -space-x-4 ml-12">
-                          <a href="/admin/editS">
-                            <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faPenToSquare}
-                                  className="h-4 w-4"
-                                />
-                              </span>
-                            </button>
-                          </a>
-                          <a href="" onclick="hapusUser(4)">
-                            <button className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50">
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faTrash}
-                                  className="h-4 w-4"
-                                />
-                              </span>
-                            </button>
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
+                        <th
+                          scope="row"
+                          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {index + 1}
+                        </th>
+                        <td class="px-6 py-4">{shift.namaShift}</td>
+                        <td class="px-6 py-4">07:45:00 </td>
+                        <td class="px-6 py-4">16:45:00 </td>
+                        <td class="px-6 py-4">17 </td>
+                        <td class="px-6 py-4">admin_demo </td>
+                        <td className="py-3">
+                          <div className="flex items-center -space-x-4 ml-12">
+                            <a href="/admin/editS">
+                              <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faPenToSquare}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+                            </a>
+                            <a href="" onclick="hapusUser(4)">
+                              <button className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50">
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
