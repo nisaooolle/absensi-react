@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 function Addkaryawan() {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,6 +12,58 @@ function Addkaryawan() {
   const handleShowPasswordChange = () => {
     setShowPassword(!showPassword);
   };
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [organisasiId, setorganisasiId] = useState("");
+  const [idJabatan, setidJabatan] = useState("");
+  const [shift, setShift] = useState("");
+  const [password, setPassword] = useState("");
+  const adminId = localStorage.getItem("adminId");
+  const [organisasiList, setOrganisasiList] = useState([]);
+  const [organisasi, setOrganisasi] = useState("");
+
+  useEffect(() => {
+    GetALLOrganisasi();
+  }, []);
+
+  const GetALLOrganisasi = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:2024/api/organisasi/all"
+      );
+      setOrganisasiList(response.data.data);
+    } catch (error) {
+      console.log(error);
+      Swal.fire("Error", "Gagal mendapatkan data organisasi", "error");
+    }
+  };
+  const tambahJabatan = async (e) => {
+    e.preventDefault();
+    try {
+      const add = {
+        email: email,
+        username: username,
+        organisasiId: organisasiId,
+        idJabatan: idJabatan,
+        shift: shift,
+        password: password,
+        adminId: adminId,
+      };
+      const response = await axios.post(
+        `http://localhost:2024/api/jabatan/add/${adminId}`,
+        add
+      );
+      console.log(response);
+      Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
+
+      window.location.href = "/admin/jabatan";
+    } catch (error) {
+      console.log(error);
+      Swal.fire("Error", "Gagal mengambil data", "error");
+    }
+  };
+
+  useEffect(() => {}, [adminId]);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -35,6 +89,7 @@ function Addkaryawan() {
 
                 {/* <!-- Form Input --> */}
                 <form
+                  onSubmit={tambahJabatan}
                   action="/admin/aksi_tambah_user"
                   method="post"
                   enctype="multipart/form-data"
@@ -47,6 +102,8 @@ function Addkaryawan() {
                           type="email"
                           name="email"
                           id="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
                           autocomplete="off"
@@ -66,6 +123,8 @@ function Addkaryawan() {
                           type="text"
                           name="username"
                           id="username"
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
                           autocomplete="off"
@@ -86,6 +145,8 @@ function Addkaryawan() {
                         Organisasi
                       </label>
                       <select
+                       value={organisasi}
+                       onChange={(e) => setOrganisasi(e.target.value)}
                         name="id_organisasi"
                         class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                       >

@@ -23,7 +23,7 @@ function Karyawan() {
         `http://localhost:2024/api/user/get-allUser`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
         }
       );
