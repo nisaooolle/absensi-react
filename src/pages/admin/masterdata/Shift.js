@@ -145,9 +145,9 @@ function Shift() {
                           {index + 1}
                         </th>
                         <td class="px-6 py-4">{shift.namaShift}</td>
-                        <td class="px-6 py-4">07:45:00 </td>
-                        <td class="px-6 py-4">16:45:00 </td>
-                        <td class="px-6 py-4">17 </td>
+                        <td class="px-6 py-4">{shift.waktuMasuk}</td>
+                        <td class="px-6 py-4">{shift.waktuPulang}</td>
+                        <td class="px-6 py-4">{shift.jumlahKaryawan} </td>
                         <td class="px-6 py-4">admin_demo </td>
                         <td className="py-3">
                           <div className="flex items-center -space-x-4 ml-12">
