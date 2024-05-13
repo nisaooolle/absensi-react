@@ -23,6 +23,8 @@ function Dashboard() {
   const [izin, setIzin] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
+  // const [isAbsen, setIsAbsen] = useState(false); 
+
 
   const getUsername = async () => {
     const token = localStorage.getItem("token");
@@ -43,6 +45,20 @@ function Dashboard() {
       console.error("Error fetching username:", error);
     }
   };
+
+  // const cekAbsensi = async () => {
+  //   const userId = localStorage.getItem("userId");
+  //   try {
+  //     const absensiData = await axios.get(
+  //       `http://localhost:2024/api/absensi/checkAbsensi/${userId}`
+  //     );
+  //     if (absensiData.ok) {
+  //       setIsAbsen(true);  
+  //     }
+  //   } catch (error) {
+  //     console.error("Error checking absensi:", error);
+  //   }
+  // };
 
   const getIzin = async () => {
     const token = localStorage.getItem("token");
@@ -113,6 +129,7 @@ function Dashboard() {
     getAbsensi();
     getCuti();
     getIzin();
+    
 
     return () => clearInterval(interval);
   }, []);
