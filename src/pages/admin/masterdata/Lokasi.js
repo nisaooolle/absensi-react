@@ -40,7 +40,7 @@ function Lokasi() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:2024/api/user/delete/` + id, {
+          await axios.delete(`http://localhost:2024/api/lokasi/delete/` + id, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -143,7 +143,7 @@ function Lokasi() {
                         <td class="px-6 py-4">{lokasi.idOrganisasi}</td>
                         <td className=" py-3">
                           <div className="flex items-center -space-x-4 ml-12">
-                            <a href="/admin/detailL">
+                            <a href={`/admin/detailL/${lokasi.idLokasi}`}>
                               <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
                                 <span className="relative inline-block">
                                   <FontAwesomeIcon
@@ -153,7 +153,7 @@ function Lokasi() {
                                 </span>
                               </button>
                             </a>
-                            <a href="/admin/editL">
+                            <a href={`/admin/editL/${lokasi.idLokasi}`}>
                               <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
                                 <span className="relative inline-block">
                                   <FontAwesomeIcon
@@ -164,7 +164,10 @@ function Lokasi() {
                               </button>
                             </a>
                             <a href="" onclick="hapusUser(4)">
-                              <button className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50">
+                              <button
+                                className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                                onClick={() => deleteData(lokasi.idLokasi)}
+                              >
                                 <span className="relative inline-block">
                                   <FontAwesomeIcon
                                     icon={faTrash}

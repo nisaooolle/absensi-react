@@ -15,6 +15,9 @@ function Dashboard() {
   const [userData, setUserData] = useState([]);
   const [absenData, setAbsenData] = useState([]);
   const [cutiData, setCutiData] = useState([]);
+  const [jabatanData, setJabatanData] = useState([]);
+  const [lokasiData, setLokasiData] = useState([]);
+  const [organisasiData, setOrganisasiData] = useState([]);
   const [username, setUsername] = useState({});
 
   useEffect(() => {
@@ -100,6 +103,60 @@ function Dashboard() {
       console.error("Error fetching data:", error);
     }
   };
+  const getJabatan = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/jabatan/getall`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
+      setJabatanData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const getLokasi = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/lokasi/getall`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
+      setLokasiData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const getOrganisasi = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/organisasi/getall`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
+      setOrganisasiData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const getUsername = async () => {
     const token = localStorage.getItem("token");
@@ -138,6 +195,9 @@ function Dashboard() {
     getAbsensi();
     getCuti();
     getUsername();
+    getJabatan();
+    getLokasi();
+    getOrganisasi();
   }, []);
 
   return (
@@ -302,20 +362,25 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody class="text-center">
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  {cutiData.map((cuti, index) => (
+                    <tr
+                      key={index}
+                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
-                      1{" "}
-                    </th>
-                    <td class="px-6 py-4">Layla Rabi'atus Syarifah </td>
-                    <td class="px-6 py-4">26 Januari 2024 </td>
-                    <td class="px-6 py-4">28 Januari 2024 </td>
-                    <td class="px-6 py-4">29 Januari 2024 </td>
-                    <td class="px-6 py-4">tes </td>
-                    <td class="px-6 py-4">Disetujui </td>
-                  </tr>
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {index + 1}
+                      </th>
+                      <td class="px-6 py-4">{cuti.user.username}</td>
+                      <td class="px-6 py-4">{cuti.awalCuti}</td>
+                      <td class="px-6 py-4">{cuti.akhirCuti}</td>
+                      <td class="px-6 py-4">{cuti.masukKerja}</td>
+                      <td class="px-6 py-4">{cuti.keperluan} </td>
+                      <td class="px-6 py-4">{cuti.status} </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -344,19 +409,21 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody class="text-center">
-                  <tr
-                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50
-                                  dark:hover:bg-gray-600"
-                  >
-                    <th
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  {jabatanData.map((jabatan, index) => (
+                    <tr
+                      key={index}
+                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
-                      1{" "}
-                    </th>
-                    <td class="px-6 py-4">Admin_demo </td>
-                    <td class="px-6 py-4">Magang </td>
-                  </tr>
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {index + 1}
+                      </th>
+                      <td class="px-6 py-4">{jabatan.user.username}</td>
+                      <td class="px-6 py-4">{jabatan.namaJabatan}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -387,7 +454,25 @@ function Dashboard() {
                     </th>
                   </tr>
                 </thead>
-                <tbody class="text-center"></tbody>
+                <tbody class="text-center">
+                  {" "}
+                  {lokasiData.map((lokasi, index) => (
+                    <tr
+                      key={index}
+                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {index + 1}
+                      </th>
+                      <td class="px-6 py-4">{lokasi.user.username}</td>
+                      <td class="px-6 py-4">{lokasi.namaLokasi}</td>
+                      <td class="px-6 py-4">{lokasi.alamat}</td>
+                    </tr>
+                  ))}
+                </tbody>
               </table>
             </div>
           </div>
@@ -421,31 +506,29 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody class="text-center">
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  {organisasiData.map((organisasi, index) => (
+                    <tr
+                      key={index}
+                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
-                      1{" "}
-                    </th>
-                    <td class="px-6 py-4">Admin_demo </td>
-                    <td class="px-6 py-4">bulustalan </td>
-                    <td class="px-6 py-4">098756381624 </td>
-                    <td class="px-6 py-4">
-                      <a
-                        href="/cdn-cgi/l/email-protection"
-                        class="__cf_email__"
-                        data-cfemail="ea8f92898f86868f849eaa8d878b8386c4898587"
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        [email&#160;protected]
-                      </a>{" "}
-                    </td>
-                  </tr>
+                        {index + 1}
+                      </th>
+                      <td class="px-6 py-4">{organisasi.user.username}</td>
+                      <td class="px-6 py-4">{organisasi.alamat}</td>
+                      <td class="px-6 py-4">{organisasi.nomerTelepon}</td>
+                      <td class="px-6 py-4">{organisasi.emailOrganisasi}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
           </div>
           <br />
+          {/* tabel kehadiran */}
           <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
             <div class="flex justify-between">
               <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
@@ -470,7 +553,25 @@ function Dashboard() {
                     </th>
                   </tr>
                 </thead>
-                <tbody class="text-center"></tbody>
+                <tbody class="text-center">
+                  {" "}
+                  {absenData.map((absensi, index) => (
+                    <tr
+                      key={index}
+                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {index + 1}
+                      </th>
+                      <td class="px-6 py-4">{absensi.user.username}</td>
+                      <td class="px-6 py-4">{absensi.jabatan}</td>
+                      <td class="px-6 py-4">{absensi.jumlahlebihawal}</td>
+                    </tr>
+                  ))}
+                </tbody>
               </table>
             </div>
           </div>

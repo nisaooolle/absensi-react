@@ -132,7 +132,7 @@ function RegisterUser() {
                 value={organisasi}
                 onChange={(e) => {
                   const selectedOrg = organisasiList.find(
-                    (org) => org.organisasiId.organisasi.namaOrganisasi === e.target.value
+                    (org) => org.namaOrganisasi === e.target.value
                   );
                   setOrganisasi(selectedOrg ? selectedOrg.id : "");
                 }}
@@ -143,8 +143,8 @@ function RegisterUser() {
                 </option>
                 {organisasiList &&
                   organisasiList.map((org) => (
-                    <option key={org.id} value={org.organisasiId.organisasi.namaOrganisasi}>
-                      {org.organisasiId.organisasi.namaOrganisasi}
+                    <option key={org.id} value={org.namaOrganisasi}>
+                      {org.namaOrganisasi}
                     </option>
                   ))}
               </select>

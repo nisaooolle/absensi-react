@@ -12,11 +12,14 @@ function Cuti() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await axios.get(`http://localhost:2024/api/cuti/getall`, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
+      const response = await axios.get(
+        `http://localhost:2024/api/cuti/getall`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
 
       setUserData(response.data);
     } catch (error) {
@@ -24,30 +27,54 @@ function Cuti() {
     }
   };
 
-  const deleteData = async (id) => {
+  const konfirmasiSetujuCuti = async (id) => {
     Swal.fire({
-      title: "Anda Ingin Menghapus Data ?",
-      icon: "warning",
+      title: "Konfirmasi",
+      text: "Apakah yakin ingin menyetujui izin cuti ini?", 
+      icon: "question",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#31363F",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Delete",
-      cancelButtonText: "Cancel",
+      confirmButtonText: "Ya, Setuju!",
+      cancelButtonText: "Batal",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:2024/api/user/delete/` + id, {
+          await axios.put(`http://localhost:2024/api/cuti/terima-cuti/` + id, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           });
-
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        } catch (error) {
+          console.error(error);
           Swal.fire({
-            icon: "success",
-            title: "Dihapus!",
-            showConfirmButton: false,
+            icon: "error",
+            title: "Gagal Menghapus Data",
           });
-
+        }
+      }
+    });
+  };
+  const BatalkanCuti = async (id) => {
+    Swal.fire({
+      title: "Konfirmasi",
+      text: "Apakah yakin ingin membatalkan izin cuti ini?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "rgb(185 28 28)",
+      confirmButtonText: "Ya, Batalkan!",
+      cancelButtonText: "Batal",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.put(`http://localhost:2024/api/cuti/tolak-cuti/` + id, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
           setTimeout(() => {
             window.location.reload();
           }, 1500);
@@ -143,26 +170,31 @@ function Cuti() {
                           <td class="px-6 py-4">{cuti.status} </td>
                           <td className=" py-3">
                             <div className="flex items-center -space-x-4 ml-12">
-                              <a href="/admin/detailO">
-                                <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
-                                  <span className="relative inline-block">
-                                    <FontAwesomeIcon
-                                      icon={faCheck}
-                                      className="h-4 w-4"
-                                    />
-                                  </span>
-                                </button>
-                              </a>
-                              <a href="/admin/editO">
-                                <button className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50">
-                                  <span className="relative inline-block">
-                                    <FontAwesomeIcon
-                                      icon={faXmark}
-                                      className="h-4 w-4"
-                                    />
-                                  </span>
-                                </button>
-                              </a>
+                              <button
+                                className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
+                                onClick={() => konfirmasiSetujuCuti(cuti.id)}
+                              >
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faCheck}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+
+                              <button
+                                className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                                // onclick="konfirmasiSetujuCuti(4)"
+                                onClick={() => BatalkanCuti(cuti.id)}
+                              >
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faXmark}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+
                               <a href="" onclick="hapusUser(4)">
                                 <button className="z-30 block rounded-full border-2 border-white  bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
                                   <span className="relative inline-block">
