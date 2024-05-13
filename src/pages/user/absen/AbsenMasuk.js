@@ -21,7 +21,7 @@ function AbsenMasuk() {
   }, []);
 
   const tambahkanNolDepan = (num) => {
-    return num < 10? "0" + num : num;
+    return num < 10 ? "0" + num : num;
   };
 
   const jamSekarang = currentDateTime.getHours();
@@ -43,10 +43,10 @@ function AbsenMasuk() {
   const handleCaptureAndSubmit = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
     const formData = new FormData();
-    formData.append("image", dataURItoBlob(imageSrc));  
+    formData.append("image", dataURItoBlob(imageSrc));
     formData.append("userId", localStorage.getItem("userId"));
     formData.append("keteranganTerlambat", keteranganTerlambat);
-  
+
     try {
       const response = await axios.post(
         "http://localhost:2024/api/absensi/absensi-masuk",
@@ -57,11 +57,11 @@ function AbsenMasuk() {
           },
         }
       );
-  
+
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "Berhasil ditambahkan",
+        title: "Berhasil Absen",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -70,7 +70,7 @@ function AbsenMasuk() {
       }, 1500);
     } catch (err) {
       console.error("Error:", err);
-      setError("Terjadi Kesalahan! Mohon coba lagi");
+      Swal.fire("Error", "Gagal Absen", "error");
     }
   };
 
@@ -123,9 +123,9 @@ function AbsenMasuk() {
                 <button
                   type="button"
                   onClick={handleCaptureAndSubmit}
-                  className="block w-32 sm:w-40 bg-blue-500 text-white rounded-lg py-3 text-sm sm:text-xs font-medium"
+                   className="block w-32 sm:w-40 bg-blue-500 text-white rounded-lg py-3 text-sm sm:text-xs font-medium"
                 >
-                  Ambil Foto dan Absen Masuk
+                  Ambil Foto  
                 </button>
               </div>
               <div className="relative mb-3 mt-5">

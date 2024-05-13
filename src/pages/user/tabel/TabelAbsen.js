@@ -72,6 +72,7 @@ function TabelAbsen() {
     };
     return new Date(dateString).toLocaleDateString("id-ID", options);
   };
+ 
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -142,10 +143,10 @@ function TabelAbsen() {
                         {absenData.jamPulang}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                        {absenData.keterangan}
+                        {absenData.keteranganTerlambat}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                        {absenData.status}
+                        {absenData.statusAbsen}
                       </td>
                       <td className="whitespace-nowrap text-center py-3">
                         <div className="flex items-center -space-x-4 ml-12">
