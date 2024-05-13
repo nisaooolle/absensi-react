@@ -27,7 +27,7 @@ function TabelLembur() {
         `http://localhost:2024/api/lembur/getByuserId/${userId}`, // Perbaikan pada penulisan URL endpoint
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -55,7 +55,7 @@ function TabelLembur() {
         axios
           .delete(`http://localhost:2024/api/lembur/delete/${id}`, {
             headers: {
-              Authorization: `${token}`,
+              Authorization: `Bearer ${token}`,
             },
           })
           .then(() => {

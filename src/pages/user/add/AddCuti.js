@@ -36,7 +36,7 @@ function AddCuti() {
         add,
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );

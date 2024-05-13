@@ -33,7 +33,7 @@ function AddIzin() {
         add,
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );

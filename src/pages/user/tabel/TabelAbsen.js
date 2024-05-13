@@ -26,7 +26,7 @@ function TabelAbsen() {
         `http://localhost:2024/api/absensi/getByUserId/${userId}`,
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -72,7 +72,6 @@ function TabelAbsen() {
     };
     return new Date(dateString).toLocaleDateString("id-ID", options);
   };
- 
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -143,7 +142,9 @@ function TabelAbsen() {
                         {absenData.jamPulang}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                        {absenData.keteranganTerlambat == null ? "-" : absenData.keteranganTerlambat}
+                        {absenData.keteranganTerlambat == null
+                          ? "-"
+                          : absenData.keteranganTerlambat}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
                         {absenData.statusAbsen}

@@ -23,8 +23,7 @@ function Dashboard() {
   const [izin, setIzin] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
-  // const [isAbsen, setIsAbsen] = useState(false); 
-
+  // const [isAbsen, setIsAbsen] = useState(false);
 
   const getUsername = async () => {
     const token = localStorage.getItem("token");
@@ -35,7 +34,7 @@ function Dashboard() {
         `http://localhost:2024/api/user/getUserBy/${userId}`,
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -53,7 +52,7 @@ function Dashboard() {
   //       `http://localhost:2024/api/absensi/checkAbsensi/${userId}`
   //     );
   //     if (absensiData.ok) {
-  //       setIsAbsen(true);  
+  //       setIsAbsen(true);
   //     }
   //   } catch (error) {
   //     console.error("Error checking absensi:", error);
@@ -69,7 +68,7 @@ function Dashboard() {
         `http://localhost:2024/api/izin/getByUserId/${userId}`,
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -89,7 +88,7 @@ function Dashboard() {
         `http://localhost:2024/api/absensi/getByUserId/${userId}`,
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -109,7 +108,7 @@ function Dashboard() {
         `http://localhost:2024/api/cuti/getByUser/${userId}`,
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -129,7 +128,6 @@ function Dashboard() {
     getAbsensi();
     getCuti();
     getIzin();
-    
 
     return () => clearInterval(interval);
   }, []);

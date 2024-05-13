@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs } from "flowbite-react";
 import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
@@ -7,6 +7,7 @@ import Sidebar from "../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 function Profile() {
   // State untuk menyimpan URL gambar profil
@@ -14,6 +15,31 @@ function Profile() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordd, setShowPasswordd] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [profile, setProfile] = useState([]);
+
+  const getProfile = async () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/user/getUserBy/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setProfile(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   // Fungsi untuk menangani peristiwa pengunggahan gambar
   const handleImageUpload = (event) => {
@@ -91,8 +117,7 @@ function Profile() {
                         id="nama"
                         className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                         placeholder="Masukkan Nama"
-                        //   value={nama}
-                        //   onChange={(e) => setNama(e.target.value)}
+                        value={profile.username}
                         required
                       />
                     </div>
@@ -106,8 +131,7 @@ function Profile() {
                           id="email"
                           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                           placeholder="Masukkan Email"
-                          // value={jabatan}
-                          // onChange={(e) => setJabatan(e.target.value)}
+                          value={profile.email}
                           required
                         />
                       </div>
@@ -120,8 +144,7 @@ function Profile() {
                           id="organisasi"
                           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                           placeholder="Masukkan Organisasi"
-                          // value={tanggalLahir}
-                          // onChange={(e) => setTanggalLahir(e.target.value)}
+                          value={profile.organisasi}
                           required
                         />
                       </div>
@@ -136,8 +159,7 @@ function Profile() {
                           id="jabatan"
                           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                           placeholder="Masukkan Jabatan"
-                          // value={noTelepon}
-                          // onChange={(e) => setNoTelepon(e.target.value)}
+                          value={profile.jabatan}
                           required
                         />
                       </div>
@@ -150,8 +172,7 @@ function Profile() {
                           id="shift"
                           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                           placeholder="Masukkan Shift"
-                          // value={noTelepon}
-                          // onChange={(e) => setNoTelepon(e.target.value)}
+                          value={profile.shift}
                           required
                         />
                       </div>
