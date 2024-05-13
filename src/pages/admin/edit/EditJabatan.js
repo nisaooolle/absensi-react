@@ -3,34 +3,51 @@ import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useHistory,
+  useParams,
+} from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 function EditJabatan() {
-  // const [author, setAuthor] = useState("");
   const [namaJabatan, setNamaJabatan] = useState("");
-  // const [image, setImage] = useState(null);
-  // const [categoryId, setCategoryId] = useState(0);
-  // const [category, setCategory] = useState([]);
-  // const [isiBerita, setIsiBerita] = useState("");
-
   const param = useParams();
   const history = useHistory();
 
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:2024/api/jabatan/getbyid/` + param.id, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((ress) => {
+        const response = ress.data;
+        namaJabatan(response.namaJabatan);
+        // console.log("pengumuman : ", ress.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   const updateJabatan = async (e) => {
     e.preventDefault();
-    e.persist();
 
     const formData = new FormData();
     formData.append("namaJabatan", namaJabatan);
 
     await axios
-      .put(`http://localhost:2024/api/jabatan/edit/` + param.idJabatan, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+      .put(
+        `http://localhost:2024/api/jabatan/edit/` + param.idJabatan,
+        formData,
+        {
+          // headers: {
+          //   Authorization: `Bearer ${localStorage.getItem("token")}`,
+          // },
+        }
+      )
       .then(() => {
         Swal.fire({
           icon: "success",
@@ -99,7 +116,7 @@ function EditJabatan() {
                 <div class="mt-5 text-left">
                   {/* <!-- Form Update Jabatan --> */}
                   <form
-                  onSubmit={updateJabatan}
+                    onSubmit={updateJabatan}
                     method="post"
                     action="https://demo-absen.excellentsistem.com/admin/aksi_edit_jabatan"
                     id="updateForm"
@@ -109,15 +126,15 @@ function EditJabatan() {
                     <div class="relative z-0 w-full mb-6 group">
                       <input
                         type="text"
-                        name="nama_jabatan"
-                        id="name"
+                        name="namaJabatan"
+                        id="namaJabatan"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autocomplete="off"
                         required
                         value={namaJabatan}
                         // value={author}
-                      onChange={(e) => setNamaJabatan(e.target.value)}
+                        onChange={(e) => setNamaJabatan(e.target.value)}
                       />
                       <label
                         for="name"

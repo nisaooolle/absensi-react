@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +12,26 @@ import {
 import Swal from "sweetalert2";
 import axios from "axios";
 function Organisasi() {
+  const [userData, setUserData] = useState([]);
+  const getAllOrganisasi = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/organisasi/all`,
+        {
+          // headers: {
+          //   Authorization: `${token}`,
+          // },
+        }
+      );
+
+      setUserData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   const deleteData = async (id) => {
     Swal.fire({
       title: "Anda Ingin Menghapus Data ?",
@@ -24,7 +44,7 @@ function Organisasi() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:2024/api/user/delete/` + id, {
+          await axios.delete(`http://localhost:2024/api/organisasi/delete/` + id, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -49,6 +69,9 @@ function Organisasi() {
       }
     });
   };
+  useEffect(() => {
+    getAllOrganisasi();
+  }, []);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -107,60 +130,68 @@ function Organisasi() {
                   </thead>
                   {/* <!-- Tabel Body --> */}
                   <tbody class="text-left">
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                      <th
-                        scope="row"
-                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    {userData.map((organisasi, index) => (
+                      <tr
+                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        key={index}
                       >
-                        1{" "}
-                      </th>
-                      <td class="px-6 py-4">Excellent Computer </td>
-                      <td class="px-6 py-4">bulustalan </td>
-                      <td class="px-6 py-4">098756381624 </td>
-                      <td class="px-6 py-4">
-                        <a
-                          href="/cdn-cgi/l/email-protection"
-                          class="__cf_email__"
-                          data-cfemail="40253823252c2c252e3400272d21292c6e232f2d"
+                        <th
+                          scope="row"
+                          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          [email&#160;protected]
-                        </a>{" "}
-                      </td>
-                      <td className=" py-3">
-                        <div className="flex items-center -space-x-4 ml-12">
-                          <a href="/admin/detailO">
-                            <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faInfo}
-                                  className="h-4 w-4"
-                                />
-                              </span>
-                            </button>
-                          </a>
-                          <a href="/admin/editO">
-                            <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faPenToSquare}
-                                  className="h-4 w-4"
-                                />
-                              </span>
-                            </button>
-                          </a>
-                          <a href="" onclick="hapusUser(4)">
-                            <button className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50">
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faTrash}
-                                  className="h-4 w-4"
-                                />
-                              </span>
-                            </button>
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
+                          {index + 1}
+                        </th>
+                        <td class="px-6 py-4">{organisasi.namaOrganisasi}</td>
+                        <td class="px-6 py-4">{organisasi.alamat} </td>
+                        <td class="px-6 py-4">{organisasi.nomerTelepon} </td>
+                        <td class="px-6 py-4">
+                          <a
+                            href="/cdn-cgi/l/email-protection"
+                            class="__cf_email__"
+                            data-cfemail="40253823252c2c252e3400272d21292c6e232f2d"
+                          >
+                            {organisasi.emailOrganisasi}
+                          </a>{" "}
+                        </td>
+                        <td className=" py-3">
+                          <div className="flex items-center -space-x-4 ml-12">
+                            <a href={`/admin/detailO/${organisasi.id}`}>
+                              <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faInfo}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+                            </a>
+                            <a href={`/admin/editO/${organisasi.id}`}>
+                              <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faPenToSquare}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+                            </a>
+                            <a href="" onclick="hapusUser(4)">
+                              <button
+                                className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                                onClick={() => deleteData(organisasi.id)}
+                              >
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

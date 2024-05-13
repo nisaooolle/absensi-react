@@ -1,10 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 function AddLokasi() {
+  const [namaLokasi, setNamaLokasi] = useState("");
+  const [alamat, setAlamat] = useState("");
+
+  const adminId = localStorage.getItem("adminId");
+
+  const tambahJabatan = async (e) => {
+    e.preventDefault();
+    try {
+      const add = {
+        namaLokasi: namaLokasi,
+        alamat: alamat,
+        adminId: adminId,
+      };
+      const response = await axios.post(
+        `http://localhost:2024/api/lokasi/add/${adminId}`,
+        add
+      );
+      console.log(response);
+      Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
+
+      window.location.href = "/admin/jabatan";
+    } catch (error) {
+      console.log(error);
+      Swal.fire("Error", "Gagal menambahkan data", "error");
+    }
+  };
+
+  useEffect(() => {}, [adminId]);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
