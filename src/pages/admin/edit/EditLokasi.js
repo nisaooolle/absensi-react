@@ -1,10 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import {
+  useHistory,
+  useParams,
+} from "react-router-dom/cjs/react-router-dom.min";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 function EditLokasi() {
+  const [namaLokasi, setnamaLokasi] = useState("");
+  const param = useParams();
+  const history = useHistory();
+
+  const updatelokasi = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("namaLokasi", namaLokasi);
+
+    await axios
+      .put(
+        `http://localhost:2024/api/lokasi/Update/` + param.idLokasi,
+        formData,
+        {
+          // headers: {
+          //   Authorization: `Bearer ${localStorage.getItem("token")}`,
+          // },
+        }
+      )
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Mengedit Berita",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        history.push("/lokasi");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      })
+      .catch((error) => {
+        if (error.ressponse && error.response.status === 401) {
+          localStorage.clear();
+          history.push("/login");
+        } else {
+          console.log(error);
+        }
+      });
+  };
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -30,6 +77,7 @@ function EditLokasi() {
                 <div class="mt-5 text-left">
                   {/* <!-- Form Input --> */}
                   <form
+                    onSubmit={updatelokasi}
                     action="https://demo-absen.excellentsistem.com/admin/aksi_edit_lokasi"
                     method="post"
                     enctype="multipart/form-data"
@@ -46,7 +94,9 @@ function EditLokasi() {
                           placeholder=" "
                           autocomplete="off"
                           required
-                          value="mangkang"
+                          value={namaLokasi}
+                        // value={author}
+                        onChange={(e) => setnamaLokasi(e.target.value)}
                         />
                         <label
                           for="nama_lokasi"
@@ -82,7 +132,7 @@ function EditLokasi() {
                         class="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                         href="/admin/lokasi"
                       >
-                         <FontAwesomeIcon icon={faArrowLeft} />
+                        <FontAwesomeIcon icon={faArrowLeft} />
                       </a>
                       <button
                         type="submit"

@@ -27,7 +27,7 @@ function AddJabatan() {
       window.location.href = "/admin/jabatan";
     } catch (error) {
       console.log(error);
-      Swal.fire("Error", "Gagal mengambil data", "error");
+      Swal.fire("Error", "Gagal menambahkan data", "error");
     }
   };
 
