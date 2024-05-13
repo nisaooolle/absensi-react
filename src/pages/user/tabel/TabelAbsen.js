@@ -143,7 +143,7 @@ function TabelAbsen() {
                         {absenData.jamPulang}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                        {absenData.keteranganTerlambat}
+                        {absenData.keteranganTerlambat == null ? "-" : absenData.keteranganTerlambat}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
                         {absenData.statusAbsen}
