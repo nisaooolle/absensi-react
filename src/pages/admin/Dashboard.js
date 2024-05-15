@@ -18,7 +18,7 @@ function Dashboard() {
   const [jabatanData, setJabatanData] = useState([]);
   const [lokasiData, setLokasiData] = useState([]);
   const [organisasiData, setOrganisasiData] = useState([]);
-  const [username, setUsername] = useState({});
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -160,19 +160,19 @@ function Dashboard() {
 
   const getUsername = async () => {
     const token = localStorage.getItem("token");
-    const adminId = localStorage.getItem("adminId");
+    const id = localStorage.getItem("adminId");
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/admin/getById/${adminId}`,
+        `http://localhost:2024/api/admin/getById/${id}`,
         {
-          // headers: {
-          //   Authorization: `Bearer ${token}`,
-          // },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
-      setUsername(response.data);
+      setUsername(response.data.username);
     } catch (error) {
       console.error("Error fetching username:", error);
     }
@@ -215,7 +215,7 @@ function Dashboard() {
             <div class="p-4 text-center bg-slate-300 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
               <h2 class="text-2xl font-semibold mb-4">
                 Selamat Datang di Absensi
-                <span> @{username.username}</span>
+                <span> @{username}</span>
               </h2>
               <a class="profile-menu-link">{day}, </a>
               <a class="profile-menu-link active">{date} - </a>

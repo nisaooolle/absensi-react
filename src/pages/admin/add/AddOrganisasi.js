@@ -1,10 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
-function AddOrganisasi() {
+export default function AddOrganisasi() {
+  const [namaOrganisasi, setNamaOrganisasi] = useState("");
+  const [alamat, setAlamat] = useState("");
+  const [kecamatan, setKecamatan] = useState("");
+  const [kabupaten, setKabupaten] = useState("");
+  const [provinsi, setProvinsi] = useState("");
+  const [nomorTelepon, setNomorTelepon] = useState("");
+  const [emailOrganisasi, setEmailOrganisasi] = useState("");
+  const [image, setImage] = useState(null);
+  const idAdmin = localStorage.getItem("adminId");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    const organisasi = {
+      namaOrganisasi: namaOrganisasi,
+      alamat: alamat,
+      kecamatan: kecamatan,
+      kabupaten: kabupaten,
+      provinsi: provinsi,
+      nomerTelepon: nomorTelepon,
+      emailOrganisasi: emailOrganisasi,
+    };
+    
+    formData.append("organisasi", JSON.stringify(organisasi));
+    formData.append("image", image);
+
+    try {
+      const response = await axios.post(
+        `http://localhost:2024/api/organisasi/tambahByIdAdmin/${idAdmin}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      
+      Swal.fire("Berhasil", "Berhasil menambahkan organisasi", "success");
+      window.location.reload();
+    } catch (error) {
+      console.error("There was an error uploading the organization!", error);
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -14,190 +61,180 @@ function AddOrganisasi() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div class=" sm:ml-64 content-page container p-8  ml-14 md:ml-64 mt-12">
-          <div class="p-4">
-            <div class="p-5">
-              {/* <!-- Card --> */}
-              <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                {/* <!-- Header --> */}
-                <div class="flex justify-between">
-                  <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+        <div className="sm:ml-64 content-page container p-8 ml-14 md:ml-64 mt-12">
+          <div className="p-4">
+            <div className="p-5">
+              <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                <div className="flex justify-between">
+                  <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                     Tambah Organisasi
                   </h6>
                 </div>
-
                 <hr />
-
-                <div class="mt-5 text-left">
-                  {/* <!-- Form Input --> */}
-                  <form
-                    action="https://demo-absen.excellentsistem.com/admin/aksi_tambah_organisasi"
-                    method="post"
-                    enctype="multipart/form-data"
-                  >
-                    <div class="grid md:grid-cols-2 md:gap-6">
-                      {/* <!-- Organisasi Input --> */}
-                      <div class="relative z-0 w-full mb-6 group">
+                <div className="mt-5 text-left">
+                  <form onSubmit={handleSubmit} encType="multipart/form-data">
+                    <div className="grid md:grid-cols-2 md:gap-6">
+                      <div className="relative z-0 w-full mb-6 group">
                         <input
                           type="text"
                           name="nama_organisasi"
                           id="nama_organisasi"
-                          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
-                          autocomplete="off"
+                          value={namaOrganisasi}
+                          onChange={(e) => setNamaOrganisasi(e.target.value)}
                           required
                         />
                         <label
-                          for="nama_organisasi"
-                          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                          htmlFor="nama_organisasi"
+                          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                           Nama Organisasi
                         </label>
                       </div>
-
-                      {/* <!-- Alamat Input --> */}
-                      <div class="relative z-0 w-full mb-6 group">
+                      <div className="relative z-0 w-full mb-6 group">
                         <input
                           type="text"
                           name="alamat"
                           id="alamat"
-                          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
-                          autocomplete="off"
+                          value={alamat}
+                          onChange={(e) => setAlamat(e.target.value)}
                           required
                         />
                         <label
-                          for="alamat"
-                          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                          htmlFor="alamat"
+                          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                           Alamat
                         </label>
                       </div>
                     </div>
-
-                    <div class="grid md:grid-cols-2 md:gap-6">
-                      {/* <!-- No Telepon Input --> */}
-                      <div class="relative z-0 w-full mb-6 group">
+                    <div className="grid md:grid-cols-2 md:gap-6">
+                      <div className="relative z-0 w-full mb-6 group">
                         <input
                           type="text"
                           name="nomor_telepon"
                           id="nomor_telepon"
-                          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
-                          autocomplete="off"
+                          value={nomorTelepon}
+                          onChange={(e) => setNomorTelepon(e.target.value)}
                           required
                         />
                         <label
-                          for="nomor_telepon"
-                          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                          htmlFor="nomor_telepon"
+                          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                           No Telepon
                         </label>
                       </div>
-
-                      {/* <!-- Email Input --> */}
-                      <div class="relative z-0 w-full mb-6 group">
+                      <div className="relative z-0 w-full mb-6 group">
                         <input
                           type="email"
                           name="email_organisasi"
                           id="email_organisasi"
-                          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
-                          autocomplete="off"
+                          value={emailOrganisasi}
+                          onChange={(e) => setEmailOrganisasi(e.target.value)}
                           required
                         />
                         <label
-                          for="email_organisasi"
-                          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                          htmlFor="email_organisasi"
+                          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
-                          Email
+                          Email Organisasi
                         </label>
                       </div>
                     </div>
-
-                    <div class="grid md:grid-cols-2 md:gap-6">
-                      {/* <!-- Kecamatan Input --> */}
-                      <div class="relative z-0 w-full mb-6 group">
+                    <div className="grid md:grid-cols-2 md:gap-6">
+                      <div className="relative z-0 w-full mb-6 group">
                         <input
                           type="text"
                           name="kecamatan"
                           id="kecamatan"
-                          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
-                          autocomplete="off"
+                          value={kecamatan}
+                          onChange={(e) => setKecamatan(e.target.value)}
                           required
                         />
                         <label
-                          for="kecamatan"
-                          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                          htmlFor="kecamatan"
+                          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                           Kecamatan
                         </label>
                       </div>
-
-                      {/* <!-- Kabupaten Input --> */}
-                      <div class="relative z-0 w-full mb-6 group">
+                      <div className="relative z-0 w-full mb-6 group">
                         <input
                           type="text"
                           name="kabupaten"
                           id="kabupaten"
-                          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
-                          autocomplete="off"
+                          value={kabupaten}
+                          onChange={(e) => setKabupaten(e.target.value)}
                           required
                         />
                         <label
-                          for="kabupaten"
-                          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                          htmlFor="kabupaten"
+                          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                           Kabupaten
                         </label>
                       </div>
                     </div>
-
-                    <div class="grid md:grid-cols-2 md:gap-6">
-                      {/* <!-- Provinsi Input --> */}
-                      <div class="relative z-0 w-full mb-6 group">
-                        <input
-                          type="text"
-                          name="provinsi"
-                          id="provinsi"
-                          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                          placeholder=" "
-                          autocomplete="off"
-                          required
-                        />
-                        <label
-                          for="provinsi"
-                          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                          Provinsi
-                        </label>
-                      </div>
-
-                      {/* <!-- Admin Input --> */}
-                      <div class="relative z-0 w-full mb-6 group">
-                        {/* <!-- <label for="underline_select" class="sr-only">Underline select</label> --> */}
-                      </div>
-                    </div>
-
-                    {/* <!-- Button --> */}
-                    <div class="flex justify-between">
-                      <a
-                        class="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                        href="/admin/organisasi"
+                    <div className="relative z-0 w-full mb-6 group">
+                      <input
+                        type="text"
+                        name="provinsi"
+                        id="provinsi"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        value={provinsi}
+                        onChange={(e) => setProvinsi(e.target.value)}
+                        required
+                      />
+                      <label
+                        htmlFor="provinsi"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                       >
-                        {" "}
-                        <FontAwesomeIcon icon={faArrowLeft} />
-                      </a>
-                      <button
-                        type="submit"
-                        class="text-white bg-indigo-500  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
-                      >
-                        <FontAwesomeIcon icon={faFloppyDisk} />
-                      </button>
+                        Provinsi
+                      </label>
                     </div>
+                    <div className="mb-6">
+                      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Upload Logo Organisasi
+                      </label>
+                      <input
+                        type="file"
+                        name="image"
+                        id="image"
+                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        onChange={(e) => setImage(e.target.files[0])}
+                        required
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                      <FontAwesomeIcon icon={faFloppyDisk} className="mr-2" />
+                      Submit
+                    </button>
                   </form>
+                  <div className="mt-3">
+                    <button
+                      onClick={() => window.history.back()}
+                      className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    >
+                      <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
+                      Back
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -207,5 +244,3 @@ function AddOrganisasi() {
     </div>
   );
 }
-
-export default AddOrganisasi;
