@@ -36,7 +36,7 @@ function Login() {
         localStorage.setItem("userId", data.data.id);
         Swal.fire({
           icon: "success",
-          title: "Berhasil masuk",
+          title: "Berhasil masuk!",
         });
         history.push("/user/dashboard ");
       }
@@ -60,7 +60,7 @@ function Login() {
           <div class="mx-4 sm:mx-24 md:mx-34 lg:mx-56 mx-auto  flex items-center space-y-4 py-16 font-semibold text-gray-500 flex-col">
             <img
               viewBox="0 0 24 24"
-              class=" h-16 w-h-16 text-white"
+              class=" h-16 w-h-16  text-white"
               fill="currentColor"
               src={Logo}
               alt=""
