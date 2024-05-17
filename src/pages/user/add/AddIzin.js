@@ -6,23 +6,20 @@ import axios from "axios";
 
 function AddIzin() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [keterangan_izin, setKeteranganIzin] = useState("");
-  const [tanggal_izin, setTanggalIzin] = useState("");
+  const [keteranganIzin, setKeteranganIzin] = useState("");
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   const AddIzin = async (e) => {
     e.preventDefault();
 
     const add = {
-      keternganIzin: keterangan_izin,
-      tanggalIzin: tanggal_izin,
+      keteranganIzin: keteranganIzin,
     };
 
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
 
     if (!userId) {
-      // Jika userId tidak tersedia
       console.error("UserID tidak tersedia");
       return;
     }
@@ -33,7 +30,7 @@ function AddIzin() {
         add,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
         }
       );
@@ -89,21 +86,6 @@ function AddIzin() {
     setSidebarOpen(!sidebarOpen);
   };
 
-  // Function to update keterangan_izin and tanggal_izin
-  const updateKeteranganIzin = (value) => {
-    setKeteranganIzin(value); // Update keterangan_izin
-
-    // Set tanggal_izin to current date only if keterangan_izin is not empty
-    if (value.trim() !== "") {
-      const currentDate = new Date();
-      const year = currentDate.getFullYear();
-      const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-      const day = String(currentDate.getDate()).padStart(2, "0");
-      const formattedDate = `${year}-${month}-${day}`;
-      setTanggalIzin(formattedDate); // Update tanggal_izin
-    }
-  };
-
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -143,8 +125,8 @@ function AddIzin() {
                   id="keterangan"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-5"
                   placeholder="Masukkan Keterangan Izin"
-                  value={keterangan_izin}
-                  onChange={(e) => updateKeteranganIzin(e.target.value)} // Use the updated function
+                  value={keteranganIzin}
+                  onChange={(e) => setKeteranganIzin(e.target.value)}
                   required
                 />
               </div>

@@ -45,9 +45,9 @@ function AbsenMasuk() {
 
   const handleCaptureAndSubmit = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
-    const imageBlob = await imageSrc;
+    const imageBlob = await fetch(imageSrc).then((res) => res.blob());  
     try {
-       const absensiCheckResponse = await axios.get(`http://localhost:2024/api/absensi/checkAbsensi/${userId}`);
+      const absensiCheckResponse = await axios.get(`http://localhost:2024/api/absensi/checkAbsensi/${userId}`);
       const isUserAlreadyAbsenToday = absensiCheckResponse.data === "Pengguna sudah melakukan absensi hari ini.";
       if (isUserAlreadyAbsenToday) {
         Swal.fire("Info", "Anda sudah melakukan absensi hari ini.", "info");
@@ -56,7 +56,7 @@ function AbsenMasuk() {
         const formData = new FormData();
         formData.append("image", imageBlob);
   
-         const response = await axios.post(
+        const response = await axios.post(
           `http://localhost:2024/api/absensi/masuk/${userId}`,
           formData,
           {
@@ -82,10 +82,8 @@ function AbsenMasuk() {
       console.error("Error:", err);
       Swal.fire("Error", "Gagal Absen", "error");
       setLoading(false);
-
     }
   };
-
 
  
   return (
