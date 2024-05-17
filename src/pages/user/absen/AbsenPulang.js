@@ -2,12 +2,18 @@ import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../../components/SidebarUser";
 import Navbar from "../../../components/NavbarUser";
 import Webcam from "react-webcam";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 function AbsenPulang() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const webcamRef = useRef(null);
-  const [capturedImage, setCapturedImage] = useState(null);
+  const [error, setError] = useState("");
+  const userId = localStorage.getItem("userId");
+  const [loading, setLoading] = useState(false);
+  const [address, setAddress] = useState("");
+  const [fetchingLocation, setFetchingLocation] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -16,6 +22,31 @@ function AbsenPulang() {
 
     return () => clearInterval(interval);
   }, []); // Tidak ada dependensi, sehingga efek ini hanya dipanggil sekali saat komponen dimuat
+
+  useEffect(() => {
+    if (!fetchingLocation) {
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+        );
+        const data = await response.json();
+        const address = data.display_name;
+        setAddress(address);
+      } catch (error) {
+        console.error("Error:", error);
+        setError("Gagal mendapatkan alamat");
+      }
+
+      setFetchingLocation(false);
+    });
+  }, [fetchingLocation]);
 
   // Fungsi untuk menambahkan nol di depan angka jika angka kurang dari 10
   const tambahkanNolDepan = (num) => {
@@ -41,9 +72,50 @@ function AbsenPulang() {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const handleCapture = () => {
+  const handleCaptureAndSubmit = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
-    setCapturedImage(imageSrc);
+    const imageBlob = await fetch(imageSrc).then((res) => res.blob());
+
+    setFetchingLocation(true);
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+
+      try {
+        {
+          const formData = new FormData();
+          formData.append("image", imageBlob);
+
+          const response = await axios.put(
+            `http://localhost:2024/api/absensi/pulang/${userId}`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil Pulang",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          setLoading(false);
+          setTimeout(() => {
+            window.location.href = "/user/history_absen";
+          }, 1500);
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        Swal.fire("Error", "Gagal Absen", "error");
+        setLoading(false);
+      }
+
+      setFetchingLocation(false);
+    });
   };
 
   return (
@@ -81,22 +153,24 @@ function AbsenPulang() {
                 <Webcam audio={false} ref={webcamRef} />
               </div>
               <div className="flex justify-center mt-6">
+                {fetchingLocation ? (
+                  <p>Mendapatkan lokasi...</p>
+                ) : (
+                  <p id="address">Alamat: {address}</p>
+                )}
+              </div>
+
+              <div className="flex justify-center mt-6">
                 <button
                   type="button"
-                  onClick={handleCapture}
-                  className="block w-20 sm:w-24 rounded-lg text-black outline outline-[#0b409c] py-3 text-sm sm:text-xs font-medium"
+                  onClick={() => {
+                    handleCaptureAndSubmit();
+                    setLoading(true);
+                  }}
+                  className="block w-32 sm:w-40 bg-blue-500 text-white rounded-lg py-3 text-sm sm:text-xs font-medium"
                 >
                   Ambil Foto
                 </button>
-              </div>
-              <div className="flex justify-center">
-                {capturedImage && (
-                  <img
-                    src={capturedImage}
-                    alt="Captured"
-                    className="mt-4 rounded-lg"
-                  />
-                )}
               </div>
               <div className="relative mb-3 mt-5">
                 <input
