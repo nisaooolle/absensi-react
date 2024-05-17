@@ -38,7 +38,7 @@ function AddLembur() {
         add,
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );

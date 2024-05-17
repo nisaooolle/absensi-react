@@ -55,7 +55,7 @@ function TabelCuti() {
         axios
           .delete(`http://localhost:2024/api/cuti/delete/${id}`, {
             headers: {
-              Authorization: `${token}`,
+              Authorization: `Bearer ${token}`,
             },
           })
           .then(() => {
@@ -100,6 +100,16 @@ function TabelCuti() {
   const currentItems = cuti.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Function to format date in Indonesian
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString("id-ID", options);
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -161,13 +171,13 @@ function TabelCuti() {
                       {indexOfFirstItem + index + 1}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                      {cutiData.awalCuti}
+                      {formatDate(cutiData.awalCuti)}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                      {cutiData.akhirCuti}
+                      {formatDate(cutiData.akhirCuti)}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                      {cutiData.masukKerja}
+                      {formatDate(cutiData.masukKerja)}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
                       {cutiData.keperluan}

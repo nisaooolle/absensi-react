@@ -24,46 +24,37 @@ function AddIzin() {
       return;
     }
 
-    const absensiCheckResponse = await axios.get(
-      `http://localhost:2024/api/absensi/checkAbsensi/${userId}`
-    );
-    const isUserAlreadyAbsenToday =
-      absensiCheckResponse.data ===
-      "Pengguna sudah melakukan absensi hari ini.";
-    if (!isUserAlreadyAbsenToday) {
-      try {
-        await axios.post(
-          `http://localhost:2024/api/absensi/izin/${userId}`,
-          add,
-          {
-            headers: {
-              Authorization: `${token}`,
-            },
-          }
-        );
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Berhasil ditambahkan",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        setTimeout(() => {
-          window.location.href = "/user/history_absen";
-        }, 1500);
-      } catch (err) {
-        console.log(err);
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Terjadi Kesalahan!",
-          text: "Mohon coba lagi",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
+    try {
+      await axios.post(
+        `http://localhost:2024/api/izin/tambahIzin/${userId}`,
+        add,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Berhasil ditambahkan",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setTimeout(() => {
+        window.location.href = "/user/history_absen";
+      }, 1500);
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Terjadi Kesalahan!",
+        text: "Mohon coba lagi",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
-    Swal.fire("Gagal", "Anda sudah absen hari ini", "error");
   };
 
   useEffect(() => {
