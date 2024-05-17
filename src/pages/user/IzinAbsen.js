@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/NavbarUser";
 import Sidebar from "../../components/SidebarUser";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { Toast } from "flowbite-react";
 
 function IzinAbsen() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [keteranganPulangAwal, setKeteranganPulangAwal] = useState("");
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -38,6 +43,25 @@ function IzinAbsen() {
     setSidebarOpen(!sidebarOpen);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const izin = {
+      keteranganPulangAwal : keteranganPulangAwal
+    }
+    try {
+      const response = await axios.put(
+        `http://localhost:2024/api/absensi/izin-tengah-hari/${userId}`,
+        izin
+      );
+      console.log("Response:", response.data);
+      Swal.fire("Berhasil", "Berhasil Izin ", "success");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error:", error);
+      Toast.error("Gagal Izin");
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -47,7 +71,7 @@ function IzinAbsen() {
         <div className="fixed">
           <Sidebar isOpen={sidebarOpen} />
         </div>
-        <div className="content-page max-h-screen container p-8 min-h-screen ml-64">
+        <div className="content-page max-h-screen container p-8 min-h-screen md:ml-64">
           <div className="add-izin mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
             <h1 className="text-lg sm:text-2xl font-medium mb-4 sm:mb-7">
               Izin Tengah Hari
@@ -67,7 +91,7 @@ function IzinAbsen() {
                 tambahkanNolDepan(currentDateTime.getSeconds())}
             </div>
             <div className="text-base text-center mt-2">{ucapan}</div>
-            <form onSubmit={""}>
+            <form onSubmit={handleSubmit}>
               <div className="relative mb-3">
                 <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                   Keterangan Izin
@@ -77,8 +101,8 @@ function IzinAbsen() {
                   id="keterangan"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-5"
                   placeholder="Masukkan Keterangan Izin"
-                  // value={keteranganIzin}
-                  // onChange={(e) => setKeteranganIzin(e.target.value)}
+                  value={keteranganPulangAwal}
+                  onChange={(e) => setKeteranganPulangAwal(e.target.value)}
                   required
                 />
               </div>
