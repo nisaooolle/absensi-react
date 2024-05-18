@@ -14,6 +14,8 @@ function AbsenMasuk() {
   const [error, setError] = useState("");
   const userId = localStorage.getItem("userId");
   const [loading, setLoading] = useState(false);
+  const [address, setAddress] = useState("");
+  const [fetchingLocation, setFetchingLocation] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,6 +24,31 @@ function AbsenMasuk() {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (!fetchingLocation) {
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+        );
+        const data = await response.json();
+        const address = data.display_name;
+        setAddress(address);
+      } catch (error) {
+        console.error("Error:", error);
+        setError("Gagal mendapatkan alamat");
+      }
+
+      setFetchingLocation(false);
+    });
+  }, [fetchingLocation]);
 
   const tambahkanNolDepan = (num) => {
     return num < 10 ? "0" + num : num;
@@ -45,47 +72,59 @@ function AbsenMasuk() {
 
   const handleCaptureAndSubmit = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
-    const imageBlob = await fetch(imageSrc).then((res) => res.blob());  
-    try {
-      const absensiCheckResponse = await axios.get(`http://localhost:2024/api/absensi/checkAbsensi/${userId}`);
-      const isUserAlreadyAbsenToday = absensiCheckResponse.data === "Pengguna sudah melakukan absensi hari ini.";
-      if (isUserAlreadyAbsenToday) {
-        Swal.fire("Info", "Anda sudah melakukan absensi hari ini.", "info");
-        setLoading(false);
-      } else {
-        const formData = new FormData();
-        formData.append("image", imageBlob);
-  
-        const response = await axios.post(
-          `http://localhost:2024/api/absensi/masuk/${userId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
+    const imageBlob = await fetch(imageSrc).then((res) => res.blob());
+
+    setFetchingLocation(true);
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+
+      try {
+        const absensiCheckResponse = await axios.get(
+          `http://localhost:2024/api/absensi/checkAbsensi/${userId}`
         );
-  
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Berhasil Absen",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        const isUserAlreadyAbsenToday =
+          absensiCheckResponse.data ===
+          "Pengguna sudah melakukan absensi hari ini.";
+        if (isUserAlreadyAbsenToday) {
+          Swal.fire("Info", "Anda sudah melakukan absensi hari ini.", "info");
+          setLoading(false);
+        } else {
+          const formData = new FormData();
+          formData.append("image", imageBlob);
+
+          const response = await axios.post(
+            `http://localhost:2024/api/absensi/masuk/${userId}`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil Absen",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          setLoading(false);
+          setTimeout(() => {
+            window.location.href = "/user/history_absen";
+          }, 1500);
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        Swal.fire("Error", "Gagal Absen", "error");
         setLoading(false);
-        setTimeout(() => {
-          window.location.href = "/user/history_absen";
-        }, 1500);
       }
-    } catch (err) {
-      console.error("Error:", err);
-      Swal.fire("Error", "Gagal Absen", "error");
-      setLoading(false);
-    }
+
+      setFetchingLocation(false);
+    });
   };
 
- 
   return (
     <>
       {loading && <Loader />}
@@ -122,6 +161,13 @@ function AbsenMasuk() {
                 <p className="font-bold text-center mt-8">Foto:</p>
                 <div className="flex justify-center">
                   <Webcam audio={false} ref={webcamRef} />
+                </div>
+                <div className="flex justify-center mt-6">
+                  {fetchingLocation ? (
+                    <p>Mendapatkan lokasi...</p>
+                  ) : (
+                    <p id="address">Alamat: {address}</p>
+                  )}
                 </div>
                 <div className="flex justify-center mt-6">
                   <button
