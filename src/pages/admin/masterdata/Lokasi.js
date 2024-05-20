@@ -13,17 +13,16 @@ import Swal from "sweetalert2";
 
 function Lokasi() {
   const [userData, setUserData] = useState([]);
-  const getAllLokasi = async () => {
+  const getAllLokasibyAdmin = async () => {
     const token = localStorage.getItem("token");
-
+    const idAdmin = localStorage.getItem("adminId");
     try {
-      const response = await axios.get(`http://localhost:2024/api/lokasi`, {
-        // headers: {
-        //   Authorization: `${token}`,
-        // },
-      });
+      const response = await axios.get(
+        `http://localhost:2024/api/lokasi/get-admin/${idAdmin}`
+      );
 
       setUserData(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -66,7 +65,7 @@ function Lokasi() {
     });
   };
   useEffect(() => {
-    getAllLokasi();
+    getAllLokasibyAdmin();
   }, []);
   return (
     <div className="flex flex-col h-screen">
@@ -139,7 +138,7 @@ function Lokasi() {
                         </th>
                         <td class="px-6 py-4">{lokasi.namaLokasi}</td>
                         <td class="px-6 py-4">{lokasi.alamat}</td>
-                        <td class="px-6 py-4">{lokasi.idAdmin} </td>
+                        <td class="px-6 py-4">{lokasi.admin.idOrganisasi} </td>
                         <td class="px-6 py-4">{lokasi.idOrganisasi}</td>
                         <td className=" py-3">
                           <div className="flex items-center -space-x-4 ml-12">

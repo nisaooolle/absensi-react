@@ -145,10 +145,10 @@ function Jabatan() {
                             class="__cf_email__"
                             data-cfemail="5a363b23363b1a3d373b333674393537"
                           >
-                            {jabatan.idkaryawan}
+                            {jabatan.jumlahKaryawan}
                           </a>{" "}
                         </td>
-                        <td class="px-6 py-4">admin_demo </td>
+                        <td class="px-6 py-4">{jabatan.admin.username} </td>
                         <td className="py-3">
                           <div className="flex items-center -space-x-4 ml-12">
                             <a href={`/admin/editJ/${jabatan.idJabatan}`}>
