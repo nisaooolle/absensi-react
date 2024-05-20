@@ -13,17 +13,16 @@ import axios from "axios";
 
 function Shift() {
   const [userData, setUserData] = useState([]);
+  const idAdmin = localStorage.getItem("adminId");
+
+
   const getAllShift = async () => {
     const token = localStorage.getItem("token");
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/shift/getall`,
-        {
-          // headers: {
-          //   Authorization: `${token}`,
-          // },
-        }
+        `http://localhost:2024/api/shift/getall-byadmin/${idAdmin}`,
+      
       );
 
       setUserData(response.data);

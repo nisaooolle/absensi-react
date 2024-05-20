@@ -13,12 +13,14 @@ import Swal from "sweetalert2";
 import axios from "axios";
 function Organisasi() {
   const [userData, setUserData] = useState([]);
+  const idAdmin = localStorage.getItem("adminId");
+
   const getAllOrganisasi = async () => {
     const token = localStorage.getItem("token");
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/organisasi/all`,
+        `http://localhost:2024/api/organisasi/all-byAdmin/${idAdmin}`,
         {
           // headers: {
           //   Authorization: `${token}`,
@@ -28,7 +30,7 @@ function Organisasi() {
 
       setUserData(response.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.log("Error fetching data:", error);
     }
   };
 
@@ -44,11 +46,9 @@ function Organisasi() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:2024/api/organisasi/delete/` + id, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          });
+          await axios.delete(
+            `http://localhost:2024/api/organisasi/delete/` + id
+          );
 
           Swal.fire({
             icon: "success",
@@ -175,19 +175,18 @@ function Organisasi() {
                                 </span>
                               </button>
                             </a>
-                            <a href="" onclick="hapusUser(4)">
-                              <button
-                                className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                                onClick={() => deleteData(organisasi.id)}
-                              >
-                                <span className="relative inline-block">
-                                  <FontAwesomeIcon
-                                    icon={faTrash}
-                                    className="h-4 w-4"
-                                  />
-                                </span>
-                              </button>
-                            </a>
+
+                            <button
+                              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                              onClick={() => deleteData(organisasi.id)}
+                            >
+                              <span className="relative inline-block">
+                                <FontAwesomeIcon
+                                  icon={faTrash}
+                                  className="h-4 w-4"
+                                />
+                              </span>
+                            </button>
                           </div>
                         </td>
                       </tr>
