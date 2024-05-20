@@ -100,7 +100,7 @@ function Dashboard() {
     getLokasi();
     getOrganisasi();
   }, []);
-
+console.log(cutiData)
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -196,8 +196,8 @@ function Dashboard() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4">{absen.username}</td>
-                      <td className="px-6 py-4">{formatDate(absen.tanggalAbsen)}</td>
+                      <td className="px-6 py-4">{absen.user.username}</td>
+                      <td className="px-6 py-4">{absen.tanggalAbsen}</td>
                       <td className="px-6 py-4">{absen.jamMasuk || '-'}</td>
                       <td className="px-6 py-4">{absen.jamPulang || '-'}</td>
                       <td className="px-6 py-4">{absen.kehadiran}</td>
@@ -241,7 +241,7 @@ function Dashboard() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4">{cuti.username}</td>
+                      <td className="px-6 py-4">{cuti.user.username}</td>
                       <td className="px-6 py-4">{formatDate(cuti.created_at)}</td>
                       <td className="px-6 py-4">{cuti.durasi}</td>
                       <td className="px-6 py-4">{cuti.status}</td>

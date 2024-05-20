@@ -9,6 +9,21 @@ import axios from "axios";
 function AddJabatan() {
   const [namaJabatan, setNamaJabatan] = useState("");
   const adminId = localStorage.getItem("adminId");
+  const idAdmin = localStorage.getItem("adminId");
+  const [jumlahKaryawan, setJumlahKaryawan] = useState("");
+
+  const getKaryawanByadmin = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/user/${idAdmin}/users`
+      );
+      console.log(response.data);  
+      const jumlahKaryawan = response.data.length;  
+      setJumlahKaryawan(jumlahKaryawan);  
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const tambahJabatan = async (e) => {
     e.preventDefault();
@@ -16,6 +31,7 @@ function AddJabatan() {
       const add = {
         namaJabatan: namaJabatan,
         adminId: adminId,
+        jumlahKaryawan : jumlahKaryawan
       };
       const response = await axios.post(
         `http://localhost:2024/api/jabatan/add/${adminId}`,
@@ -31,7 +47,9 @@ function AddJabatan() {
     }
   };
 
-  useEffect(() => {}, [adminId]);
+  useEffect(() => {
+    getKaryawanByadmin();
+  }, [adminId]);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">

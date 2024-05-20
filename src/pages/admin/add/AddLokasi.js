@@ -3,38 +3,68 @@ import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
+import axios, { all } from "axios";
 import Swal from "sweetalert2";
+import { Toast } from "flowbite-react";
 
 function AddLokasi() {
   const [namaLokasi, setNamaLokasi] = useState("");
   const [alamat, setAlamat] = useState("");
+  const [organisasilist, setOrganisasiList] = useState([]);
+  const [selectedOrganisasi, setSelectedOrganisasi] = useState("");
 
-  const adminId = localStorage.getItem("adminId");
 
-  const tambahJabatan = async (e) => {
-    e.preventDefault();
+   const idAdmin = localStorage.getItem("adminId");
+
+  const getOrganisasiBytAdmin = async () => {
     try {
-      const add = {
-        namaLokasi: namaLokasi,
-        alamat: alamat,
-        adminId: adminId,
-      };
-      const response = await axios.post(
-        `http://localhost:2024/api/lokasi/add/${adminId}`,
-        add
+      const org = await axios.get(
+        `http://localhost:2024/api/organisasi/getByAdmin/${idAdmin}`
       );
-      console.log(response);
-      Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
-
-      window.location.href = "/admin/jabatan";
+      console.log(org);
     } catch (error) {
       console.log(error);
-      Swal.fire("Error", "Gagal menambahkan data", "error");
     }
   };
 
-  useEffect(() => {}, [adminId]);
+  const getAllOrganisasi = async () => {
+    try {
+      const allOrg = await axios.get(
+        "http://localhost:2024/api/organisasi/all"
+      );
+      console.log(allOrg);
+      setOrganisasiList(allOrg.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const tambahLokasi = async (e) => {
+    e.preventDefault();
+    try {
+        if (!selectedOrganisasi) {
+            throw new Error("Pilih organisasi terlebih dahulu.");
+        }
+        const add = {
+            namaLokasi: namaLokasi,
+            alamat: alamat,
+        };
+        const response = await axios.post(
+            `http://localhost:2024/api/lokasi/tambah/${idAdmin}?idOrganisasi=${selectedOrganisasi}`,
+            add 
+        );
+        console.log(response);
+        Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
+        window.location.href = "/admin/lokasi";
+    } catch (error) {
+        console.log(error);
+        Swal.fire("Error", error.message || "Gagal menambahkan data", "error");
+    }
+};
+  useEffect(() => {
+    getOrganisasiBytAdmin();
+    getAllOrganisasi();
+  }, [idAdmin]);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -57,10 +87,7 @@ function AddLokasi() {
                 </div>
                 <hr />
                 <div class="mt-5 text-left">
-                  <form
-                    method="post"
-                    action="https://demo-absen.excellentsistem.com/index.php/admin/tambah_lokasi"
-                  >
+                  <form onSubmit={tambahLokasi}>
                     {/* <!-- Form Input --> */}
                     <div class="grid md:grid-cols-2 md:gap-6">
                       {/* <!-- Nama Lokasi Input --> */}
@@ -72,7 +99,8 @@ function AddLokasi() {
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
                           autocomplete="off"
-                          value=""
+                          value={namaLokasi}
+                          onChange={(e) => setNamaLokasi(e.target.value)}
                           required
                         />
                         <label
@@ -92,7 +120,8 @@ function AddLokasi() {
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
                           autocomplete="off"
-                          value=""
+                          value={alamat}
+                          onChange={(e) => setAlamat(e.target.value)}
                           required
                         />
                         <label
@@ -106,23 +135,27 @@ function AddLokasi() {
 
                     <div class="grid md:grid-cols-2 md:gap-6">
                       {/* <!-- Pilihan Organisasi --> */}
-                      <div class="relative z-0 w-full mb-6 group">
+                      <div className="relative z-0 w-full mb-6 group">
                         <select
                           id="organisasi"
                           name="id_organisasi"
-                          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          value={selectedOrganisasi}
+                          onChange={(e) => setSelectedOrganisasi(e.target.value)}
                           required
                         >
-                          <option selected>Pilih Organisasi</option>
-                          <option value="1">
-                            SMK Bina Nusantara Semarang{" "}
+                          <option value="" disabled selected>
+                            Pilih Organisasi
                           </option>
-                          <option value="3">SMK Bina Nusantara Demak </option>
-                          <option value="7">Excellent Computer </option>
+                          {organisasilist.map((org) => (
+                            <option key={org.id} value={org.id}>
+                              {org.namaOrganisasi}
+                            </option>
+                          ))}
                         </select>
                         <label
-                          for="organisasi"
-                          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                          htmlFor="organisasi"
+                          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         ></label>
                       </div>
                     </div>
@@ -139,7 +172,7 @@ function AddLokasi() {
                         type="submit"
                         class="text-white bg-indigo-500  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                       >
-                       <FontAwesomeIcon icon={faFloppyDisk} />
+                        <FontAwesomeIcon icon={faFloppyDisk} />
                       </button>
                     </div>
                   </form>
