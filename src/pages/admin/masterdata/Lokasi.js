@@ -39,7 +39,7 @@ function Lokasi() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:2024/api/lokasi/delete/` + id, {
+          await axios.delete(`http://localhost:2024/api/lokasi/Delete/` + id, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -162,7 +162,6 @@ function Lokasi() {
                                 </span>
                               </button>
                             </a>
-                            <a href="" onclick="hapusUser(4)">
                               <button
                                 className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
                                 onClick={() => deleteData(lokasi.idLokasi)}
@@ -174,7 +173,6 @@ function Lokasi() {
                                   />
                                 </span>
                               </button>
-                            </a>
                           </div>
                         </td>
                       </tr>
