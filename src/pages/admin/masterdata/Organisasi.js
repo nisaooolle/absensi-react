@@ -20,12 +20,8 @@ function Organisasi() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/organisasi/all-byAdmin/${idAdmin}`,
-        {
-          // headers: {
-          //   Authorization: `${token}`,
-          // },
-        }
+        `http://localhost:2024/api/organisasi/all-by-admin/${idAdmin}`,
+      
       );
 
       setUserData(response.data);

@@ -13,9 +13,24 @@ import Swal from "sweetalert2";
 
 function Lokasi() {
   const [userData, setUserData] = useState([]);
+  const [karyawan, setKaryawan] = useState("");
+  const idAdmin = localStorage.getItem("adminId");
+
+  const getKaryawanByAdmin = async () => {
+    try {
+      const Karr = await axios.get(
+        `http://localhost:2024/api/shift/getShiftbyadmin/${idAdmin}`
+      );
+      const jmlKar = Karr.data.jumlahKaryawan;
+      const hasil = jmlKar.length;
+      console.log(hasil);
+      setKaryawan(hasil);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getAllLokasibyAdmin = async () => {
     const token = localStorage.getItem("token");
-    const idAdmin = localStorage.getItem("adminId");
     try {
       const response = await axios.get(
         `http://localhost:2024/api/lokasi/get-admin/${idAdmin}`
@@ -65,6 +80,7 @@ function Lokasi() {
     });
   };
   useEffect(() => {
+    getAllLokasibyAdmin();
     getAllLokasibyAdmin();
   }, []);
   return (
@@ -138,8 +154,10 @@ function Lokasi() {
                         </th>
                         <td class="px-6 py-4">{lokasi.namaLokasi}</td>
                         <td class="px-6 py-4">{lokasi.alamat}</td>
-                        <td class="px-6 py-4">{lokasi.admin.idOrganisasi} </td>
-                        <td class="px-6 py-4">{lokasi.idOrganisasi}</td>
+                        <td class="px-6 py-4">{karyawan} </td>
+                        <td class="px-6 py-4">
+                          {lokasi.organisasi.namaOrganisasi}
+                        </td>
                         <td className=" py-3">
                           <div className="flex items-center -space-x-4 ml-12">
                             <a href={`/admin/detailL/${lokasi.idLokasi}`}>
@@ -162,17 +180,17 @@ function Lokasi() {
                                 </span>
                               </button>
                             </a>
-                              <button
-                                className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                                onClick={() => deleteData(lokasi.idLokasi)}
-                              >
-                                <span className="relative inline-block">
-                                  <FontAwesomeIcon
-                                    icon={faTrash}
-                                    className="h-4 w-4"
-                                  />
-                                </span>
-                              </button>
+                            <button
+                              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                              onClick={() => deleteData(lokasi.idLokasi)}
+                            >
+                              <span className="relative inline-block">
+                                <FontAwesomeIcon
+                                  icon={faTrash}
+                                  className="h-4 w-4"
+                                />
+                              </span>
+                            </button>
                           </div>
                         </td>
                       </tr>

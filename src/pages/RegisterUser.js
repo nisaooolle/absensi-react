@@ -9,13 +9,12 @@ function RegisterUser() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [idOrganisasi, setIdOrganisasi] = useState("");
-  const [role, setRole] = useState("USER");
   const [errorMessage, setErrorMessage] = useState("");
-  const [show, setShow] = useState(false);
-  const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
   const [organisasiList, setOrganisasiList] = useState([]);
   const [organisasi, setOrganisasi] = useState("");
+
+  const history = useHistory();
 
   useEffect(() => {
     GetALLOrganisasi();
@@ -23,9 +22,7 @@ function RegisterUser() {
 
   const GetALLOrganisasi = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:2024/api/organisasi/all"
-      );
+      const response = await axios.get("http://localhost:2024/api/organisasi/all");
       setOrganisasiList(response.data);
     } catch (error) {
       console.log(error);
@@ -46,50 +43,39 @@ function RegisterUser() {
       });
       return;
     }
-    try {
-      const response = await axios.post(
-        `http://localhost:2024/api/user/register`,
-        {
-          username,
-          email,
-          password,
-          idOrganisasi,
-          role,
-        }
-      );
 
-      if (response.data === "Username already taken") {
-        Swal.fire({
-          icon: "error",
-          title: "Username sudah terdaftar. Pilih username lain.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      } else {
-        setShow(false);
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Register",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        history.push("/");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-      }
+    try {
+      const response = await axios.post("http://localhost:2024/api/user/register", {
+        username: username,
+        email: email,
+        password: password,
+        idOrganisasi: idOrganisasi,
+      });
+
+      setShowPassword(false);
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil Register",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      history.push("/");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (error) {
       console.error("Error during registration:", error);
-      setShow(false);
+
+      const message = error.response?.data || "Terjadi kesalahan saat mendaftar. Coba lagi nanti.";
+      setErrorMessage(message);
       Swal.fire({
         icon: "error",
-        title: "Terjadi kesalahan saat mendaftar. Coba lagi nanti.",
+        title:  "Akun sudah terdaftar",
         showConfirmButton: false,
         timer: 1500,
       });
     }
   };
-  console.log(organisasiList);
   return (
     <body className="bg-gray-700 ">
       <div className="flex min-h-screen items-center justify-center">
