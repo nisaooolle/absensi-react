@@ -13,22 +13,18 @@ import Swal from "sweetalert2";
 
 function Lokasi() {
   const [userData, setUserData] = useState([]);
-  const [karyawan, setKaryawan] = useState("");
-  const idAdmin = localStorage.getItem("adminId");
+   const idAdmin = localStorage.getItem("adminId");
+   const [karyawan, setKaryawan] = useState("");
 
-  const getKaryawanByAdmin = async () => {
-    try {
-      const Karr = await axios.get(
-        `http://localhost:2024/api/shift/getShiftbyadmin/${idAdmin}`
-      );
-      const jmlKar = Karr.data.jumlahKaryawan;
-      const hasil = jmlKar.length;
-      console.log(hasil);
-      setKaryawan(hasil);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+   const getallUser = async () => {
+     try {
+       const res = await axios.get(
+         `http://localhost:2024/api/user/${idAdmin}/users`
+       );
+       setKaryawan(res.data.length);
+     } catch (error) {}
+   };
+ 
   const getAllLokasibyAdmin = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -81,7 +77,7 @@ function Lokasi() {
   };
   useEffect(() => {
     getAllLokasibyAdmin();
-    getAllLokasibyAdmin();
+    getallUser();
   }, []);
   return (
     <div className="flex flex-col h-screen">

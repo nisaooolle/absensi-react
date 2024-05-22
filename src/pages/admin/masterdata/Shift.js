@@ -14,15 +14,23 @@ import axios from "axios";
 function Shift() {
   const [userData, setUserData] = useState([]);
   const idAdmin = localStorage.getItem("adminId");
+  const [karyawan, setKaryawan] = useState("");
 
+  const getallUser = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:2024/api/user/${idAdmin}/users`
+      );
+      setKaryawan(res.data.length);
+    } catch (error) {}
+  };
 
   const getAllShift = async () => {
     const token = localStorage.getItem("token");
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/shift/getall-byadmin/${idAdmin}`,
-      
+        `http://localhost:2024/api/shift/getall-byadmin/${idAdmin}`
       );
 
       setUserData(response.data);
@@ -70,6 +78,7 @@ function Shift() {
 
   useEffect(() => {
     getAllShift();
+    getallUser();
   }, []);
   return (
     <div className="flex flex-col h-screen">
@@ -146,8 +155,8 @@ function Shift() {
                         <td class="px-6 py-4">{shift.namaShift}</td>
                         <td class="px-6 py-4">{shift.waktuMasuk}</td>
                         <td class="px-6 py-4">{shift.waktuPulang}</td>
-                        <td class="px-6 py-4">{shift.jumlahKaryawan} </td>
-                        <td class="px-6 py-4">admin_demo </td>
+                        <td class="px-6 py-4">{karyawan}</td>
+                        <td class="px-6 py-4">{shift.admin.username} </td>
                         <td className="py-3">
                           <div className="flex items-center -space-x-4 ml-12">
                             <a href={`/admin/editS/${shift.id}`}>
