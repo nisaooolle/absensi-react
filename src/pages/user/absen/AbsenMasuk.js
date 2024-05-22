@@ -71,57 +71,74 @@ function AbsenMasuk() {
   };
 
   const handleCaptureAndSubmit = async () => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    const imageBlob = await fetch(imageSrc).then((res) => res.blob());
+    Swal.fire({
+      title: "Konfirmasi Absensi",
+      text: "Apakah Anda yakin ingin melakukan absensi?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Absen!",
+      cancelButtonText: "Batal",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const imageSrc = webcamRef.current.getScreenshot();
+        const imageBlob = await fetch(imageSrc).then((res) => res.blob());
 
-    setFetchingLocation(true);
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
+        setFetchingLocation(true);
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
 
-      try {
-        const absensiCheckResponse = await axios.get(
-          `http://localhost:2024/api/absensi/checkAbsensi/${userId}`
-        );
-        const isUserAlreadyAbsenToday =
-          absensiCheckResponse.data ===
-          "Pengguna sudah melakukan absensi hari ini.";
-        if (isUserAlreadyAbsenToday) {
-          Swal.fire("Info", "Anda sudah melakukan absensi hari ini.", "info");
-          setLoading(false);
-        } else {
-          const formData = new FormData();
-          formData.append("image", imageBlob);
+          try {
+            const absensiCheckResponse = await axios.get(
+              `http://localhost:2024/api/absensi/checkAbsensi/${userId}`
+            );
+            const isUserAlreadyAbsenToday =
+              absensiCheckResponse.data ===
+              "Pengguna sudah melakukan absensi hari ini.";
+            if (isUserAlreadyAbsenToday) {
+              Swal.fire(
+                "Info",
+                "Anda sudah melakukan absensi hari ini.",
+                "info"
+              );
+              setLoading(false);
+            } else {
+              const formData = new FormData();
+              formData.append("image", imageBlob);
 
-          const response = await axios.post(
-            `http://localhost:2024/api/absensi/masuk/${userId}`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
+              const response = await axios.post(
+                `http://localhost:2024/api/absensi/masuk/${userId}`,
+                formData,
+                {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                }
+              );
+
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Berhasil Absen",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              setLoading(false);
+              setTimeout(() => {
+                window.location.href = "/user/history_absen";
+              }, 1500);
             }
-          );
+          } catch (err) {
+            console.error("Error:", err);
+            Swal.fire("Error", "Gagal Absen", "error");
+            setLoading(false);
+          }
 
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Berhasil Absen",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          setLoading(false);
-          setTimeout(() => {
-            window.location.href = "/user/history_absen";
-          }, 1500);
-        }
-      } catch (err) {
-        console.error("Error:", err);
-        Swal.fire("Error", "Gagal Absen", "error");
-        setLoading(false);
+          setFetchingLocation(false);
+        });
       }
-
-      setFetchingLocation(false);
     });
   };
 
@@ -174,11 +191,10 @@ function AbsenMasuk() {
                     type="button"
                     onClick={() => {
                       handleCaptureAndSubmit();
-                      setLoading(true);
                     }}
                     className="block w-32 sm:w-40 bg-blue-500 text-white rounded-lg py-3 text-sm sm:text-xs font-medium"
                   >
-                    Ambil Foto
+                    {loading ? "Loading..." : "Ambil Foto"}
                   </button>
                 </div>
                 <div className="relative mb-3 mt-5">
