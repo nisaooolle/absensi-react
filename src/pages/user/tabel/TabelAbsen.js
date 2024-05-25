@@ -85,7 +85,7 @@ function TabelAbsen() {
         <div className="content-page flex-1 p-8 md:ml-64 mt-16">
           {" "}
           {/* Tambahkan margin ke atas di sini */}
-          <div className="tabel-absen bg-white p-5 rounded-xl shadow-xl border border-gray-300">
+          <div className="tabel-absen bg-blue-100 p-5 rounded-xl shadow-xl border border-gray-300">
             <h2 className="text-xl font-bold">History Absensi</h2>
             <div className="flex justify-between items-center mt-4">
               <div className="flex items-center">
@@ -94,33 +94,33 @@ function TabelAbsen() {
                   placeholder="Cari absen..."
                   value={searchTerm}
                   onChange={handleSearch}
-                  className="px-3 py-2 border rounded-md"
+                  className="px-3 py-2 border-blue-700 rounded-md"
                 />
               </div>
             </div>
             <div className="overflow-x-auto rounded-lg border border-gray-200 mt-4">
               <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm border border-gray-300">
-                <thead className="text-left">
+                <thead className="text-left text-white bg-blue-500">
                   <tr>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       NO
                     </th>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       TANGGAL
                     </th>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       JAM MASUK
                     </th>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       JAM PULANG
                     </th>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       KETERANGAN
                     </th>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       KEHADIRAN
                     </th>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       AKSI
                     </th>
                   </tr>
