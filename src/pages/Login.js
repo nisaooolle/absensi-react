@@ -12,46 +12,84 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = async (e) => {
-    e.preventDefault();
+//   const login = async (e) => {
+//     e.preventDefault();
 
-    try {
+//     try {
+//         const { data } = await axios.post("http://localhost:2024/api/login", {
+//             email: email,
+//             password: password,
+//         });
+
+//         if (data.data.role === "ADMIN") {
+//             localStorage.setItem("token", data.token);
+//             localStorage.setItem("role", data.data.role);
+//             localStorage.setItem("adminId", data.data.id);
+
+//             Swal.fire({
+//                 icon: "success",
+//                 title: "Berhasil masuk",
+//             }).then(() => {
+//                 window.location.href = "/admin/dashboard";
+//             });
+//         } else if (data.data.role === "USER") {
+//             localStorage.setItem("token", data.token);
+//             localStorage.setItem("role", data.data.role);
+//             localStorage.setItem("userId", data.data.id);
+            
+//             Swal.fire({
+//                 icon: "success",
+//                 title: "Berhasil masuk!",
+//             }).then(() => {
+//                 window.location.href = "/user/dashboard";
+//             });
+//         }
+//     } catch (error) {
+//         Swal.fire({
+//             position: "center",
+//             icon: "warning",
+//             title: "Email atau Password yang Anda masukan salah",
+//             showConfirmButton: false,
+//             timer: 1500,
+//         });
+//         console.log(error);
+//     }
+// };
+const login = async (e) => {
+  e.preventDefault();
+
+  try {
       const { data } = await axios.post("http://localhost:2024/api/login", {
-        email: email,
-        password: password,
+          email: email,
+          password: password,
       });
 
       if (data.data.role === "ADMIN") {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.data.role);
-        localStorage.setItem("adminId", data.data.id);
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("role", data.data.role);
+          localStorage.setItem("adminId", data.data.id);
+          localStorage.setItem("loginSuccess", "true");
 
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil masuk",
-        });
-        history.push("/admin/dashboard");
+          window.location.href = "/admin/dashboard";
       } else if (data.data.role === "USER") {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.data.role);
-        localStorage.setItem("userId", data.data.id);
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil masuk!",
-        });
-        history.push("/user/dashboard ");
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("role", data.data.role);
+          localStorage.setItem("userId", data.data.id);
+          localStorage.setItem("loginSuccess", "true");
+
+          window.location.href = "/user/dashboard";
       }
-    } catch (error) {
+  } catch (error) {
       Swal.fire({
-        position: "center",
-        icon: "warning",
-        title: "Email atau Password yang Anda masukan salah  ",
-        showConfirmButton: false,
-        timer: 1500,
+          position: "center",
+          icon: "warning",
+          title: "Email atau Password yang Anda masukan salah",
+          showConfirmButton: false,
+          timer: 1500,
       });
       console.log(error);
-    }
-  };
+  }
+};
 
   return (
     // <!-- component -->
@@ -164,11 +202,11 @@ function Login() {
                     </svg>
                     <span class="ml-3">Sign In</span>
                   </button>
-                  <p class="mt-6 text-xs text-gray-600 text-center">
+                  <p class="mt-6 text-xl text-gray-600 text-center">
                     Tidak memiliki akun?
                     <a
                       href="/registerUser"
-                      class="border-b border-gray-500 border-dotted"
+                      class="border-b border-gray-500 text-indigo-500 border-dotted"
                     >
                       Register
                     </a>

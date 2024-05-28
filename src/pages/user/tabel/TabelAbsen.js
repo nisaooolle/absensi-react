@@ -176,7 +176,7 @@ function TabelAbsen() {
                       </td>
                       <td className="whitespace-nowrap text-center py-3">
                         <div className="flex items-center -space-x-4 ml-12">
-                          <Link to="/user/detail_absen">
+                          <Link to={"/user/detail_absen/" + absenData.id}>
                             <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
                               <span className="relative inline-block">
                                 <FontAwesomeIcon

@@ -13,6 +13,7 @@ import {
 import Navbar from "../../components/NavbarUser";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -176,6 +177,15 @@ function Dashboard() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  useEffect(() => {
+    if (localStorage.getItem("loginSuccess") === "true") {
+        Swal.fire({
+            icon: "success",
+            title: "Berhasil masuk!",
+        });
+        localStorage.removeItem("loginSuccess");
+    }
+}, []);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
