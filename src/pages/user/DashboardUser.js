@@ -191,19 +191,19 @@ function Dashboard() {
               Selamat Datang @{username.username}
             </h1>
 
-            <div className="text-lg text-center mt-2">
-              {day},{date}-{time}
+            <div className="text-lg text-center mt-2 text-black">
+              {day}, {date} - {time}
             </div>
+
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 mt-7">
-              {/* Ubah class untuk lebar saat di mode desktop */}
               <Link to="/user/absen">
-                <div className="pl-2 h-32 bg-green-400 rounded-lg shadow-md md:w-auto">
-                  <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
+                <div className="pl-2 h-32 bg-blue-400 rounded-lg shadow-md md:w-auto">
+                  <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
-                      <p className="font-bold">Masuk</p>
-                      <p className="text-lg">Absen masuk.</p>
+                      <p className="font-bold text-black">Masuk</p>
+                      <p className="text-lg text-black">Absen masuk.</p>
                     </div>
-                    <div className="my-auto">
+                    <div className="my-auto text-blue-400">
                       <FontAwesomeIcon
                         icon={faArrowRightFromBracket}
                         size="2x"
@@ -212,61 +212,63 @@ function Dashboard() {
                   </div>
                 </div>
               </Link>
+
               <Link to="/user/pulang">
-                <div className="pl-2 h-32 bg-red-400 rounded-lg shadow-md md:w-auto">
-                  <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
+                <div className="pl-2 h-32 bg-blue-500 rounded-lg shadow-md md:w-auto">
+                  <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
-                      <p className="font-bold">Pulang</p>
-                      <p className="text-lg">Absen pulang.</p>
+                      <p className="font-bold text-black">Pulang</p>
+                      <p className="text-lg text-black">Absen pulang.</p>
                     </div>
-                    <div className="my-auto">
+                    <div className="my-auto text-blue-500">
                       <FontAwesomeIcon
                         icon={faArrowRightFromBracket}
                         size="2x"
                       />
-                      {/* Menggunakan properti size untuk memperbesar ikon */}
                     </div>
                   </div>
                 </div>
               </Link>
+
               <Link to="/user/izin">
-                <div className="pl-2 h-32 bg-red-800 rounded-lg shadow-md md:w-auto">
-                  <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
+                <div className="pl-2 h-32 bg-blue-600 rounded-lg shadow-md md:w-auto">
+                  <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
-                      <p className="font-bold">Izin</p>
-                      <p className="text-lg">Ajukan Izin.</p>
+                      <p className="font-bold text-black">Izin</p>
+                      <p className="text-lg text-black">Ajukan Izin.</p>
                     </div>
-                    <div className="my-auto">
+                    <div className="my-auto text-blue-600">
                       <FontAwesomeIcon icon={faCircleXmark} size="2x" />
-                      {/* Menggunakan properti size untuk memperbesar ikon */}
                     </div>
                   </div>
                 </div>
               </Link>
             </div>
+
             <div className="flex justify-center mt-3 gap-4 flex-col md:flex-row">
               <Link to="/user/cuti">
-                <div className="pl-2 h-32 w-full md:w-80 bg-blue-400 rounded-lg shadow-md md:mr-20 cursor-pointer">
-                  <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
+                <div className="pl-2 h-32 w-full md:w-80 bg-blue-700 rounded-lg shadow-md md:mr-20 cursor-pointer">
+                  <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
-                      <p className="font-bold">Cuti</p>
-                      <p className="text-lg">Ajukan cuti.</p>
+                      <p className="font-bold text-black">Cuti</p>
+                      <p className="text-lg text-black">Ajukan cuti.</p>
                     </div>
-                    <div className="my-auto">
-                      <FontAwesomeIcon icon={faCalendarDays} size="2x" />{" "}
+                    <div className="my-auto text-blue-700">
+                      <FontAwesomeIcon icon={faCalendarDays} size="2x" />
                     </div>
                   </div>
                 </div>
               </Link>
+
               <Link to="/user/lembur">
-                <div className="pl-2 h-32 w-full md:w-80 bg-yellow-400 rounded-lg shadow-md md:ml-0 mt-4 md:mt-0 cursor-pointer">
-                  <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
+                <div className="pl-2 h-32 w-full md:w-80 bg-blue-800 rounded-lg shadow-md md:ml-0 mt-4 md:mt-0 cursor-pointer">
+                  <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
-                      <p className="font-bold">Lembur</p>
-                      <p className="text-lg">Ajukan lembur.</p>
+                      <p className="font-bold text-black">Lembur</p>
+                      <p className="text-lg text-black">Ajukan lembur.</p>
                     </div>
-                    <div className="my-auto">
-                      <FontAwesomeIcon icon={faClockFour} size="2x" />{" "}
+                    <div className="my-auto text-blue-800">
+                      <FontAwesomeIcon icon={faClockFour} size="2x" />
                     </div>
                   </div>
                 </div>
@@ -275,9 +277,7 @@ function Dashboard() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8 mt-12">
-            <div className="bg-green-400 rounded-lg shadow-md p-4 md:w-full lg:w-auto">
-              {" "}
-              {/* Ubah lebar saat di mode ponsel */}
+            <div className="bg-blue-500 rounded-lg shadow-md p-4 md:w-full lg:w-auto">
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-white font-bold text-lg">Total Absen</p>
@@ -290,8 +290,8 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-            <div className="bg-red-800 rounded-lg shadow-md p-4 md:w-full lg:w-auto">
-              {/* Ubah lebar saat di mode ponsel */}
+
+            <div className="bg-blue-800 rounded-lg shadow-md p-4 md:w-full lg:w-auto">
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-white font-bold text-lg">Total Izin</p>
@@ -306,19 +306,19 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="tabel-absen mt-12 bg-white p-5 rounded-xl shadow-xl border border-gray-300">
-            <h2 className="text-xl font-bold">History Absensi</h2>
+          <div className="tabel-absen mt-12 bg-blue-100 p-5 rounded-xl shadow-xl border border-gray-300">
+            <h2 className="text-xl font-bold text-black">History Absensi</h2>
             <div className="overflow-x-auto rounded-lg border border-gray-200 mt-4">
               <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm border border-gray-300">
-                <thead className="text-left">
+                <thead className="text-left text-white bg-blue-500">
                   <tr>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       NO
                     </th>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       TANGGAL
                     </th>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       KEHADIRAN
                     </th>
                   </tr>
@@ -363,16 +363,17 @@ function Dashboard() {
               </ul>
             </div>
           </div>
-          <div className="tabel-cuti mt-12 bg-white p-5 rounded-xl shadow-xl border border-gray-300">
-            <h2 className="text-xl font-bold">Permohonan Cuti</h2>
+
+          <div className="tabel-cuti mt-12 bg-blue-100 p-5 rounded-xl shadow-xl border border-gray-300">
+            <h2 className="text-xl font-bold text-black">Permohonan Cuti</h2>
             <div className="overflow-x-auto rounded-lg border border-gray-200 mt-4">
               <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm border border-gray-300">
-                <thead className="text-left">
+                <thead className="text-left text-white bg-blue-500">
                   <tr>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       NO
                     </th>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       KEPERLUAN CUTI
                     </th>
                   </tr>
