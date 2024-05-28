@@ -24,7 +24,7 @@ function TabelLembur() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/lembur/getByuserId/${userId}`, // Perbaikan pada penulisan URL endpoint
+        `http://localhost:2024/api/lembur/getByuserId/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -104,6 +104,16 @@ function TabelLembur() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // Function to format date in Indonesian
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString("id-ID", options);
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="sticky top-0 z-50">
@@ -114,13 +124,13 @@ function TabelLembur() {
           <Sidebar isOpen={sidebarOpen} />
         </div>
         <div className="content-page flex-1 p-8 md:ml-64 mt-16">
-          <div className="tabel-lembur bg-white p-5 rounded-xl shadow-xl border border-gray-300">
+          <div className="tabel-lembur bg-blue-100 p-5 rounded-xl shadow-xl border border-gray-300">
             <h2 className="text-xl font-bold">History Lembur</h2>
             <div className="flex justify-between items-center mt-4">
               <div className="flex items-center">
                 <FontAwesomeIcon
                   icon={faSearch}
-                  className="mr-2 text-gray-500"
+                  className="px-3 py-2 border-blue-700 rounded-md"
                 />
                 <input
                   type="text"
@@ -131,66 +141,70 @@ function TabelLembur() {
                 />
               </div>
             </div>
-            <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm border border-gray-300 mt-4">
-              <thead className="text-left">
-                <tr>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                    NO
-                  </th>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                    KETERANGAN LEMBUR
-                  </th>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                    JAM MULAI
-                  </th>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                    JAM SELESAI
-                  </th>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                    TANGGAL LEMBUR
-                  </th>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                    AKSI
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {currentItems.filter(filterLembur).map((lemburData, index) => (
-                  <tr key={index}>
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                      {indexOfFirstItem + index + 1}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                      {lemburData.tanggalLebur}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                      {lemburData.jamMulai}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                      {lemburData.jamSelesai}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                      {lemburData.keteranganLembur}
-                    </td>
-                    <td className="whitespace-nowrap text-center py-3">
-                      <div className="flex items-center -space-x-4 ml-12">
-                        <button
-                          className="z-20 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-blue-50"
-                          onClick={() => BatalLembur(lemburData.id)} // Meneruskan ID lembur
-                        >
-                          <span className="relative inline-block">
-                            <FontAwesomeIcon
-                              icon={faCircleXmark}
-                              className="h-4 w-4"
-                            />
-                          </span>
-                        </button>
-                      </div>
-                    </td>
+            <div className="overflow-x-auto rounded-xl border border-gray-200 mt-4">
+              <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm border border-gray-300">
+                <thead className="text-left text-white bg-blue-500">
+                  <tr>
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
+                      NO
+                    </th>
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
+                      KETERANGAN LEMBUR
+                    </th>
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
+                      JAM MULAI
+                    </th>
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
+                      JAM SELESAI
+                    </th>
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
+                      TANGGAL LEMBUR
+                    </th>
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
+                      AKSI
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {currentItems
+                    .filter(filterLembur)
+                    .map((lemburData, index) => (
+                      <tr key={index}>
+                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                          {indexOfFirstItem + index + 1}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                          {formatDate(lemburData.tanggalLebur)}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                          {lemburData.jamMulai}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                          {lemburData.jamSelesai}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                          {lemburData.keteranganLembur}
+                        </td>
+                        <td className="whitespace-nowrap text-center py-3">
+                          <div className="flex items-center -space-x-4 ml-12">
+                            <button
+                              className="z-20 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-blue-50"
+                              onClick={() => BatalLembur(lemburData.id)}
+                            >
+                              <span className="relative inline-block">
+                                <FontAwesomeIcon
+                                  icon={faCircleXmark}
+                                  className="h-4 w-4"
+                                />
+                              </span>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
             <div className="flex justify-center mt-4">
               <ul className="pagination">
                 {Array(Math.ceil(lembur.length / itemsPerPage))
