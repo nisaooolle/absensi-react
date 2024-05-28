@@ -3,7 +3,11 @@ import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfo, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faInfo,
+  faSearch,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 function TabelAbsen() {
@@ -12,6 +16,7 @@ function TabelAbsen() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
+  const [isButtonActive, setIsButtonActive] = useState(true);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -39,7 +44,25 @@ function TabelAbsen() {
 
   useEffect(() => {
     getAbsensi();
+    checkButtonState();
   }, []);
+
+  const checkButtonState = () => {
+    const today = new Date().toISOString().split("T")[0];
+    const savedDate = localStorage.getItem("absenDate");
+
+    if (savedDate === today) {
+      setIsButtonActive(false);
+    } else {
+      setIsButtonActive(true);
+    }
+  };
+
+  const handleAbsen = () => {
+    const today = new Date().toISOString().split("T")[0];
+    localStorage.setItem("absenDate", today);
+    setIsButtonActive(false);
+  };
 
   // Search function
   const handleSearch = (event) => {
@@ -83,12 +106,14 @@ function TabelAbsen() {
           <Sidebar isOpen={sidebarOpen} />
         </div>
         <div className="content-page flex-1 p-8 md:ml-64 mt-16">
-          {" "}
-          {/* Tambahkan margin ke atas di sini */}
           <div className="tabel-absen bg-blue-100 p-5 rounded-xl shadow-xl border border-gray-300">
             <h2 className="text-xl font-bold">History Absensi</h2>
             <div className="flex justify-between items-center mt-4">
               <div className="flex items-center">
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  className="mr-2 text-gray-500"
+                />
                 <input
                   type="text"
                   placeholder="Cari absen..."
@@ -98,7 +123,7 @@ function TabelAbsen() {
                 />
               </div>
             </div>
-            <div className="overflow-x-auto rounded-lg border border-gray-200 mt-4">
+            <div className="overflow-x-auto rounded-xl border border-gray-200 mt-4">
               <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm border border-gray-300">
                 <thead className="text-left text-white bg-blue-500">
                   <tr>
@@ -162,14 +187,31 @@ function TabelAbsen() {
                             </button>
                           </Link>
                           <Link to="/user/izin_absen">
-                            <button className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50">
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  className="h-4 w-4"
-                                  icon={faUserPlus}
-                                />
-                              </span>
-                            </button>
+                            {isButtonActive ? (
+                              <button
+                                onClick={handleAbsen}
+                                className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                              >
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    className="h-4 w-4"
+                                    icon={faUserPlus}
+                                  />
+                                </span>
+                              </button>
+                            ) : (
+                              <button
+                                disabled
+                                className="z-30 block rounded-full border-2 border-gray-200 bg-gray-100 p-4 text-gray-500 cursor-not-allowed"
+                              >
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    className="h-4 w-4"
+                                    icon={faUserPlus}
+                                  />
+                                </span>
+                              </button>
+                            )}
                           </Link>
                         </div>
                       </td>

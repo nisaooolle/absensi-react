@@ -133,7 +133,7 @@ function AddIzin() {
               <div className="flex justify-between mt-6">
                 <button
                   type="submit"
-                  className="block w-20 sm:w-24 rounded-lg text-black outline outline-[#0b409c] py-3 text-sm sm:text-xs font-medium"
+                  className="block w-20 sm:w-24 rounded-lg text-black outline outline-blue-500 py-3 text-sm sm:text-xs font-medium"
                 >
                   Simpan
                 </button>

@@ -214,7 +214,7 @@ function Profile() {
                       <div className="flex justify-between mt-6">
                         <button
                           type="submit"
-                          className="block w-20 sm:w-24 rounded-lg text-black outline outline-[#0b409c] py-3 text-sm sm:text-xs font-medium"
+                          className="z-20 block rounded-xl border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
                         >
                           Simpan
                         </button>
@@ -288,7 +288,7 @@ function Profile() {
                       <div className="flex justify-between mt-6">
                         <button
                           type="submit"
-                          className="block w-20 sm:w-24 rounded-lg text-black outline outline-[#0b409c] py-3 text-sm sm:text-xs font-medium"
+                          className="z-20 block rounded-xl border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
                         >
                           Simpan
                         </button>

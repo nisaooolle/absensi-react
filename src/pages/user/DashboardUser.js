@@ -185,7 +185,7 @@ function Dashboard() {
         <div className="fixed">
           <Sidebar isOpen={sidebarOpen} />
         </div>
-        <div className="content-page container p-8 min-h-screen ml-0 md:ml-64 mt-12">
+        <div className="content-page container p-8 min-h-screen ml-0 md:ml-64 mt-5">
           <div className="mt-12 bg-slate-200 p-5 rounded-xl shadow-xl">
             <h1 className="judul text-3xl font-semibold text-center">
               Selamat Datang @{username.username}
@@ -197,13 +197,13 @@ function Dashboard() {
 
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 mt-7">
               <Link to="/user/absen">
-                <div className="pl-2 h-32 bg-blue-400 rounded-lg shadow-md md:w-auto">
+                <div className="pl-2 h-24 bg-blue-500 rounded-lg shadow-md md:w-auto">
                   <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
                       <p className="font-bold text-black">Masuk</p>
                       <p className="text-lg text-black">Absen masuk.</p>
                     </div>
-                    <div className="my-auto text-blue-400">
+                    <div className="my-auto text-blue-500">
                       <FontAwesomeIcon
                         icon={faArrowRightFromBracket}
                         size="2x"
@@ -214,7 +214,7 @@ function Dashboard() {
               </Link>
 
               <Link to="/user/pulang">
-                <div className="pl-2 h-32 bg-blue-500 rounded-lg shadow-md md:w-auto">
+                <div className="pl-2 h-24 bg-blue-500 rounded-lg shadow-md md:w-auto">
                   <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
                       <p className="font-bold text-black">Pulang</p>
@@ -231,13 +231,13 @@ function Dashboard() {
               </Link>
 
               <Link to="/user/izin">
-                <div className="pl-2 h-32 bg-blue-600 rounded-lg shadow-md md:w-auto">
+                <div className="pl-2 h-24 bg-blue-500 rounded-lg shadow-md md:w-auto">
                   <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
                       <p className="font-bold text-black">Izin</p>
                       <p className="text-lg text-black">Ajukan Izin.</p>
                     </div>
-                    <div className="my-auto text-blue-600">
+                    <div className="my-auto text-blue-500">
                       <FontAwesomeIcon icon={faCircleXmark} size="2x" />
                     </div>
                   </div>
@@ -247,13 +247,13 @@ function Dashboard() {
 
             <div className="flex justify-center mt-3 gap-4 flex-col md:flex-row">
               <Link to="/user/cuti">
-                <div className="pl-2 h-32 w-full md:w-80 bg-blue-700 rounded-lg shadow-md md:mr-20 cursor-pointer">
+                <div className="pl-2 h-24 w-full md:w-80 bg-blue-500 rounded-lg shadow-md md:mr-20 cursor-pointer">
                   <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
                       <p className="font-bold text-black">Cuti</p>
                       <p className="text-lg text-black">Ajukan cuti.</p>
                     </div>
-                    <div className="my-auto text-blue-700">
+                    <div className="my-auto text-blue-500">
                       <FontAwesomeIcon icon={faCalendarDays} size="2x" />
                     </div>
                   </div>
@@ -261,13 +261,13 @@ function Dashboard() {
               </Link>
 
               <Link to="/user/lembur">
-                <div className="pl-2 h-32 w-full md:w-80 bg-blue-800 rounded-lg shadow-md md:ml-0 mt-4 md:mt-0 cursor-pointer">
+                <div className="pl-2 h-24 w-full md:w-80 bg-blue-500 rounded-lg shadow-md md:ml-0 mt-4 md:mt-0 cursor-pointer">
                   <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
                       <p className="font-bold text-black">Lembur</p>
                       <p className="text-lg text-black">Ajukan lembur.</p>
                     </div>
-                    <div className="my-auto text-blue-800">
+                    <div className="my-auto text-blue-500">
                       <FontAwesomeIcon icon={faClockFour} size="2x" />
                     </div>
                   </div>
@@ -291,7 +291,7 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="bg-blue-800 rounded-lg shadow-md p-4 md:w-full lg:w-auto">
+            <div className="bg-blue-500 rounded-lg shadow-md p-4 md:w-full lg:w-auto">
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-white font-bold text-lg">Total Izin</p>
