@@ -8,17 +8,20 @@ import {
   faCalendarDay,
   faCalendarDays,
   faCalendarWeek,
+  faChalkboardUser,
   faChevronDown,
   faChevronUp,
   faClock,
   faCube,
   faDatabase,
+  faKey,
   faMapLocationDot,
   faSignal,
   faTable,
   faUserCheck,
   faUserGear,
   faUserPen,
+  faUsers,
   faUsersGear,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -436,6 +439,188 @@ const Sidebar = () => {
                     icon={faBusinessTime}
                   />
                   <span className="flex-1 ms-3 whitespace-nowrap">Lembur</span>
+                </a>
+              </li>
+            </ul>
+          )}
+          {role === "SUPERADMIN" && (
+            <ul>
+              <li>
+                <a
+                  href="/superadmin/dashboard"
+                  className="flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group"
+                >
+                  <FontAwesomeIcon
+                    className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                    icon={faCube}
+                  />
+                  <span className="ms-3">Dashboard</span>
+                </a>
+              </li>
+              {/* // <!-- Dropdown Master Data --> */}
+              <li>
+                <button
+                  type="button"
+                  class="flex items-center w-full p-2 text-base text-blue-900 transition duration-75 rounded-lg group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                  // aria-controls="dropdown-masterdata"
+                  // data-dropdown-toggle="dropdown-masterdata"
+                  onClick={toggleMasterData}
+                >
+                  <FontAwesomeIcon
+                    className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                    icon={faDatabase}
+                  />
+                  <span class="flex-1 ml-3 text-left whitespace-nowrap">
+                    Data Admin
+                  </span>
+                  <FontAwesomeIcon
+                    icon={masterDataOpen ? faChevronUp : faChevronDown}
+                    className="flex-shrink-0 w-4 h-4 text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                  />
+                </button>
+                <ul
+                  // id="dropdown-masterdata"
+                  className={`${
+                    masterDataOpen ? "" : "hidden" // Tampilkan atau sembunyikan dropdown berdasarkan state masterDataOpen
+                  } py-2 space-y-2`}
+                >
+                  {/* <!-- Menu superadmin --> */}
+                  <li>
+                    <a
+                      href="/superadmin/karyawan"
+                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                    >
+                      <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                        icon={faChalkboardUser}
+                      />{" "}
+                      <span class="flex-1 ml-3 whitespace-nowrap">Admin</span>
+                    </a>
+                  </li>
+                  {/* <!-- Menu Organisasi --> */}
+                  <li>
+                    <a
+                      href="/superadmin/organisasi"
+                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                    >
+                      <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                        icon={faBuilding}
+                      />{" "}
+                      <span class="flex-1 ml-3 whitespace-nowrap">
+                        Organisasi
+                      </span>
+                    </a>
+                  </li>
+                  {/* <!-- Menu Jabatan --> */}
+                  <li>
+                    <a
+                      href="/superadmin/jabatan"
+                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                    >
+                      <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                        icon={faBriefcase}
+                      />{" "}
+                      <span class="flex-1 ml-3 whitespace-nowrap">Jabatan</span>
+                    </a>
+                  </li>
+
+                  {/* <!-- Menu Jam Kerja --> */}
+                  <li>
+                    <a
+                      href="/superadmin/shift"
+                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                    >
+                      <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                        icon={faBusinessTime}
+                      />{" "}
+                      <span class="flex-1 ml-3 whitespace-nowrap">Shift</span>
+                    </a>
+                  </li>
+
+                  {/* <!-- Menu Lokasi --> */}
+                  <li>
+                    <a
+                      href="/superadmin/lokasi"
+                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                    >
+                      <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                        icon={faMapLocationDot}
+                      />{" "}
+                      <span class="flex-1 ml-3 whitespace-nowrap">Lokasi</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              {/* <!-- Dropdown user --> */}
+              <li>
+                <button
+                  type="button"
+                  class="flex items-center w-full p-2 text-base text-blue-900 transition duration-75 rounded-lg group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                  // aria-controls="dropdown-example"
+                  // data-collapse-toggle="dropdown-example"
+                  onClick={toggleRekapan}
+                >
+                  <FontAwesomeIcon
+                    className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                    icon={faSignal}
+                  />
+                  <span class="flex-1 ml-3 text-left whitespace-nowrap">
+                    Data User
+                  </span>
+                  <FontAwesomeIcon
+                    icon={rekapanOpen ? faChevronUp : faChevronDown}
+                    className="flex-shrink-0 w-4 h-4 text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                  />
+                </button>
+
+                <ul
+                  // id="dropdown-masterdata"
+                  className={`${
+                    rekapanOpen ? "" : "hidden" // Tampilkan atau sembunyikan dropdown berdasarkan state masterDataOpen
+                  } py-2 space-y-2`}
+                >
+                  {/* <!-- Menu Simpel --> */}
+                  <li>
+                    <a
+                      href="/superadmin/simpel"
+                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                    >
+                      <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                        icon={faUsers}
+                      />{" "}
+                      <span class="flex-1 ml-3 whitespace-nowrap">User</span>
+                    </a>
+                  </li>
+                  {/* <!-- Menu PerKaryawan --> */}
+                  <li>
+                    <a
+                      href="/superadmin/perkaryawan"
+                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                    >
+                      <FontAwesomeIcon
+                        className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                        icon={faAddressCard}
+                      />{" "}
+                      <span class="flex-1 ml-3 whitespace-nowrap">Absensi</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a
+                  href="/superadmin/dashboard"
+                  className="flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group"
+                >
+                  <FontAwesomeIcon
+                    className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                    icon={faKey}
+                  />
+                  <span className="ms-3">Token</span>
                 </a>
               </li>
             </ul>
