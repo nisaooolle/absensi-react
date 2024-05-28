@@ -4,54 +4,59 @@ import Sidebar from "../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 function DetailAbsen() {
   const [absensi, setAbsensi] = useState([]);
+  const {id} = useParams();
 
   const getAbsensi = async () => {
     const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("userId");
-
+  
     try {
-      // Get absensi data
       const absensiResponse = await axios.get(
-        `http://localhost:2024/api/absensi/getByUserId/${userId}`,
+        `http://localhost:2024/api/absensi/getData/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-
-      // Map the response data to match the required format
-      const formattedAbsensi = absensiResponse.data.map((item) => ({
-        id: item.id,
-        tanggalAbsen: item.tanggalAbsen,
-        jamMasuk: item.jamMasuk,
-        lokasiMasuk: item.lokasiMasuk,
-        lokasiPulang: item.lokasiPulang,
-        keteranganPulang: item.keteranganPulang,
-        keteranganIzin: item.keteranganIzin,
-        keteranganPulangAwal: item.keteranganPulangAwal,
-        jamPulang: item.jamPulang,
-        keteranganTerlambat: item.keteranganTerlambat,
-        fotoMasuk: item.fotoMasuk,
-        fotoPulang: item.fotoPulang,
-        status: item.status,
-        statusAbsen: item.statusAbsen,
-        user: {
-          id: item.user.id,
-          email: item.user.email,
-          username: item.user.username,
-          organisasi: item.user.organisasi,
-          jabatan: item.user.jabatan,
-          shift: item.user.shift,
-          admin: item.user.admin,
-          role: item.user.role,
-        },
-      }));
-
-      setAbsensi(formattedAbsensi);
+  
+      if (typeof absensiResponse.data === 'object' && absensiResponse.data !== null) {
+        const item = absensiResponse.data;
+        const formattedAbsensi = {
+          id: item.id,
+          tanggalAbsen: item.tanggalAbsen,
+          jamMasuk: item.jamMasuk,
+          lokasiMasuk: item.lokasiMasuk,
+          lokasiPulang: item.lokasiPulang,
+          keteranganPulang: item.keteranganPulang,
+          keteranganIzin: item.keteranganIzin,
+          keteranganPulangAwal: item.keteranganPulangAwal,
+          jamPulang: item.jamPulang,
+          keteranganTerlambat: item.keteranganTerlambat,
+          fotoMasuk: item.fotoMasuk,
+          fotoPulang: item.fotoPulang,
+          status: item.status,
+          statusAbsen: item.statusAbsen,
+          user: {
+            id: item.user.id,
+            email: item.user.email,
+            username: item.user.username,
+            organisasi: item.user.organisasi,
+            jabatan: item.user.jabatan,
+            shift: item.user.shift,
+            admin: item.user.admin,
+            role: item.user.role,
+          },
+        };
+  
+        setAbsensi([formattedAbsensi])
+      } else {
+        // Handle the case when response data is not an array
+        console.error("Expected an array, but received:", absensiResponse.data);
+      }
     } catch (error) {
       console.error("Error fetching absensi:", error);
     }
@@ -180,7 +185,7 @@ function DetailAbsen() {
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
                           autocomplete="off"
-                          value={item.lokasiMasuk}
+                          value={item.lokasiMasuk ? item.lokasiMasuk : "-"}
                           required
                           readonly
                         />
@@ -199,7 +204,7 @@ function DetailAbsen() {
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
                           autocomplete="off"
-                          value={item.lokasiPulang}
+                          value={item.lokasiPulang ? item.lokasiPulang : "-"}
                           required
                           readonly
                         />
@@ -212,12 +217,11 @@ function DetailAbsen() {
                       </div>
                       <div class="relative z-0 w-full mb-6 group">
                         <img
-                          class="max-width-100 max-height-96"
+                          class="max-width-60 max-height-70"
                           style={{ marginBottom: "25px", marginLeft: "50px" }}
-                          src="https://demo-absen.excellentsistem.com/images/user/1706149667561.jpg"
+                          src={item.fotoMasuk ? item.fotoMasuk : "-"}
                           alt="Foto Masuk"
-                          value={item.fotoMasuk}
-                        />
+                         />
                         <label
                           for="foto"
                           class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -227,12 +231,11 @@ function DetailAbsen() {
                       </div>
                       <div class="relative z-0 w-full mb-6 group">
                         <img
-                          class="max-width-100 max-height-96"
+                          class="max-width-60 max-height-70"
                           style={{ marginBottom: "25px", marginLeft: "50px" }}
-                          src="https://demo-absen.excellentsistem.com/images/user/1706149667561.jpg"
+                          src={item.fotoPulang? item.fotoPulang : "-"}
                           alt="Foto Pulang"
-                          value={item.fotoPulang}
-                        />
+                         />
                         <label
                           for="foto"
                           class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -267,7 +270,7 @@ function DetailAbsen() {
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=""
                           autocomplete="off"
-                          value={item.keteranganTerlambat}
+                          value={item.keteranganTerlambat ? item.keteranganTerlambat : "-"}
                           required
                           readonly
                         />
@@ -286,7 +289,7 @@ function DetailAbsen() {
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=""
                           autocomplete="off"
-                          value={item.keteranganPulangAwal}
+                          value={item.keteranganPulangAwal ? item.keteranganPulangAwal : "-"}
                           required
                           readonly
                         />
@@ -305,7 +308,7 @@ function DetailAbsen() {
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=""
                           autocomplete="off"
-                          value={item.keteranganIzin}
+                          value={item.keteranganIzin ? item.keteranganIzin : "-"}
                           required
                           readonly
                         />

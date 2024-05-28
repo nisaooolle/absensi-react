@@ -14,6 +14,7 @@ function AbsenPulang() {
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
   const [fetchingLocation, setFetchingLocation] = useState(true);
+  const [keteranganPulangAwal, setKeteranganPulangAwal] = useState("");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -73,48 +74,122 @@ function AbsenPulang() {
   };
 
   const handleCaptureAndSubmit = async () => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    const imageBlob = await fetch(imageSrc).then((res) => res.blob());
+    Swal.fire({
+      title: "Konfirmasi Absensi",
+      text: "Apakah Anda yakin ingin pulang?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Absen!",
+      cancelButtonText: "Batal",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const imageSrc = webcamRef.current.getScreenshot();
+        const imageBlob = await fetch(imageSrc).then((res) => res.blob());
 
-    setFetchingLocation(true);
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
+        setFetchingLocation(true);
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
 
-      try {
-        {
-          const formData = new FormData();
-          formData.append("image", imageBlob);
+          try {
+            const absensiCheckResponse = await axios.get(
+              `http://localhost:2024/api/absensi/checkAbsensi/${userId}`
+            );
+            const isUserAlreadyAbsenToday =
+              absensiCheckResponse.data ===
+              "Pengguna sudah melakukan absensi hari ini.";
 
-          const response = await axios.put(
-            `http://localhost:2024/api/absensi/pulang/${userId}`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
+            const currentTime = new Date();
+            const currentHours = currentTime.getHours();
+            const currentMinutes = currentTime.getMinutes();
+
+            if (isUserAlreadyAbsenToday) {
+              // Check if there is a value in keteranganPulangAwal
+              if (keteranganPulangAwal) {
+                const formData = new FormData();
+                formData.append("image", imageBlob);
+                formData.append("lokasiPulang", address);
+                formData.append("keteranganPulangAwal"  , keteranganPulangAwal)
+
+
+                const response = await axios.put(
+                  `http://localhost:2024/api/absensi/pulang/${userId}`,
+                  formData,
+                  {
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                    },
+                  }
+                );
+
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Berhasil Pulang",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                setLoading(false);
+                setTimeout(() => {
+                  window.location.href = "/user/history_absen";
+                }, 1500);
+              } else if (
+                currentHours > 14 ||
+                (currentHours === 14 && currentMinutes >= 30)
+              ) {
+                const formData = new FormData();
+                formData.append("image", imageBlob);
+                formData.append("lokasiPulang", address);
+                formData.append("keteranganPulangAwal"  , keteranganPulangAwal)
+
+                const response = await axios.put(
+                  `http://localhost:2024/api/absensi/pulang/${userId}`,
+                  formData,
+                  {
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                    },
+                  }
+                );
+
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Berhasil Pulang",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                setLoading(false);
+                setTimeout(() => {
+                  window.location.href = "/user/history_absen";
+                }, 1500);
+              } else {
+                Swal.fire(
+                  "Info",
+                  "Anda belum dapat melakukan absensi pulang sebelum pukul 14:30.",
+                  "info"
+                );
+                setLoading(false);
+              }
+            } else {
+              Swal.fire(
+                "Info",
+                "Anda belum melakukan absensi masuk hari ini.",
+                "info"
+              );
+              setLoading(false);
             }
-          );
+          } catch (err) {
+            console.error("Error:", err);
+            Swal.fire("Error", "Gagal Absen", "error");
+            setLoading(false);
+          }
 
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Berhasil Pulang",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          setLoading(false);
-          setTimeout(() => {
-            window.location.href = "/user/history_absen";
-          }, 1500);
-        }
-      } catch (err) {
-        console.error("Error:", err);
-        Swal.fire("Error", "Gagal Absen", "error");
-        setLoading(false);
+          setFetchingLocation(false);
+        });
       }
-
-      setFetchingLocation(false);
     });
   };
 
@@ -178,20 +253,12 @@ function AbsenPulang() {
                   id="keterangan"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-5"
                   placeholder="Keterangan Pulang Awal"
-                  // value={keteranganIzin}
-                  // onChange={(e) => setKeteranganIzin(e.target.value)}
+                  value={keteranganPulangAwal}
+                  onChange={(e) => setKeteranganPulangAwal(e.target.value)}
                   required
                 />
               </div>
-              {/* <div className="flex justify-between mt-6">
-                <button
-                  type="button"
-                  onClick={handleCapture}
-                  className="block w-20 sm:w-24 rounded-lg text-black outline outline-[#0b409c] py-3 text-sm sm:text-xs font-medium"
-                >
-                  Ambil Foto
-                </button>
-              </div> */}
+           
             </form>
           </div>
         </div>

@@ -107,6 +107,11 @@ function AbsenMasuk() {
             } else {
               const formData = new FormData();
               formData.append("image", imageBlob);
+              formData.append("lokasiMasuk", address);
+              formData.append(
+                "keteranganTerlambat",
+                keteranganTerlambat || "-"
+              );
 
               const response = await axios.post(
                 `http://localhost:2024/api/absensi/masuk/${userId}`,
@@ -208,6 +213,7 @@ function AbsenMasuk() {
                   />
                 </div>
               </form>
+
             </div>
           </div>
         </div>

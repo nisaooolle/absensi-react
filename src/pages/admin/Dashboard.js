@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../../components/NavbarUser";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function Dashboard() {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -101,6 +102,16 @@ function Dashboard() {
     getOrganisasi();
   }, []);
 console.log(cutiData)
+
+useEffect(() => {
+  if (localStorage.getItem("loginSuccess") === "true") {
+      Swal.fire({
+          icon: "success",
+          title: "Berhasil masuk!",
+      });
+      localStorage.removeItem("loginSuccess");
+  }
+}, []);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">

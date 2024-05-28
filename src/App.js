@@ -114,7 +114,7 @@ function App() {
               <Route path="/user/profile" component={Profile} exact />
               <Route path="/user/absen" component={AbsenMasuk} exact />
               <Route path="/user/pulang" component={AbsenPulang} exact />
-              <Route path="/user/detail_absen" component={DetailAbsen} exact />
+              <Route path="/user/detail_absen/:id" component={DetailAbsen} exact />
               <Route path="/user/izin_absen" component={IzinAbsen} exact />
             </>
           )}
