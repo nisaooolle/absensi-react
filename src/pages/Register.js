@@ -267,7 +267,7 @@ function Register() {
                     </svg>
                     <span class="ml-3">Sign Up</span>
                   </button>
-                  <p class="mt-6 text-xs text-gray-600 text-center">
+                  <p class="mt-6 text-base text-gray-600 text-center">
                     Sudah mempunyai akun?
                     <a href="/" class="border-b border-gray-500 border-dotted">
                       Login

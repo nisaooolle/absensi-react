@@ -47,7 +47,8 @@ import TabelCuti from "./pages/user/tabel/TabelCuti";
 import TabelLembur from "./pages/user/tabel/TabelLembur";
 import RegisterUser from "./pages/RegisterUser";
 import DetailAbsensi from "./pages/admin/detail/DetailAbsensi";
-
+import DashboardSA from "./pages/superadmin/DashboardSA";
+import RegisterSuperadmin from "./pages/RegisterSuperadmin";
 function App() {
   const role = localStorage.getItem("role");
   return (
@@ -57,6 +58,7 @@ function App() {
           <Route path="/" component={Login} exact />
           <Route path="/register" component={Register} exact />
           <Route path="/registerUser" component={RegisterUser} exact />
+          <Route path="/registerSA" component={RegisterSuperadmin} exact />
           {/* start admin */}
           {/* Admin Routes */}
           {role === "ADMIN" && (
@@ -119,6 +121,14 @@ function App() {
             </>
           )}
           {/* end user */}
+            {/* start superadmin */}
+          {/* superadmin Routes */}
+          {role === "SUPERADMIN" && (
+            <>
+              <Route path="/superadmin/dashboard" component={DashboardSA} exact />
+            </>
+          )}
+           {/* end superadmin */}
         </Switch>
       </main>
     </BrowserRouter>
