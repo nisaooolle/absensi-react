@@ -29,7 +29,6 @@ function RegisterUser() {
       setOrganisasiList(response.data);
     } catch (error) {
       console.log(error);
-      Swal.fire("Error", "Gagal mendapatkan data organisasi", "error");
     }
   };
 

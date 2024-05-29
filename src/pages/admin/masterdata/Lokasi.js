@@ -33,7 +33,6 @@ function Lokasi() {
       );
 
       setUserData(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }

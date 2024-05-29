@@ -12,9 +12,9 @@ function AddKaryawan() {
   const [username, setUsername] = useState("");
   const [organisasi, setOrganisasi] = useState("");
   const [idJabatan, setIdJabatan] = useState("");
-  const [shift, setShift] = useState("");
+  const [shift, setShift] = useState(0);
   const [password, setPassword] = useState("");
-  const adminId = localStorage.getItem("adminId");
+  const idAdmin = localStorage.getItem("adminId");
   const [organisasiList, setOrganisasiList] = useState([]);
   const [jabatanList, setJabatanList] = useState([]);
   const [shiftList, setShiftList] = useState([]);
@@ -79,31 +79,30 @@ function AddKaryawan() {
 //         Swal.fire("Error", "Gagal menambahkan data", "error");
 //     }
 // };
-  const tambahKaryawan = async (e) => {
-    e.preventDefault();
-    const idOrganisasi = organisasi;
-    const idJabatann = idJabatan;
-    const idShift = shift; 
-    try {
-        const newUser = {
-            email: email,
-            username: username,
-            organisasi: idOrganisasi,  
-            jabatan: idJabatann,  
-            shift: idShift,  
-            password: password,
-        };
-        const response = await axios.post(
-            `http://localhost:2024/api/user/tambahkaryawan/${adminId}`,
-            newUser
-        );
-        console.log(response);
-        Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
-        window.location.reload();
-    } catch (error) {
-        console.log(error);
-        Swal.fire("Error", "Gagal menambahkan data", "error");
-    }
+const tambahKaryawan = async (e) => {
+  e.preventDefault();
+  const idOrganisasi = organisasi;
+  const idJabatann = idJabatan;
+  const idShift = shift; 
+  try {
+      const newUser = {
+          email: email,
+          username: username,
+          organisasi: { idOrganisasi: idOrganisasi },   
+          jabatan: { idJabatan: idJabatann },  // Jabatan ID dalam objek
+          shift: { idShift: idShift },  // Shift ID dalam objek
+          password: password,
+      };
+      const response = await axios.post(
+          `http://localhost:2024/api/user/tambahkaryawan/${idAdmin}`,
+          newUser
+      );
+      Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
+      window.location.reload();
+  } catch (error) {
+      console.log(error);
+      Swal.fire("Error", "Gagal menambahkan data", "error");
+  }
 };
   return (
     <div className="flex flex-col h-screen">

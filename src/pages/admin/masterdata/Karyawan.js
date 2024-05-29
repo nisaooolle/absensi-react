@@ -150,7 +150,7 @@ function Karyawan() {
                             {user.email}
                           </a>{" "}
                         </td>
-                        <td class="px-6 py-4">admin_demo </td>
+                        <td class="px-6 py-4">{user.admin.username} </td>
                         <td className=" py-3">
                           <div className="flex items-center -space-x-4 ml-12">
                             <a href={`/admin/detailK/${user.id}`}>

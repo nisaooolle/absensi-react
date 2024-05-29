@@ -106,7 +106,6 @@ function DashboardSA() {
     getLokasi();
     getOrganisasi();
   }, []);
-  console.log(cutiData);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
