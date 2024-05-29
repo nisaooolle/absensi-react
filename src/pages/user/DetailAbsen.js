@@ -8,11 +8,11 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 function DetailAbsen() {
   const [absensi, setAbsensi] = useState([]);
-  const {id} = useParams();
+  const { id } = useParams();
 
   const getAbsensi = async () => {
     const token = localStorage.getItem("token");
-  
+
     try {
       const absensiResponse = await axios.get(
         `http://localhost:2024/api/absensi/getData/${id}`,
@@ -22,8 +22,11 @@ function DetailAbsen() {
           },
         }
       );
-  
-      if (typeof absensiResponse.data === 'object' && absensiResponse.data !== null) {
+
+      if (
+        typeof absensiResponse.data === "object" &&
+        absensiResponse.data !== null
+      ) {
         const item = absensiResponse.data;
         const formattedAbsensi = {
           id: item.id,
@@ -51,8 +54,8 @@ function DetailAbsen() {
             role: item.user.role,
           },
         };
-  
-        setAbsensi([formattedAbsensi])
+
+        setAbsensi([formattedAbsensi]);
       } else {
         // Handle the case when response data is not an array
         console.error("Expected an array, but received:", absensiResponse.data);
@@ -217,11 +220,11 @@ function DetailAbsen() {
                       </div>
                       <div class="relative z-0 w-full mb-6 group">
                         <img
-                          class="max-width-60 max-height-70"
-                          style={{ marginBottom: "25px", marginLeft: "50px" }}
+                          class="max-width-60 max-height-70 mt-10"
+                          style={{ marginBottom: "25px", marginLeft: "5px" }}
                           src={item.fotoMasuk ? item.fotoMasuk : "-"}
                           alt="Foto Masuk"
-                         />
+                        />
                         <label
                           for="foto"
                           class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -231,11 +234,11 @@ function DetailAbsen() {
                       </div>
                       <div class="relative z-0 w-full mb-6 group">
                         <img
-                          class="max-width-60 max-height-70"
-                          style={{ marginBottom: "25px", marginLeft: "50px" }}
-                          src={item.fotoPulang? item.fotoPulang : "-"}
+                          class="max-width-60 max-height-70 mt-10"
+                          style={{ marginBottom: "25px", marginLeft: "5px" }}
+                          src={item.fotoPulang ? item.fotoPulang : "-"}
                           alt="Foto Pulang"
-                         />
+                        />
                         <label
                           for="foto"
                           class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -270,7 +273,11 @@ function DetailAbsen() {
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=""
                           autocomplete="off"
-                          value={item.keteranganTerlambat ? item.keteranganTerlambat : "-"}
+                          value={
+                            item.keteranganTerlambat
+                              ? item.keteranganTerlambat
+                              : "-"
+                          }
                           required
                           readonly
                         />
@@ -289,7 +296,11 @@ function DetailAbsen() {
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=""
                           autocomplete="off"
-                          value={item.keteranganPulangAwal ? item.keteranganPulangAwal : "-"}
+                          value={
+                            item.keteranganPulangAwal
+                              ? item.keteranganPulangAwal
+                              : "-"
+                          }
                           required
                           readonly
                         />
@@ -308,7 +319,9 @@ function DetailAbsen() {
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=""
                           autocomplete="off"
-                          value={item.keteranganIzin ? item.keteranganIzin : "-"}
+                          value={
+                            item.keteranganIzin ? item.keteranganIzin : "-"
+                          }
                           required
                           readonly
                         />
