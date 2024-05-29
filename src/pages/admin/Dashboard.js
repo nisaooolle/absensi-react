@@ -135,7 +135,7 @@ useEffect(() => {
           </div>
 
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 mt-12">
-            <div className="pl-2 h-32 bg-green-400 rounded-lg shadow-md md:w-auto">
+            <div className="pl-2 h-32 bg-indigo-500 rounded-lg shadow-md md:w-auto">
               <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
                 <div className="my-auto">
                   <p className="font-bold">User</p>
@@ -147,7 +147,7 @@ useEffect(() => {
                 </div>
               </div>
             </div>
-            <div className="pl-2 h-32 bg-red-400 rounded-lg shadow-md md:w-auto">
+            <div className="pl-2 h-32 bg-indigo-500 rounded-lg shadow-md md:w-auto">
               <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
                 <div className="my-auto">
                   <p className="font-bold">Absensi</p>
@@ -159,7 +159,7 @@ useEffect(() => {
                 </div>
               </div>
             </div>
-            <div className="pl-2 h-32 bg-red-800 rounded-lg shadow-md md:w-auto">
+            <div className="pl-2 h-32 bg-indigo-500 rounded-lg shadow-md md:w-auto">
               <div className="flex w-full h-full py-2 px-4 bg-gray-100 rounded-lg justify-between">
                 <div className="my-auto">
                   <p className="font-bold">Cuti</p>
