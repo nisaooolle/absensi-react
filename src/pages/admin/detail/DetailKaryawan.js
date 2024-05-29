@@ -10,13 +10,11 @@ function DetailKaryawan() {
   const { id } = useParams();
   const [user, setUser] = useState("");
 
-  console.log(id);
   const getUserData = async () => {
     try {
       const res = await axios.get(
         `http://localhost:2024/api/user/getUserBy/${id}`
       );
-      console.log(res.data);
       setUser(res.data);
     } catch (error) {
       console.log(error);

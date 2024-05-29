@@ -53,7 +53,6 @@ function IzinAbsen() {
         `http://localhost:2024/api/absensi/izin-tengah-hari/${userId}`,
         izin
       );
-      console.log("Response:", response.data);
       Swal.fire("Berhasil", "Berhasil Izin ", "success");
       window.location.reload();
     } catch (error) {

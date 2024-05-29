@@ -26,7 +26,7 @@ function AddIzin() {
 
     try {
       await axios.post(
-        `http://localhost:2024/api/izin/tambahIzin/${userId}`,
+        `http://localhost:2024/api/absensi/izin/${userId}`,
         add,
         {
           headers: {

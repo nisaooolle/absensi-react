@@ -21,7 +21,6 @@ function AddLokasi() {
       const org = await axios.get(
         `http://localhost:2024/api/organisasi/getByAdmin/${idAdmin}`
       );
-      console.log(org);
     } catch (error) {
       console.log(error);
     }
@@ -32,7 +31,6 @@ function AddLokasi() {
       const allOrg = await axios.get(
         "http://localhost:2024/api/organisasi/all"
       );
-      console.log(allOrg);
       setOrganisasiList(allOrg.data);
     } catch (error) {
       console.log(error);
@@ -53,7 +51,6 @@ function AddLokasi() {
             `http://localhost:2024/api/lokasi/tambah/${idAdmin}?idOrganisasi=${selectedOrganisasi}`,
             add 
         );
-        console.log(response);
         Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
         window.location.href = "/admin/lokasi";
     } catch (error) {

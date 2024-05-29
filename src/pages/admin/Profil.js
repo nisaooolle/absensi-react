@@ -11,22 +11,18 @@ import axios from "axios";
 import Loader from "../../components/Loader";
 import Swal from "sweetalert2";
 function Profil() {
-  // State untuk menyimpan URL gambar profil
-  const [profileImage, setProfileImage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [imageAdmin, setImageAdmin] = useState("");
   const [showPasswordd, setShowPasswordd] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [ubahUsername, setUbahUsername] = useState(false);
   const [profile, setProfile] = useState([]);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
   const id = localStorage.getItem("adminId");
 
-  // const getUser = async () => {
-  //   try{
-  //      const response = await axios.get(`http://localhost:2024/api/user/get`)
-  //   }
-  // }
   const getProfile = async () => {
     try {
       const response = await axios.get(
@@ -40,11 +36,45 @@ function Profil() {
 
       setProfile(response.data);
       setImageAdmin(response.data.imageAdmin);
+      setEmail(response.data.email);
+      setUsername(response.data.username);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+  const HandleUbahUsernameEmail = async (e) => {
+    e.preventDefault();
+    if (ubahUsername) {
+     
+        try {
+          const response = await axios.put(
+            `http://localhost:2024/api/admin/edit-email-username/${id}`,
+            { username, email },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
+          setProfile(response.data);
+          setUsername(response.data.username);
+          setEmail(response.data.email);
+          setUbahUsername(false);
+          Swal.fire(
+            "Berhasil",
+            "Berhasil mengubah username dan email",
+            "success"
+          );
+        } catch (error) {
+          console.error("Error updating data:", error);
+          Swal.fire("Gagal", "Gagal mengubah username dan email", "error");
+        }
+      
+    } else {
+      setUbahUsername(true);
+    }
+  };
   useEffect(() => {
     getProfile();
   }, []);
@@ -56,7 +86,7 @@ function Profil() {
     formData.append("image", selectedFile);
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/admin/edit/${id}`,
+        `http://localhost:2024/api/admin/ubah-foto/${id}`,
         formData,
         {
           headers: {
@@ -75,6 +105,9 @@ function Profil() {
     }
   };
 
+  const handleCancel = () => {
+    window.location.reload();
+  };
   return (
     <>
       {loading && <Loader />}
@@ -95,7 +128,7 @@ function Profil() {
                         src={
                           imageAdmin
                             ? imageAdmin
-                            : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALcAAACUCAMAAADmiEg1AAAAllBMVEXw8PAAAAD4+Pj09PQNFSYACiDZ2ts8PD25urv///+kpaYAFigAECQAABkAABUAEyYAAA4AAAjl5OTp6urR0tOMjY98gIMAABx2d3hZW2A2O0UjKzaeoKIfIixFRERgZWtQU1dBRUpvb3HFxcYsLDOXmJkADRkoKyxMTU41NTVjZmcaIC4iIyavs7QwMzoYGx8VGiQPEhgcRQ3YAAAE20lEQVR4nO2af3OiPBDHya5BIiHhl4CoVUCvrVavz/t/c0+wdzO9u1YoXE16k88fjtPizNd1881mN45jsVgsFovFYrFYLBaLxWKxWCyWLw2+oFvGh0DAJHZb4kS91y2nJwixtyoW5fK4LBfFynO/hHJkabY9RmFAKac0CKPjNkuZ8cohqZ8CpTkPSUuYU0rFUx0z3cKugs6KRJKK9d1mf2rS5rTf3K0FlSFZOQaHHNyaSEnKzEsYACAAY4mXle0faxd0y3sPSLeRH4Rz97WHqPfuPBR+tE0NFY5upeRNG/xdH2JTEV9UrpGpgvFZ+GHtvBVVcOrQF8vYROGwJT7J3nE8ZBlRqWJgprC9kl2/u7EjFur/e+PsENIdF4sriYDxQvCdcWsTM0HXzTVV0KypKG4mqB/YrHkwvx5MmAd83Ri2NOeE7zp8Dt0dJ/Mb6ekHxiUNs65Fx7KQlkZ5ITbKLDo3cnDVU0YlCqg0od0ex6hKFJMcBaq8O00uiZJXJlk4CE5O3YGEE+HCpHgnKnHT7sTFVD0X30BPTzBu9fTQ3fO5W2F13xbsm9+uWbodiCTxeviJR2RkkGyHlXmU9dCdRfRslH8rQcse+86S9vl6twO9Pol7WZaeSXmC8VFVHp314J7wo0nL0rnU3/cdkjB55CS7kZ6egDfhdN9x3tlTPunhOrcEk4Og5VULx7Sk4pCYlSYq4N+lqK80L9EphPxuWLgVrIj8a4cCdbTwo8Ik8/4BTIVPZu80fhBnxBdT46LttJ2fc+CTffJmfzDZEz84G9f1uYDefSC/1e6fucDc+psMnozacl4B3n0ug8me/ZIsiGw1CWR+b96a/AlLHyIuyXHmJgiA2L4k7uxIJI8eUgPX5E8gLp5Dn5LneuU1aZo23qp+JtQXz0VsbLRb0Gk2JPC5IOG6rMp1SAT3A7LwTB5LXVDKS0ICzmkL5wEhZWO86hZgyWwzfdyt1+vd43QzS5jRKfIKBOa4jed5jesww6fcwH7xi4uZwG8XIsC8yLPm0FHGtv6+acwyQ3Tmofivo0OI6b0I5yYtUYgPRFLRsSFi+kwlOZhj5JBuVbE3mXVFEk5ClYzGzLshrZSch6vDtB9Pvsy7zRCOl/q17vXzY1y39awJg3p0d8IPs54ujU4W+qJr8nYDMNmq81lf2e2WdBnUa3cVyFrZH5ChIq6E655OwYnK8GPNBUwOoaQ9pkGfCKZTSqsP3kACt6LBtEe7/PNA9Zt3bTd/wk7KNzONujENJRnQE4GCyFBjwFkleDSgc4YJ4ULfABbaqfxsyAKDWTsQ0rU0YZEH1aB+NsYVzReadLdXk6LOYuptcBVpu7QE85xWA1dX21TO9Ww+av8IRDHUFLAQgZ5mODRLOhm87cFsQpc9St+/j/IE/jh4yoTuIx/mRWNJsjB/GO7B7IFGOi6JYbwIos7R3/uwLAyu3ZP8LNClnIxIUPAIn2g4P4y923AZHuvQ3Y62Rxxb0NFzKQ9ORJIxpRFTn9dwemhtMBilO+h1B+5v0+qWo3RzLQaudNNxuuUX1a0v3r7VfTNe8gSHoy+/uZ+4w0l8Xbp9fjcdzh0feKgerVtKOgYpdejG9Mwn4+BnHb0fTL2x6GlZtQPKcehuglssFovFYrFYLBaLxWKxWCwWi+Wf5X+cg0tu3tqVfwAAAABJRU5ErkJggg=="
+                            : require("../../components/asset/download.jpg")
                         }
                         alt="Profile"
                         className="w-48 h-48 rounded-full"
@@ -140,7 +173,7 @@ function Profil() {
                     <p className="text-lg sm:text-xl font-medium mb-4 sm:mb-7">
                       Detail Akun
                     </p>
-                    <form onSubmit={""}>
+                    <form onSubmit={HandleUbahUsernameEmail}>
                       <div className="relative mb-3">
                         <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                           Nama Lengkap
@@ -148,33 +181,56 @@ function Profil() {
                         <input
                           type="text"
                           id="nama"
-                          className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                          className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                           placeholder="Masukkan Nama"
-                          value={profile.username}
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
                           required
+                          disabled={!ubahUsername}
                         />
                       </div>
                       <div className="relative">
-                        <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
+                        <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                           Email
                         </label>
                         <input
                           type="email"
                           id="email"
-                          className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                          className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                           placeholder="Masukkan Email"
-                          value={profile.email}
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                           required
+                          disabled={!ubahUsername}
                         />
                       </div>
 
                       <div className="flex justify-between mt-6">
-                        <button
-                          type="submit"
-                          className="z-20 block rounded-xl border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
-                        >
-                          Simpan
-                        </button>
+                        {!ubahUsername && (
+                          <button
+                            type="button"
+                            onClick={() => setUbahUsername(true)}
+                            className="z-20 block rounded-xl border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
+                          >
+                            Ubah
+                          </button>
+                        )}
+                        {ubahUsername && (
+                          <button
+                            onClick={handleCancel}
+                            className="z-20 block rounded-xl border-2 border-white bg-rose-100 p-4 text-rose-500 active:bg-rose-50"
+                          >
+                            Batal
+                          </button>
+                        )}
+                        {ubahUsername && (
+                          <button
+                            type="submit"
+                            className="z-20 block rounded-xl border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
+                          >
+                            Simpan
+                          </button>
+                        )}
                       </div>
                     </form>
                   </div>

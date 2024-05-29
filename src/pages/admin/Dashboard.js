@@ -19,6 +19,18 @@ function Dashboard() {
   const [lokasiData, setLokasiData] = useState([]);
   const [organisasiData, setOrganisasiData] = useState([]);
   const [username, setUsername] = useState("");
+  const idAdmin = localStorage.getItem("adminId");
+  const adminId = localStorage.getItem("adminId");
+  const [karyawan, setKaryawan] = useState("");
+
+  const getallUser = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:2024/api/user/${idAdmin}/users`
+      );
+      setKaryawan(res.data.length);
+    } catch (error) {}
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -57,12 +69,18 @@ function Dashboard() {
     }
   };
 
-  const getUser = () => fetchData("http://localhost:2024/api/user/get-allUser", setUserData);
-  const getAbsensi = () => fetchData("http://localhost:2024/api/absensi/getAll", setAbsenData);
-  const getCuti = () => fetchData("http://localhost:2024/api/cuti/getall", setCutiData);
-  const getJabatan = () => fetchData("http://localhost:2024/api/jabatan/getall", setJabatanData);
-  const getLokasi = () => fetchData("http://localhost:2024/api/lokasi/getall", setLokasiData);
-  const getOrganisasi = () => fetchData("http://localhost:2024/api/organisasi/getall", setOrganisasiData);
+  const getUser = () =>
+    fetchData("http://localhost:2024/api/user/get-allUser", setUserData);
+  const getAbsensi = () =>
+    fetchData("http://localhost:2024/api/absensi/getAll", setAbsenData);
+  const getCuti = () =>
+    fetchData("http://localhost:2024/api/cuti/getall", setCutiData);
+  const getJabatan = () =>
+    fetchData(`http://localhost:2024/api/jabatan/getByAdmin/${adminId}`, setJabatanData);
+  const getLokasi = () =>
+    fetchData(`http://localhost:2024/api/lokasi/get-admin/${idAdmin}`, setLokasiData);
+  const getOrganisasi = () =>
+    fetchData(`http://localhost:2024/api/organisasi/all-by-admin/${idAdmin}`, setOrganisasiData);
 
   const getUsername = async () => {
     const token = localStorage.getItem("token");
@@ -100,18 +118,18 @@ function Dashboard() {
     getJabatan();
     getLokasi();
     getOrganisasi();
+    getallUser();
   }, []);
-console.log(cutiData)
 
-useEffect(() => {
-  if (localStorage.getItem("loginSuccess") === "true") {
+  useEffect(() => {
+    if (localStorage.getItem("loginSuccess") === "true") {
       Swal.fire({
-          icon: "success",
-          title: "Berhasil masuk!",
+        icon: "success",
+        title: "Berhasil masuk!",
       });
       localStorage.removeItem("loginSuccess");
-  }
-}, []);
+    }
+  }, []);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -187,12 +205,24 @@ useEffect(() => {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">No</th>
-                    <th scope="col" className="px-6 py-3">Username</th>
-                    <th scope="col" className="px-6 py-3">Tanggal</th>
-                    <th scope="col" className="px-6 py-3">Jam Masuk</th>
-                    <th scope="col" className="px-6 py-3">Jam Pulang</th>
-                    <th scope="col" className="px-6 py-3">Kehadiran</th>
+                    <th scope="col" className="px-6 py-3">
+                      No
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Username
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Tanggal
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Jam Masuk
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Jam Pulang
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Kehadiran
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-center">
@@ -209,9 +239,9 @@ useEffect(() => {
                       </th>
                       <td className="px-6 py-4">{absen.user.username}</td>
                       <td className="px-6 py-4">{absen.tanggalAbsen}</td>
-                      <td className="px-6 py-4">{absen.jamMasuk || '-'}</td>
-                      <td className="px-6 py-4">{absen.jamPulang || '-'}</td>
-                      <td className="px-6 py-4">{absen.kehadiran}</td>
+                      <td className="px-6 py-4">{absen.jamMasuk || "-"}</td>
+                      <td className="px-6 py-4">{absen.jamPulang || "-"}</td>
+                      <td className="px-6 py-4">{absen.statusAbsen}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -233,11 +263,21 @@ useEffect(() => {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">No</th>
-                    <th scope="col" className="px-6 py-3">Username</th>
-                    <th scope="col" className="px-6 py-3">Tanggal</th>
-                    <th scope="col" className="px-6 py-3">Durasi</th>
-                    <th scope="col" className="px-6 py-3">Status</th>
+                    <th scope="col" className="px-6 py-3">
+                      No
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Username
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Tanggal
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Durasi
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Status
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-center">
@@ -253,7 +293,9 @@ useEffect(() => {
                         {index + 1}
                       </th>
                       <td className="px-6 py-4">{cuti.user.username}</td>
-                      <td className="px-6 py-4">{formatDate(cuti.created_at)}</td>
+                      <td className="px-6 py-4">
+                        {formatDate(cuti.created_at)}
+                      </td>
                       <td className="px-6 py-4">{cuti.durasi}</td>
                       <td className="px-6 py-4">{cuti.status}</td>
                     </tr>
@@ -277,8 +319,12 @@ useEffect(() => {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">No</th>
-                    <th scope="col" className="px-6 py-3">Jabatan</th>
+                    <th scope="col" className="px-6 py-3">
+                      No
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Jabatan
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-center">
@@ -315,11 +361,21 @@ useEffect(() => {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">No</th>
-                    <th scope="col" className="px-6 py-3">Nama Lokasi</th>
-                    <th scope="col" className="px-6 py-3">Latitude</th>
-                    <th scope="col" className="px-6 py-3">Longitude</th>
-                    <th scope="col" className="px-6 py-3">Radius (Meter)</th>
+                    <th scope="col" className="px-6 py-3">
+                      No
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Nama Lokasi
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Alamat
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Jumlah Karyawan
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Organisasi
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-center">
@@ -334,10 +390,12 @@ useEffect(() => {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4">{lokasi.nama}</td>
-                      <td className="px-6 py-4">{lokasi.latitude}</td>
-                      <td className="px-6 py-4">{lokasi.longitude}</td>
-                      <td className="px-6 py-4">{lokasi.radius}</td>
+                      <td className="px-6 py-4">{lokasi.namaLokasi}</td>
+                      <td className="px-6 py-4">{lokasi.alamat}</td>
+                      <td className="px-6 py-4">{karyawan}</td>
+                      <td className="px-6 py-4">
+                        {lokasi.organisasi.namaOrganisasi}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -359,9 +417,15 @@ useEffect(() => {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">No</th>
-                    <th scope="col" className="px-6 py-3">Nama Organisasi</th>
-                    <th scope="col" className="px-6 py-3">Alamat</th>
+                    <th scope="col" className="px-6 py-3">
+                      No
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Nama Organisasi
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Alamat
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-center">
@@ -376,7 +440,7 @@ useEffect(() => {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4">{organisasi.nama}</td>
+                      <td className="px-6 py-4">{organisasi.namaOrganisasi}</td>
                       <td className="px-6 py-4">{organisasi.alamat}</td>
                     </tr>
                   ))}
@@ -384,7 +448,6 @@ useEffect(() => {
               </table>
             </div>
           </div>
-
         </div>
       </div>
     </div>

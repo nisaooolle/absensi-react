@@ -17,7 +17,6 @@ function AddJabatan() {
       const response = await axios.get(
         `http://localhost:2024/api/user/${idAdmin}/users`
       );
-      console.log(response.data);  
       const jumlahKaryawan = response.data.length;  
       setJumlahKaryawan(jumlahKaryawan);  
     } catch (error) {
