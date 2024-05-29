@@ -22,9 +22,10 @@ function Dashboard() {
   const [absensi, setAbsensi] = useState([]);
   const [cuti, setCuti] = useState([]);
   const [izin, setIzin] = useState([]);
+  const [totalIzin, setTotalIzin] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
-  // const [isAbsen, setIsAbsen] = useState(false);
+  const [isAbsenMasuk, setIsAbsenMasuk] = useState(false);
 
   const getUsername = async () => {
     const token = localStorage.getItem("token");
@@ -46,19 +47,23 @@ function Dashboard() {
     }
   };
 
-  // const cekAbsensi = async () => {
-  //   const userId = localStorage.getItem("userId");
-  //   try {
-  //     const absensiData = await axios.get(
-  //       `http://localhost:2024/api/absensi/checkAbsensi/${userId}`
-  //     );
-  //     if (absensiData.ok) {
-  //       setIsAbsen(true);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error checking absensi:", error);
-  //   }
-  // };
+  const cekAbsensi = async () => {
+    const userId = localStorage.getItem("userId");
+    try {
+      const absensiCheckResponse = await axios.get(
+        `http://localhost:2024/api/absensi/checkAbsensi/${userId}`
+      );
+      const isUserAlreadyAbsenToday =
+        absensiCheckResponse.data ===
+        "Pengguna sudah melakukan absensi hari ini.";
+      if (isUserAlreadyAbsenToday) {
+        Swal.fire("Info", "Anda sudah melakukan absensi hari ini.", "info");
+        setIsAbsenMasuk(true);
+      }
+    } catch (error) {
+      console.error("Error checking absensi:", error);
+    }
+  };
 
   const getIzin = async () => {
     const token = localStorage.getItem("token");
@@ -66,7 +71,7 @@ function Dashboard() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/izin/getByUserId/${userId}`,
+        `http://localhost:2024/api/absensi/getizin/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -75,8 +80,9 @@ function Dashboard() {
       );
 
       setIzin(response.data);
+      setTotalIzin(response.data.length);
     } catch (error) {
-      console.error("Error fetching absensi:", error);
+      console.error("Error fetching izin:", error);
     }
   };
 
@@ -129,6 +135,7 @@ function Dashboard() {
     getAbsensi();
     getCuti();
     getIzin();
+    cekAbsensi();
 
     return () => clearInterval(interval);
   }, []);
@@ -179,13 +186,13 @@ function Dashboard() {
 
   useEffect(() => {
     if (localStorage.getItem("loginSuccess") === "true") {
-        Swal.fire({
-            icon: "success",
-            title: "Berhasil masuk!",
-        });
-        localStorage.removeItem("loginSuccess");
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil masuk!",
+      });
+      localStorage.removeItem("loginSuccess");
     }
-}, []);
+  }, []);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -206,14 +213,36 @@ function Dashboard() {
             </div>
 
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 mt-7">
-              <Link to="/user/absen">
-                <div className="pl-2 h-24 bg-blue-500 rounded-lg shadow-md md:w-auto">
+              <Link to={isAbsenMasuk ? "#" : "/user/absen"}>
+                <div
+                  className={`pl-2 h-24 rounded-lg shadow-md md:w-auto ${
+                    isAbsenMasuk
+                      ? "bg-gray-500 cursor-not-allowed"
+                      : "bg-blue-500"
+                  }`}
+                >
                   <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
-                      <p className="font-bold text-black">Masuk</p>
-                      <p className="text-lg text-black">Absen masuk.</p>
+                      <p
+                        className={`font-bold ${
+                          isAbsenMasuk ? "text-gray-400" : "text-black"
+                        }`}
+                      >
+                        Masuk
+                      </p>
+                      <p
+                        className={`text-lg ${
+                          isAbsenMasuk ? "text-gray-400" : "text-black"
+                        }`}
+                      >
+                        Absen masuk.
+                      </p>
                     </div>
-                    <div className="my-auto text-blue-500">
+                    <div
+                      className={`my-auto ${
+                        isAbsenMasuk ? "text-gray-400" : "text-blue-500"
+                      }`}
+                    >
                       <FontAwesomeIcon
                         icon={faArrowRightFromBracket}
                         size="2x"
@@ -310,7 +339,7 @@ function Dashboard() {
                   </p>
                 </div>
                 <div className="text-white text-2xl font-semibold">
-                  {izin.length}
+                  {totalIzin}
                 </div>
               </div>
             </div>
@@ -344,7 +373,7 @@ function Dashboard() {
                         {formatDate(absenData.tanggalAbsen)}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                        {absenData.status}
+                        {absenData.statusAbsen}
                       </td>
                     </tr>
                   ))}

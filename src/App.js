@@ -49,6 +49,7 @@ import RegisterUser from "./pages/RegisterUser";
 import DetailAbsensi from "./pages/admin/detail/DetailAbsensi";
 import DashboardSA from "./pages/superadmin/DashboardSA";
 import RegisterSuperadmin from "./pages/RegisterSuperadmin";
+import Profil from "./pages/admin/Profil";
 function App() {
   const role = localStorage.getItem("role");
   return (
@@ -64,17 +65,29 @@ function App() {
           {role === "ADMIN" && (
             <>
               <Route path="/admin/dashboard" component={Dashboard} exact />
-              <Route path="/admin/profil" component={Profile} exact />
+              <Route path="/admin/profil" component={Profil} exact />
               {/* master data */}
               <Route path="/admin/karyawan" component={Karyawan} exact />
               <Route path="/admin/jabatan" component={Jabatan} exact />
               <Route path="/admin/shift" component={Shift} exact />
               <Route path="/admin/lokasi" component={Lokasi} exact />
               <Route path="/admin/organisasi" component={Organisasi} exact />
-              <Route path="/admin/detailK/:id" component={DetailKaryawan} exact />
+              <Route
+                path="/admin/detailK/:id"
+                component={DetailKaryawan}
+                exact
+              />
               <Route path="/admin/detailL/:id" component={DetailLokasi} exact />
-              <Route path="/admin/detailO/:id" component={DetailOrganisasi} exact />
-              <Route path="/admin/detailA/:id" component={DetailAbsensi} exact />
+              <Route
+                path="/admin/detailO/:id"
+                component={DetailOrganisasi}
+                exact
+              />
+              <Route
+                path="/admin/detailA/:id"
+                component={DetailAbsensi}
+                exact
+              />
               <Route path="/admin/addkary" component={Addkaryawan} exact />
               <Route path="/admin/addjab" component={AddJabatan} exact />
               <Route path="/admin/addshift" component={AddShift} exact />
@@ -116,19 +129,27 @@ function App() {
               <Route path="/user/profile" component={Profile} exact />
               <Route path="/user/absen" component={AbsenMasuk} exact />
               <Route path="/user/pulang" component={AbsenPulang} exact />
-              <Route path="/user/detail_absen/:id" component={DetailAbsen} exact />
+              <Route
+                path="/user/detail_absen/:id"
+                component={DetailAbsen}
+                exact
+              />
               <Route path="/user/izin_absen" component={IzinAbsen} exact />
             </>
           )}
           {/* end user */}
-            {/* start superadmin */}
+          {/* start superadmin */}
           {/* superadmin Routes */}
           {role === "SUPERADMIN" && (
             <>
-              <Route path="/superadmin/dashboard" component={DashboardSA} exact />
+              <Route
+                path="/superadmin/dashboard"
+                component={DashboardSA}
+                exact
+              />
             </>
           )}
-           {/* end superadmin */}
+          {/* end superadmin */}
         </Switch>
       </main>
     </BrowserRouter>
