@@ -487,7 +487,7 @@ const Sidebar = () => {
                   {/* <!-- Menu superadmin --> */}
                   <li>
                     <a
-                      href="/superadmin/karyawan"
+                      href="/superadmin/admin"
                       class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon

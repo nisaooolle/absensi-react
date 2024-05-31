@@ -50,6 +50,10 @@ import DetailAbsensi from "./pages/admin/detail/DetailAbsensi";
 import DashboardSA from "./pages/superadmin/DashboardSA";
 import RegisterSuperadmin from "./pages/RegisterSuperadmin";
 import Profil from "./pages/admin/Profil";
+import Admin from "./pages/superadmin/admin/admin";
+import AddAdmin from "./pages/superadmin/add/AddAdmin";
+import DetailAdmin from "./pages/superadmin/detail/DetailAdmin";
+import EditAdmin from "./pages/superadmin/edit/EditAdmin";
 function App() {
   const role = localStorage.getItem("role");
   return (
@@ -145,6 +149,48 @@ function App() {
               <Route
                 path="/superadmin/dashboard"
                 component={DashboardSA}
+                exact
+              />
+              {/* admin */}
+               <Route
+                path="/superadmin/admin"
+                component={Admin}
+                exact
+              />
+               <Route
+                path="/superadmin/addA"
+                component={AddAdmin}
+                exact
+              />
+               <Route
+                path="/superadmin/detailA/:id"
+                component={DetailAdmin}
+                exact
+              />
+               <Route
+                path="/superadmin/editA/:id"
+                component={EditAdmin}
+                exact
+              />
+              {/* organisasi */}
+              <Route
+                path="/superadmin/organisasi"
+                component={Organisasi}
+                exact
+              />
+               <Route
+                path="/superadmin/addA"
+                component={AddAdmin}
+                exact
+              />
+               <Route
+                path="/superadmin/detailA/:id"
+                component={DetailAdmin}
+                exact
+              />
+               <Route
+                path="/superadmin/editA/:id"
+                component={EditAdmin}
                 exact
               />
             </>
