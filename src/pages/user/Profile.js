@@ -12,7 +12,6 @@ import Loader from "../../components/Loader";
 import Swal from "sweetalert2";
 function Profile() {
   // State untuk menyimpan URL gambar profil
-  const [profileImage, setProfileImage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fotoUser, setFotoUser] = useState("");
   const [showPasswordd, setShowPasswordd] = useState(false);
@@ -23,6 +22,14 @@ function Profile() {
   const id = localStorage.getItem("userId");
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [edit, setEdit] = useState(false);
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [organisasi, setOrganisasi] = useState("");
+  const [jabatan, setJabatan] = useState("");
+  const [shift, setShift] = useState("");
+  const [jabatanList, setJabatanList] = useState([]);
+  const [adminId, setidAdmin] = useState("");
 
   const getProfile = async () => {
     try {
@@ -34,17 +41,48 @@ function Profile() {
           },
         }
       );
-
+      // console.log(response.data);
       setProfile(response.data);
+      setUsername(response.data.username);
+      setEmail(response.data.email);
+      setOrganisasi(response.data.organisasi.namaOrganisasi);
+      setJabatan(response.data.jabatan.namaJabatan);
+      setShift(response.data.shift.namaShift);
+      setidAdmin(response.data.admin?.id || "");
       setFotoUser(response.data.fotoUser);
+      if (response.data.admin?.id) {
+        getJabatanList(response.data.admin.id);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
+    }
+  };
+  const getJabatanList = async () => {
+    try {
+      const jab = await axios.get(
+        `http://localhost:2024/api/jabatan/getByAdmin/${adminId}`
+      );
+      console.log(jab.data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
     getProfile();
-  }, []);
+    if (adminId) {
+      getJabatanList();
+    }
+  }, [adminId]);
+
+  const ubahDetailAkun = async (e) => {
+    e.PreventDefault();
+    try {
+      const res = await axios.get(``);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -163,7 +201,8 @@ function Profile() {
                           id="nama"
                           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                           placeholder="Masukkan Nama"
-                          value={profile.username}
+                          value={profile.username || ""}
+                          disabled={!edit}
                           required
                         />
                       </div>
@@ -177,7 +216,8 @@ function Profile() {
                             id="email"
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                             placeholder="Masukkan Email"
-                            value={profile.email}
+                            value={profile.email || ""}
+                            disabled={!edit}
                             required
                           />
                         </div>
@@ -192,6 +232,7 @@ function Profile() {
                               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                               placeholder="Masukkan Organisasi"
                               value={profile.organisasi.namaOrganisasi}
+                              disabled={!edit}
                               required
                             />
                           </div>
@@ -210,6 +251,7 @@ function Profile() {
                               placeholder="Masukkan Jabatan"
                               value={profile.jabatan.namaJabatan}
                               required
+                              disabled={!edit}
                             />
                           </div>
                         )}
@@ -224,18 +266,38 @@ function Profile() {
                               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                               placeholder="Masukkan Shift"
                               value={profile.shift.namaShift}
+                              disabled={!edit}
                               required
                             />
                           </div>
                         )}
                       </div>
                       <div className="flex justify-between mt-6">
-                        <button
-                          type="submit"
-                          className="z-20 block rounded-xl border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
-                        >
-                          Simpan
-                        </button>
+                        {!edit && (
+                          <button
+                            onClick={() => setEdit(true)}
+                            type="button"
+                            className="z-20 block rounded-xl border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
+                          >
+                            Ubah
+                          </button>
+                        )}
+                        {edit && (
+                          <>
+                            <a
+                              href={window.location.reload}
+                              className="z-20 block rounded-xl border-2 border-white bg-rose-100 p-4 text-rose-700 active:bg-blue-50"
+                            >
+                              Batal
+                            </a>
+                            <button
+                              onClick={() => setEdit(true)}
+                              className="z-20 block rounded-xl border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
+                            >
+                              Simpan
+                            </button>{" "}
+                          </>
+                        )}
                       </div>
                     </form>
                   </div>

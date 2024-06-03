@@ -42,39 +42,34 @@ function Profil() {
       console.error("Error fetching data:", error);
     }
   };
+
   const HandleUbahUsernameEmail = async (e) => {
     e.preventDefault();
-    if (ubahUsername) {
-     
-        try {
-          const response = await axios.put(
-            `http://localhost:2024/api/admin/edit-email-username/${id}`,
-            { username, email },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
 
-          setProfile(response.data);
-          setUsername(response.data.username);
-          setEmail(response.data.email);
-          setUbahUsername(false);
-          Swal.fire(
-            "Berhasil",
-            "Berhasil mengubah username dan email",
-            "success"
-          );
-        } catch (error) {
-          console.error("Error updating data:", error);
-          Swal.fire("Gagal", "Gagal mengubah username dan email", "error");
+    try {
+      const response = await axios.put(
+        `http://localhost:2024/api/admin/edit-email-username/${id}`,
+        { username, email },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      
-    } else {
-      setUbahUsername(true);
+      );
+
+      setProfile(response.data);
+      setUsername(response.data.username);
+      setEmail(response.data.email);
+      Swal.fire("Berhasil", "Berhasil mengubah username dan email", "success");
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.error("Error updating data:", error);
+      Swal.fire("Gagal", "Gagal mengubah username dan email", "error");
     }
   };
+
   useEffect(() => {
     getProfile();
   }, []);
@@ -98,16 +93,13 @@ function Profil() {
       setLoading(false);
       setImageAdmin(response.data.imageAdmin);
       Swal.fire("Berhasil", "Berhasil mengubah foto profil", "success");
-      window.location.reload();
+      getProfile(); // Memperbarui profil setelah mengubah foto tanpa memuat ulang halaman
     } catch (error) {
       setLoading(false);
       console.error("Error uploading image:", error);
     }
   };
 
-  const handleCancel = () => {
-    window.location.reload();
-  };
   return (
     <>
       {loading && <Loader />}
@@ -216,20 +208,22 @@ function Profil() {
                           </button>
                         )}
                         {ubahUsername && (
-                          <button
-                            onClick={handleCancel}
-                            className="z-20 block rounded-xl border-2 border-white bg-rose-100 p-4 text-rose-500 active:bg-rose-50"
-                          >
-                            Batal
-                          </button>
-                        )}
-                        {ubahUsername && (
-                          <button
-                            type="submit"
-                            className="z-20 block rounded-xl border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
-                          >
-                            Simpan
-                          </button>
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => setUbahUsername(false)}
+                              className="z-20 block rounded-xl border-2 border-white bg-rose-100 p-4 text-rose-500 active:bg-rose-50"
+                            >
+                              Batal
+                            </button>
+
+                            <button
+                              type="submit"
+                              className="z-20 block rounded-xl border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
+                            >
+                              Simpan
+                            </button>
+                          </>
                         )}
                       </div>
                     </form>

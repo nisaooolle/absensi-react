@@ -57,7 +57,6 @@ function Dashboard() {
         absensiCheckResponse.data ===
         "Pengguna sudah melakukan absensi hari ini.";
       if (isUserAlreadyAbsenToday) {
-        Swal.fire("Info", "Anda sudah melakukan absensi hari ini.", "info");
         setIsAbsenMasuk(true);
       }
     } catch (error) {
