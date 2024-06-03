@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileExport, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFileExport,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -16,16 +19,30 @@ function Harian() {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`http://localhost:2024/api/absensi/rekap/harian`, { params: { tanggal } });
+      const response = await axios.get(
+        `http://localhost:2024/api/absensi/by-tanggal`,
+        {
+          params: { tanggalAbsen: tanggal },
+        }
+      );
       setAbsensiData(response.data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       Swal.fire("Gagal", "Gagal Mengambil data", "error");
     }
   };
 
   const handleExport = () => {
-    window.location.href = `http://localhost:2024/api/absensi/rekap/export/harian?tanggal=${tanggal}`;
+    window.location.href = `http://localhost:2024/api/absensi/export/harian?tanggalAbsen=${tanggal}`;
+  };
+
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString("id-ID", options);
   };
 
   return (
@@ -89,29 +106,65 @@ function Harian() {
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                       <thead className="text-xs text-left text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                          <th scope="col" className="px-6 py-3">No</th>
-                          <th scope="col" className="px-6 py-3">Nama</th>
-                          <th scope="col" className="px-6 py-3">Tanggal</th>
-                          <th scope="col" className="px-6 py-3">Jam Masuk</th>
-                          <th scope="col" className="px-6 py-3">Foto Masuk</th>
-                          <th scope="col" className="px-6 py-3">Jam Pulang</th>
-                          <th scope="col" className="px-6 py-3">Foto Pulang</th>
-                          <th scope="col" className="px-6 py-3">Jam Kerja</th>
-                          <th scope="col" className="px-6 py-3">Keterangan</th>
+                          <th scope="col" className="px-6 py-3">
+                            No
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Nama
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Tanggal
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Jam Masuk
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Foto Masuk
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Jam Pulang
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Foto Pulang
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Jam Kerja
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Keterangan
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         {absensiData.map((absensi, index) => (
                           <tr key={index}>
-                            <td className="px-6 py-3">{index + 1}</td>
-                            <td className="px-6 py-3">{absensi.nama}</td>
-                            <td className="px-6 py-3">{absensi.tanggal}</td>
-                            <td className="px-6 py-3">{absensi.jamMasuk}</td>
-                            <td className="px-6 py-3">{absensi.fotoMasuk}</td>
-                            <td className="px-6 py-3">{absensi.jamPulang}</td>
-                            <td className="px-6 py-3">{absensi.fotoPulang}</td>
-                            <td className="px-6 py-3">{absensi.jamKerja}</td>
-                            <td className="px-6 py-3">{absensi.keterangan}</td>
+                            <td className="px-5 py-3">
+                              {absensi.user.username}
+                            </td>
+                            <td className="px-5 py-3">
+                              {formatDate(absensi.tanggalAbsen)}
+                            </td>
+                            <td className="px-5 py-3">{absensi.jamMasuk}</td>
+                            <td className="px-5 py-3">
+                              <img
+                                src={absensi.fotoMasuk}
+                                alt="foto masuk"
+                                className="w-16 h-8 rounded-sm"
+                              />
+                            </td>
+                            <td className="px-5 py-3">{absensi.lokasiMasuk}</td>
+                            <td className="px-5 py-3">{absensi.jamPulang}</td>
+                            <td className="px-5 py-3">
+                              <img
+                                src={absensi.fotoPulang}
+                                alt="foto pulang"
+                                className="w-16 h-8 rounded-sm"
+                              />
+                            </td>{" "}
+                            <td className="px-5 py-3">
+                              {absensi.user.shift.namaShift}
+                            </td>
+                            <td className="px-5 py-3">{absensi.statusAbsen}</td>
                           </tr>
                         ))}
                       </tbody>
