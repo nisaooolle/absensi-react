@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../components/NavbarUser";
+import Navbar from "../../components/NavbarSuper";
 import Sidebar from "../../components/SidebarUser";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

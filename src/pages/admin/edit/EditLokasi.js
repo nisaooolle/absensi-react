@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "../../../components/NavbarUser";
+import Navbar from "../../../components/NavbarAdmin";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
