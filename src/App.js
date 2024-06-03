@@ -50,7 +50,7 @@ import DetailAbsensi from "./pages/admin/detail/DetailAbsensi";
 import DashboardSA from "./pages/superadmin/DashboardSA";
 import RegisterSuperadmin from "./pages/RegisterSuperadmin";
 import Profil from "./pages/admin/Profil";
-import Admin from "./pages/superadmin/admin/admin";
+import Admin from "./pages/superadmin/admin/Admin";
 import AddAdmin from "./pages/superadmin/add/AddAdmin";
 import DetailAdmin from "./pages/superadmin/detail/DetailAdmin";
 import EditAdmin from "./pages/superadmin/edit/EditAdmin";

@@ -6,7 +6,7 @@ import {
   faClipboardUser,
   faCalendarDays,
 } from "@fortawesome/free-solid-svg-icons";
-import Navbar from "../../components/NavbarUser";
+import Navbar from "../../components/NavbarAdmin";
 import axios from "axios";
 import Swal from "sweetalert2";
 
