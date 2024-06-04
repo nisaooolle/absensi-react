@@ -45,18 +45,18 @@ function Profil() {
 
   const HandleUbahUsernameEmail = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/admin/edit-email-username/${id}`,
-        { username, email },
+        `http://localhost:2024/api/admin/edit-email-username/${id}?email=${email}&username=${username}`,
+        {}, // Tidak ada data yang perlu dikirim dalam tubuh permintaan
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-
+  
       setProfile(response.data);
       setUsername(response.data.username);
       setEmail(response.data.email);
