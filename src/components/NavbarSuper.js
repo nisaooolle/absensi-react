@@ -3,12 +3,12 @@ import Logo from "../components/absensii.png";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 const NavbarSuper = () => {
-  const [profileSu, setProfileSu] = useState("");
+  const [profileSu, setProfileSu] = useState([]);
 
   const role = localStorage.getItem("role");
+  const id = localStorage.getItem("superadminId");
 
   const getSu = async () => {
-    const id = localStorage.getItem("superadminId");
     try {
       const superAdmin = await axios.get(
         `http://localhost:2024/api/superadmin/getbyid/${id}`

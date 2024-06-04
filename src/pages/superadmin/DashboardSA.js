@@ -6,8 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
   faClipboardUser,
-  faCalendarDays,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
+// import jwt from 'jsonwebtoken';
+
 
 function DashboardSA() {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -18,6 +20,8 @@ function DashboardSA() {
   const [lokasiData, setLokasiData] = useState([]);
   const [organisasiData, setOrganisasiData] = useState([]);
   const [username, setUsername] = useState("");
+  const token = localStorage.getItem("token");
+  const id = localStorage.getItem("superadminId");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -60,22 +64,19 @@ function DashboardSA() {
     fetchData("http://localhost:2024/api/user/get-allUser", setUserData);
   const getAbsensi = () =>
     fetchData("http://localhost:2024/api/absensi/getAll", setAbsenData);
-  const getCuti = () =>
-    fetchData("http://localhost:2024/api/cuti/getall", setCutiData);
   const getJabatan = () =>
-    fetchData("http://localhost:2024/api/jabatan/getall", setJabatanData);
+    fetchData("http://localhost:2024/api/jabatan/all", setJabatanData);
   const getLokasi = () =>
     fetchData("http://localhost:2024/api/lokasi/getall", setLokasiData);
   const getOrganisasi = () =>
-    fetchData("http://localhost:2024/api/organisasi/getall", setOrganisasiData);
+    fetchData("http://localhost:2024/api/organisasi/all", setOrganisasiData);
 
   const getUsername = async () => {
-    const token = localStorage.getItem("token");
-    const id = localStorage.getItem("id");
+
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/superadmin/getbyid/1${id}`,
+        `http://localhost:2024/api/superadmin/getbyid/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -97,10 +98,10 @@ function DashboardSA() {
     });
   };
 
+ 
   useEffect(() => {
     getUser();
     getAbsensi();
-    getCuti();
     getUsername();
     getJabatan();
     getLokasi();
@@ -158,10 +159,10 @@ function DashboardSA() {
                 <div className="my-auto">
                   <p className="font-bold">User</p>
                   <p className="text-lg">Jumlah User</p>
-                  <p className="text-lg">{cutiData.length}</p>
+                  <p className="text-lg">{userData.length}</p>
                 </div>
                 <div className="my-auto">
-                  <FontAwesomeIcon icon={faCalendarDays} size="2x" />
+                  <FontAwesomeIcon icon={faUser} size="2x" />
                 </div>
               </div>
             </div>
@@ -173,7 +174,53 @@ function DashboardSA() {
           <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
             <div className="flex justify-between">
               <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                Token
+                Token Admin
+              </h6>
+            </div>
+            <hr />
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">
+                      No
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Email
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Masa Berlaku Token
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Role
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="text-center">
+                  {absenData.map((absen, index) => (
+                    <tr
+                      key={index}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <th
+                        scope="row"
+                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {index + 1}
+                      </th>
+                      <td className="px-6 py-4">{absen.user.username}</td>
+                      <td className="px-6 py-4">{absen.tanggalAbsen}</td>
+                      <td className="px-6 py-4">{absen.user.role || "-"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <div className="flex justify-between">
+              <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                Token User
               </h6>
             </div>
             <hr />
@@ -218,7 +265,6 @@ function DashboardSA() {
               </table>
             </div>
           </div>
-
           <br />
         </div>
       </div>

@@ -32,8 +32,10 @@ function Harian() {
     }
   };
 
-  const handleExport = () => {
-    window.location.href = `http://localhost:2024/api/absensi/export/harian?tanggalAbsen=${tanggal}`;
+  const handleExport = async () => {
+    window.location.href = await axios.get(
+      `http://localhost:2024/api/absensi/export/harian?tanggalAbsen=${tanggal}`
+    );
   };
 
   const formatDate = (dateString) => {
