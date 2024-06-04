@@ -44,25 +44,30 @@ function TabelAbsen() {
 
   useEffect(() => {
     getAbsensi();
-    checkButtonState();
+    // checkButtonState();
   }, []);
 
-  const checkButtonState = () => {
-    const today = new Date().toISOString().split("T")[0];
-    const savedDate = localStorage.getItem("absenDate");
+  // const checkButtonState = () => {
+  //   const hasCompletedJamMasuk = localStorage.getItem("hasCompletedJamMasuk");
+  //   const hasCompletedJamPulang = localStorage.getItem("hasCompletedJamPulang");
 
-    if (savedDate === today) {
-      setIsButtonActive(false);
-    } else {
-      setIsButtonActive(true);
-    }
-  };
+  //   if (hasCompletedJamMasuk === "true" && hasCompletedJamPulang === "true") {
+  //     setIsButtonActive(false); // Button disabled jika jam masuk dan jam pulang terpenuhi
+  //   } else if (
+  //     (hasCompletedJamMasuk === "true" && hasCompletedJamPulang === null) ||
+  //     hasCompletedJamPulang === undefined
+  //   ) {
+  //     setIsButtonActive(true); // Button aktif jika hanya jam masuk yang terpenuhi
+  //   } else {
+  //     setIsButtonActive(true); // Button aktif jika tidak ada jam masuk atau jam pulang yang terpenuhi
+  //   }
+  // };
 
-  const handleAbsen = () => {
-    const today = new Date().toISOString().split("T")[0];
-    localStorage.setItem("absenDate", today);
-    setIsButtonActive(false);
-  };
+  // const handleAbsen = () => {
+  //   const today = new Date().toISOString().split("T")[0];
+  //   localStorage.setItem("absenDate", today);
+  //   setIsButtonActive(false);
+  // };
 
   // Search function
   const handleSearch = (event) => {
@@ -167,7 +172,9 @@ function TabelAbsen() {
                         {absenData.jamPulang}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-                        {absenData.keteranganTerlambat == null
+                        {absenData.keteranganIzin != null
+                          ? absenData.keteranganIzin
+                          : absenData.keteranganTerlambat == null
                           ? "-"
                           : absenData.keteranganTerlambat}
                       </td>
@@ -186,12 +193,21 @@ function TabelAbsen() {
                               </span>
                             </button>
                           </Link>
-                          <Link to="/user/izin_absen">
-                            {isButtonActive ? (
-                              <button
-                                onClick={handleAbsen}
-                                className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                              >
+                          {absensi.statusAbsen === "Izin" ? (
+                            <button
+                              className="z-30 block rounded-full border-2 border-white bg-gray-100 p-4 text-gray-700 active:bg-red-50"
+                              disabled
+                            >
+                              <span className="relative inline-block">
+                                <FontAwesomeIcon
+                                  className="h-4 w-4"
+                                  icon={faUserPlus}
+                                />
+                              </span>
+                            </button>
+                          ) : (
+                            <Link to="/user/izin_absen">
+                              <button className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50">
                                 <span className="relative inline-block">
                                   <FontAwesomeIcon
                                     className="h-4 w-4"
@@ -199,20 +215,8 @@ function TabelAbsen() {
                                   />
                                 </span>
                               </button>
-                            ) : (
-                              <button
-                                disabled
-                                className="z-30 block rounded-full border-2 border-gray-200 bg-gray-100 p-4 text-gray-500 cursor-not-allowed"
-                              >
-                                <span className="relative inline-block">
-                                  <FontAwesomeIcon
-                                    className="h-4 w-4"
-                                    icon={faUserPlus}
-                                  />
-                                </span>
-                              </button>
-                            )}
-                          </Link>
+                            </Link>
+                          )}
                         </div>
                       </td>
                     </tr>

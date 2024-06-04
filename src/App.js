@@ -54,6 +54,7 @@ import Admin from "./pages/superadmin/admin/Admin";
 import AddAdmin from "./pages/superadmin/add/AddAdmin";
 import DetailAdmin from "./pages/superadmin/detail/DetailAdmin";
 import EditAdmin from "./pages/superadmin/edit/EditAdmin";
+import DetailLembur from "./pages/admin/detail/DetailLembur";
 function App() {
   const role = localStorage.getItem("role");
   return (
@@ -79,6 +80,11 @@ function App() {
               <Route
                 path="/admin/detailK/:id"
                 component={DetailKaryawan}
+                exact
+              />
+              <Route
+                path="/admin/detailLembur/:id"
+                component={DetailLembur}
                 exact
               />
               <Route path="/admin/detailL/:id" component={DetailLokasi} exact />
@@ -152,47 +158,27 @@ function App() {
                 exact
               />
               {/* admin */}
-               <Route
-                path="/superadmin/admin"
-                component={Admin}
-                exact
-              />
-               <Route
-                path="/superadmin/addA"
-                component={AddAdmin}
-                exact
-              />
-               <Route
+              <Route path="/superadmin/admin" component={Admin} exact />
+              <Route path="/superadmin/addA" component={AddAdmin} exact />
+              <Route
                 path="/superadmin/detailA/:id"
                 component={DetailAdmin}
                 exact
               />
-               <Route
-                path="/superadmin/editA/:id"
-                component={EditAdmin}
-                exact
-              />
+              <Route path="/superadmin/editA/:id" component={EditAdmin} exact />
               {/* organisasi */}
               <Route
                 path="/superadmin/organisasi"
                 component={Organisasi}
                 exact
               />
-               <Route
-                path="/superadmin/addA"
-                component={AddAdmin}
-                exact
-              />
-               <Route
+              <Route path="/superadmin/addA" component={AddAdmin} exact />
+              <Route
                 path="/superadmin/detailA/:id"
                 component={DetailAdmin}
                 exact
               />
-               <Route
-                path="/superadmin/editA/:id"
-                component={EditAdmin}
-                exact
-              />
+              <Route path="/superadmin/editA/:id" component={EditAdmin} exact />
             </>
           )}
           {/* end superadmin */}

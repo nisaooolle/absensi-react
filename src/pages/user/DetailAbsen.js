@@ -234,7 +234,7 @@ function DetailAbsen() {
                       </div>
                       <div class="relative z-0 w-full mb-6 group">
                         <img
-                          class="max-width-60 max-height-70 mt-10"
+                          class="max-width-100 max-height-70 mt-10"
                           style={{ marginBottom: "25px", marginLeft: "5px" }}
                           src={item.fotoPulang ? item.fotoPulang : "-"}
                           alt="Foto Pulang"
