@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarSuper";
+import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,17 +13,20 @@ import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 
-function Organisasi() {
+function OrganisasiSA() {
   const [userData, setUserData] = useState([]);
   const getAllKaryawan = async () => {
     const token = localStorage.getItem("token");
-
+    const idAdmin = localStorage.getItem("adminId");
     try {
-      const response = await axios.get(`http://localhost:2024/api/admin/all`, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
+      const response = await axios.get(
+        `http://localhost:2024/api/organisasi/all-by-admin/${idAdmin}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
 
       setUserData(response.data);
     } catch (error) {
@@ -43,7 +46,7 @@ function Organisasi() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:2024/api/admin/delete/` + id, {
+          await axios.delete(`http://localhost:2024/api/organisasi/delete/` + id, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -86,11 +89,11 @@ function Organisasi() {
             <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
               <div class="flex justify-between">
                 <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                  Data Admin
+                  Data Organisasi
                 </h6>
                 <a
                   type="button"
-                  href="/superadmin/addA"
+                  href="/superadmin/addO"
                   class="text-white bg-indigo-500  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                 >
                   <FontAwesomeIcon icon={faPlus} size="lg" />
@@ -111,10 +114,19 @@ function Organisasi() {
                         No
                       </th>
                       <th scope="col" class="px-6 py-3">
-                        Email
+                        Admin
                       </th>
                       <th scope="col" class="px-6 py-3">
-                        Username
+                        Nama
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        Alamat
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        Telepon
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        Email
                       </th>
                       <th scope="col" class="px-6 py-3 text-center">
                         Aksi
@@ -134,16 +146,11 @@ function Organisasi() {
                         >
                           {index + 1}
                         </th>
-                        <td class="px-6 py-4">{admin.username}</td>
-                        <td class="px-6 py-4">
-                          <a
-                            href="/cdn-cgi/l/email-protection"
-                            class="__cf_email__"
-                            data-cfemail="5a363b23363b1a3d373b333674393537"
-                          >
-                            {admin.email}
-                          </a>{" "}
-                        </td>
+                        <td class="px-6 py-4">{admin.admin.username}</td>
+                        <td class="px-6 py-4">{admin.namaOrganisasi}</td>
+                        <td class="px-6 py-4">{admin.alamat}</td>
+                        <td class="px-6 py-4">{admin.nomerTelepon}</td>
+                        <td class="px-6 py-4">{admin.emailOrganisasi}</td>
                         <td className=" py-3">
                           <div className="flex items-center -space-x-4 ml-12">
                             <a href={`/superadmin/detailA/${admin.id}`}>
@@ -193,4 +200,4 @@ function Organisasi() {
   );
 }
 
-export default Organisasi;
+export default OrganisasiSA;
