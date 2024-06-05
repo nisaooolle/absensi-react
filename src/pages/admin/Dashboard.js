@@ -76,11 +76,20 @@ function Dashboard() {
   const getCuti = () =>
     fetchData("http://localhost:2024/api/cuti/getall", setCutiData);
   const getJabatan = () =>
-    fetchData(`http://localhost:2024/api/jabatan/getByAdmin/${adminId}`, setJabatanData);
+    fetchData(
+      `http://localhost:2024/api/jabatan/getByAdmin/${adminId}`,
+      setJabatanData
+    );
   const getLokasi = () =>
-    fetchData(`http://localhost:2024/api/lokasi/get-admin/${idAdmin}`, setLokasiData);
+    fetchData(
+      `http://localhost:2024/api/lokasi/get-admin/${idAdmin}`,
+      setLokasiData
+    );
   const getOrganisasi = () =>
-    fetchData(`http://localhost:2024/api/organisasi/all-by-admin/${idAdmin}`, setOrganisasiData);
+    fetchData(
+      `http://localhost:2024/api/organisasi/all-by-admin/${idAdmin}`,
+      setOrganisasiData
+    );
 
   const getUsername = async () => {
     const token = localStorage.getItem("token");
@@ -238,7 +247,9 @@ function Dashboard() {
                         {index + 1}
                       </th>
                       <td className="px-6 py-4">{absen.user.username}</td>
-                      <td className="px-6 py-4">{absen.tanggalAbsen}</td>
+                      <td className="px-6 py-4">
+                        {formatDate(absen.tanggalAbsen)}
+                      </td>
                       <td className="px-6 py-4">{absen.jamMasuk || "-"}</td>
                       <td className="px-6 py-4">{absen.jamPulang || "-"}</td>
                       <td className="px-6 py-4">{absen.statusAbsen}</td>

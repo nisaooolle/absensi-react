@@ -46,8 +46,8 @@ function IzinAbsen() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const izin = {
-      keteranganPulangAwal : keteranganPulangAwal
-    }
+      keteranganPulangAwal: keteranganPulangAwal,
+    };
     try {
       const response = await axios.put(
         `http://localhost:2024/api/absensi/izin-tengah-hari/${userId}`,
@@ -108,7 +108,7 @@ function IzinAbsen() {
               <div className="flex justify-between mt-6">
                 <button
                   type="submit"
-                  className="block w-20 sm:w-24 rounded-lg text-black outline outline-[#0b409c] py-3 text-sm sm:text-xs font-medium"
+                  className="block w-20 sm:w-24 rounded-lg text-black outline outline-blue-500 py-3 text-sm sm:text-xs font-medium"
                 >
                   Simpan
                 </button>

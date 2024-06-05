@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../../../components/NavbarAdmin";
 import Sidebar from "../../../components/SidebarUser";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import axios from "axios";
 
 function DetailAbsensi() {
+  const [absensi, setAbsensi] = useState(null);
+  const { id } = useParams();
+
+  const getAbsensiId = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:2024/api/absensi/getData/${id}`
+      );
+      setAbsensi(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAbsensiId();
+  }, [id]);
+
+  if (!absensi) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -23,7 +47,6 @@ function DetailAbsensi() {
                 {/* <!-- Header --> */}
                 <div class="flex justify-between">
                   <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                    {" "}
                     Detail Absen
                   </h6>
                 </div>
@@ -40,7 +63,7 @@ function DetailAbsensi() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autocomplete="off"
-                        value="nana"
+                        value={absensi.user?.username || ""}
                         required
                         readonly
                       />
@@ -59,7 +82,7 @@ function DetailAbsensi() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autocomplete="off"
-                        value="25 April 2024"
+                        value={absensi.tanggalAbsen}
                         required
                         readonly
                       />
@@ -79,7 +102,7 @@ function DetailAbsensi() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autocomplete="off"
-                        value="05.00"
+                        value={absensi.jamMasuk}
                         required
                         readonly
                       />
@@ -98,7 +121,7 @@ function DetailAbsensi() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autocomplete="off"
-                        value="17.00"
+                        value={absensi.jamPulang}
                         required
                         readonly
                       />
@@ -117,7 +140,7 @@ function DetailAbsensi() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autocomplete="off"
-                        value=""
+                        value={absensi.lokasiMasuk ? absensi.lokasiMasuk : "-"}
                         required
                         readonly
                       />
@@ -136,7 +159,9 @@ function DetailAbsensi() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autocomplete="off"
-                        value=""
+                        value={
+                          absensi.lokasiPulang ? absensi.lokasiPulang : "-"
+                        }
                         required
                         readonly
                       />
@@ -147,30 +172,36 @@ function DetailAbsensi() {
                         Lokasi Pulang
                       </label>
                     </div>
-                    <img
-                      class="max-width-100 max-height-96"
-                      style={{ marginBottom: "25px", marginLeft: "50px" }}
-                      src="https://demo-absen.excellentsistem.com/images/user/1706149667561.jpg"
-                      alt="Foto Masuk"
-                    />
-                    <label
-                      for="foto"
-                      class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      Foto Masuk:
-                    </label>
-                    <img
-                      class="max-width-100 max-height-96"
-                      style={{ marginBottom: "25px", marginLeft: "50px" }}
-                      src="https://demo-absen.excellentsistem.com/images/user/1706149667561.jpg"
-                      alt="Foto Pulang"
-                    />
-                    <label
-                      for="foto"
-                      class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      Foto Pulang:
-                    </label>
+                    <div class="relative z-0 w-full mb-6 group">
+                      <img
+                        class="max-width-100 max-height-70 mt-10"
+                        style={{ marginBottom: "25px", marginLeft: "5px" }}
+                        src={absensi.fotoMasuk ? absensi.fotoMasuk : "-"}
+                        alt="Foto Masuk"
+                      />
+                      <label
+                        for="foto"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        Foto Masuk:
+                      </label>
+                    </div>
+                    <div class="relative z-0 w-full mb-6 group">
+                      {" "}
+                      <img
+                        class="max-width-100 max-height-70 mt-10"
+                        style={{ marginBottom: "25px", marginLeft: "5px" }}
+                        src={absensi.fotoPulang ? absensi.fotoPulang : "-"}
+                        alt="Foto Pulang"
+                      />
+                      <label
+                        for="foto"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        Foto Pulang:
+                      </label>
+                    </div>
+
                     <div class="relative z-0 w-full mb-6 group">
                       <input
                         type="text"
@@ -179,7 +210,7 @@ function DetailAbsensi() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autocomplete="off"
-                        value="05.00"
+                        value={absensi.statusAbsen}
                         required
                         readonly
                       />
@@ -198,7 +229,11 @@ function DetailAbsensi() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=""
                         autocomplete="off"
-                        value=""
+                        value={
+                          absensi.keteranganTerlambat
+                            ? absensi.keteranganTerlambat
+                            : "-"
+                        }
                         required
                         readonly
                       />
@@ -217,7 +252,11 @@ function DetailAbsensi() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=""
                         autocomplete="off"
-                        value="-"
+                        value={
+                          absensi.keteranganPulangAwal
+                            ? absensi.keteranganPulangAwal
+                            : "-"
+                        }
                         required
                         readonly
                       />
@@ -236,7 +275,9 @@ function DetailAbsensi() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=""
                         autocomplete="off"
-                        value="-"
+                        value={
+                          absensi.keteranganIzin ? absensi.keteranganIzin : "-"
+                        }
                         required
                         readonly
                       />
@@ -244,7 +285,7 @@ function DetailAbsensi() {
                         for="keterangan"
                         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                       >
-                        Keterangan Pulang Terlambat
+                        Keterangan Izin
                       </label>
                     </div>
                   </div>
