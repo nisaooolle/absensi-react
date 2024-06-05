@@ -17,10 +17,11 @@ function Admin() {
   const [userData, setUserData] = useState([]);
   const getAllKaryawan = async () => {
     const token = localStorage.getItem("token");
+    const idSuperAdmin = localStorage.getItem("superadminId");
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/admin/all`,
+        `http://localhost:2024/api/admin/get-all-by-super/${idSuperAdmin}`,
         {
           headers: {
             Authorization: `${token}`,

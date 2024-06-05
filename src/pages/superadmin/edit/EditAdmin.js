@@ -12,11 +12,10 @@ function EditAdmin() {
     const [username, setUsername] = useState("");
     const param = useParams();
     const history = useHistory();
-    const { id } = useParams();
   
     useEffect(() => {
       axios
-        .get(`http://localhost:2024/api/admin/getById/${id}` , {
+        .get(`http://localhost:2024/api/admin/getById/`  + param.id , {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

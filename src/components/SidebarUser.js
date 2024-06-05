@@ -21,6 +21,8 @@ import {
   faUserCheck,
   faUserGear,
   faUserPen,
+  faUserPlus,
+  faUserTie,
   faUsers,
   faUsersGear,
 } from "@fortawesome/free-solid-svg-icons";
@@ -468,7 +470,7 @@ const Sidebar = () => {
                 >
                   <FontAwesomeIcon
                     className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
-                    icon={faDatabase}
+                    icon={faUserTie}
                   />
                   <span class="flex-1 ml-3 text-left whitespace-nowrap">
                     Data Admin
@@ -566,7 +568,7 @@ const Sidebar = () => {
                 >
                   <FontAwesomeIcon
                     className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
-                    icon={faSignal}
+                    icon={faUserPlus}
                   />
                   <span class="flex-1 ml-3 text-left whitespace-nowrap">
                     Data User
