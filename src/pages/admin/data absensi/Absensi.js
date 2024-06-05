@@ -18,10 +18,11 @@ function Absensi() {
 
   const getAllAbsensi = async () => {
     const token = localStorage.getItem("token");
+    const adminId = localStorage.getItem("adminId");
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/absensi/getAll`,
+        `http://localhost:2024/api/absensi/admin/${adminId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
