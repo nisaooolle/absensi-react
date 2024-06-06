@@ -3,7 +3,6 @@ import Navbar from "../../../components/NavbarAdmin";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCircleInfo,
   faPenToSquare,
   faPlus,
   faTrash,
@@ -13,16 +12,17 @@ import Swal from "sweetalert2";
 
 function Jabatan() {
   const [userData, setUserData] = useState([]);
-  const getAllJabatan = async () => {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
+  const idAdmin = localStorage.getItem("adminId");
 
+  const getAllJabatan = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/jabatan/all`,
+        `http://localhost:2024/api/jabatan/getByAdmin/${idAdmin}`,
         {
-          // headers: {
-          //   Authorization: `${token}`,
-          // },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -46,7 +46,7 @@ function Jabatan() {
         try {
           await axios.delete(`http://localhost:2024/api/jabatan/delete/` + id, {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${token}`,
             },
           });
 
@@ -146,7 +146,7 @@ function Jabatan() {
                             data-cfemail="5a363b23363b1a3d373b333674393537"
                           >
                             {jabatan.jumlahKaryawan}
-                          </a>{" "}
+                          </a>
                         </td>
                         <td class="px-6 py-4">{jabatan.admin.username} </td>
                         <td className="py-3">
