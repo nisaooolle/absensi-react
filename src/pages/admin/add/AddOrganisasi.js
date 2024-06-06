@@ -35,13 +35,12 @@ export default function AddOrganisasi() {
       emailOrganisasi: emailOrganisasi,
     };
 
-    formData.append("organisasi", JSON.stringify(organisasi));
-    formData.append("image", image);
+     formData.append("image", image);
 
     try {
       const response = await axios.post(
         `http://localhost:2024/api/organisasi/tambahByIdAdmin/${idAdmin}`,
-        formData,
+        formData , organisasi ,
         {
           headers: {
             "Content-Type": "multipart/form-data",

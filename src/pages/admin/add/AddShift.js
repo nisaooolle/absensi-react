@@ -25,7 +25,7 @@ function AddShift() {
         shift
       );
       Swal.fire("Berhasil", "Berhasil menambahkan organisasi", "success");
-      window.location.reload();
+      window.location.href = "/admin/shift";
     } catch (error) {
       console.error("There was an error uploading the organization!", error);
     }

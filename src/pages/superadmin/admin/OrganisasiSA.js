@@ -15,12 +15,12 @@ import Swal from "sweetalert2";
 
 function OrganisasiSA() {
   const [userData, setUserData] = useState([]);
+  const idSuperAdmin = localStorage.getItem("superadminId");
+  const token = localStorage.getItem("token");
   const getAllKaryawan = async () => {
-    const token = localStorage.getItem("token");
-    const idAdmin = localStorage.getItem("adminId");
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/organisasi/all-by-admin/${idAdmin}`,
+        `http://localhost:2024/api/organisasi/superadmin/${idSuperAdmin}`,
         {
           headers: {
             Authorization: `${token}`,
