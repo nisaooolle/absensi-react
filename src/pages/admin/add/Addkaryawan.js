@@ -10,11 +10,12 @@ function AddKaryawan() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [organisasi, setOrganisasi] = useState("");
+  const [idOrganisasi, setIdOrganisasi] = useState("");
   const [idJabatan, setIdJabatan] = useState("");
-  const [shift, setShift] = useState(0);
+  const [idShift, setIdShift] = useState("");
   const [password, setPassword] = useState("");
   const idAdmin = localStorage.getItem("adminId");
+  const adminId = localStorage.getItem("adminId");
   const [organisasiList, setOrganisasiList] = useState([]);
   const [jabatanList, setJabatanList] = useState([]);
   const [shiftList, setShiftList] = useState([]);
@@ -29,9 +30,11 @@ function AddKaryawan() {
     GetAllShift();
   }, []);
 
-  const GetAllOrganisasi = async () => {
+  const GetAllOrganisasi= async () => {
     try {
-      const response = await axios.get("http://localhost:2024/api/organisasi/all");
+      const response = await axios.get(
+        `http://localhost:2024/api/organisasi/all-by-admin/${idAdmin}`
+      );
       setOrganisasiList(response.data);
     } catch (error) {
       console.log(error);
@@ -40,7 +43,9 @@ function AddKaryawan() {
 
   const GetAllJabatan = async () => {
     try {
-      const response = await axios.get("http://localhost:2024/api/jabatan/all");
+      const response = await axios.get(
+        `http://localhost:2024/api/jabatan/getByAdmin/${adminId}`
+      );
       setJabatanList(response.data);
     } catch (error) {
       console.log(error);
@@ -49,61 +54,36 @@ function AddKaryawan() {
 
   const GetAllShift = async () => {
     try {
-      const response = await axios.get("http://localhost:2024/api/shift/getall");
+      const response = await axios.get(
+        `http://localhost:2024/api/shift/getall-byadmin/${idAdmin}`
+      );
       setShiftList(response.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-//   const tambahKaryawan = async (e) => {
-//     e.preventDefault();
-//     try {
-//         const newUser = {
-//             email: email,
-//             password: password,
-//             username: username,
-//             organisasi: organisasi,  
-//             jabatan: jabatan,  
-//             shift: shift, 
-//         };
-//         const response = await axios.post(
-//             `http://localhost:2024/api/user/tambahkaryawan/${adminId}`,
-//             newUser
-//         );
-//         console.log(response);
-//         Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
-//         window.location.reload();
-//     } catch (error) {
-//         console.log(error);
-//         Swal.fire("Error", "Gagal menambahkan data", "error");
-//     }
-// };
-const tambahKaryawan = async (e) => {
-  e.preventDefault();
-  const idOrganisasi = organisasi;
-  const idJabatann = idJabatan;
-  const idShift = shift; 
-  try {
+ 
+  const tambahKaryawan = async (e) => {
+    e.preventDefault();
+  
+    try {
       const newUser = {
-          email: email,
-          username: username,
-          organisasi: { idOrganisasi: idOrganisasi },   
-          jabatan: { idJabatan: idJabatann },  // Jabatan ID dalam objek
-          shift: { idShift: idShift },  // Shift ID dalam objek
-          password: password,
+        email: email,
+        username: username,
+        password: password,
       };
       const response = await axios.post(
-          `http://localhost:2024/api/user/tambahkaryawan/${idAdmin}`,
-          newUser
-      );
+        `http://localhost:2024/api/user/tambahkaryawan/${idAdmin}?idOrganisasi=${idOrganisasi}&idJabatan=${idJabatan}&idShift=${idShift}`,
+        newUser
+    );
       Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
-      window.location.reload();
-  } catch (error) {
+      window.location.href = "/admin/karyawan";
+    } catch (error) {
       console.log(error);
       Swal.fire("Error", "Gagal menambahkan data", "error");
-  }
-};
+    }
+  };
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -172,19 +152,20 @@ const tambahKaryawan = async (e) => {
                         Organisasi
                       </label>
                       <select
-                        value={organisasi}
-                        onChange={(e) => setOrganisasi(e.target.value)}
+                        value={idOrganisasi}
+                        onChange={(e) => setIdOrganisasi(e.target.value)}
                         name="id_organisasi"
                         className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                       >
                         <option value="" disabled selected>
                           Pilih Organisasi
                         </option>
-                        {organisasiList.map((org) => (
-                          <option key={org.id} value={org.id}>
-                            {org.namaOrganisasi}
-                          </option>
-                        ))}
+                        {organisasiList &&
+                          organisasiList.map((org) => (
+                            <option key={org.id} value={org.id}>
+                              {org.namaOrganisasi}
+                            </option>
+                          ))}
                       </select>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
@@ -199,7 +180,7 @@ const tambahKaryawan = async (e) => {
                           Pilih Jabatan
                         </option>
                         {jabatanList.map((jab) => (
-                          <option key={jab.id} value={jab.id}>
+                          <option key={jab.id} value={jab.idJabatan}>
                             {jab.namaJabatan}
                           </option>
                         ))}
@@ -211,8 +192,8 @@ const tambahKaryawan = async (e) => {
                       </label>
                       <select
                         name="id_shift"
-                        value={shift}
-                        onChange={(e) => setShift(e.target.value)}
+                        value={idShift}
+                        onChange={(e) => setIdShift(e.target.value)}
                         className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                       >
                         <option value="" disabled selected>

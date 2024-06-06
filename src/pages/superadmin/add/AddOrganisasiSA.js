@@ -7,37 +7,32 @@ import axios from "axios";
 import Swal from "sweetalert2";
 function AddOrganisasiSA() {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
+  const [emailOrganisasi, setEmailOrganisasi] = useState("");
   const [namaOrganisasi, setnamaorganisasi] = useState("");
   const [alamat, setAlamat] = useState("");
-  const [nomerTelepon, setNohp] = useState("");
+  const [nomerTelepon, setNomerTelepon] = useState("");
   const [kecamatan, setKecamatan] = useState("");
   const [kabupaten, setKabupaten] = useState("");
   const [provinsi, setProvinsi] = useState("");
   const idSuperAdmin = localStorage.getItem("superadminId");
   const [organisasiList, setOrganisasiList] = useState([]);
+  const [adminList, setAdminList] = useState([]);
   const [organisasi, setOrganisasi] = useState("");
-  const handleShowPasswordChange = () => {
-    setShowPassword(!showPassword);
+  const [idAdmin, setAdminId] = useState("");
+
+  const GetALLAdmin = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/admin/get-all-by-super/${idSuperAdmin}`
+      );
+      setAdminList(response.data);
+    } catch (error) {
+      console.log(error);
+      Swal.fire("Error", "Gagal mendapatkan data admin", "error");
+    }
   };
-  useEffect(() => {
-    GetALLOrganisasi();
-  }, []);
 
-  // const GetALLOrganisasi = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "http://localhost:2024/api/organisasi/all"
-  //     );
-  //     setOrganisasiList(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //     Swal.fire("Error", "Gagal mendapatkan data organisasi", "error");
-  //   }
-  // };
   const GetALLOrganisasi = async () => {
-    const idSuperAdmin = localStorage.getItem("superadminId");
-
     try {
       const response = await axios.get(
         `http://localhost:2024/api/admin/get-all-by-super/${idSuperAdmin}`
@@ -48,31 +43,40 @@ function AddOrganisasiSA() {
       console.error("Error fetching data:", error);
     }
   };
-
   const tambahAdmin = async (e) => {
     e.preventDefault();
     try {
-      const newUser = {
+      const organisasi = {
         namaOrganisasi: namaOrganisasi,
         alamat: alamat,
-        nomerTelepon: nomerTelepon,
-        email: email,
         kecamatan: kecamatan,
         kabupaten: kabupaten,
         provinsi: provinsi,
+        nomerTelepon: nomerTelepon,
+        emailOrganisasi: emailOrganisasi,
+       };
+  
       
-      };
+  
       const response = await axios.post(
-        `http://localhost:2024/api/organisasi/tambahByIdAdmin/${idSuperAdmin}`,
-        newUser
+        `http://localhost:2024/api/organisasi/tambahByIdSuperAdmin/${idSuperAdmin}?idAdmin=${idAdmin}`,
+        organisasi,
+       
       );
       Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
-      window.location.reload();
+      window.location.href = "/superadmin/organisasi";
     } catch (error) {
       console.log(error);
       Swal.fire("Error", "Gagal menambahkan data", "error");
     }
   };
+  const handleShowPasswordChange = () => {
+    setShowPassword(!showPassword);
+  };
+  useEffect(() => {
+    GetALLOrganisasi();
+    GetALLAdmin();
+  }, []);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -161,7 +165,7 @@ function AddOrganisasiSA() {
                         autocomplete="off"
                         required
                         value={nomerTelepon}
-                        onChange={(e) => setNohp(e.target.value)}
+                        onChange={(e) => setNomerTelepon(e.target.value)}
                       />
                       <label
                         for="nomor_telepon"
@@ -181,8 +185,8 @@ function AddOrganisasiSA() {
                         placeholder=" "
                         autocomplete="off"
                         required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={emailOrganisasi}
+                        onChange={(e) => setEmailOrganisasi(e.target.value)}
                       />
                       <label
                         for="email_organisasi"
@@ -260,24 +264,21 @@ function AddOrganisasiSA() {
                     </div>
 
                     {/* <!-- Admin Input --> */}
-                    <div class="relative z-0 w-full mb-6 group">
+                    <div className="relative z-0 w-full mb-6 group">
                       <select
                         id="id_admin"
                         name="id_admin"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-                        onChange={(e) => {
-                          const selectedOrg = organisasiList.find(
-                            (org) => org.email === e.target.value
-                          );
-                          setOrganisasi(selectedOrg ? selectedOrg.id : "");
-                        }}
+                        className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                        onChange={(e) => setAdminId(e.target.value)}
                         required
                       >
-                        <option selected>Pilih Admin</option>
-                        {organisasiList &&
-                          organisasiList.map((org) => (
-                            <option key={org.id} value={org.email}>
-                              {org.email}
+                        <option value="" disabled selected>
+                          Pilih Admin
+                        </option>
+                        {adminList &&
+                          adminList.map((admin) => (
+                            <option key={admin.id} value={admin.id}>
+                              {admin.username}
                             </option>
                           ))}
                       </select>

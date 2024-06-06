@@ -8,6 +8,7 @@ import {
   faClipboardUser,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 // import jwt from 'jsonwebtoken';
 
 
@@ -106,6 +107,16 @@ function DashboardSA() {
     getJabatan();
     getLokasi();
     getOrganisasi();
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("loginSuccess") === "true") {
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil masuk!",
+      });
+      localStorage.removeItem("loginSuccess");
+    }
   }, []);
   return (
     <div className="flex flex-col h-screen">
