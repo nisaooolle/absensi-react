@@ -3,72 +3,137 @@ import Navbar from "../../../components/NavbarAdmin";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import {
-  useHistory,
-  useParams,
-} from "react-router-dom/cjs/react-router-dom.min";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 function EditJabatan() {
   const [namaJabatan, setNamaJabatan] = useState("");
-  const param = useParams();
-  const history = useHistory();
-
+  const { id } = useParams();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:2024/api/jabatan/getbyid/` + param.id, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((ress) => {
-        const response = ress.data;
-        namaJabatan(response.namaJabatan);
-        // console.log("pengumuman : ", ress.data.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-  const updateJabatan = async (e) => {
-    e.preventDefault();
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
 
-    const formData = new FormData();
-    formData.append("namaJabatan", namaJabatan);
+        const response = await axios.get(
+          `http://localhost:2024/api/jabatan/getbyid/${id}`,
+          config
+        );
+        const dataJabatan = response.data;
 
-    await axios
-      .put(
-        `http://localhost:2024/api/jabatan/edit/` + param.idJabatan,
-        formData,
-        {
-          // headers: {
-          //   Authorization: `Bearer ${localStorage.getItem("token")}`,
-          // },
-        }
-      )
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Mengedit Berita",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        history.push("/jabatan");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-      })
-      .catch((error) => {
-        if (error.ressponse && error.response.status === 401) {
-          localStorage.clear();
-          history.push("/login");
-        } else {
-          console.log(error);
-        }
-      });
+        // Mengisi state dengan data yang didapatkan dari API
+        setNamaJabatan(dataJabatan.namaJabatan);
+      } catch (error) {
+        alert("Terjadi kesalahan Sir! " + error);
+      }
+    };
+
+    fetchData();
+  }, [id]); // Memastikan useEffect dipanggil kembali ketika nilai id berubah
+
+  const namaJabatanChangeHandler = (event) => {
+    setNamaJabatan(event.target.value);
   };
+
+  const submitActionHandler = async (event) => {
+    event.preventDefault();
+
+    // Mendapatkan token autentikasi dari local storage
+    const token = localStorage.getItem("token");
+
+    // Membuat objek konfigurasi untuk menyertakan token dalam header
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`, // Menyertakan token dalam header "Authorization"
+      },
+    };
+
+    try {
+      // Melakukan permintaan PUT ke URL tertentu dengan data guru yang telah diformat
+      await axios.put(
+        `http://localhost:2024/api/jabatan/edit/${id}`,
+        {
+          namaJabatan,
+        },
+        config // Menyertakan objek konfigurasi yang berisi token autentikasi
+      );
+
+      // Jika permintaan berhasil, tampilkan pesan sukses dan arahkan kembali ke halaman "/guru"
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Edit Berhasil",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setTimeout(() => {
+        window.location.href = "/admin/jabatan";
+      }, 1500);
+    } catch (error) {
+      // Jika terjadi kesalahan, tampilkan pesan kesalahan
+      alert("Terjadi kesalahan: " + error);
+    }
+  };
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:2024/api/jabatan/getbyid/` + param.id, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     })
+  //     .then((ress) => {
+  //       const response = ress.data;
+  //       namaJabatan(response.namaJabatan);
+  //       // console.log("pengumuman : ", ress.data.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+  // const updateJabatan = async (e) => {
+  //   e.preventDefault();
+
+  //   const formData = new FormData();
+  //   formData.append("namaJabatan", namaJabatan);
+
+  //   await axios
+  //     .put(
+  //       `http://localhost:2024/api/jabatan/edit/` + param.idJabatan,
+  //       formData,
+  //       {
+  //         // headers: {
+  //         //   Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         // },
+  //       }
+  //     )
+  //     .then(() => {
+  //       Swal.fire({
+  //         icon: "success",
+  //         title: "Berhasil Mengedit Berita",
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //       history.push("/jabatan");
+  //       setTimeout(() => {
+  //         window.location.reload();
+  //       }, 1500);
+  //     })
+  //     .catch((error) => {
+  //       if (error.ressponse && error.response.status === 401) {
+  //         localStorage.clear();
+  //         history.push("/login");
+  //       } else {
+  //         console.log(error);
+  //       }
+  //     });
+  // };
 
   //get by id category
   // const getAllCategoryId = async () => {
@@ -88,9 +153,9 @@ function EditJabatan() {
   //   }
   // };
 
-  useEffect(() => {
-    // getAllCategoryId();
-  }, []);
+  // useEffect(() => {
+  //   // getAllCategoryId();
+  // }, []);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -116,7 +181,7 @@ function EditJabatan() {
                 <div class="mt-5 text-left">
                   {/* <!-- Form Update Jabatan --> */}
                   <form
-                    onSubmit={updateJabatan}
+                    onSubmit={submitActionHandler}
                     method="post"
                     action="https://demo-absen.excellentsistem.com/admin/aksi_edit_jabatan"
                     id="updateForm"
@@ -133,8 +198,7 @@ function EditJabatan() {
                         autocomplete="off"
                         required
                         value={namaJabatan}
-                        // value={author}
-                        onChange={(e) => setNamaJabatan(e.target.value)}
+                        onChange={namaJabatanChangeHandler}
                       />
                       <label
                         for="name"
