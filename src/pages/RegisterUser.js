@@ -3,18 +3,15 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 import Logo from "../components/absensii.png";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import ikon dari react-icons
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function RegisterUser() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [idOrganisasi, setIdOrganisasi] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [organisasiList, setOrganisasiList] = useState([]);
-  const [selectedOrganisasi, setSelectedOrganisasi] = useState(""); // Tambah state untuk menyimpan nama organisasi yang dipilih
-
   const history = useHistory();
 
   useEffect(() => {
@@ -47,21 +44,12 @@ function RegisterUser() {
     }
 
     try {
-      // Dapatkan ID organisasi berdasarkan nama yang dipilih
-      const selectedOrg = organisasiList.find(
-        (org) => org.namaOrganisasi === selectedOrganisasi
-      );
-      if (!selectedOrg) {
-        throw new Error("Organisasi tidak ditemukan");
-      }
-
       const response = await axios.post(
-        "http://localhost:2024/api/user/register",
+        ` http://localhost:2024/api/user/register?idOrganisasi=${idOrganisasi}`,
         {
           username: username,
           email: email,
           password: password,
-          idOrganisasi: selectedOrg.id, // Gunakan ID organisasi
         }
       );
 
@@ -78,16 +66,7 @@ function RegisterUser() {
       }, 1500);
     } catch (error) {
       console.error("Error during registration:", error);
-
-      const message =
-        error.response?.data ||
-        "Terjadi kesalahan saat mendaftar. Coba lagi nanti.";
-      setErrorMessage(message);
-      Swal.fire({
-        icon: "error",
-        title: "Terjadi kesalahan saat mendaftar",
-        text: message,  
-      });
+      Swal.fire("Error", "Gagal mendaftar silahkan coba lagi", "error");
     }
   };
   return (
@@ -124,16 +103,16 @@ function RegisterUser() {
                   />
                   <select
                     className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                    value={selectedOrganisasi}
-                    onChange={(e) => setSelectedOrganisasi(e.target.value)}
+                    value={idOrganisasi}
+                    onChange={(e) => setIdOrganisasi(e.target.value)}
                     required
                   >
-                    <option value="" disabled hidden>
+                    <option value="" disabled selected>
                       Pilih Organisasi
                     </option>
                     {organisasiList &&
                       organisasiList.map((org) => (
-                        <option key={org.id} value={org.namaOrganisasi}>
+                        <option key={org.id} value={org.id}>
                           {org.namaOrganisasi}
                         </option>
                       ))}

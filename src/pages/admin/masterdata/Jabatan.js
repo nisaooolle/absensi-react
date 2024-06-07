@@ -14,6 +14,7 @@ function Jabatan() {
   const [userData, setUserData] = useState([]);
   const token = localStorage.getItem("token");
   const idAdmin = localStorage.getItem("adminId");
+  const [jumlahKaryawan, setJumlahKaryawan] = useState({});
 
   const getAllJabatan = async () => {
     try {
@@ -27,6 +28,26 @@ function Jabatan() {
       );
 
       setUserData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const getAllUser = async (idJabatan) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/user/byJabatan/${idJabatan}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setJumlahKaryawan((prevState) => ({
+        ...prevState,
+        [idJabatan]: response.data.length,
+      }));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -69,9 +90,17 @@ function Jabatan() {
       }
     });
   };
+
   useEffect(() => {
     getAllJabatan();
   }, []);
+
+  useEffect(() => {
+    userData.forEach((jabatan) => {
+      getAllUser(jabatan.idJabatan);
+    });
+  }, [userData]);
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -83,7 +112,6 @@ function Jabatan() {
         </div>
         <div class=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
           <div class="p-5 mt-10">
-            {/* <!-- Card --> */}
             <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
               <div class="flex justify-between">
                 <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
@@ -98,14 +126,11 @@ function Jabatan() {
                 </a>
               </div>
               <hr />
-
-              {/* <!-- Tabel --> */}
               <div class="relative overflow-x-auto mt-5">
                 <table
                   id="dataJabatan"
                   class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                 >
-                  {/* <!-- Tabel Head --> */}
                   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                       <th scope="col" class="px-6 py-3">
@@ -125,7 +150,6 @@ function Jabatan() {
                       </th>
                     </tr>
                   </thead>
-                  {/* <!-- Tabel Body --> */}
                   <tbody class="text-left">
                     {userData.map((jabatan, index) => (
                       <tr
@@ -140,13 +164,9 @@ function Jabatan() {
                         </th>
                         <td class="px-6 py-4">{jabatan.namaJabatan}</td>
                         <td class="px-6 py-4">
-                          <a
-                            href="/cdn-cgi/l/email-protection"
-                            class="__cf_email__"
-                            data-cfemail="5a363b23363b1a3d373b333674393537"
-                          >
-                            {jabatan.jumlahKaryawan}
-                          </a>
+                          {jumlahKaryawan[jabatan.idJabatan] !== undefined
+                            ? jumlahKaryawan[jabatan.idJabatan] || "Kosong"
+                            : "Loading..."}
                         </td>
                         <td class="px-6 py-4">{jabatan.admin.username} </td>
                         <td className="py-3">
