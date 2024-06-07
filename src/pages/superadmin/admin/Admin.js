@@ -138,7 +138,6 @@ function Admin() {
                         >
                           {index + 1}
                         </th>
-                        <td class="px-6 py-4">{admin.username}</td>
                         <td class="px-6 py-4">
                           <a
                             href="/cdn-cgi/l/email-protection"
@@ -148,6 +147,7 @@ function Admin() {
                             {admin.email}
                           </a>{" "}
                         </td>
+                        <td class="px-6 py-4">{admin.username}</td>
                         <td className=" py-3">
                           <div className="flex items-center -space-x-4 ml-12">
                             <a href={`/superadmin/detailA/${admin.id}`}>

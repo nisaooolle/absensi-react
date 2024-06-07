@@ -153,7 +153,7 @@ function OrganisasiSA() {
                         <td class="px-6 py-4">{admin.emailOrganisasi}</td>
                         <td className=" py-3">
                           <div className="flex items-center -space-x-4 ml-12">
-                            <a href={`/superadmin/detailA/${admin.id}`}>
+                            <a href={`/superadmin/detailO/${admin.id}`}>
                               <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
                                 <span className="relative inline-block">
                                   <FontAwesomeIcon
@@ -163,7 +163,7 @@ function OrganisasiSA() {
                                 </span>
                               </button>
                             </a>
-                            <a href={`/superadmin/editA/${admin.id}`}>
+                            <a href={`/superadmin/editO/${admin.id}`}>
                               <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
                                 <span className="relative inline-block">
                                   <FontAwesomeIcon

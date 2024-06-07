@@ -57,6 +57,7 @@ import EditAdmin from "./pages/superadmin/edit/EditAdmin";
 import DetailLembur from "./pages/admin/detail/DetailLembur";
 import OrganisasiSA from "./pages/superadmin/admin/OrganisasiSA";
 import AddOrganisasiSA from "./pages/superadmin/add/AddOrganisasiSA";
+import EditOrganisasiSA from "./pages/superadmin/edit/EditOrganisasiSA";
 function App() {
   const role = localStorage.getItem("role");
   return (
@@ -184,7 +185,7 @@ function App() {
                 component={DetailAdmin}
                 exact
               />
-              <Route path="/superadmin/editO/:id" component={EditAdmin} exact />
+              <Route path="/superadmin/editO/:id" component={EditOrganisasiSA} exact />
             </>
           )}
           {/* end superadmin */}
