@@ -17,8 +17,8 @@ function AddJabatan() {
       const response = await axios.get(
         `http://localhost:2024/api/user/${idAdmin}/users`
       );
-      const jumlahKaryawan = response.data.length;  
-      setJumlahKaryawan(jumlahKaryawan);  
+      const jumlahKaryawan = response.data.length;
+      setJumlahKaryawan(jumlahKaryawan);
     } catch (error) {
       console.log(error);
     }
@@ -30,7 +30,7 @@ function AddJabatan() {
       const add = {
         namaJabatan: namaJabatan,
         adminId: adminId,
-        jumlahKaryawan : jumlahKaryawan
+        jumlahKaryawan: null,
       };
       const response = await axios.post(
         `http://localhost:2024/api/jabatan/add/${adminId}`,

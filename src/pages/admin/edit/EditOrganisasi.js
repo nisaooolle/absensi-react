@@ -7,10 +7,10 @@ import {
   faFloppyDisk,
   faPenToSquare,
 } from "@fortawesome/free-solid-svg-icons";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import Loader from "../../../components/Loader"; // Import Loader component
+import Loader from "../../../components/Loader";
 
 function EditOrganisasi() {
   const { id } = useParams();
@@ -23,7 +23,8 @@ function EditOrganisasi() {
   const [provinsi, setProvinsi] = useState("");
   const [fotoOrganisasi, setFotoOrganisasi] = useState(null);
   const [fotoUrl, setFotoUrl] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
+  const idAdmin = localStorage.getItem("adminId");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +42,6 @@ function EditOrganisasi() {
         );
         const dataOrganisasi = response.data;
 
-        // Mengisi state dengan data yang didapatkan dari API
         setNamaOrganisasi(dataOrganisasi.namaOrganisasi);
         setAlamat(dataOrganisasi.alamat);
         setEmailOrganisasi(dataOrganisasi.emailOrganisasi);
@@ -49,14 +49,14 @@ function EditOrganisasi() {
         setKecamatan(dataOrganisasi.kecamatan);
         setKabupaten(dataOrganisasi.kabupaten);
         setProvinsi(dataOrganisasi.provinsi);
-        setFotoUrl(dataOrganisasi.fotoOrganisasi); // Set initial URL
+        setFotoUrl(dataOrganisasi.fotoOrganisasi);
       } catch (error) {
-        alert("Terjadi kesalahan Sir! " + error);
+        alert("Terjadi kesalahan: " + error);
       }
     };
 
     fetchData();
-  }, [id]); // Memastikan useEffect dipanggil kembali ketika nilai id berubah
+  }, [id]);
 
   const handleInputChange = (setter) => (event) => {
     setter(event.target.value);
@@ -64,20 +64,27 @@ function EditOrganisasi() {
 
   const fotoOrganisasiChangeHandler = (event) => {
     setFotoOrganisasi(event.target.files[0]);
-    setFotoUrl(""); // Clear the URL when a new file is selected
+    setFotoUrl("");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const organisasiData = {
+      namaOrganisasi: namaOrganisasi,
+      alamat: alamat,
+      nomerTelepon: nomerTelepon,
+      emailOrganisasi: emailOrganisasi,
+      kecamatan: kecamatan,
+      kabupaten: kabupaten,
+      provinsi: provinsi,
+    };
+
     const formData = new FormData();
-    formData.append("namaOrganisasi", namaOrganisasi);
-    formData.append("alamat", alamat);
-    formData.append("nomerTelepon", nomerTelepon);
-    formData.append("emailOrganisasi", emailOrganisasi);
-    formData.append("kecamatan", kecamatan);
-    formData.append("kabupaten", kabupaten);
-    formData.append("provinsi", provinsi);
+    formData.append(
+      "organisasi",
+      new Blob([JSON.stringify(organisasiData)], { type: "application/json" })
+    );
     if (fotoOrganisasi) {
       formData.append("image", fotoOrganisasi);
     }
@@ -91,17 +98,18 @@ function EditOrganisasi() {
         },
       };
 
-      setLoading(true); // Set loading to true before the request
-      const response = await axios.put(
-        `http://localhost:2024/api/organisasi/editById/${id}`,
+      setLoading(true);
+      await axios.put(
+        `http://localhost:2024/api/organisasi/editById/${id}?idAdmin=${idAdmin}`,
         formData,
         config
       );
-      setLoading(false); // Set loading to false after the request is complete
+      setLoading(false);
 
       Swal.fire("Berhasil", "Organisasi berhasil diperbarui!", "success");
+      window.location.href = "/admin/organisasi";
     } catch (error) {
-      setLoading(false); // Set loading to false in case of an error
+      setLoading(false);
       Swal.fire(
         "Gagal",
         "Terjadi kesalahan saat memperbarui organisasi",
@@ -112,7 +120,7 @@ function EditOrganisasi() {
 
   return (
     <div className="flex flex-col h-screen">
-      {loading && <Loader />} {/* Show loader when loading */}
+      {loading && <Loader />}
       <div className="sticky top-0 z-50">
         <Navbar />
       </div>
@@ -123,18 +131,14 @@ function EditOrganisasi() {
         <div className="sm:ml-64 content-page container p-8 ml-14 md:ml-64 mt-12">
           <div className="p-4">
             <div className="p-5">
-              {/* <!-- Card --> */}
               <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                 <div className="flex justify-between">
                   <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                     Edit Organisasi
                   </h6>
                 </div>
-
                 <hr />
-
                 <div className="mt-5 text-left">
-                  {/* <!-- Form Update Organisasi --> */}
                   <form
                     id="updateForm"
                     onSubmit={handleSubmit}
@@ -186,7 +190,6 @@ function EditOrganisasi() {
                           Nama Organisasi
                         </label>
                       </div>
-
                       <div className="relative z-0 w-full mb-6 group">
                         <input
                           type="text"
@@ -207,49 +210,6 @@ function EditOrganisasi() {
                         </label>
                       </div>
                     </div>
-
-                    <div className="grid md:grid-cols-2 md:gap-6">
-                      <div className="relative z-0 w-full mb-6 group">
-                        <input
-                          type="text"
-                          name="nomer_telepon"
-                          id="nomer_telepon"
-                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                          placeholder=" "
-                          autoComplete="off"
-                          required
-                          value={nomerTelepon}
-                          onChange={handleInputChange(setNomerTelepon)}
-                        />
-                        <label
-                          htmlFor="nomer_telepon"
-                          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                          Nomer Telepon
-                        </label>
-                      </div>
-
-                      <div className="relative z-0 w-full mb-6 group">
-                        <input
-                          type="email"
-                          name="email_organisasi"
-                          id="email_organisasi"
-                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                          placeholder=" "
-                          autoComplete="off"
-                          required
-                          value={emailOrganisasi}
-                          onChange={handleInputChange(setEmailOrganisasi)}
-                        />
-                        <label
-                          htmlFor="email_organisasi"
-                          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                          Email Organisasi
-                        </label>
-                      </div>
-                    </div>
-
                     <div className="grid md:grid-cols-2 md:gap-6">
                       <div className="relative z-0 w-full mb-6 group">
                         <input
@@ -270,7 +230,6 @@ function EditOrganisasi() {
                           Kecamatan
                         </label>
                       </div>
-
                       <div className="relative z-0 w-full mb-6 group">
                         <input
                           type="text"
@@ -291,7 +250,6 @@ function EditOrganisasi() {
                         </label>
                       </div>
                     </div>
-
                     <div className="grid md:grid-cols-2 md:gap-6">
                       <div className="relative z-0 w-full mb-6 group">
                         <input
@@ -312,27 +270,62 @@ function EditOrganisasi() {
                           Provinsi
                         </label>
                       </div>
+                      <div className="relative z-0 w-full mb-6 group">
+                        <input
+                          type="email"
+                          name="email_organisasi"
+                          id="email_organisasi"
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          placeholder=" "
+                          autoComplete="off"
+                          required
+                          value={emailOrganisasi}
+                          onChange={handleInputChange(setEmailOrganisasi)}
+                        />
+                        <label
+                          htmlFor="email_organisasi"
+                          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                          Email
+                        </label>
+                      </div>
                     </div>
-
+                    <div className="relative z-0 w-full mb-6 group">
+                      <input
+                        type="text"
+                        name="nomer_telepon"
+                        id="nomer_telepon"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        autoComplete="off"
+                        required
+                        value={nomerTelepon}
+                        onChange={handleInputChange(setNomerTelepon)}
+                      />
+                      <label
+                        htmlFor="nomer_telepon"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        Nomer Telepon
+                      </label>
+                    </div>
                     <div className="flex justify-between">
                       <a
-                        href="/admin/organisasi"
-                        className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
+                        href="/superadmin/organisasi"
+                        className="text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 bg-red-600 hover:bg-red-800 focus:outline-none focus:ring-red-300"
                       >
-                        <FontAwesomeIcon icon={faArrowLeft} /> Kembali
+                        <FontAwesomeIcon icon={faArrowLeft} /> &nbsp;Batal
                       </a>
                       <button
                         type="submit"
-                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                        className="text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 bg-blue-600 hover:bg-blue-800 focus:outline-none focus:ring-blue-300"
                       >
-                        <FontAwesomeIcon icon={faFloppyDisk} /> Simpan
+                        <FontAwesomeIcon icon={faFloppyDisk} /> &nbsp;Simpan
                       </button>
                     </div>
                   </form>
-                  {/* <!-- End Form Update Organisasi --> */}
                 </div>
               </div>
-              {/* <!-- End Card --> */}
             </div>
           </div>
         </div>
