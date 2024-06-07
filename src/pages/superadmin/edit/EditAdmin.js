@@ -3,72 +3,68 @@ import Navbar from "../../../components/NavbarSuper";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useHistory,
+  useParams,
+} from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 function EditAdmin() {
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
-    const param = useParams();
-    const history = useHistory();
-  
-    useEffect(() => {
-      axios
-        .get(`http://localhost:2024/api/admin/getById/`  + param.id , {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((ress) => {
-          const response = ress.data;
-          email(response.email);
-          username(response.username);
-          // console.log("pengumuman : ", ress.data.data);
-        })
-        .catch((error) => {
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const param = useParams();
+  const history = useHistory();
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:2024/api/admin/getById/` + param.id, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((ress) => {
+        const response = ress.data;
+        setEmail(response.email);
+        setUsername(response.username);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const updateAdmin = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("username", username);
+
+    await axios
+      .put(`http://localhost:2024/api/admin/edit/` + param.id, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Mengedit Berita",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        history.push("/admin");
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          localStorage.clear();
+          history.push("/login");
+        } else {
           console.log(error);
-        });
-    }, []);
-    const updateAdmin = async (e) => {
-      e.preventDefault();
-  
-      const formData = new FormData();
-      formData.append("email", email);
-      formData.append("username", username);
-  
-      await axios
-        .put(
-          `http://localhost:2024/api/admin/edit/` + param.id,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then(() => {
-          Swal.fire({
-            icon: "success",
-            title: "Berhasil Mengedit Berita",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          history.push("/jabatan");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-        })
-        .catch((error) => {
-          if (error.ressponse && error.response.status === 401) {
-            localStorage.clear();
-            history.push("/login");
-          } else {
-            console.log(error);
-          }
-        });
-    };
-  
+        }
+      });
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -95,8 +91,8 @@ function EditAdmin() {
             <div class="mt-5 text-left">
               {/* <!-- Form Input --> */}
               <form
-              onSubmit={updateAdmin}
-              method="post"
+                onSubmit={updateAdmin}
+                method="post"
                 action="https://demo-absen.excellentsistem.com/superAdmin/aksi_edit_admin"
                 enctype="multipart/form-data"
               >
@@ -151,7 +147,7 @@ function EditAdmin() {
                     class="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                     href="javascript:history.go(-1)"
                   >
-                     <FontAwesomeIcon icon={faArrowLeft} />
+                    <FontAwesomeIcon icon={faArrowLeft} />
                   </a>
                   <button
                     type="submit"
