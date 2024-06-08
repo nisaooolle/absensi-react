@@ -5,9 +5,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function EditKaryawan() {
-  const [user, setUser] = useState({});
+  const [username, setUsername] = useState("");
+  const [idJabatan, setIdJabatan] = useState("");
+  const [idShift, setIdShift] = useState("");
   const [jabatanOptions, setJabatanOptions] = useState([]);
   const [shiftOptions, setShiftOptions] = useState([]);
   const { id } = useParams();
@@ -19,7 +22,9 @@ function EditKaryawan() {
       const res = await axios.get(
         `http://localhost:2024/api/user/getUserBy/${id}`
       );
-      setUser(res.data);
+      setUsername(res.data.username);
+      setIdJabatan(res.data.jabatan ? res.data.jabatan.idJabatan : "");
+      setIdShift(res.data.shift ? res.data.shift.id : "");
     } catch (error) {
       console.log(error);
     }
@@ -53,29 +58,34 @@ function EditKaryawan() {
     getShiftOptions();
   }, [id, adminId]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUser((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
     try {
       await axios.put(
-        `http://localhost:2024/api/user/edit-kar/${id}?idJabatan=${user.id_jabatan}?idShift=${user.id_shift}`,
+        `http://localhost:2024/api/user/edit-kar/${id}?idJabatan=${idJabatan}&idShift=${idShift}`,
         {
-          username: user.username,
+          username: username,
         }
       );
-      history.push("/admin/karyawan");
+      Swal.fire("Berhasil", "Berhasil mengubah data karyawan", "success");
+      setTimeout(() => {
+        setTimeout(() => {
+          history.push("/admin/karyawan");
+          window.location.reload();  
+        }, 2000);      }, 2000);
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (jabatanOptions.length > 0) {
+      setIdJabatan(jabatanOptions[0].idJabatan);
+    }
+    if (shiftOptions.length > 0) {
+      setIdShift(shiftOptions[0].id);
+    }
+  }, [jabatanOptions, shiftOptions]);
 
   return (
     <div className="flex flex-col h-screen">
@@ -103,8 +113,8 @@ function EditKaryawan() {
                         type="text"
                         name="username"
                         id="username"
-                        value={user.username || ""}
-                        onChange={handleInputChange}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autoComplete="off"
@@ -126,13 +136,17 @@ function EditKaryawan() {
                           Jabatan
                         </label>
                         <select
-                          name="id_jabatan"
-                          value={user.id_jabatan || ""}
-                          onChange={handleInputChange}
+                          name="idJabatan"
+                          value={idJabatan}
+                          onChange={(e) => setIdJabatan(e.target.value)}
                           className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                         >
+                          <option value="">Belum memiliki</option>
                           {jabatanOptions.map((option) => (
-                            <option key={option.id} value={option.id}>
+                            <option
+                              key={option.idJabatan}
+                              value={option.idJabatan}
+                            >
                               {option.namaJabatan}
                             </option>
                           ))}
@@ -146,11 +160,12 @@ function EditKaryawan() {
                           Shift
                         </label>
                         <select
-                          name="id_shift"
-                          value={user.id_shift || ""}
-                          onChange={handleInputChange}
+                          name="idShift"
+                          value={idShift}
+                          onChange={(e) => setIdShift(e.target.value)}
                           className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                         >
+                          <option value="">Belum memiliki</option>
                           {shiftOptions.map((option) => (
                             <option key={option.id} value={option.id}>
                               {option.namaShift}
@@ -168,7 +183,7 @@ function EditKaryawan() {
                       </a>
                       <button
                         type="submit"
-                        className="text-white bg-indigo-500  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                        className="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                       >
                         <FontAwesomeIcon icon={faFloppyDisk} />
                       </button>

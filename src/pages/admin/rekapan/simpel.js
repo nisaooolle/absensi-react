@@ -6,8 +6,38 @@ import {
   faFileExport,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
-function simpel() {
+function Simpel() {
+  const [bulan, setBulan] = useState("");
+  const [absensiData, setAbsensiData] = useState([]);
+
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:2024/api/absensi/get-absensi-bulan-simpel",
+        {
+          params: { bulan: bulan },
+        }
+      );
+      setAbsensiData(response.data);
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Gagal", "Gagal Mengambil data", "error");
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString("id-ID", options);
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -36,9 +66,11 @@ function simpel() {
                   class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-5"
                 >
                   <select
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     id="bulan"
                     name="bulan"
+                    value={bulan}
+                    onChange={(e) => setBulan(e.target.value)}
                   >
                     <option>Pilih Bulan</option>
                     <option value="01">Januari</option>
@@ -56,14 +88,15 @@ function simpel() {
                   </select>
                   <div class="flex sm:flex-row gap-4 mx-auto items-center">
                     <button
-                      type="submit"
-                      class="bg-indigo-500 hover:bg-indigo text-white font-bold py-2 px-4 rounded inline-block"
+                      type="button"
+                      className="bg-indigo-500 hover:bg-indigo text-white font-bold py-2 px-4 rounded inline-block"
+                      onClick={handleSearch}
                     >
                       <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
                     <a
-                      href="https://demo-absen.excellentsistem.com/Admin/export_simple"
-                      class="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
+                      // href={`http://localhost:2024/api/absensi/export/bulanan?bulan=${bulan}&tahun=${tahun}`}
+                      className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
                     >
                       <FontAwesomeIcon icon={faFileExport} />
                     </a>
@@ -104,15 +137,55 @@ function simpel() {
                         <th scope="col" class="px-4 py-3">
                           Lokasi Pulang
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        {/* <th scope="col" class="px-4 py-3">
                           Jam Kerja
-                        </th>
+                        </th> */}
                         <th scope="col" class="px-4 py-3">
                           Keterangan
                         </th>
                       </tr>
                     </thead>
-                    <tbody class="text-left"></tbody>
+                    <tbody class="text-left">
+                      {" "}
+                      {absensiData.length > 0 && absensiData != null
+                        ? absensiData.map((absensi, index) => (
+                            <tr key={index}>
+                              <td className="px-5 py-3">{index + 1}</td>
+                              <td className="px-5 py-3">
+                                {absensi.user.username}
+                              </td>
+                              <td className="px-5 py-3">
+                                {formatDate(absensi.tanggalAbsen)}
+                              </td>
+                              <td className="px-5 py-3">{absensi.jamMasuk}</td>
+                              <td className="px-5 py-3">
+                                <img
+                                  src={absensi.fotoMasuk}
+                                  alt="foto masuk"
+                                  className="w-16 h-8 rounded-sm"
+                                />
+                              </td>
+                              <td className="px-5 py-3">
+                                {absensi.lokasiMasuk}
+                              </td>
+                              <td className="px-5 py-3">{absensi.jamPulang}</td>
+                              <td className="px-5 py-3">
+                                <img
+                                  src={absensi.fotoPulang}
+                                  alt="foto pulang"
+                                  className="w-16 h-8 rounded-sm"
+                                />
+                              </td>{" "}
+                              <td className="px-5 py-3">
+                                {absensi.user.shift.namaShift}
+                              </td>
+                              <td className="px-5 py-3">
+                                {absensi.statusAbsen}
+                              </td>
+                            </tr>
+                          ))
+                        : null}
+                    </tbody>
                   </table>
                 </div>
               </div>
@@ -124,4 +197,4 @@ function simpel() {
   );
 }
 
-export default simpel;
+export default Simpel;
