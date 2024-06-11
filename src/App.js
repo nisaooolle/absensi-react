@@ -58,6 +58,10 @@ import DetailLembur from "./pages/admin/detail/DetailLembur";
 import OrganisasiSA from "./pages/superadmin/admin/OrganisasiSA";
 import AddOrganisasiSA from "./pages/superadmin/add/AddOrganisasiSA";
 import EditOrganisasiSA from "./pages/superadmin/edit/EditOrganisasiSA";
+import ShiftSA from "./pages/superadmin/admin/ShiftSA";
+import DetailShiftSA from "./pages/superadmin/detail/DetailShiftSA";
+import AddShiftSA from "./pages/superadmin/add/AddShiftSA";
+import EditShiftSA from "./pages/superadmin/edit/editShiftSA";
 function App() {
   const role = localStorage.getItem("role");
   return (
@@ -185,7 +189,27 @@ function App() {
                 component={DetailAdmin}
                 exact
               />
-              <Route path="/superadmin/editO/:id" component={EditOrganisasiSA} exact />
+              <Route
+                path="/superadmin/editO/:id"
+                component={EditOrganisasiSA}
+                exact
+              />
+              <Route path="/superadmin/shift" component={ShiftSA} exact />
+              <Route
+                path="/superadmin/detailS/:id"
+                component={DetailShiftSA}
+                exact
+              />
+              <Route
+                path="/superadmin/add-shift"
+                component={AddShiftSA}
+                exact
+              />
+              <Route
+                path="/superadmin/editS/:id"
+                component={EditShiftSA}
+                exact
+              />
             </>
           )}
           {/* end superadmin */}
