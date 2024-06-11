@@ -33,9 +33,28 @@ function Harian() {
   };
 
   const handleExport = async () => {
-    window.location.href = await axios.get(
-      `http://localhost:2024/api/absensi/export/harian?tanggalAbsen=${tanggal}`
-    );
+    try {
+      const res = await axios.get(
+        `http://localhost:2024/api/absensi/export/harian?tanggal=${tanggal}`,
+        {
+          responseType: "blob",
+        }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Absensi-Harian.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      Swal.fire("Berhasil", "Berhasil mengunduh data", "success");
+    } catch (error) {
+      console.log(error);
+      Swal.fire("Gagal", "Gagal Mengunduh data", "error");
+    }
   };
 
   const formatDate = (dateString) => {
@@ -47,6 +66,44 @@ function Harian() {
     return new Date(dateString).toLocaleDateString("id-ID", options);
   };
 
+  const formatLamaKerja = (startKerja) => {
+    const startDate = new Date(startKerja);
+    const currentDate = new Date();
+
+    const diffYears = currentDate.getFullYear() - startDate.getFullYear();
+
+    let diffMonths = currentDate.getMonth() - startDate.getMonth();
+    if (diffMonths < 0) {
+      diffMonths += 12;
+    }
+
+    let diffDays = Math.floor(
+      (currentDate - startDate) / (1000 * 60 * 60 * 24)
+    );
+
+    const lastDayOfLastMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      0
+    ).getDate();
+    if (currentDate.getDate() < startDate.getDate()) {
+      diffMonths -= 1;
+      diffDays -= lastDayOfLastMonth;
+    }
+
+    let durationString = "";
+    if (diffYears > 0) {
+      durationString += `${diffYears} tahun `;
+    }
+    if (diffMonths > 0) {
+      durationString += `${diffMonths} bulan `;
+    }
+    if (diffDays > 0) {
+      durationString += `${diffDays} hari`;
+    }
+
+    return durationString.trim();
+  };
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -164,7 +221,7 @@ function Harian() {
                               />
                             </td>{" "}
                             <td className="px-5 py-3">
-                              {absensi.user.shift.namaShift}
+                              {formatLamaKerja(absensi.user.startKerja)}
                             </td>
                             <td className="px-5 py-3">{absensi.statusAbsen}</td>
                           </tr>
