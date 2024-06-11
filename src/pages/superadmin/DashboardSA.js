@@ -11,7 +11,6 @@ import {
 import Swal from "sweetalert2";
 // import jwt from 'jsonwebtoken';
 
-
 function DashboardSA() {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [userData, setUserData] = useState([]);
@@ -73,8 +72,6 @@ function DashboardSA() {
     fetchData("http://localhost:2024/api/organisasi/all", setOrganisasiData);
 
   const getUsername = async () => {
-
-
     try {
       const response = await axios.get(
         `http://localhost:2024/api/superadmin/getbyid/${id}`,
@@ -99,7 +96,6 @@ function DashboardSA() {
     });
   };
 
- 
   useEffect(() => {
     getUser();
     getAbsensi();
@@ -228,7 +224,7 @@ function DashboardSA() {
               </table>
             </div>
           </div>
-          <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+          <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 mt-8">
             <div className="flex justify-between">
               <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                 Token User
