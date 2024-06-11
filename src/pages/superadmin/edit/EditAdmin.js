@@ -35,34 +35,25 @@ function EditAdmin() {
 
   const updateAdmin = async (e) => {
     e.preventDefault();
+    const admin = { email: email, username: username };
 
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("username", username);
-
-    await axios
-      .put(`http://localhost:2024/api/admin/edit/` + param.id, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Mengedit Berita",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        history.push("/admin");
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          localStorage.clear();
-          history.push("/login");
-        } else {
-          console.log(error);
+    try {
+      const res = await axios.put(
+        `http://localhost:2024/api/admin/edit-email-username/${param.id}`,
+        admin,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-      });
+      );
+      setEmail(res.data.email);
+      setUsername(res.data.username);
+      Swal.fire("Berhasil", "Berhasil mengubah data", "success");
+      history.push("/superadmin/admin");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
