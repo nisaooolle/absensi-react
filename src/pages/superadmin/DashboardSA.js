@@ -142,7 +142,7 @@ function DashboardSA() {
                 <div className="my-auto">
                   <p className="font-bold">Organisasi</p>
                   <p className="text-lg">Jumlah Organisasi</p>
-                  <p className="text-lg">{userData.length}</p>
+                  <p className="text-lg">{organisasiData.length}</p>
                 </div>
                 <div className="my-auto">
                   <FontAwesomeIcon icon={faUsers} size="2x" />
