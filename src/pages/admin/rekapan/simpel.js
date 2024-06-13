@@ -38,6 +38,82 @@ function Simpel() {
     return new Date(dateString).toLocaleDateString("id-ID", options);
   };
 
+  const formatLamaKerja = (startKerja) => {
+    const startDate = new Date(startKerja);
+    const currentDate = new Date();
+
+    const diffYears = currentDate.getFullYear() - startDate.getFullYear();
+
+    let diffMonths = currentDate.getMonth() - startDate.getMonth();
+    if (diffMonths < 0) {
+      diffMonths += 12;
+    }
+
+    let diffDays = Math.floor(
+      (currentDate - startDate) / (1000 * 60 * 60 * 24)
+    );
+
+    const lastDayOfLastMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      0
+    ).getDate();
+    if (currentDate.getDate() < startDate.getDate()) {
+      diffMonths -= 1;
+      diffDays -= lastDayOfLastMonth;
+    }
+
+    let durationString = "";
+    if (diffYears > 0) {
+      durationString += `${diffYears} tahun `;
+    }
+    if (diffMonths > 0) {
+      durationString += `${diffMonths} bulan `;
+    }
+    if (diffDays > 0) {
+      durationString += `${diffDays} hari`;
+    }
+
+    return durationString.trim();
+  };
+
+  function getMonthName(month) {
+    const monthNames = new Intl.DateTimeFormat("id-ID", {
+      month: "long",
+    }).formatToParts(new Date(2000, month - 1, 1));
+    if (monthNames && monthNames.length > 0) {
+      return monthNames[0].value;
+    }
+    return "Bulan Tidak Valid";
+  }
+
+  const exportSimpel = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/absensi/export/absensi-bulanan-simpel?bulan=${bulan}`,
+        {
+          responseType: "blob",
+        }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `Absensi-Simpel ${getMonthName(bulan)}.xlsx`
+      );
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      Swal.fire("Berhasil", "Berhasil mengunduh data", "success");
+    } catch (error) {
+      Swal.fire("Error", "Gagal mengunduh data", "error");
+      console.log(error);
+    }
+  };
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -55,16 +131,9 @@ function Simpel() {
                   <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                     Rekap Simpel
                   </h6>
-                  {/* <!-- <a type="button" href="https://demo-absen.excellentsistem.com/admin/tambah_lokasi"
-                    class="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"><i
-                        class="fa-solid fa-plus"></i></a> --> */}
                 </div>
                 <hr />
-                <form
-                  action=""
-                  method="post"
-                  class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-5"
-                >
+                <form class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-5">
                   <select
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     id="bulan"
@@ -94,12 +163,13 @@ function Simpel() {
                     >
                       <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
-                    <a
-                      // href={`http://localhost:2024/api/absensi/export/bulanan?bulan=${bulan}&tahun=${tahun}`}
+                    <button
+                      type="submit"
+                      onClick={exportSimpel}
                       className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
                     >
                       <FontAwesomeIcon icon={faFileExport} />
-                    </a>
+                    </button>
                   </div>
                 </form>
 
@@ -137,9 +207,9 @@ function Simpel() {
                         <th scope="col" class="px-4 py-3">
                           Lokasi Pulang
                         </th>
-                        {/* <th scope="col" class="px-4 py-3">
+                        <th scope="col" class="px-4 py-3">
                           Jam Kerja
-                        </th> */}
+                        </th>
                         <th scope="col" class="px-4 py-3">
                           Keterangan
                         </th>
@@ -177,7 +247,10 @@ function Simpel() {
                                 />
                               </td>{" "}
                               <td className="px-5 py-3">
-                                {absensi.user.shift.namaShift}
+                                {absensi.lokasiPulang}
+                              </td>
+                              <td className="px-5 py-3">
+                                {formatLamaKerja(absensi.user.startKerja)}
                               </td>
                               <td className="px-5 py-3">
                                 {absensi.statusAbsen}
