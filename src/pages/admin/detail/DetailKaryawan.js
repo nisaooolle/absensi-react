@@ -40,8 +40,7 @@ function DetailKaryawan() {
                 {/* <!-- Header --> */}
                 <div class="flex justify-between">
                   <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                    {" "}
-                    Detail User
+                    Detail Karyawan
                   </h6>
                 </div>
                 <div class="mt-7 text-left">
@@ -57,7 +56,7 @@ function DetailKaryawan() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autocomplete="off"
-                        value={user.email}
+                        value={user.email || ""}
                         required
                         readonly
                       />
@@ -76,7 +75,7 @@ function DetailKaryawan() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autocomplete="off"
-                        value={user.username}
+                        value={user.username || ""}
                         required
                         readonly
                       />
@@ -96,7 +95,7 @@ function DetailKaryawan() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autocomplete="off"
-                        value="Magang"
+                        value={user.jabatan?.namaJabatan || ""}
                         required
                         readonly
                       />
@@ -115,7 +114,7 @@ function DetailKaryawan() {
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autocomplete="off"
-                        value="Normal"
+                        value={user.shift?.namaShift || ""}
                         required
                         readonly
                       />
@@ -132,8 +131,7 @@ function DetailKaryawan() {
                     {/* <!-- email & username Input --> */}
                     <div class="relative z-0 w-full mb-6 group">
                       <img
-                        class=" max-width-100 max-height-96 "
-                        style={{ marginbottom: "25px;", marginleft: "50px; " }}
+                        className="max-w-xs max-h-64 mb-6 ml-12"
                         src={
                           user.fotoUser
                             ? user.fotoUser

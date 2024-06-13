@@ -68,6 +68,8 @@ import EditJabatanSA from "./pages/superadmin/edit/EditJabatanSA";
 import AddJabatanSA from "./pages/superadmin/add/AddJabatanSA";
 import User from "./pages/superadmin/admin/User";
 import AddUser from "./pages/superadmin/add/AddUser";
+import EditUser from "./pages/superadmin/edit/EditUser";
+import DetailUser from "./pages/superadmin/detail/DetailUser";
 function App() {
   const role = localStorage.getItem("role");
   return (
@@ -232,6 +234,12 @@ function App() {
               />
               <Route path="/superadmin/data-user" component={User} exact />
               <Route path="/superadmin/addU" component={AddUser} exact />
+              <Route path="/superadmin/editU/:id" component={EditUser} exact />
+              <Route
+                path="/superadmin/detailU/:id"
+                component={DetailUser}
+                exact
+              />
             </>
           )}
           {/* end superadmin */}
