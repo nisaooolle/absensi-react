@@ -120,7 +120,7 @@ function AddIzin() {
                 <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                   Keterangan Izin
                 </label>
-                <input
+                <textarea
                   type="text"
                   id="keterangan"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-5"
@@ -129,6 +129,15 @@ function AddIzin() {
                   onChange={(e) => setKeteranganIzin(e.target.value)}
                   required
                 />
+                {/* <input
+                  type="text"
+                  id="keterangan"
+                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-5"
+                  placeholder="Masukkan Keterangan Izin"
+                  value={keteranganIzin}
+                  onChange={(e) => setKeteranganIzin(e.target.value)}
+                  required
+                /> */}
               </div>
               <div className="flex justify-between mt-6">
                 <button
