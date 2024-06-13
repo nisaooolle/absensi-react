@@ -4,45 +4,46 @@ import Sidebar from "../../../components/SidebarUser";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
 function EditJabatanSA() {
   const [jabatan, setJabatan] = useState("");
-  const param = useParams();
+  const [namaJabatan, setNamaJabatan] = useState("");
+  const { idJabatan } = useParams();
   const history = useHistory();
 
   useEffect(() => {
     axios
-      .get(`http://localhost:2024/api/jabatan/getById/` + param.id, {
+      .get(`http://localhost:2024/api/jabatan/getbyid/` + idJabatan, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((ress) => {
         const response = ress.data;
-        setJabatan(response.jabatan);
+        setNamaJabatan(response.namaJabatan);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
-  const updateAdmin = async (id) => {
-    // e.preventDefault();
-    const admin = { jabatan: jabatan };
+  const updateAdmin = async (e) => {
+    e.preventDefault();
+    const jabatan = { namaJabatan: namaJabatan };
 
     try {
       const res = await axios.put(
-        `http://localhost:2024/api/jabatan/edit/${id}`,
-        admin,
+        `http://localhost:2024/api/jabatan/editById/${idJabatan}`,
+        jabatan,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      setJabatan(res.data.jabatan);
+      setJabatan(res.data);
       Swal.fire("Berhasil", "Berhasil mengubah data", "success");
       history.push("/superadmin/admin");
     } catch (error) {
@@ -74,12 +75,7 @@ function EditJabatanSA() {
 
               <div class="mt-5 text-left">
                 {/* <!-- Form Input --> */}
-                <form
-                 onSubmit={updateAdmin}
-                  action="https://demo-absen.excellentsistem.com/superadmin/aksi_edit_jabatan"
-                  method="post"
-                  enctype="multipart/form-data"
-                >
+                <form onSubmit={updateAdmin}>
                   <input type="hidden" name="id_jabatan" value="12" />
 
                   {/* <!-- Nama Jabatan Input --> */}
@@ -91,8 +87,8 @@ function EditJabatanSA() {
                       class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       autocomplete="off"
-                      value={jabatan}
-                      onChange={(e) => setJabatan(e.target.value)}
+                      value={namaJabatan}
+                      onChange={(e) => setNamaJabatan(e.target.value)}
                       required
                     />
                     <label
@@ -104,20 +100,20 @@ function EditJabatanSA() {
                   </div>
 
                   {/* <!-- Button --> */}
-                  <div class="flex justify-between">
-                    <a
-                      class="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                      href="javascript:history.go(-1)"
-                    >
-                      <i class="fa-solid fa-arrow-left"></i>
-                    </a>
-                    <button
-                      type="submit"
-                      class="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
-                    >
-                      <i class="fa-solid fa-floppy-disk"></i>
-                    </button>
-                  </div>
+                  <div className="flex justify-between">
+                      <a
+                        className="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                        href="/superadmin/jabatan"
+                      >
+                        <FontAwesomeIcon icon={faArrowLeft} />
+                      </a>
+                      <button
+                        type="submit"
+                        className="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                      >
+                        <FontAwesomeIcon icon={faFloppyDisk} />
+                      </button>
+                    </div>
                 </form>
               </div>
             </div>
