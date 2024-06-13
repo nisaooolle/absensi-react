@@ -117,7 +117,7 @@ function App() {
               <Route path="/admin/addlok" component={AddLokasi} exact />
               <Route path="/admin/addor" component={AddOrganisasi} exact />
               <Route path="/admin/editK/:id" component={EditKaryawan} exact />
-              <Route path="/admin/editJ/:id" component={EditJabatan} exact />
+              <Route path="/admin/editJ/:idJabatan" component={EditJabatan} exact />
               <Route path="/admin/editL/:id" component={EditLokasi} exact />
               <Route path="/admin/editO/:id" component={EditOrganisasi} exact />
               <Route path="/admin/editS/:id" component={EditShift} exact />
@@ -209,7 +209,7 @@ function App() {
                 exact
               />
               <Route
-                path="/superadmin/editJ/:id"
+                path="/superadmin/editJ/:idJabatan"
                 component={EditJabatanSA}
                 exact
               />
