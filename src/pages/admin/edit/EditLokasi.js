@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarAdmin";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,49 +9,48 @@ import {
 } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 import axios from "axios";
+import Lokasi from "../masterdata/Lokasi";
 
 function EditLokasi() {
-  const [namaLokasi, setnamaLokasi] = useState("");
-  const param = useParams();
+  const [namaLokasi, setNamaLokasi] = useState("");
+  const [alamat, setAlamat] = useState("");
+  const { id } = useParams();
   const history = useHistory();
+  const idAdmin = localStorage.getItem("adminId");
 
-  const updatelokasi = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("namaLokasi", namaLokasi);
-
-    await axios
-      .put(
-        `http://localhost:2024/api/lokasi/Update/` + param.idLokasi,
-        formData,
-        {
-          // headers: {
-          //   Authorization: `Bearer ${localStorage.getItem("token")}`,
-          // },
-        }
-      )
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Mengedit Berita",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        history.push("/lokasi");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-      })
-      .catch((error) => {
-        if (error.ressponse && error.response.status === 401) {
-          localStorage.clear();
-          history.push("/login");
-        } else {
-          console.log(error);
-        }
-      });
+  const getLokasi = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:2024/api/lokasi/GetById/${id}`
+      );
+      setNamaLokasi(res.data.namaLokasi);
+      setAlamat(res.data.alamat);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const lokasi = {
+      namaLokasi: namaLokasi,
+      alamat: alamat,
+    };
+    try {
+      await axios.put(`http://localhost:2024/api/lokasi/Update/${id}`, lokasi, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      history.push("/admin/lokasi");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getLokasi();
+  }, [id]);
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -76,13 +75,7 @@ function EditLokasi() {
 
                 <div class="mt-5 text-left">
                   {/* <!-- Form Input --> */}
-                  <form
-                    onSubmit={updatelokasi}
-                    action="https://demo-absen.excellentsistem.com/admin/aksi_edit_lokasi"
-                    method="post"
-                    enctype="multipart/form-data"
-                  >
-                    <input type="hidden" name="id_lokasi" value="5" />
+                  <form onSubmit={handleSubmit}>
                     {/* <!-- Nama & Alamat Input --> */}
                     <div class="grid md:grid-cols-2 md:gap-6">
                       <div class="relative z-0 w-full mb-6 group">
@@ -95,8 +88,7 @@ function EditLokasi() {
                           autocomplete="off"
                           required
                           value={namaLokasi}
-                        // value={author}
-                        onChange={(e) => setnamaLokasi(e.target.value)}
+                          onChange={(e) => setNamaLokasi(e.target.value)}
                         />
                         <label
                           for="nama_lokasi"
@@ -111,7 +103,8 @@ function EditLokasi() {
                           type="text"
                           name="alamat"
                           id="alamat"
-                          value="kemantren"
+                          value={alamat}
+                          onChange={(e) => setAlamat(e.target.value)}
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
                           autocomplete="off"

@@ -70,6 +70,10 @@ import User from "./pages/superadmin/admin/User";
 import AddUser from "./pages/superadmin/add/AddUser";
 import EditUser from "./pages/superadmin/edit/EditUser";
 import DetailUser from "./pages/superadmin/detail/DetailUser";
+import LokasiSA from "./pages/superadmin/admin/LokasiSA";
+import AddLokasiSA from "./pages/superadmin/add/AddLokasiSA";
+import EditLokasiSA from "./pages/superadmin/edit/EditLokasiSA";
+import DetailLokasiSA from "./pages/superadmin/detail/DetailLokasiSA";
 function App() {
   const role = localStorage.getItem("role");
   return (
@@ -119,7 +123,11 @@ function App() {
               <Route path="/admin/addlok" component={AddLokasi} exact />
               <Route path="/admin/addor" component={AddOrganisasi} exact />
               <Route path="/admin/editK/:id" component={EditKaryawan} exact />
-              <Route path="/admin/editJ/:idJabatan" component={EditJabatan} exact />
+              <Route
+                path="/admin/editJ/:idJabatan"
+                component={EditJabatan}
+                exact
+              />
               <Route path="/admin/editL/:id" component={EditLokasi} exact />
               <Route path="/admin/editO/:id" component={EditOrganisasi} exact />
               <Route path="/admin/editS/:id" component={EditShift} exact />
@@ -238,6 +246,22 @@ function App() {
               <Route
                 path="/superadmin/detailU/:id"
                 component={DetailUser}
+                exact
+              />
+              <Route path="/superadmin/lokasi" component={LokasiSA} exact />
+              <Route
+                path="/superadmin/addLokasi"
+                component={AddLokasiSA}
+                exact
+              />
+              <Route
+                path="/superadmin/editLokasi/:id"
+                component={EditLokasiSA}
+                exact
+              />
+              <Route
+                path="/superadmin/detailLokasi/:id"
+                component={DetailLokasiSA}
                 exact
               />
             </>
