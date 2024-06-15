@@ -1,30 +1,10 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
+import React from "react";
+import Navbar from "../../../components/NavbarSuper";
 import Sidebar from "../../../components/SidebarUser";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import axios from "axios";
 
-function DetailLokasi() {
-  const [lokasi, setLokasi] = useState(null);
-  const { id } = useParams();
-
-  const getLokasiId = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost:2024/api/lokasi/GetById/${id}`
-      );
-      setLokasi(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getLokasiId();
-  }, [id]);
-
+function DetailLokasiSA() {
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -65,7 +45,7 @@ function DetailLokasi() {
                           type="text"
                           name="nama_lokasi"
                           id="nama_lokasi"
-                          value={lokasi ? lokasi.namaLokasi : ""}
+                          // value={lokasi ? lokasi.namaLokasi : ""}
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
                           autocomplete="off"
@@ -84,7 +64,7 @@ function DetailLokasi() {
                           type="text"
                           name="alamat"
                           id="alamat"
-                          value={lokasi ? lokasi.alamat : ""}
+                          // value={lokasi ? lokasi.alamat : ""}
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
                           autocomplete="off"
@@ -103,7 +83,7 @@ function DetailLokasi() {
                     <div class="flex justify-between">
                       <a
                         class="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                        href="/admin/lokasi"
+                        href="/superadmin/lokasi"
                       >
                         {" "}
                         <FontAwesomeIcon icon={faArrowLeft} />{" "}
@@ -120,4 +100,4 @@ function DetailLokasi() {
   );
 }
 
-export default DetailLokasi;
+export default DetailLokasiSA;
