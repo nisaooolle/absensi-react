@@ -14,8 +14,8 @@ import Swal from "sweetalert2";
 function DashboardSA() {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [userData, setUserData] = useState([]);
+  const [admin, setAdmin] = useState([]);
   const [absenData, setAbsenData] = useState([]);
-  const [cutiData, setCutiData] = useState([]);
   const [jabatanData, setJabatanData] = useState([]);
   const [lokasiData, setLokasiData] = useState([]);
   const [organisasiData, setOrganisasiData] = useState([]);
@@ -87,6 +87,46 @@ function DashboardSA() {
     }
   };
 
+  const getAdmin = async () => {
+    const token = localStorage.getItem("token");
+    const idSuperAdmin = localStorage.getItem("superadminId");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/admin/get-all-by-super/${idSuperAdmin}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
+      setAdmin(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const getOrganisasiSA = async () => {
+    const idSuperAdmin = localStorage.getItem("superadminId");
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/organisasi/superadmin/${idSuperAdmin}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
+      setOrganisasiData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   const formatDate = (tanggal) => {
     const date = new Date(tanggal);
     return date.toLocaleDateString("id-ID", {
@@ -103,6 +143,8 @@ function DashboardSA() {
     getJabatan();
     getLokasi();
     getOrganisasi();
+    getAdmin();
+    getOrganisasiSA();
   }, []);
 
   useEffect(() => {
@@ -178,94 +220,118 @@ function DashboardSA() {
           <br />
 
           {/* Tabel Absensi */}
-          <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex justify-between">
-              <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                Token Admin
+          <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <div class="flex justify-between">
+              <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                Data Admin
               </h6>
             </div>
             <hr />
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+
+            {/* <!-- Tabel --> */}
+            <div class="relative overflow-x-auto mt-5">
+              <table
+                id="dataKaryawan"
+                class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+              >
+                {/* <!-- Tabel Head --> */}
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" class="px-6 py-3">
                       No
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" class="px-6 py-3">
                       Email
                     </th>
-                    <th scope="col" className="px-6 py-3">
-                      Masa Berlaku Token
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Role
+                    <th scope="col" class="px-6 py-3">
+                      Username
                     </th>
                   </tr>
                 </thead>
-                <tbody className="text-center">
-                  {absenData.map((absen, index) => (
+                {/* <!-- Tabel Body --> */}
+                <tbody class="text-left">
+                  {admin.map((admin, index) => (
                     <tr
+                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                       key={index}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
                       <th
                         scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4">{absen.user.username}</td>
-                      <td className="px-6 py-4">{absen.tanggalAbsen}</td>
-                      <td className="px-6 py-4">{absen.user.role || "-"}</td>
+                      <td class="px-6 py-4">
+                        <a
+                          href="/cdn-cgi/l/email-protection"
+                          class="__cf_email__"
+                          data-cfemail="5a363b23363b1a3d373b333674393537"
+                        >
+                          {admin.email}
+                        </a>
+                      </td>
+                      <td class="px-6 py-4">{admin.username}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </div>
-          <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 mt-8">
-            <div className="flex justify-between">
-              <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                Token User
+          <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 mt-10">
+            <div class="flex justify-between">
+              <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                Data Organisasi
               </h6>
             </div>
             <hr />
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+
+            {/* <!-- Tabel --> */}
+            <div class="relative overflow-x-auto mt-5">
+              <table
+                id="dataKaryawan"
+                class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+              >
+                {/* <!-- Tabel Head --> */}
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" class="px-6 py-3">
                       No
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" class="px-6 py-3">
+                      Admin
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Nama
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Alamat
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Telepon
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                       Email
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Masa Berlaku Token
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Role
                     </th>
                   </tr>
                 </thead>
-                <tbody className="text-center">
-                  {absenData.map((absen, index) => (
+                {/* <!-- Tabel Body --> */}
+                <tbody class="text-left">
+                  {organisasiData.map((admin, index) => (
                     <tr
+                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                       key={index}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
                       <th
                         scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4">{absen.user.username}</td>
-                      <td className="px-6 py-4">{absen.tanggalAbsen}</td>
-                      <td className="px-6 py-4">{absen.jamMasuk || "-"}</td>
-                      <td className="px-6 py-4">{absen.jamPulang || "-"}</td>
-                      <td className="px-6 py-4">{absen.kehadiran}</td>
+                      <td class="px-6 py-4">{admin.admin.username}</td>
+                      <td class="px-6 py-4">{admin.namaOrganisasi}</td>
+                      <td class="px-6 py-4">{admin.alamat}</td>
+                      <td class="px-6 py-4">{admin.nomerTelepon}</td>
+                      <td class="px-6 py-4">{admin.emailOrganisasi}</td>
                     </tr>
                   ))}
                 </tbody>
