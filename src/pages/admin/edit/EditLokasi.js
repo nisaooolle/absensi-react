@@ -14,39 +14,76 @@ import Lokasi from "../masterdata/Lokasi";
 function EditLokasi() {
   const [namaLokasi, setNamaLokasi] = useState("");
   const [alamat, setAlamat] = useState("");
+  const [idOrganisasi, setIdOrganisasi] = useState(null);
+  const [adminId, setAdminId] = useState(null);
+  const [admin, setAdmin] = useState({
+    email: "",
+    id: null,
+    imageAdmin: "",
+    password: "",
+    username: "",
+  });
   const { id } = useParams();
+  const token = localStorage.getItem("token");
   const history = useHistory();
-  const idAdmin = localStorage.getItem("adminId");
 
   const getLokasi = async () => {
     try {
       const res = await axios.get(
         `http://localhost:2024/api/lokasi/GetById/${id}`
       );
-      setNamaLokasi(res.data.namaLokasi);
-      setAlamat(res.data.alamat);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const lokasi = {
-      namaLokasi: namaLokasi,
-      alamat: alamat,
-    };
-    try {
-      await axios.put(`http://localhost:2024/api/lokasi/Update/${id}`, lokasi, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      history.push("/admin/lokasi");
+      setNamaLokasi(res.data.namaLokasi || "");
+      setAlamat(res.data.alamat || "");
+      setIdOrganisasi(res.data.idOrganisasi || null);
+      setAdminId(res.data.adminId || null);
+      setAdmin(
+        res.data.admin || {
+          email: "",
+          id: null,
+          imageAdmin: "",
+          password: "",
+          username: "",
+        }
+      );
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const lokasi = {
+      namaLokasi,
+      alamat,
+      idOrganisasi,
+      admin,
+      adminId,
+    };
+    try {
+      await axios.put(`http://localhost:2024/api/lokasi/Update/${id}`, lokasi, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Berhasil update lokasi!",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        history.push("/admin/lokasi");
+      });
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to update location.",
+      });
+    }
+  };
   useEffect(() => {
     getLokasi();
   }, [id]);

@@ -613,18 +613,6 @@ const Sidebar = () => {
                   </li>
                 </ul>
               </li>
-              <li>
-                <a
-                  href="/superadmin/token"
-                  className="flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group"
-                >
-                  <FontAwesomeIcon
-                    className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
-                    icon={faKey}
-                  />
-                  <span className="ms-3">Token</span>
-                </a>
-              </li>
             </ul>
           )}
           <li>
