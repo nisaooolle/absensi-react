@@ -1,10 +1,31 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarSuper";
 import Sidebar from "../../../components/SidebarUser";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import axios from "axios";
 
 function DetailLokasiSA() {
+  const { idLokasi } = useParams();
+  const [namaLokasi, setNamaLokasi] = useState("");
+  const [alamat, setAlamat] = useState("");
+
+  const getLokasi = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:2024/api/lokasi/getByIdLokasi/${idLokasi}`
+      );
+      setNamaLokasi(res.data.namaLokasi);
+      setAlamat(res.data.alamat);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getLokasi();
+  }, [idLokasi]);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -45,7 +66,7 @@ function DetailLokasiSA() {
                           type="text"
                           name="nama_lokasi"
                           id="nama_lokasi"
-                          // value={lokasi ? lokasi.namaLokasi : ""}
+                          value={namaLokasi ? namaLokasi  : "kosong"}
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
                           autocomplete="off"
@@ -64,7 +85,7 @@ function DetailLokasiSA() {
                           type="text"
                           name="alamat"
                           id="alamat"
-                          // value={lokasi ? lokasi.alamat : ""}
+                          value={alamat ? alamat : "kosong"}
                           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
                           autocomplete="off"
