@@ -281,10 +281,10 @@ function Dashboard() {
                       Username
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Tanggal
+                      Awal Cuti
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Durasi
+                      Akhir Cuti
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Status
@@ -304,10 +304,10 @@ function Dashboard() {
                         {index + 1}
                       </th>
                       <td className="px-6 py-4">{cuti.user.username}</td>
+                      <td className="px-6 py-4">{formatDate(cuti.awalCuti)}</td>
                       <td className="px-6 py-4">
-                        {formatDate(cuti.created_at)}
+                        {formatDate(cuti.akhirCuti)}
                       </td>
-                      <td className="px-6 py-4">{cuti.durasi}</td>
                       <td className="px-6 py-4">{cuti.status}</td>
                     </tr>
                   ))}

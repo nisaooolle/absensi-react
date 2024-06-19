@@ -256,12 +256,12 @@ function App() {
                 exact
               />
               <Route
-                path="/superadmin/editLokasi/:id"
+                path="/superadmin/editLokasi/:idLokasi"
                 component={EditLokasiSA}
                 exact
               />
               <Route
-                path="/superadmin/detailLokasi/:id"
+                path="/superadmin/detailLokasi/:idLokasi"
                 component={DetailLokasiSA}
                 exact
               />
