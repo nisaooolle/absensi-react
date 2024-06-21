@@ -5,29 +5,34 @@ import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 function AddJabatanSA() {
   const [showPassword, setShowPassword] = useState(false);
   const [namaJabatan, setNamaJabatan] = useState("");
   const idSuperAdmin = localStorage.getItem("superadminId");
   const [adminList, setAdminList] = useState([]);
-  const [idAdmin, setAdminId] = useState("");
+  const [adminId, setadminId] = useState("");
+  const history = useHistory();
 
-  const handleShowPasswordChange = () => {
-    setShowPassword(!showPassword);
-  };
-  const tambahAdmin = async (e) => {
+  const tambahJabatan = async (e) => {
     e.preventDefault();
     try {
       const jabatan = {
         namaJabatan: namaJabatan,
       };
       const response = await axios.post(
-        `http://localhost:2024/api/jabatan/tambahByIdSuperAdmin/${idSuperAdmin}?idAdmin=${idAdmin}`,
+        `http://localhost:2024/api/jabatan/add/${adminId}`,
         jabatan
       );
-      Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
-      window.location.href = "/superadmin/jabatan";
+      Swal.fire({
+        title: "Berhasil",
+        text: "Berhasil menambahkan jabatan",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      history.push("/superadmin/jabatan");
     } catch (error) {
       console.log(error);
       Swal.fire("Error", "Gagal menambahkan data", "error");
@@ -73,7 +78,7 @@ function AddJabatanSA() {
               <div class="mt-5 text-left">
                 {/* <!-- Form Input --> */}
                 <form
-                  onSubmit={tambahAdmin}
+                  onSubmit={tambahJabatan}
                   action="https://demo-absen.excellentsistem.com/superadmin/aksi_tambah_jabatan"
                   method="post"
                   enctype="multipart/form-data"
@@ -106,8 +111,9 @@ function AddJabatanSA() {
                       <select
                         id="id_admin"
                         name="id_admin"
+                        value={adminId}
                         class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-                        onChange={(e) => setAdminId(e.target.value)}
+                        onChange={(e) => setadminId(e.target.value)}
                       >
                         <option selected>Pilih Admin</option>
                         {adminList &&
@@ -126,13 +132,13 @@ function AddJabatanSA() {
                       class="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                       href="javascript:history.go(-1)"
                     >
-                      <i class="fa-solid fa-arrow-left"></i>
+                      <FontAwesomeIcon icon={faArrowLeft} />
                     </a>
                     <button
                       type="submit"
                       class="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                     >
-                      <i class="fa-solid fa-floppy-disk"></i>
+                      <FontAwesomeIcon icon={faFloppyDisk} />
                     </button>
                   </div>
                 </form>

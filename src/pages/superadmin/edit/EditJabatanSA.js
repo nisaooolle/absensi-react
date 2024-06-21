@@ -45,7 +45,7 @@ function EditJabatanSA() {
       );
       setJabatan(res.data);
       Swal.fire("Berhasil", "Berhasil mengubah data", "success");
-      history.push("/superadmin/admin");
+      history.push("/superadmin/jabatan");
     } catch (error) {
       console.log(error);
     }
