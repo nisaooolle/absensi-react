@@ -27,10 +27,51 @@ function Cuti() {
     }
   };
 
+  const DownloadPdfCuti = async (id) => {
+    const token = localStorage.getItem("token");
+  
+    Swal.fire({
+      title: "Konfirmasi",
+      text: "Apakah Anda ingin mengunduh file PDF?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Ya, Unduh!",
+      cancelButtonText: "Batal",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios({
+            url: `http://localhost:2024/api/cuti/download-pdf/${id}`,
+            method: 'GET',
+            responseType: 'blob', 
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+  
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'Surat Cuti.pdf');
+          document.body.appendChild(link);
+          link.click();
+  
+          Swal.fire("Berhasil", "Berhasil Mengunduh Pdf", "success");
+        } catch (error) {
+          console.log(error);
+          Swal.fire("Gagal", "Gagal Mengunduh Pdf", "error");
+        }
+      } else {
+        Swal.fire("Dibatalkan", "Pengunduhan dibatalkan", "info");
+      }
+    });
+  };
+  
+
   const konfirmasiSetujuCuti = async (id) => {
     Swal.fire({
       title: "Konfirmasi",
-      text: "Apakah yakin ingin menyetujui izin cuti ini?", 
+      text: "Apakah yakin ingin menyetujui izin cuti ini?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#31363F",
@@ -184,8 +225,7 @@ function Cuti() {
 
                               <button
                                 className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                                // onclick="konfirmasiSetujuCuti(4)"
-                                onClick={() => BatalkanCuti(cuti.id)}
+                                 onClick={() => BatalkanCuti(cuti.id)}
                               >
                                 <span className="relative inline-block">
                                   <FontAwesomeIcon
@@ -195,8 +235,8 @@ function Cuti() {
                                 </span>
                               </button>
 
-                              <a href="" onclick="hapusUser(4)">
-                                <button className="z-30 block rounded-full border-2 border-white  bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                              <a onClick={() => DownloadPdfCuti(cuti.id)}>
+                              <button className="z-30 block rounded-full border-2 border-white  bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
                                   <span className="relative inline-block">
                                     <FontAwesomeIcon
                                       icon={faPrint}
