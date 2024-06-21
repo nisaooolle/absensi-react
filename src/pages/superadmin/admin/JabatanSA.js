@@ -33,7 +33,7 @@ function JabatanSA() {
     }
   };
 
-  const deleteData = async (id) => {
+  const deleteData = async (idJabatan) => {
     Swal.fire({
       title: "Anda Ingin Menghapus Data ?",
       icon: "warning",
@@ -46,7 +46,7 @@ function JabatanSA() {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `http://localhost:2024/api/organisasi/delete/` + id,
+            `http://localhost:2024/api/jabatan/delete/` + idJabatan,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -162,7 +162,7 @@ function JabatanSA() {
 
                             <button
                               className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                              onClick={() => deleteData(jabatan.id)}
+                              onClick={() => deleteData(jabatan.idJabatan)}
                             >
                               <span className="relative inline-block">
                                 <FontAwesomeIcon
