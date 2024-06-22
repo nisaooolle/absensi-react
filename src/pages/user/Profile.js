@@ -30,7 +30,41 @@ function Profile() {
   const [shift, setShift] = useState("");
   const [jabatanList, setJabatanList] = useState([]);
   const [adminId, setidAdmin] = useState("");
+  const [passwordLama, setPasswordLama] = useState("");
+  const [passwordBaru, setPasswordBaru] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
+
+
+  const editPassword = async (e) => {
+    e.preventDefault();
+
+    if (passwordBaru !== confirmPassword) {
+      Swal.fire("Gagal", "Password baru dan konfirmasi password tidak cocok", "error");
+      return;
+    }
+
+    try {
+      const response = await axios.put(`http://localhost:2024/api/user/edit-password/${id}`, {
+        old_password: passwordLama,
+        new_password: passwordBaru,
+        confirm_new_password: confirmPassword,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+
+      if (response.data.success) {
+        Swal.fire("Berhasil", "Password berhasil diubah", "success");
+      } else {
+        Swal.fire("Gagal", response.data.message, "error");
+      }
+    } catch (error) {
+      console.log(error);
+      Swal.fire("Error", "Terjadi kesalahan, coba lagi nanti", "error");
+    }
+  };
   const getProfile = async () => {
     try {
       const response = await axios.get(
@@ -284,12 +318,12 @@ function Profile() {
                         )}
                         {edit && (
                           <>
-                            <a
-                              href={window.location.reload}
+                            <button
+                              onClick={() => setEdit(false)}
                               className="z-20 block rounded-xl border-2 border-white bg-rose-100 p-4 text-rose-700 active:bg-blue-50"
                             >
                               Batal
-                            </a>
+                            </button>
                             <button
                               onClick={() => setEdit(true)}
                               className="z-20 block rounded-xl border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
@@ -309,7 +343,7 @@ function Profile() {
                     <p className="text-lg sm:text-xl font-medium mb-4 sm:mb-7">
                       Settings
                     </p>
-                    <form onSubmit={""}>
+                    <form onSubmit={editPassword}>
                       <div className="relative mb-3">
                         <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                           Password Lama
@@ -319,6 +353,8 @@ function Profile() {
                           id="pw-lama"
                           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                           required
+                          value={passwordLama}
+                          onChange={(e) => setPasswordLama(e.target.value)}
                         />
                         <FontAwesomeIcon
                           icon={showPasswordd ? faEye : faEyeSlash}
@@ -336,6 +372,8 @@ function Profile() {
                             id="pw-baru"
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                             required
+                            value={passwordBaru}
+                            onChange={(e) => setPasswordBaru(e.target.value)}
                           />
                           <FontAwesomeIcon
                             icon={showPassword ? faEye : faEyeSlash}
@@ -354,6 +392,8 @@ function Profile() {
                             id="konfirmasi-pw"
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                             required
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                           />
                           <FontAwesomeIcon
                             icon={showConfirmPassword ? faEye : faEyeSlash}
