@@ -10,9 +10,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Pagination } from "flowbite-react";
 
 function User() {
   const [userData, setUserData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [limit, setLimit] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const getAllUser = async () => {
     const token = localStorage.getItem("token");
@@ -78,16 +83,53 @@ function User() {
     getAllUser();
   }, []);
 
+  useEffect(() => {
+    const filteredData = userData.filter(
+      (user) =>
+        user.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.admin?.username
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        user.email?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setTotalPages(Math.ceil(filteredData.length / limit));
+  }, [searchTerm, limit, userData]);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleLimitChange = (event) => {
+    setLimit(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to the first page when limit changes
+  };
+
+  function onPageChange(page) {
+    setCurrentPage(page);
+  }
+
+  const filteredUser = userData.filter(
+    (user) =>
+      user.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.admin?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const paginatedUser = filteredUser.slice(
+    (currentPage - 1) * limit,
+    currentPage * limit
+  );
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
         <NavbarSuper />
       </div>
-      <div className="flex h-full">
+      <div className="flex flex-1">
         <div className="fixed">
           <Sidebar />
         </div>
-        <div class=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
+        <div class="sm:ml-64 content-page container p-8  ml-0 md:ml-64">
           <div class="p-5 mt-10">
             {/* <!-- Card --> */}
             <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -95,15 +137,31 @@ function User() {
                 <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                   Data User
                 </h6>
-                <a
-                  type="button"
-                  href="/superadmin/addU"
-                  class="text-white bg-indigo-500  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
-                >
-                  <FontAwesomeIcon icon={faPlus} size="lg" />
-                </a>
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="relative w-64">
+                    <input
+                      type="search"
+                      id="search-dropdown"
+                      value={searchTerm}
+                      onChange={handleSearch}
+                      className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                      placeholder="Search name..."
+                      required
+                    />
+                  </div>
+                  <select
+                    value={limit}
+                    onChange={handleLimitChange}
+                    className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                  >
+                    <option value="5">05</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                  </select>
+                </div>
               </div>
-              <hr />
+              <hr className="mt-4" />
 
               {/* <!-- Tabel --> */}
               <div class="relative overflow-x-auto mt-5">
@@ -133,7 +191,7 @@ function User() {
                   </thead>
                   {/* <!-- Tabel Body --> */}
                   <tbody class="text-left">
-                    {userData.map((user, index) => (
+                    {paginatedUser.map((user, index) => (
                       <tr
                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         key={index}
@@ -142,11 +200,11 @@ function User() {
                           scope="row"
                           class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          {index + 1}
+                          {(currentPage - 1) * limit + index + 1}
                         </th>
                         <td class="px-6 py-4">{user.username}</td>
                         <td class="px-6 py-4">{user.email}</td>
-                        <td class="px-6 py-4">{user.admin.username}</td>
+                        <td className="px-6 py-4">{user.admin?.username}</td>
                         <td className="py-3">
                           <div className="flex items-center -space-x-4 ml-14">
                             <a href={`/superadmin/detailU/${user.id}`}>
@@ -188,6 +246,14 @@ function User() {
                   </tbody>
                 </table>
               </div>
+              <Pagination
+                className="mt-5"
+                layout="table"
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={onPageChange}
+                showIcons
+              />
             </div>
           </div>
         </div>

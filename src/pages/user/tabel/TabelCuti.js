@@ -5,17 +5,28 @@ import Navbar from "../../../components/NavbarUser";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { Pagination } from "flowbite-react";
 
 function TabelCuti() {
   const [cuti, setCuti] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [totalPages, setTotalPages] = useState(1);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+  };
+
+  // Function to format date in Indonesian
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString("id-ID", options);
   };
 
   const getAllCuti = async () => {
@@ -79,37 +90,66 @@ function TabelCuti() {
     getAllCuti();
   }, []);
 
-  // Search function
+  useEffect(() => {
+    const filteredData = cuti.filter(
+      (cutiData) =>
+        (cutiData.keperluan?.toLowerCase().includes(searchTerm.toLowerCase()) ??
+          false) ||
+        (cutiData.status?.toLowerCase().includes(searchTerm.toLowerCase()) ??
+          false) ||
+        (formatDate(cutiData.awalCuti)
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ??
+          false) ||
+        (formatDate(cutiData.akhirCuti)
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ??
+          false) ||
+        (formatDate(cutiData.masukKerja)
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ??
+          false)
+    );
+    setTotalPages(Math.ceil(filteredData.length / limit));
+  }, [searchTerm, limit, cuti]);
+
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  // Filter function for search
-  const filterCuti = (cutiData) => {
-    return (
-      cutiData.awalCuti.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      cutiData.akhirCuti.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      cutiData.masukKerja.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      cutiData.keperluan.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  const handleLimitChange = (event) => {
+    setLimit(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to the first page when limit changes
   };
 
-  // Pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = cuti.slice(indexOfFirstItem, indexOfLastItem);
+  function onPageChange(page) {
+    setCurrentPage(page);
+  }
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const filteredCuti = cuti.filter(
+    (cutiData) =>
+      (cutiData.keperluan?.toLowerCase().includes(searchTerm.toLowerCase()) ??
+        false) ||
+      (cutiData.status?.toLowerCase().includes(searchTerm.toLowerCase()) ??
+        false) ||
+      (formatDate(cutiData.awalCuti)
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ??
+        false) ||
+      (formatDate(cutiData.akhirCuti)
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ??
+        false) ||
+      (formatDate(cutiData.masukKerja)
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ??
+        false)
+  );
 
-  // Function to format date in Indonesian
-  const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    return new Date(dateString).toLocaleDateString("id-ID", options);
-  };
+  const paginatedCuti = filteredCuti.slice(
+    (currentPage - 1) * limit,
+    currentPage * limit
+  );
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -121,23 +161,34 @@ function TabelCuti() {
           <Sidebar isOpen={sidebarOpen} />
         </div>
         <div className="content-page flex-1 p-8 md:ml-64 mt-16">
-          <div className="tabel-cuti bg-blue-100 p-5 rounded-xl shadow-xl border border-gray-300">
-            <h2 className="text-xl font-bold">History Cuti</h2>
-            <div className="flex justify-between items-center mt-4">
-              <div className="flex items-center">
-                <FontAwesomeIcon
-                  icon={faSearch}
-                  className="mr-2 text-gray-500"
-                />
-                <input
-                  type="text"
-                  placeholder="Cari cuti..."
-                  value={searchTerm}
-                  onChange={handleSearch}
-                  className="px-3 py-2 border-blue-700 rounded-md"
-                />
+          <div className="tabel-cuti bg-blue-100 p-5 rounded-xl shadow-xl border border-gray-300 text-center">
+            <div class="flex justify-between">
+              <h2 className="text-xl font-bold">History Cuti</h2>
+              <div className="flex items-center gap-2 mt-2">
+                <div className="relative w-64">
+                  <input
+                    type="search"
+                    id="search-dropdown"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                    placeholder="Search name..."
+                    required
+                  />
+                </div>
+                <select
+                  value={limit}
+                  onChange={handleLimitChange}
+                  className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                >
+                  <option value="5">05</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                </select>
               </div>
             </div>
+
             <div className="overflow-x-auto rounded-xl border border-gray-200 mt-4">
               <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm border border-gray-300">
                 <thead className="text-left text-white bg-blue-500">
@@ -166,10 +217,10 @@ function TabelCuti() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {currentItems.filter(filterCuti).map((cutiData, index) => (
+                  {paginatedCuti.map((cutiData, index) => (
                     <tr key={index}>
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                        {indexOfFirstItem + index + 1}
+                        {(currentPage - 1) * limit + index + 1}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
                         {formatDate(cutiData.awalCuti)}
@@ -206,27 +257,14 @@ function TabelCuti() {
                 </tbody>
               </table>
             </div>
-            <div className="flex justify-center mt-4">
-              <ul className="pagination">
-                {Array(Math.ceil(cuti.length / itemsPerPage))
-                  .fill()
-                  .map((_, index) => (
-                    <li
-                      key={index}
-                      className={`page-item ${
-                        currentPage === index + 1 ? "active" : ""
-                      }`}
-                    >
-                      <button
-                        onClick={() => setCurrentPage(index + 1)}
-                        className="page-link"
-                      >
-                        {index + 1}
-                      </button>
-                    </li>
-                  ))}
-              </ul>
-            </div>
+            <Pagination
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+            />
           </div>
         </div>
       </div>

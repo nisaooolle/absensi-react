@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faArrowRight,
   faArrowRightFromBracket,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
@@ -23,8 +24,6 @@ function Dashboard() {
   const [cuti, setCuti] = useState([]);
   const [izin, setIzin] = useState([]);
   const [totalIzin, setTotalIzin] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
   const [isAbsenMasuk, setIsAbsenMasuk] = useState(false);
 
   const getUsername = async () => {
@@ -175,13 +174,6 @@ function Dashboard() {
     };
     return new Date(dateString).toLocaleDateString("id-ID", options);
   };
-
-  // Pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = absensi.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   useEffect(() => {
     if (localStorage.getItem("loginSuccess") === "true") {
@@ -363,10 +355,10 @@ function Dashboard() {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                  {currentItems.map((absenData, index) => (
+                  {absensi.map((absenData, index) => (
                     <tr key={index}>
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                        {indexOfFirstItem + index + 1}
+                        {index + 1}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
                         {formatDate(absenData.tanggalAbsen)}
@@ -379,26 +371,13 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
-            <div className="flex justify-center mt-4">
-              <ul className="pagination">
-                {Array(Math.ceil(absensi.length / itemsPerPage))
-                  .fill()
-                  .map((_, index) => (
-                    <li
-                      key={index}
-                      className={`page-item ${
-                        currentPage === index + 1 ? "active" : ""
-                      }`}
-                    >
-                      <button
-                        onClick={() => paginate(index + 1)}
-                        className="page-link"
-                      >
-                        {index + 1}
-                      </button>
-                    </li>
-                  ))}
-              </ul>
+            <div className="flex justify-end mt-5">
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => (window.location.href = "/user/history_absen")}
+              >
+                <FontAwesomeIcon icon={faArrowRight} />
+              </button>
             </div>
           </div>
 
@@ -431,26 +410,13 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
-            <div className="flex justify-center mt-4">
-              <ul className="pagination">
-                {Array(Math.ceil(cuti.length / itemsPerPage))
-                  .fill()
-                  .map((_, index) => (
-                    <li
-                      key={index}
-                      className={`page-item ${
-                        currentPage === index + 1 ? "active" : ""
-                      }`}
-                    >
-                      <button
-                        onClick={() => paginate(index + 1)}
-                        className="page-link"
-                      >
-                        {index + 1}
-                      </button>
-                    </li>
-                  ))}
-              </ul>
+            <div className="flex justify-end mt-5">
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => (window.location.href = "/user/history_cuti")}
+              >
+                <FontAwesomeIcon icon={faArrowRight} />
+              </button>
             </div>
           </div>
         </div>
