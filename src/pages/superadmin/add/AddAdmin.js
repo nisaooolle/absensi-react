@@ -28,7 +28,7 @@ function AddAdmin() {
         newUser
       );
       Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
-      window.location.reload();
+      window.location.href = "/superadmin/admin";
     } catch (error) {
       console.log(error);
       Swal.fire("Error", "Gagal menambahkan data", "error");

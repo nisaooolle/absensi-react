@@ -34,32 +34,34 @@ function Profile() {
   const [passwordBaru, setPasswordBaru] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-
-
   const editPassword = async (e) => {
     e.preventDefault();
 
     if (passwordBaru !== confirmPassword) {
-      Swal.fire("Gagal", "Password baru dan konfirmasi password tidak cocok", "error");
+      Swal.fire(
+        "Gagal",
+        "Password baru dan konfirmasi password tidak cocok",
+        "error"
+      );
       return;
     }
 
     try {
-      const response = await axios.put(`http://localhost:2024/api/user/edit-password/${id}`, {
-        old_password: passwordLama,
-        new_password: passwordBaru,
-        confirm_new_password: confirmPassword,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.put(
+        `http://localhost:2024/api/user/edit-password/${id}`,
+        {
+          old_password: passwordLama,
+          new_password: passwordBaru,
+          confirm_new_password: confirmPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
-
-      if (response.data.success) {
-        Swal.fire("Berhasil", "Password berhasil diubah", "success");
-      } else {
-        Swal.fire("Gagal", response.data.message, "error");
-      }
+      );
+      Swal.fire("Berhasil", "Password berhasil diubah", "success");
+      window.location.reload();
     } catch (error) {
       console.log(error);
       Swal.fire("Error", "Terjadi kesalahan, coba lagi nanti", "error");
