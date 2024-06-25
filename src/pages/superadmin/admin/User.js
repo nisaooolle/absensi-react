@@ -137,6 +137,7 @@ function User() {
                 <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                   Data User
                 </h6>
+
                 <div className="flex items-center gap-2 mt-2">
                   <div className="relative w-64">
                     <input
@@ -159,6 +160,13 @@ function User() {
                     <option value="20">20</option>
                     <option value="50">50</option>
                   </select>
+                  <a
+                    type="button"
+                    href="/superadmin/addU"
+                    class="text-white bg-indigo-500 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800 mt-2"
+                  >
+                    <FontAwesomeIcon icon={faPlus} size="lg" />
+                  </a>
                 </div>
               </div>
               <hr className="mt-4" />

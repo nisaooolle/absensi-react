@@ -72,10 +72,9 @@ const Sidebar = () => {
           title: "Logout Berhasil",
           text: "Anda telah berhasil logout.",
           icon: "success",
-          confirmButtonColor: "#3085d6",
-          confirmButtonText: "OK",
+          showConfirmButton: false,
+          timer: 1000,
         }).then(() => {
-          // Redirect ke halaman login setelah menekan tombol OK
           window.location.href = "/";
         });
       }
