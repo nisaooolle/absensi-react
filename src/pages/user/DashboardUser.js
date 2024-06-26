@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faArrowRight,
   faArrowRightFromBracket,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
@@ -23,8 +24,6 @@ function Dashboard() {
   const [cuti, setCuti] = useState([]);
   const [izin, setIzin] = useState([]);
   const [totalIzin, setTotalIzin] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
   const [isAbsenMasuk, setIsAbsenMasuk] = useState(false);
 
   const getUsername = async () => {
@@ -176,13 +175,6 @@ function Dashboard() {
     return new Date(dateString).toLocaleDateString("id-ID", options);
   };
 
-  // Pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = absensi.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
   useEffect(() => {
     if (localStorage.getItem("loginSuccess") === "true") {
       Swal.fire({
@@ -239,7 +231,7 @@ function Dashboard() {
                     </div>
                     <div
                       className={`my-auto ${
-                        isAbsenMasuk ? "text-gray-400" : "text-blue-500"
+                        isAbsenMasuk ? "text-gray-400" : "text-black"
                       }`}
                     >
                       <FontAwesomeIcon
@@ -252,13 +244,13 @@ function Dashboard() {
               </Link>
 
               <Link to="/user/pulang">
-                <div className="pl-2 h-24 bg-blue-500 rounded-lg shadow-md md:w-auto">
+                <div className="pl-2 h-24 bg-green-500 rounded-lg shadow-md md:w-auto">
                   <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
                       <p className="font-bold text-black">Pulang</p>
                       <p className="text-lg text-black">Absen pulang.</p>
                     </div>
-                    <div className="my-auto text-blue-500">
+                    <div className="my-auto text-black">
                       <FontAwesomeIcon
                         icon={faArrowRightFromBracket}
                         size="2x"
@@ -269,13 +261,13 @@ function Dashboard() {
               </Link>
 
               <Link to="/user/izin">
-                <div className="pl-2 h-24 bg-blue-500 rounded-lg shadow-md md:w-auto">
+                <div className="pl-2 h-24 bg-red-500 rounded-lg shadow-md md:w-auto">
                   <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
                       <p className="font-bold text-black">Izin</p>
                       <p className="text-lg text-black">Ajukan Izin.</p>
                     </div>
-                    <div className="my-auto text-blue-500">
+                    <div className="my-auto text-black">
                       <FontAwesomeIcon icon={faCircleXmark} size="2x" />
                     </div>
                   </div>
@@ -285,13 +277,13 @@ function Dashboard() {
 
             <div className="flex justify-center mt-3 gap-4 flex-col md:flex-row">
               <Link to="/user/cuti">
-                <div className="pl-2 h-24 w-full md:w-80 bg-blue-500 rounded-lg shadow-md md:mr-20 cursor-pointer">
+                <div className="pl-2 h-24 w-full md:w-80 bg-red-400 rounded-lg shadow-md md:mr-20 cursor-pointer">
                   <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
                       <p className="font-bold text-black">Cuti</p>
                       <p className="text-lg text-black">Ajukan cuti.</p>
                     </div>
-                    <div className="my-auto text-blue-500">
+                    <div className="my-auto text-black">
                       <FontAwesomeIcon icon={faCalendarDays} size="2x" />
                     </div>
                   </div>
@@ -299,13 +291,13 @@ function Dashboard() {
               </Link>
 
               <Link to="/user/lembur">
-                <div className="pl-2 h-24 w-full md:w-80 bg-blue-500 rounded-lg shadow-md md:ml-0 mt-4 md:mt-0 cursor-pointer">
+                <div className="pl-2 h-24 w-full md:w-80 bg-yellow-300 rounded-lg shadow-md md:ml-0 mt-4 md:mt-0 cursor-pointer">
                   <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
                       <p className="font-bold text-black">Lembur</p>
                       <p className="text-lg text-black">Ajukan lembur.</p>
                     </div>
-                    <div className="my-auto text-blue-500">
+                    <div className="my-auto text-black">
                       <FontAwesomeIcon icon={faClockFour} size="2x" />
                     </div>
                   </div>
@@ -329,7 +321,7 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="bg-blue-500 rounded-lg shadow-md p-4 md:w-full lg:w-auto">
+            <div className="bg-red-500 rounded-lg shadow-md p-4 md:w-full lg:w-auto">
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-white font-bold text-lg">Total Izin</p>
@@ -363,10 +355,10 @@ function Dashboard() {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                  {currentItems.map((absenData, index) => (
+                  {absensi.map((absenData, index) => (
                     <tr key={index}>
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                        {indexOfFirstItem + index + 1}
+                        {index + 1}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
                         {formatDate(absenData.tanggalAbsen)}
@@ -379,26 +371,13 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
-            <div className="flex justify-center mt-4">
-              <ul className="pagination">
-                {Array(Math.ceil(absensi.length / itemsPerPage))
-                  .fill()
-                  .map((_, index) => (
-                    <li
-                      key={index}
-                      className={`page-item ${
-                        currentPage === index + 1 ? "active" : ""
-                      }`}
-                    >
-                      <button
-                        onClick={() => paginate(index + 1)}
-                        className="page-link"
-                      >
-                        {index + 1}
-                      </button>
-                    </li>
-                  ))}
-              </ul>
+            <div className="flex justify-end mt-5">
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => (window.location.href = "/user/history_absen")}
+              >
+                <FontAwesomeIcon icon={faArrowRight} />
+              </button>
             </div>
           </div>
 
@@ -431,26 +410,13 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
-            <div className="flex justify-center mt-4">
-              <ul className="pagination">
-                {Array(Math.ceil(cuti.length / itemsPerPage))
-                  .fill()
-                  .map((_, index) => (
-                    <li
-                      key={index}
-                      className={`page-item ${
-                        currentPage === index + 1 ? "active" : ""
-                      }`}
-                    >
-                      <button
-                        onClick={() => paginate(index + 1)}
-                        className="page-link"
-                      >
-                        {index + 1}
-                      </button>
-                    </li>
-                  ))}
-              </ul>
+            <div className="flex justify-end mt-5">
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => (window.location.href = "/user/history_cuti")}
+              >
+                <FontAwesomeIcon icon={faArrowRight} />
+              </button>
             </div>
           </div>
         </div>
