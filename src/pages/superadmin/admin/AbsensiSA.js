@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFileExport,
-  faInfo,
-  faMagnifyingGlass,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Pagination } from "flowbite-react";
+import NavbarSuper from "../../../components/NavbarSuper";
 
 function Absensi() {
   const [absensi, setAbsensi] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -32,7 +27,6 @@ function Absensi() {
       );
 
       setAbsensi(response.data);
-      setTotalPages(response.data.pagination.total_page);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -40,7 +34,23 @@ function Absensi() {
 
   useEffect(() => {
     getAllAbsensi();
-  }, [searchTerm, limit, currentPage]);
+  }, []);
+
+  useEffect(() => {
+    const filteredData = absensi.filter(
+      (absenData) =>
+        absenData.user.username
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        absenData.user.admin.username
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        formatDate(absenData.tanggalAbsen)
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+    );
+    setTotalPages(Math.ceil(filteredData.length / limit));
+  }, [searchTerm, limit, absensi]);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -48,6 +58,7 @@ function Absensi() {
 
   const handleLimitChange = (event) => {
     setLimit(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to the first page when limit changes
   };
 
   function onPageChange(page) {
@@ -77,10 +88,15 @@ function Absensi() {
         .includes(searchTerm.toLowerCase())
   );
 
+  const paginatedAbsensi = filteredAbsensi.slice(
+    (currentPage - 1) * limit,
+    currentPage * limit
+  );
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
-        <Navbar />
+        <NavbarSuper />
       </div>
       <div className="flex flex-1">
         <div className="fixed">
@@ -109,6 +125,7 @@ function Absensi() {
                   onChange={handleLimitChange}
                   className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
                 >
+                  <option value="5">05</option>
                   <option value="10">10</option>
                   <option value="20">20</option>
                   <option value="50">50</option>
@@ -160,7 +177,7 @@ function Absensi() {
                   </tr>
                 </thead>
                 <tbody class="text-left">
-                  {filteredAbsensi.map((absenData, index) => (
+                  {paginatedAbsensi.map((absenData, index) => (
                     <tr
                       key={index}
                       class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -169,7 +186,7 @@ function Absensi() {
                         scope="row"
                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        {index + 1}
+                        {(currentPage - 1) * limit + index + 1}
                       </th>
                       <td class="px-6 py-4">{absenData.user.admin.username}</td>
                       <td class="px-6 py-4">{absenData.user.username}</td>
@@ -199,7 +216,7 @@ function Absensi() {
                       </td>
                       <td class="px-6 py-4">00 jam 00 menit </td>
                       <td class="px-6 py-4">
-                        <a href={`/admin/detailA/${absenData.id}`}>
+                        <a href={`/superadmin/detailAbsensi/${absenData.id}`}>
                           <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
                             <span className="relative inline-block">
                               <FontAwesomeIcon
