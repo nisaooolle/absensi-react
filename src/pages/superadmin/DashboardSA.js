@@ -69,7 +69,7 @@ function DashboardSA() {
   const getLokasi = () =>
     fetchData("http://localhost:2024/api/lokasi/getall", setLokasiData);
   const getOrganisasi = () =>
-    fetchData("http://localhost:2024/api/organisasi/all", setOrganisasiData);
+    fetchData(`http://localhost:2024/api/organisasi/${id}`, setOrganisasiData);
 
   const getUsername = async () => {
     try {
@@ -196,7 +196,7 @@ function DashboardSA() {
                 <div className="my-auto">
                   <p className="font-bold">Admin</p>
                   <p className="text-lg">Jumlah Admin</p>
-                  <p className="text-lg">{absenData.length}</p>
+                  <p className="text-lg">{admin.length}</p>
                 </div>
                 <div className="my-auto">
                   <FontAwesomeIcon icon={faClipboardUser} size="2x" />

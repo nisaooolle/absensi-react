@@ -5,7 +5,6 @@ import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
-import { Toast } from "flowbite-react";
 import Loader from "../../../components/Loader";
 
 export default function AddOrganisasi() {
@@ -15,7 +14,7 @@ export default function AddOrganisasi() {
   const [kecamatan, setKecamatan] = useState("");
   const [kabupaten, setKabupaten] = useState("");
   const [provinsi, setProvinsi] = useState("");
-  const [nomorTelepon, setNomorTelepon] = useState("");
+  const [nomerTelepon, setNomerTelepon] = useState("");
   const [emailOrganisasi, setEmailOrganisasi] = useState("");
   const [image, setImage] = useState(null);
   const idAdmin = localStorage.getItem("adminId");
@@ -31,7 +30,7 @@ export default function AddOrganisasi() {
       kecamatan: kecamatan,
       kabupaten: kabupaten,
       provinsi: provinsi,
-      nomorTelepon: nomorTelepon,
+      nomerTelepon: nomerTelepon,
       emailOrganisasi: emailOrganisasi,
     };
 
@@ -49,7 +48,7 @@ export default function AddOrganisasi() {
         }
       );
 
-      const organisasiId = organisasiResponse.data.id;  
+      const organisasiId = organisasiResponse.data.id;
 
       formData.append("organisasiId", organisasiId);
 
@@ -137,16 +136,16 @@ export default function AddOrganisasi() {
                         <div className="relative z-0 w-full mb-6 group">
                           <input
                             type="text"
-                            name="nomor_telepon"
-                            id="nomor_telepon"
+                            name="nomer_telepon"
+                            id="nomer_telepon"
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" "
-                            value={nomorTelepon}
-                            onChange={(e) => setNomorTelepon(e.target.value)}
+                            value={nomerTelepon}
+                            onChange={(e) => setNomerTelepon(e.target.value)}
                             required
                           />
                           <label
-                            htmlFor="nomor_telepon"
+                            htmlFor="nomer_telepon"
                             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                           >
                             No Telepon

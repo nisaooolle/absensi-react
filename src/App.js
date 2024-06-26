@@ -76,6 +76,7 @@ import EditLokasiSA from "./pages/superadmin/edit/EditLokasiSA";
 import DetailLokasiSA from "./pages/superadmin/detail/DetailLokasiSA";
 import AbsensiSA from "./pages/superadmin/admin/AbsensiSA";
 import DetailOrganisasiSA from "./pages/superadmin/detail/DetailOrganisasiSA";
+import DetailAbsensiSA from "./pages/superadmin/detail/DetailAbsensiSA";
 
 function App() {
   const role = localStorage.getItem("role");
@@ -126,11 +127,7 @@ function App() {
               <Route path="/admin/addlok" component={AddLokasi} exact />
               <Route path="/admin/addor" component={AddOrganisasi} exact />
               <Route path="/admin/editK/:id" component={EditKaryawan} exact />
-              <Route
-                path="/admin/editJ/:idJabatan"
-                component={EditJabatan}
-                exact
-              />
+              <Route path="/admin/editJ/:id" component={EditJabatan} exact />
               <Route path="/admin/editL/:id" component={EditLokasi} exact />
               <Route path="/admin/editO/:id" component={EditOrganisasi} exact />
               <Route path="/admin/editS/:id" component={EditShift} exact />

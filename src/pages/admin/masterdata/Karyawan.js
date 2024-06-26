@@ -125,7 +125,7 @@ function Karyawan() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div class=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
+        <div class=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-5">
           <div class="p-5 mt-10">
             {/* <!-- Card --> */}
             <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -205,17 +205,21 @@ function Karyawan() {
                         >
                           {(currentPage - 1) * limit + index + 1}
                         </th>
-                        <td class="px-6 py-4">{user.username}</td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 text-gray-900 capitalize">
+                          {user.username}
+                        </td>
+                        <td class="px-6 py-4 text-gray-900">
                           <a
                             href="/cdn-cgi/l/email-protection"
                             class="__cf_email__"
                             data-cfemail="5a363b23363b1a3d373b333674393537"
                           >
                             {user.email}
-                          </a>{" "}
+                          </a>
                         </td>
-                        <td class="px-6 py-4">{user.admin.username} </td>
+                        <td class="px-6 py-4 text-gray-900 capitalize">
+                          {user.admin.username}
+                        </td>
                         <td className=" py-3">
                           <div className="flex items-center -space-x-4 ml-12">
                             <a href={`/admin/detailK/${user.id}`}>

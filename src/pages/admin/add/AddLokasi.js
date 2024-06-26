@@ -13,25 +13,14 @@ function AddLokasi() {
   const [organisasilist, setOrganisasiList] = useState([]);
   const [selectedOrganisasi, setSelectedOrganisasi] = useState("");
 
+  const idAdmin = localStorage.getItem("adminId");
 
-   const idAdmin = localStorage.getItem("adminId");
-
-  const getOrganisasiBytAdmin = async () => {
+  const getLokasi = async () => {
     try {
       const org = await axios.get(
-        `http://localhost:2024/api/organisasi/getByAdmin/${idAdmin}`
+        `http://localhost:2024/api/organisasi/all-by-admin/${idAdmin}`
       );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getAllOrganisasi = async () => {
-    try {
-      const allOrg = await axios.get(
-        "http://localhost:2024/api/organisasi/all"
-      );
-      setOrganisasiList(allOrg.data);
+      setOrganisasiList(org.data || []);
     } catch (error) {
       console.log(error);
     }
@@ -40,28 +29,29 @@ function AddLokasi() {
   const tambahLokasi = async (e) => {
     e.preventDefault();
     try {
-        if (!selectedOrganisasi) {
-            throw new Error("Pilih organisasi terlebih dahulu.");
-        }
-        const add = {
-            namaLokasi: namaLokasi,
-            alamat: alamat,
-        };
-        const response = await axios.post(
-            `http://localhost:2024/api/lokasi/tambah/${idAdmin}?idOrganisasi=${selectedOrganisasi}`,
-            add 
-        );
-        Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
-        window.location.href = "/admin/lokasi";
+      if (!selectedOrganisasi) {
+        throw new Error("Pilih organisasi terlebih dahulu.");
+      }
+      const add = {
+        namaLokasi: namaLokasi,
+        alamat: alamat,
+      };
+      await axios.post(
+        `http://localhost:2024/api/lokasi/tambah/${idAdmin}?idOrganisasi=${selectedOrganisasi}`,
+        add
+      );
+      Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
+      window.location.href = "/admin/lokasi";
     } catch (error) {
-        console.log(error);
-        Swal.fire("Error", error.message || "Gagal menambahkan data", "error");
+      console.log(error);
+      Swal.fire("Error", error.message || "Gagal menambahkan data", "error");
     }
-};
+  };
+
   useEffect(() => {
-    getOrganisasiBytAdmin();
-    getAllOrganisasi();
+    getLokasi();
   }, [idAdmin]);
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -138,17 +128,20 @@ function AddLokasi() {
                           name="id_organisasi"
                           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           value={selectedOrganisasi}
-                          onChange={(e) => setSelectedOrganisasi(e.target.value)}
+                          onChange={(e) =>
+                            setSelectedOrganisasi(e.target.value)
+                          }
                           required
                         >
-                          <option value="" disabled selected>
+                          <option value="" disabled>
                             Pilih Organisasi
                           </option>
-                          {organisasilist.map((org) => (
-                            <option key={org.id} value={org.id}>
-                              {org.namaOrganisasi}
-                            </option>
-                          ))}
+                          {Array.isArray(organisasilist) &&
+                            organisasilist.map((org) => (
+                              <option key={org.id} value={org.id}>
+                                {org.namaOrganisasi}
+                              </option>
+                            ))}
                         </select>
                         <label
                           htmlFor="organisasi"
