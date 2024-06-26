@@ -181,6 +181,9 @@ function Harian() {
                             Foto Masuk
                           </th>
                           <th scope="col" className="px-6 py-3">
+                            Lokasi Masuk
+                          </th>
+                          <th scope="col" className="px-6 py-3">
                             Jam Pulang
                           </th>
                           <th scope="col" className="px-6 py-3">
@@ -197,6 +200,7 @@ function Harian() {
                       <tbody>
                         {absensiData.map((absensi, index) => (
                           <tr key={index}>
+                            <td className="px-5 py-3">{index + 1}</td>
                             <td className="px-5 py-3">
                               {absensi.user.username}
                             </td>

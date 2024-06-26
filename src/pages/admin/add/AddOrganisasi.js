@@ -31,16 +31,31 @@ export default function AddOrganisasi() {
       kecamatan: kecamatan,
       kabupaten: kabupaten,
       provinsi: provinsi,
-      nomerTelepon: nomorTelepon,
+      nomorTelepon: nomorTelepon,
       emailOrganisasi: emailOrganisasi,
     };
 
-     formData.append("image", image);
+    formData.append("image", image);
 
     try {
-      const response = await axios.post(
-        `http://localhost:2024/api/organisasi/tambahByIdAdmin/${idAdmin}`,
-        formData , organisasi ,
+      // Send the organisasi object first
+      const organisasiResponse = await axios.post(
+        `http://localhost:2024/api/organisasi/tambahByIdAdmin/${idAdmin}/data`,
+        organisasi,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const organisasiId = organisasiResponse.data.id;  
+
+      formData.append("organisasiId", organisasiId);
+
+      await axios.post(
+        `http://localhost:2024/api/organisasi/tammbahImageByOrg/${idAdmin}/image`,
+        formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -50,10 +65,10 @@ export default function AddOrganisasi() {
 
       setLoading(false);
       Swal.fire("Berhasil", "Berhasil menambahkan organisasi", "success");
-      window.location.reload();
+      window.location.href = "/admin/organisasi";
     } catch (error) {
       setLoading(false);
-      Swal.fire("Gagal", "Admin sudah memiliki organisasi", "error");
+      Swal.fire("Gagal", "Gagal Menambahkan organisasi", "error");
     }
   };
 

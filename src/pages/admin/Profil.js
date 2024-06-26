@@ -25,6 +25,9 @@ function Profil() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [edit, setEdit] = useState(false);
+  const [passwordLama, setPasswordLama] = useState("");
+  const [passwordBaru, setPasswordBaru] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const getProfile = async () => {
     try {
@@ -49,10 +52,15 @@ function Profil() {
   const HandleUbahUsernameEmail = async (e) => {
     e.preventDefault();
 
+    const usmail = {
+      email: email,
+      username: username,
+    };
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/admin/edit-email-username/${id}?email=${email}&username=${username}`,
-        {}, // Tidak ada data yang perlu dikirim dalam tubuh permintaan
+        `http://localhost:2024/api/admin/edit-email-username/${id}`,
+        usmail,
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -60,13 +68,12 @@ function Profil() {
         }
       );
 
-      setProfile(response.data);
       setUsername(response.data.username);
       setEmail(response.data.email);
       Swal.fire("Berhasil", "Berhasil mengubah username dan email", "success");
-      setTimeout(() => {
+   
         window.location.reload();
-      }, 2000);
+     
     } catch (error) {
       console.error("Error updating data:", error);
       Swal.fire("Gagal", "Gagal mengubah username dan email", "error");
@@ -83,31 +90,40 @@ function Profil() {
     setPreview(URL.createObjectURL(file));
   };
 
-  // const handleImageUpload = async (event) => {
-  //   setLoading(true);
-  //   const selectedFile = event.target.files[0];
-  //   const formData = new FormData();
-  //   formData.append("image", selectedFile);
-  //   try {
-  //     const response = await axios.put(
-  //       `http://localhost:2024/api/admin/ubah-foto/${id}`,
-  //       formData,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       }
-  //     );
-  //     setLoading(false);
-  //     setImageAdmin(response.data.imageAdmin);
-  //     Swal.fire("Berhasil", "Berhasil mengubah foto profil", "success");
-  //     getProfile(); // Memperbarui profil setelah mengubah foto tanpa memuat ulang halaman
-  //   } catch (error) {
-  //     setLoading(false);
-  //     console.error("Error uploading image:", error);
-  //   }
-  // };
+  const editPassword = async (e) => {
+    e.preventDefault();
+
+    if (passwordBaru !== confirmPassword) {
+      Swal.fire(
+        "Gagal",
+        "Password baru dan konfirmasi password tidak cocok",
+        "error"
+      );
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        `http://localhost:2024/api/admin/edit-password/${id}`,
+        {
+          old_password: passwordLama,
+          new_password: passwordBaru,
+          confirm_new_password: confirmPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      Swal.fire("Berhasil", "Password berhasil diubah", "success");
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      Swal.fire("Error", "Terjadi kesalahan, coba lagi nanti", "error");
+    }
+  };
 
   const handleImageUpload = async () => {
     if (!selectedFile) {
@@ -283,7 +299,7 @@ function Profil() {
                     <p className="text-lg sm:text-xl font-medium mb-4 sm:mb-7">
                       Settings
                     </p>
-                    <form onSubmit={""}>
+                    <form onSubmit={editPassword}>
                       <div className="relative mb-3">
                         <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                           Password Lama
@@ -291,6 +307,8 @@ function Profil() {
                         <input
                           type={showPasswordd ? "text" : "password"}
                           id="pw-lama"
+                          value={passwordLama}
+                          onChange={(e) => setPasswordLama(e.target.value)}
                           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                           required
                         />
@@ -310,6 +328,8 @@ function Profil() {
                             id="pw-baru"
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                             required
+                            value={passwordBaru}
+                            onChange={(e) => setPasswordBaru(e.target.value)}
                           />
                           <FontAwesomeIcon
                             icon={showPassword ? faEye : faEyeSlash}
@@ -328,6 +348,8 @@ function Profil() {
                             id="konfirmasi-pw"
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                             required
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                           />
                           <FontAwesomeIcon
                             icon={showConfirmPassword ? faEye : faEyeSlash}
