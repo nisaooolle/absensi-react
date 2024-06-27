@@ -30,7 +30,7 @@ function AddKaryawan() {
     GetAllShift();
   }, []);
 
-  const GetAllOrganisasi= async () => {
+  const GetAllOrganisasi = async () => {
     try {
       const response = await axios.get(
         `http://localhost:2024/api/organisasi/all-by-admin/${idAdmin}`
@@ -63,10 +63,9 @@ function AddKaryawan() {
     }
   };
 
- 
   const tambahKaryawan = async (e) => {
     e.preventDefault();
-  
+
     try {
       const newUser = {
         email: email,
@@ -76,7 +75,7 @@ function AddKaryawan() {
       const response = await axios.post(
         `http://localhost:2024/api/user/tambahkaryawan/${idAdmin}?idOrganisasi=${idOrganisasi}&idJabatan=${idJabatan}&idShift=${idShift}`,
         newUser
-    );
+      );
       Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
       window.location.href = "/admin/karyawan";
     } catch (error) {
@@ -148,14 +147,17 @@ function AddKaryawan() {
                       </div>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
-                      <label htmlFor="id_organisasi" className="sr-only">
+                      <label
+                        htmlFor="id_organisasi"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
                         Organisasi
                       </label>
                       <select
                         value={idOrganisasi}
                         onChange={(e) => setIdOrganisasi(e.target.value)}
                         name="id_organisasi"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       >
                         <option value="" disabled selected>
                           Pilih Organisasi
@@ -169,12 +171,18 @@ function AddKaryawan() {
                       </select>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
+                      <label
+                        htmlFor="jabatan"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        Jabatan
+                      </label>
                       <select
                         id="id_jabatan"
                         value={idJabatan}
                         onChange={(e) => setIdJabatan(e.target.value)}
                         name="id_jabatan"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       >
                         <option value="" disabled selected>
                           Pilih Jabatan
@@ -187,14 +195,17 @@ function AddKaryawan() {
                       </select>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
-                      <label htmlFor="id_shift" className="sr-only">
-                        Organisasi
+                      <label
+                        htmlFor="id_shift"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        Shift
                       </label>
                       <select
                         name="id_shift"
                         value={idShift}
                         onChange={(e) => setIdShift(e.target.value)}
-                        className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       >
                         <option value="" disabled selected>
                           Pilih Shift

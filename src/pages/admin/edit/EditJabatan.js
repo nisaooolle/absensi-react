@@ -57,7 +57,7 @@ function EditJabatan() {
     };
 
     const JabatanData = {
-      id: id, // ID shift yang ingin diedit
+      id: id,
       namaJabatan,
       admin: {
         // ID admin yang terkait dengan shift
@@ -67,7 +67,7 @@ function EditJabatan() {
 
     try {
       await axios.put(
-        `http://localhost:2024/api/jabatan/edit/${id}`,
+        `http://localhost:2024/api/jabatan/editById/${id}`,
         JabatanData,
         config
       );
