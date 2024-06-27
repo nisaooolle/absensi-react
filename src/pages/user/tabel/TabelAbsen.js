@@ -18,9 +18,9 @@ function TabelAbsen() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Function to format date in Indonesian
   const formatDate = (dateString) => {
     const options = {
+      weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -186,23 +186,23 @@ function TabelAbsen() {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
                         {(currentPage - 1) * limit + index + 1}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {formatDate(absenData.tanggalAbsen)}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {absenData.jamMasuk}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {absenData.jamPulang}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {absenData.keteranganIzin != null
                           ? absenData.keteranganIzin
                           : absenData.keteranganTerlambat == null
                           ? "-"
                           : absenData.keteranganTerlambat}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {absenData.statusAbsen}
                       </td>
                       <td className="whitespace-nowrap text-center py-3">

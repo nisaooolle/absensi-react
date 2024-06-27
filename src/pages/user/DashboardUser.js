@@ -168,6 +168,7 @@ function Dashboard() {
   // Function to format date in Indonesian
   const formatDate = (dateString) => {
     const options = {
+      weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -360,10 +361,10 @@ function Dashboard() {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
                         {index + 1}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {formatDate(absenData.tanggalAbsen)}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {absenData.statusAbsen}
                       </td>
                     </tr>
@@ -402,7 +403,7 @@ function Dashboard() {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
                         {index + 1}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {item.keperluan}
                       </td>
                     </tr>
