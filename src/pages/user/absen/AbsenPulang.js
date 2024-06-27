@@ -4,6 +4,7 @@ import Navbar from "../../../components/NavbarUser";
 import Webcam from "react-webcam";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { toBeDisabled } from "@testing-library/jest-dom/matchers";
 
 function AbsenPulang() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -15,14 +16,33 @@ function AbsenPulang() {
   const [address, setAddress] = useState("");
   const [fetchingLocation, setFetchingLocation] = useState(true);
   const [keteranganPulangAwal, setKeteranganPulangAwal] = useState("");
+  const [waktuPulang, setWaktuPulang] = useState("");
+
+  const getShift = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/shift/getShift-byUserId/${userId}`
+      );
+  
+      if (response.data && response.data.waktuPulang) {
+        setWaktuPulang(response.data.waktuPulang);
+      } else {
+        console.error("Data shift tidak ditemukan atau tidak memiliki properti waktuPulang.");
+      }
+    } catch (error) {
+      console.error("Error saat mengambil data shift:", error);
+    }
+  };
+
 
   useEffect(() => {
+    getShift();
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
     }, 1000); // Perbarui setiap detik
 
     return () => clearInterval(interval);
-  }, []); // Tidak ada dependensi, sehingga efek ini hanya dipanggil sekali saat komponen dimuat
+  }, []);
 
   useEffect(() => {
     if (!fetchingLocation) {
@@ -73,7 +93,7 @@ function AbsenPulang() {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const handleCaptureAndSubmit = async () => {
+  const handleCaptureAndSubmitPulang = async () => {
     Swal.fire({
       title: "Konfirmasi Absensi",
       text: "Apakah Anda yakin ingin pulang?",
@@ -111,8 +131,7 @@ function AbsenPulang() {
                 const formData = new FormData();
                 formData.append("image", imageBlob);
                 formData.append("lokasiPulang", address);
-                formData.append("keteranganPulangAwal"  , keteranganPulangAwal)
-
+                formData.append("keteranganPulangAwal", keteranganPulangAwal);
 
                 const response = await axios.put(
                   `http://localhost:2024/api/absensi/pulang/${userId}`,
@@ -142,7 +161,7 @@ function AbsenPulang() {
                 const formData = new FormData();
                 formData.append("image", imageBlob);
                 formData.append("lokasiPulang", address);
-                formData.append("keteranganPulangAwal"  , keteranganPulangAwal)
+                formData.append("keteranganPulangAwal", keteranganPulangAwal);
 
                 const response = await axios.put(
                   `http://localhost:2024/api/absensi/pulang/${userId}`,
@@ -168,7 +187,7 @@ function AbsenPulang() {
               } else {
                 Swal.fire(
                   "Info",
-                  "Anda belum dapat melakukan absensi pulang sebelum pukul 14:30.",
+                  `Anda belum dapat melakukan absensi pulang sebelum pukul ${waktuPulang} `,
                   "info"
                 );
                 setLoading(false);
@@ -239,8 +258,15 @@ function AbsenPulang() {
                 <button
                   type="button"
                   onClick={() => {
-                    handleCaptureAndSubmit();
-                    setLoading(true);
+                    if (!fetchingLocation) {
+                      handleCaptureAndSubmitPulang();
+                    } else {
+                      Swal.fire(
+                        "Tunggu Sebentar",
+                        "Sedang mendapatakan lokasi",
+                        "info"
+                      );
+                    }
                   }}
                   className="block w-32 sm:w-40 bg-blue-500 text-white rounded-lg py-3 text-sm sm:text-xs font-medium"
                 >
@@ -258,7 +284,6 @@ function AbsenPulang() {
                   required
                 />
               </div>
-           
             </form>
           </div>
         </div>
