@@ -70,7 +70,7 @@ function AbsenMasuk() {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const handleCaptureAndSubmit = async () => {
+  const handleCaptureAndSubmitMasuk = async () => {
     Swal.fire({
       title: "Konfirmasi Absensi",
       text: "Apakah Anda yakin ingin melakukan absensi?",
@@ -82,6 +82,7 @@ function AbsenMasuk() {
       cancelButtonText: "Batal",
     }).then(async (result) => {
       if (result.isConfirmed) {
+        setLoading(true);
         const imageSrc = webcamRef.current.getScreenshot();
         const imageBlob = await fetch(imageSrc).then((res) => res.blob());
 
@@ -107,7 +108,7 @@ function AbsenMasuk() {
             } else {
               const formData = new FormData();
               formData.append("image", imageBlob);
-              formData.append("lokasiMasuk", address);
+              formData.append("lokasiMasuk", `${latitude},${longitude}`);
               formData.append(
                 "keteranganTerlambat",
                 keteranganTerlambat || "-"
@@ -195,7 +196,15 @@ function AbsenMasuk() {
                   <button
                     type="button"
                     onClick={() => {
-                      handleCaptureAndSubmit();
+                      if (!fetchingLocation) {
+                        handleCaptureAndSubmitMasuk();
+                      } else {
+                        Swal.fire(
+                          "Tunggu Sebentar",
+                          "Sedang mendapatakan lokasi",
+                          "info"
+                        );
+                      }
                     }}
                     className="block w-32 sm:w-40 bg-blue-500 text-white rounded-lg py-3 text-sm sm:text-xs font-medium"
                   >
@@ -213,7 +222,6 @@ function AbsenMasuk() {
                   />
                 </div>
               </form>
-
             </div>
           </div>
         </div>
