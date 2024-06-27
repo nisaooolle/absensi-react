@@ -66,8 +66,7 @@ const Sidebar = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         // Hapus item dari local storage saat logout
-        localStorage.removeItem("token");
-        // Tampilkan pesan berhasil logout
+        localStorage.clear();  
         Swal.fire({
           title: "Logout Berhasil",
           text: "Anda telah berhasil logout.",
