@@ -12,61 +12,138 @@ import Loader from "../../components/Loader";
 import Swal from "sweetalert2";
 function Profile() {
   // State untuk menyimpan URL gambar profil
+  // const [showPassword, setShowPassword] = useState(false);
+  // const [fotoUser, setFotoUser] = useState("");
+  // const [showPasswordd, setShowPasswordd] = useState(false);
+  // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // const [profile, setProfile] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // const token = localStorage.getItem("token");
+  // const id = localStorage.getItem("userId");
+  // const [selectedFile, setSelectedFile] = useState(null);
+  // const [preview, setPreview] = useState(null);
+  // const [edit, setEdit] = useState(false);
+  // const [email, setEmail] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [organisasi, setOrganisasi] = useState("");
+  // const [jabatan, setJabatan] = useState("");
+  // const [shift, setShift] = useState("");
+  // const [jabatanList, setJabatanList] = useState([]);
+  // const [adminId, setidAdmin] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
   const [fotoUser, setFotoUser] = useState("");
   const [showPasswordd, setShowPasswordd] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [ubahUsername, setUbahUsername] = useState(false);
   const [profile, setProfile] = useState([]);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
   const id = localStorage.getItem("userId");
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [edit, setEdit] = useState(false);
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [organisasi, setOrganisasi] = useState("");
-  const [jabatan, setJabatan] = useState("");
-  const [shift, setShift] = useState("");
-  const [jabatanList, setJabatanList] = useState([]);
   const [adminId, setidAdmin] = useState("");
-  const [passwordLama, setPasswordLama] = useState("");
-  const [passwordBaru, setPasswordBaru] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const editPassword = async (e) => {
-    e.preventDefault();
+  // const getProfile = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:2024/api/user/getUserBy/${id}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     // console.log(response.data);
+  //     setProfile(response.data);
+  //     setUsername(response.data.username);
+  //     setEmail(response.data.email);
+  //     setOrganisasi(response.data.organisasi.namaOrganisasi);
+  //     setJabatan(response.data.jabatan.namaJabatan);
+  //     setShift(response.data.shift.namaShift);
+  //     setidAdmin(response.data.admin?.id || "");
+  //     setFotoUser(response.data.fotoUser);
+  //     if (response.data.admin?.id) {
+  //       getJabatanList(response.data.admin.id);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+  // const getJabatanList = async () => {
+  //   try {
+  //     const jab = await axios.get(
+  //       `http://localhost:2024/api/jabatan/getByAdmin/${adminId}`
+  //     );
+  //     console.log(jab.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-    if (passwordBaru !== confirmPassword) {
-      Swal.fire(
-        "Gagal",
-        "Password baru dan konfirmasi password tidak cocok",
-        "error"
-      );
-      return;
-    }
+  // useEffect(() => {
+  //   getProfile();
+  //   if (adminId) {
+  //     getJabatanList();
+  //   }
+  // }, [adminId]);
 
-    try {
-      const response = await axios.put(
-        `http://localhost:2024/api/user/edit-password/${id}`,
-        {
-          old_password: passwordLama,
-          new_password: passwordBaru,
-          confirm_new_password: confirmPassword,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      Swal.fire("Berhasil", "Password berhasil diubah", "success");
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-      Swal.fire("Error", "Terjadi kesalahan, coba lagi nanti", "error");
-    }
-  };
+  // const ubahDetailAkun = async (e) => {
+  //   e.PreventDefault();
+  //   try {
+  //     const res = await axios.get(``);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   setSelectedFile(file);
+  //   setPreview(URL.createObjectURL(file));
+  // };
+
+  // const handleImageUpload = async () => {
+  //   if (!selectedFile) {
+  //     Swal.fire("Error", "No file selected", "error");
+  //     return;
+  //   }
+
+  //   setLoading(true);
+  //   const formData = new FormData();
+  //   formData.append("image", selectedFile);
+
+  //   try {
+  //     const response = await axios.put(
+  //       `http://localhost:2024/api/user/editFotoBY/${id}`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       }
+  //     );
+  //     setLoading(false);
+  //     setFotoUser(response.data.fotoUser);
+  //     Swal.fire("Berhasil", "Berhasil mengubah foto profil", "success");
+  //     window.location.reload();
+  //   } catch (error) {
+  //     setLoading(false);
+  //     console.error("Error uploading image:", error);
+  //     Swal.fire("Error", "Error uploading image", "error");
+  //   }
+  // };
+
+  // const handleSave = () => {
+  //   // Lakukan logika penyimpanan data di sini
+  //   setEdit(false); // Setelah berhasil disimpan, kembali ke mode non-edit
+  // };
+
   const getProfile = async () => {
     try {
       const response = await axios.get(
@@ -77,54 +154,80 @@ function Profile() {
           },
         }
       );
-      // console.log(response.data);
+
       setProfile(response.data);
-      setUsername(response.data.username);
-      setEmail(response.data.email);
-      setOrganisasi(response.data.organisasi.namaOrganisasi);
-      setJabatan(response.data.jabatan.namaJabatan);
-      setShift(response.data.shift.namaShift);
-      setidAdmin(response.data.admin?.id || "");
       setFotoUser(response.data.fotoUser);
-      if (response.data.admin?.id) {
-        getJabatanList(response.data.admin.id);
-      }
+      setEmail(response.data.email);
+      setUsername(response.data.username);
+      setOrganisasi(response.data.organisasi.namaOrganisasi);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-  const getJabatanList = async () => {
+
+  const HandleUbahUsernameEmail = async (e) => {
+    e.preventDefault();
+
     try {
-      const jab = await axios.get(
-        `http://localhost:2024/api/jabatan/getByAdmin/${adminId}`
+      const response = await axios.put(
+        `http://localhost:2024/api/user/edit-email-username/${id}?email=${email}&username=${username}`,
+        {}, // Tidak ada data yang perlu dikirim dalam tubuh permintaan
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      console.log(jab.data);
+
+      setProfile(response.data);
+      setUsername(response.data.username);
+      setEmail(response.data.email);
+      setOrganisasi(response.data.organisasi.namaOrganisasi);
+      Swal.fire("Berhasil", "Berhasil mengubah username dan email", "success");
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
-      console.log(error);
+      console.error("Error updating data:", error);
+      Swal.fire("Gagal", "Gagal mengubah username dan email", "error");
     }
   };
 
   useEffect(() => {
     getProfile();
-    if (adminId) {
-      getJabatanList();
-    }
-  }, [adminId]);
-
-  const ubahDetailAkun = async (e) => {
-    e.PreventDefault();
-    try {
-      const res = await axios.get(``);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  }, []);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
     setPreview(URL.createObjectURL(file));
   };
+
+  // const handleImageUpload = async (event) => {
+  //   setLoading(true);
+  //   const selectedFile = event.target.files[0];
+  //   const formData = new FormData();
+  //   formData.append("image", selectedFile);
+  //   try {
+  //     const response = await axios.put(
+  //       `http://localhost:2024/api/admin/ubah-foto/${id}`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       }
+  //     );
+  //     setLoading(false);
+  //     setImageAdmin(response.data.imageAdmin);
+  //     Swal.fire("Berhasil", "Berhasil mengubah foto profil", "success");
+  //     getProfile(); // Memperbarui profil setelah mengubah foto tanpa memuat ulang halaman
+  //   } catch (error) {
+  //     setLoading(false);
+  //     console.error("Error uploading image:", error);
+  //   }
+  // };
 
   const handleImageUpload = async () => {
     if (!selectedFile) {
@@ -138,7 +241,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/user/editFotoBY/${id}`,
+        `http://localhost:2024/api/admin/ubah-foto/${id}`,
         formData,
         {
           headers: {
@@ -149,7 +252,9 @@ function Profile() {
       );
       setLoading(false);
       setFotoUser(response.data.fotoUser);
-      Swal.fire("Berhasil", "Berhasil mengubah foto profil", "success");
+      Swal.fire("Berhasil", "Berhasil mengubah foto profil", "success", {
+        timer: 2000,
+      });
       window.location.reload();
     } catch (error) {
       setLoading(false);
@@ -157,7 +262,6 @@ function Profile() {
       Swal.fire("Error", "Error uploading image", "error");
     }
   };
-
   return (
     <>
       {loading && <Loader />}
@@ -220,6 +324,7 @@ function Profile() {
                 </div>
               </Tabs.Item>
 
+           
               <Tabs.Item title="Detail" icon={MdDashboard}>
                 {/* Konten tab Dashboard */}
                 <div className="font-medium text-gray-800 dark:text-white">
@@ -227,7 +332,7 @@ function Profile() {
                     <p className="text-lg sm:text-xl font-medium mb-4 sm:mb-7">
                       Detail Akun
                     </p>
-                    <form onSubmit={""}>
+                    <form onSubmit={HandleUbahUsernameEmail}>
                       <div className="relative mb-3">
                         <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                           Nama Lengkap
@@ -235,103 +340,83 @@ function Profile() {
                         <input
                           type="text"
                           id="nama"
-                          className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                          className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                           placeholder="Masukkan Nama"
-                          value={profile.username || ""}
-                          disabled={!edit}
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
                           required
+                          disabled={!ubahUsername}
                         />
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="relative">
-                          <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
-                            Email
-                          </label>
-                          <input
-                            type="email"
-                            id="email"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                            placeholder="Masukkan Email"
-                            value={profile.email || ""}
-                            disabled={!edit}
-                            required
-                          />
-                        </div>
-                        {profile.organisasi && (
+                      <div className="relative">
+                        <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                          placeholder="Masukkan Email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                          disabled={!ubahUsername}
+                        />
+                        {/* {profile.organisasi && ( */}
                           <div className="relative">
                             <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
                               Organisasi
                             </label>
-                            <input
+                            {/* <input
                               type="selected"
                               id="organisasi"
+                              name="nama_organisasi"
                               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                               placeholder="Masukkan Organisasi"
                               value={profile.organisasi.namaOrganisasi}
                               disabled={!edit}
                               required
-                            />
-                          </div>
-                        )}
-                      </div>
-                      <div className="grid grid-cols-2 gap-4 mt-2">
-                        {profile.jabatan && (
-                          <div className="relative">
-                            <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
-                              Jabatan
-                            </label>
+                            /> */}
                             <input
-                              type="selected"
-                              id="jabatan"
-                              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                              placeholder="Masukkan Jabatan"
-                              value={profile.jabatan.namaJabatan}
-                              required
-                              disabled={!edit}
-                            />
-                          </div>
-                        )}
-                        {profile.shift && (
-                          <div className="relative">
-                            <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
-                              Shift
-                            </label>
-                            <input
-                              type="selected"
-                              id="shift"
-                              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                              placeholder="Masukkan Shift"
-                              value={profile.shift.namaShift}
-                              disabled={!edit}
+                              type="organisasi"
+                              id="organisasi"
+                              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                              placeholder="Masukkan organisasi"
+                              value={organisasi}
+                              onChange={(e) => setOrganisasi(e.target.value)}
+                              disabled={!ubahUsername}
                               required
                             />
                           </div>
-                        )}
+                        {/* )} */}
                       </div>
+
                       <div className="flex justify-between mt-6">
-                        {!edit && (
+                        {!ubahUsername && (
                           <button
-                            onClick={() => setEdit(true)}
                             type="button"
+                            onClick={() => setUbahUsername(true)}
                             className="z-20 block rounded-xl border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
                           >
                             Ubah
                           </button>
                         )}
-                        {edit && (
+                        {ubahUsername && (
                           <>
                             <button
-                              onClick={() => setEdit(false)}
-                              className="z-20 block rounded-xl border-2 border-white bg-rose-100 p-4 text-rose-700 active:bg-blue-50"
+                              type="button"
+                              onClick={() => setUbahUsername(false)}
+                              className="z-20 block rounded-xl border-2 border-white bg-rose-100 p-4 text-rose-500 active:bg-rose-50"
                             >
                               Batal
                             </button>
+
                             <button
-                              onClick={() => setEdit(true)}
+                              type="submit"
                               className="z-20 block rounded-xl border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
                             >
                               Simpan
-                            </button>{" "}
+                            </button>
                           </>
                         )}
                       </div>
@@ -345,7 +430,7 @@ function Profile() {
                     <p className="text-lg sm:text-xl font-medium mb-4 sm:mb-7">
                       Settings
                     </p>
-                    <form onSubmit={editPassword}>
+                    <form onSubmit={""}>
                       <div className="relative mb-3">
                         <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                           Password Lama
@@ -355,8 +440,6 @@ function Profile() {
                           id="pw-lama"
                           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                           required
-                          value={passwordLama}
-                          onChange={(e) => setPasswordLama(e.target.value)}
                         />
                         <FontAwesomeIcon
                           icon={showPasswordd ? faEye : faEyeSlash}
@@ -374,8 +457,6 @@ function Profile() {
                             id="pw-baru"
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                             required
-                            value={passwordBaru}
-                            onChange={(e) => setPasswordBaru(e.target.value)}
                           />
                           <FontAwesomeIcon
                             icon={showPassword ? faEye : faEyeSlash}
@@ -394,8 +475,6 @@ function Profile() {
                             id="konfirmasi-pw"
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                             required
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
                           />
                           <FontAwesomeIcon
                             icon={showConfirmPassword ? faEye : faEyeSlash}

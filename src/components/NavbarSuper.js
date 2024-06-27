@@ -64,7 +64,7 @@ const NavbarSuper = () => {
                   data-dropdown-toggle="dropdown-user"
                 >
                   <span className="sr-only">Open user menu</span>
-                  <Link to="/SUPERADMIN/profil">
+                  <Link to="/superadmin/profil">
                     <img
                       className="w-8 h-8 rounded-full"
                       src={
