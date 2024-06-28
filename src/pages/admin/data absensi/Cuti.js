@@ -141,13 +141,13 @@ function Cuti() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div class=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
-          <div class="p-4">
-            <div class="p-5 mt-10 overflow-x-auto">
+        <div className=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
+          <div className="p-4">
+            <div className="p-5 mt-10 overflow-x-auto">
               {/* <!-- Card --> */}
-              <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                <div class="flex justify-between">
-                  <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+              <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                <div className="flex justify-between">
+                  <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                     Permohonan Cuti
                   </h6>
                 </div>
@@ -155,60 +155,60 @@ function Cuti() {
                 <hr />
 
                 {/* <!-- Tabel --> */}
-                <div class="relative overflow-x-auto mt-5">
+                <div className="relative overflow-x-auto mt-5">
                   <table
                     id="dataCuti"
-                    class="w-full text-center text-sm text-left text-gray-500 dark:text-gray-400"
+                    className="w-full text-center text-sm text-left text-gray-500 dark:text-gray-400"
                   >
                     {/* <!-- Tabel Head --> */}
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                       <tr>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" className="px-6 py-3">
                           No
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" className="px-6 py-3">
                           Nama
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" className="px-6 py-3">
                           Cuti Dari
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" className="px-6 py-3">
                           Sampai
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" className="px-6 py-3">
                           Masuk Kerja
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" className="px-6 py-3">
                           Keperluan
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" className="px-6 py-3">
                           Status
                         </th>
-                        <th scope="col" class="px-6 py-3 text-center">
+                        <th scope="col" className="px-6 py-3 text-center">
                           Aksi
                         </th>
                       </tr>
                     </thead>
 
                     {/* <!-- Tabel Body --> */}
-                    <tbody class="text-left">
+                    <tbody className="text-left">
                       {userData.map((cuti, index) => (
                         <tr
-                          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           key={index}
                         >
                           <th
                             scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                           >
                             {index + 1}
                           </th>
-                          <td class="px-6 py-4">{cuti.user.username}</td>
-                          <td class="px-6 py-4">{cuti.awalCuti}</td>
-                          <td class="px-6 py-4">{cuti.akhirCuti}</td>
-                          <td class="px-6 py-4">{cuti.masukKerja}</td>
-                          <td class="px-6 py-4">{cuti.keperluan} </td>
-                          <td class="px-6 py-4">{cuti.status} </td>
+                          <td className="px-6 py-4">{cuti.user.username}</td>
+                          <td className="px-6 py-4">{cuti.awalCuti}</td>
+                          <td className="px-6 py-4">{cuti.akhirCuti}</td>
+                          <td className="px-6 py-4">{cuti.masukKerja}</td>
+                          <td className="px-6 py-4">{cuti.keperluan} </td>
+                          <td className="px-6 py-4">{cuti.status} </td>
                           <td className=" py-3">
                             <div className="flex items-center -space-x-4 ml-12">
                               <button

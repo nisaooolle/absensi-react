@@ -18,7 +18,6 @@ function Kehadiran() {
         `http://localhost:2024/api/user/${idAdmin}/users`
       );
       setAllUser(all.data);
-      console.log(all);
     } catch (error) {
       console.log(error);
     }
@@ -54,18 +53,13 @@ function Kehadiran() {
       permissionCount: getAbsensiByUserId(user.id, "Izin"),
     }));
   
-    userAbsensiCounts.forEach(({ userId, lateCount, earlyCount, permissionCount }) => {
-      const userIndex = allUser.findIndex((user) => user.id === userId);
-      if (userIndex !== -1) {
-        const updatedUser = { ...allUser[userIndex], lateCount, earlyCount, permissionCount };
-        setAllUser((prevUsers) => {
-          const newUsers = [...prevUsers];
-          newUsers[userIndex] = updatedUser;
-          return newUsers;
-        });
-      }
-    });
-  }, [allAbsensi, allUser]);
+    setAllUser((prevUsers) =>
+      prevUsers.map((user) => {
+        const updatedCounts = userAbsensiCounts.find((u) => u.userId === user.id);
+        return updatedCounts ? { ...user, ...updatedCounts } : user;
+      })
+    );
+  }, [allAbsensi]);
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">

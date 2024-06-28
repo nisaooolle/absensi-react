@@ -109,6 +109,7 @@ function Simpel() {
       window.URL.revokeObjectURL(url);
 
       Swal.fire("Berhasil", "Berhasil mengunduh data", "success");
+      window.location.reload();
     } catch (error) {
       Swal.fire("Error", "Gagal mengunduh data", "error");
       console.log(error);
@@ -123,17 +124,17 @@ function Simpel() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div class="sm:ml-64 content-page container p-8 ml-0 md:ml-64 mt-12">
-          <div class="p-5 mt-10">
-            <main id="content" class="flex-1 p-4 sm:p-6">
-              <div class="bg-white rounded-lg shadow-md p-4">
-                <div class="flex justify-between">
-                  <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+        <div className="sm:ml-64 content-page container p-8 ml-0 md:ml-64 mt-12">
+          <div className="p-5 mt-10">
+            <main id="content" className="flex-1 p-4 sm:p-6">
+              <div className="bg-white rounded-lg shadow-md p-4">
+                <div className="flex justify-between">
+                  <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                     Rekap Simpel
                   </h6>
                 </div>
                 <hr />
-                <form class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-5">
+                <form className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-5">
                   <select
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     id="bulan"
@@ -155,7 +156,7 @@ function Simpel() {
                     <option value="11">November</option>
                     <option value="12">Desember</option>
                   </select>
-                  <div class="flex sm:flex-row gap-4 mx-auto items-center">
+                  <div className="flex sm:flex-row gap-4 mx-auto items-center">
                     <button
                       type="button"
                       className="bg-indigo-500 hover:bg-indigo text-white font-bold py-2 px-4 rounded inline-block"
@@ -164,7 +165,7 @@ function Simpel() {
                       <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
                     <button
-                      type="submit"
+                      type="button"
                       onClick={exportSimpel}
                       className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
                     >
@@ -173,50 +174,49 @@ function Simpel() {
                   </div>
                 </form>
 
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+                <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
                   <table
                     id="rekapSimple"
-                    class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                    className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                   >
-                    <thead class="text-xs text-left text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <thead className="text-xs text-left text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                       <tr>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           No
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Nama
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Tanggal
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Jam Masuk
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Foto Masuk
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Lokasi Masuk
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Jam Pulang
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Foto Pulang
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Lokasi Pulang
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Jam Kerja
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Keterangan
                         </th>
                       </tr>
                     </thead>
-                    <tbody class="text-left">
-                      {" "}
+                    <tbody className="text-left">
                       {absensiData.length > 0 && absensiData != null
                         ? absensiData.map((absensi, index) => (
                             <tr key={index}>
@@ -245,7 +245,7 @@ function Simpel() {
                                   alt="foto pulang"
                                   className="w-16 h-8 rounded-sm"
                                 />
-                              </td>{" "}
+                              </td>
                               <td className="px-5 py-3">
                                 {absensi.lokasiPulang}
                               </td>
