@@ -20,9 +20,9 @@ function TabelLembur() {
     setSidebarOpen(!sidebarOpen);
   };
 
-  // Function to format date in Indonesian
   const formatDate = (dateString) => {
     const options = {
+      weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -215,16 +215,16 @@ function TabelLembur() {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
                         {(currentPage - 1) * limit + index + 1}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {formatDate(lemburData.tanggalLebur)}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {lemburData.jamMulai}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {lemburData.jamSelesai}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {lemburData.keteranganLembur}
                       </td>
                       <td className="whitespace-nowrap text-center py-3">

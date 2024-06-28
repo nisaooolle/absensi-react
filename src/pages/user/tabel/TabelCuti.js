@@ -19,9 +19,9 @@ function TabelCuti() {
     setSidebarOpen(!sidebarOpen);
   };
 
-  // Function to format date in Indonesian
   const formatDate = (dateString) => {
     const options = {
+      weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -222,19 +222,19 @@ function TabelCuti() {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
                         {(currentPage - 1) * limit + index + 1}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {formatDate(cutiData.awalCuti)}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {formatDate(cutiData.akhirCuti)}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {formatDate(cutiData.masukKerja)}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {cutiData.keperluan}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {cutiData.status}
                       </td>
                       <td className="whitespace-nowrap text-center py-3">
