@@ -25,6 +25,16 @@ function DetailAbsensi() {
     getAbsensiId();
   }, [id]);
 
+  const formatDate = (dateString) => {
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString("id-ID", options);
+  };
+
   if (!absensi) {
     return <div>Loading...</div>;
   }
@@ -59,7 +69,7 @@ function DetailAbsensi() {
                         type="text"
                         name="username"
                         id="username"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={absensi.user?.username || ""}
@@ -82,7 +92,7 @@ function DetailAbsensi() {
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autoComplete="off"
-                        value={absensi.tanggalAbsen}
+                        value={formatDate(absensi.tanggalAbsen)}
                         required
                         readOnly
                         onChange={() => {}}
@@ -140,7 +150,7 @@ function DetailAbsensi() {
                         type="text"
                         name="lokasi"
                         id="lokasi"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={absensi.lokasiMasuk ? absensi.lokasiMasuk : "-"}
@@ -160,7 +170,7 @@ function DetailAbsensi() {
                         type="text"
                         name="lokasi"
                         id="lokasi"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={
@@ -212,7 +222,7 @@ function DetailAbsensi() {
                         type="text"
                         name="statusabsen"
                         id="statusabsen"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={absensi.statusAbsen}
@@ -232,7 +242,7 @@ function DetailAbsensi() {
                         type="text"
                         name="keterangan"
                         id="keterangan"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=""
                         autoComplete="off"
                         value={
@@ -256,7 +266,7 @@ function DetailAbsensi() {
                         type="text"
                         name="keterangan"
                         id="keterangan"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=""
                         autoComplete="off"
                         value={
@@ -280,7 +290,7 @@ function DetailAbsensi() {
                         type="text"
                         name="keterangan"
                         id="keterangan"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=""
                         autoComplete="off"
                         value={
