@@ -18,7 +18,7 @@ function EditUser() {
   const [shiftOptions, setShiftOptions] = useState([]);
   const { id } = useParams();
   const idSuperAdmin = localStorage.getItem("superadminId");
-  const adminId = localStorage.getItem("adminId");
+  const [adminId, setAdminId] = useState(null);
   const history = useHistory();
 
   const getUser = async () => {
@@ -37,7 +37,7 @@ function EditUser() {
   const getJabatanOptions = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/jabatan/getByAdmin/${adminId}`
+        `http://localhost:2024/api/jabatan/getBySuper/${idSuperAdmin}`
       );
       setJabatanOptions(res.data);
     } catch (error) {
@@ -48,7 +48,7 @@ function EditUser() {
   const getShiftOptions = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/shift/getall-byadmin/${adminId}`
+        `http://localhost:2024/api/shift/getBySuper/${idSuperAdmin}`
       );
       setShiftOptions(res.data);
     } catch (error) {
@@ -167,11 +167,12 @@ function EditUser() {
                           className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                         >
                           <option value="">Belum memiliki</option>
-                          {shiftOptions.map((option) => (
-                            <option key={option.id} value={option.id}>
-                              {option.namaShift}
-                            </option>
-                          ))}
+                          {shiftOptions &&
+                            shiftOptions.map((option) => (
+                              <option key={option.id} value={option.id}>
+                                {option.namaShift}
+                              </option>
+                            ))}
                         </select>
                       </div>
                     </div>

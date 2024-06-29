@@ -77,6 +77,8 @@ import DetailLokasiSA from "./pages/superadmin/detail/DetailLokasiSA";
 import AbsensiSA from "./pages/superadmin/admin/AbsensiSA";
 import DetailOrganisasiSA from "./pages/superadmin/detail/DetailOrganisasiSA";
 import DetailAbsensiSA from "./pages/superadmin/detail/DetailAbsensiSA";
+import ProfileSA from "./pages/superadmin/ProfilSA";
+import ProfilSA from "./pages/superadmin/ProfilSA";
 
 function App() {
   const role = localStorage.getItem("role");
@@ -193,6 +195,11 @@ function App() {
               <Route
                 path="/superadmin/organisasi"
                 component={OrganisasiSA}
+                exact
+              />
+              <Route
+                path="/superadmin/profile"
+                component={ProfilSA}
                 exact
               />
               <Route

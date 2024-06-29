@@ -21,6 +21,7 @@ function DashboardSA() {
   const [organisasiData, setOrganisasiData] = useState([]);
   const [username, setUsername] = useState("");
   const token = localStorage.getItem("token");
+  const idSuperAdmin = localStorage.getItem("superadminId");
   const id = localStorage.getItem("superadminId");
 
   useEffect(() => {
@@ -69,7 +70,7 @@ function DashboardSA() {
   const getLokasi = () =>
     fetchData("http://localhost:2024/api/lokasi/getall", setLokasiData);
   const getOrganisasi = () =>
-    fetchData(`http://localhost:2024/api/organisasi/${id}`, setOrganisasiData);
+    fetchData(`http://localhost:2024/api/organisasi/superadmin/${id}`, setOrganisasiData);
 
   const getUsername = async () => {
     try {
@@ -220,118 +221,118 @@ function DashboardSA() {
           <br />
 
           {/* Tabel Absensi */}
-          <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <div class="flex justify-between">
-              <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+          <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <div className="flex justify-between">
+              <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                 Data Admin
               </h6>
             </div>
             <hr />
 
             {/* <!-- Tabel --> */}
-            <div class="relative overflow-x-auto mt-5">
+            <div className="relative overflow-x-auto mt-5">
               <table
                 id="dataKaryawan"
-                class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
               >
                 {/* <!-- Tabel Head --> */}
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" className="px-6 py-3">
                       No
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" className="px-6 py-3">
                       Email
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" className="px-6 py-3">
                       Username
                     </th>
                   </tr>
                 </thead>
                 {/* <!-- Tabel Body --> */}
-                <tbody class="text-left">
+                <tbody className="text-left">
                   {admin.map((admin, index) => (
                     <tr
-                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                       key={index}
                     >
                       <th
                         scope="row"
-                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
                         {index + 1}
                       </th>
-                      <td class="px-6 py-4">
+                      <td className="px-6 py-4">
                         <a
                           href="/cdn-cgi/l/email-protection"
-                          class="__cf_email__"
+                          className="__cf_email__"
                           data-cfemail="5a363b23363b1a3d373b333674393537"
                         >
                           {admin.email}
                         </a>
                       </td>
-                      <td class="px-6 py-4">{admin.username}</td>
+                      <td className="px-6 py-4">{admin.username}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </div>
-          <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 mt-10">
-            <div class="flex justify-between">
-              <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+          <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 mt-10">
+            <div className="flex justify-between">
+              <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                 Data Organisasi
               </h6>
             </div>
             <hr />
 
             {/* <!-- Tabel --> */}
-            <div class="relative overflow-x-auto mt-5">
+            <div className="relative overflow-x-auto mt-5">
               <table
                 id="dataKaryawan"
-                class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
               >
                 {/* <!-- Tabel Head --> */}
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" className="px-6 py-3">
                       No
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" className="px-6 py-3">
                       Admin
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" className="px-6 py-3">
                       Nama
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" className="px-6 py-3">
                       Alamat
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" className="px-6 py-3">
                       Telepon
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" className="px-6 py-3">
                       Email
                     </th>
                   </tr>
                 </thead>
                 {/* <!-- Tabel Body --> */}
-                <tbody class="text-left">
+                <tbody className="text-left">
                   {organisasiData.map((admin, index) => (
                     <tr
-                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                       key={index}
                     >
                       <th
                         scope="row"
-                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
                         {index + 1}
                       </th>
-                      <td class="px-6 py-4">{admin.admin.username}</td>
-                      <td class="px-6 py-4">{admin.namaOrganisasi}</td>
-                      <td class="px-6 py-4">{admin.alamat}</td>
-                      <td class="px-6 py-4">{admin.nomerTelepon}</td>
-                      <td class="px-6 py-4">{admin.emailOrganisasi}</td>
+                      <td className="px-6 py-4">{admin.admin.username}</td>
+                      <td className="px-6 py-4">{admin.namaOrganisasi}</td>
+                      <td className="px-6 py-4">{admin.alamat}</td>
+                      <td className="px-6 py-4">{admin.nomerTelepon}</td>
+                      <td className="px-6 py-4">{admin.emailOrganisasi}</td>
                     </tr>
                   ))}
                 </tbody>

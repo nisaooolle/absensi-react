@@ -123,7 +123,7 @@ function LokasiSA() {
                   <tbody className="text-left">
                     {lokasiList.map((lokasi, index) => (
                       <tr
-                        key={lokasi.id}
+                        key={lokasi.idLokasi}
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                       >
                         <th

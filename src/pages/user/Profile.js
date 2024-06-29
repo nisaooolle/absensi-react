@@ -73,7 +73,10 @@ function Profile() {
       setOrganisasi(response.data.organisasi.namaOrganisasi);
       Swal.fire("Berhasil", "Berhasil mengubah username dan email", "success");
       setTimeout(() => {
-        window.location.reload();
+        Swal.fire("Info", "Silahkan login kembali", "info");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
       }, 2000);
     } catch (error) {
       console.error("Error updating data:", error);

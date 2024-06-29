@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarUser";
+import Navbar from "../../../components/NavbarSuper";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,12 +14,14 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 function JabatanSA() {
   const [userData, setUserData] = useState([]);
-  const idAdmin = localStorage.getItem("adminId");
+  const idSuperAdmin = localStorage.getItem("superadminId");
   const token = localStorage.getItem("token");
-  const getAllKaryawan = async () => {
+
+  
+  const getAllJabatan = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/jabatan/getByAdmin/${idAdmin}`,
+        `http://localhost:2024/api/jabatan/getBySuper/${idSuperAdmin} `,
         {
           headers: {
             Authorization: `${token}`,
@@ -74,7 +76,7 @@ function JabatanSA() {
     });
   };
   useEffect(() => {
-    getAllKaryawan();
+    getAllJabatan();
   }, []);
   return (
     <div className="flex flex-col h-screen">
@@ -85,18 +87,18 @@ function JabatanSA() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div class=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
-          <div class="p-5 mt-10">
+        <div className=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
+          <div className="p-5 mt-10">
             {/* <!-- Card --> */}
-            <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-              <div class="flex justify-between">
-                <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+            <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+              <div className="flex justify-between">
+                <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                   Data Jabatan
                 </h6>
                 <a
                   type="button"
                   href="/superadmin/addJ"
-                  class="text-white bg-indigo-500  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                  className="text-white bg-indigo-500  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                 >
                   <FontAwesomeIcon icon={faPlus} size="lg" />
                 </a>
@@ -104,39 +106,39 @@ function JabatanSA() {
               <hr />
 
               {/* <!-- Tabel --> */}
-              <div class="relative overflow-x-auto mt-5">
+              <div className="relative overflow-x-auto mt-5">
                 <table
                   id="dataKaryawan"
-                  class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                  className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                 >
                   {/* <!-- Tabel Head --> */}
-                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         No
                       </th>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         Nama Jabatan
                       </th>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         Aksi
                       </th>
                     </tr>
                   </thead>
                   {/* <!-- Tabel Body --> */}
-                  <tbody class="text-left">
+                  <tbody className="text-left">
                     {userData.map((jabatan, index) => (
                       <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         key={index}
                       >
                         <th
                           scope="row"
-                          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                           {index + 1}
                         </th>
-                        <td class="px-6 py-4">{jabatan.namaJabatan}</td>
+                        <td className="px-6 py-4">{jabatan.namaJabatan}</td>
                         <td className=" py-3">
                           <div className="flex items-center -space-x-4 ml-12">
                             <a href={`/superadmin/detailJ/${jabatan.idJabatan}`}>

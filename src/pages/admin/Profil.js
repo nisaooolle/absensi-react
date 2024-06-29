@@ -71,9 +71,13 @@ function Profil() {
       setUsername(response.data.username);
       setEmail(response.data.email);
       Swal.fire("Berhasil", "Berhasil mengubah username dan email", "success");
-   
-        window.location.reload();
-     
+
+      setTimeout(() => {
+        Swal.fire("Info", "Silahkan login kembali", "info");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
+      }, 2000);
     } catch (error) {
       console.error("Error updating data:", error);
       Swal.fire("Gagal", "Gagal mengubah username dan email", "error");
