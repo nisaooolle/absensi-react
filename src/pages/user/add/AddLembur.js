@@ -20,7 +20,7 @@ function AddLembur() {
       jamSelesai: jam_selesai,
       keteranganLembur: keterangan_lembur,
       nama: nama,
-      tanggalLebur: tanggal_lembur,
+      tanggalLembur: tanggal_lembur,
     };
 
     const token = localStorage.getItem("token");

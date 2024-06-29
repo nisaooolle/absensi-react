@@ -70,13 +70,14 @@ function TabelCuti() {
             },
           })
           .then(() => {
-            setCuti((prevCuti) => prevCuti.filter((item) => item.id !== id)); // Menghapus item dari state tanpa reload halaman
             Swal.fire({
               position: "center",
               icon: "success",
               title: "Berhasil Menghapus!!",
               showConfirmButton: false,
               timer: 1500,
+            }).then(() => {
+              window.location.reload("/user/history_cuti");
             });
           })
           .catch((error) => {

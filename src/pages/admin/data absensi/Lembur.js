@@ -5,12 +5,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faPrint, faSearch } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Pagination } from "flowbite-react";
 
 function Lembur() {
   const [lembur, setLembur] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [totalPages, setTotalPages] = useState(1);
 
   const getAllLembur = async () => {
     const token = localStorage.getItem("token");
@@ -35,43 +37,66 @@ function Lembur() {
     getAllLembur();
   }, []);
 
-  // Search function
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  // Filter function for search
-  const filterLembur = (lemburData) => {
-    if (!lemburData) return false; 
-    
-    const { tanggalLebur, jamMulai, jamSelesai, user, keteranganLembur } = lemburData;
-    
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    
-    return (
-      (tanggalLebur && tanggalLebur.toLowerCase().includes(lowerCaseSearchTerm)) ||
-      (jamMulai && jamMulai.toLowerCase().includes(lowerCaseSearchTerm)) ||
-      (jamSelesai && jamSelesai.toLowerCase().includes(lowerCaseSearchTerm)) ||
-      (user && user.username.toLowerCase().includes(lowerCaseSearchTerm)) ||
-      (keteranganLembur && keteranganLembur.toLowerCase().includes(lowerCaseSearchTerm))
-    );
-  };
-  // Pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = lembur.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Function to format date in Indonesian
   const formatDate = (dateString) => {
     const options = {
+      weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
     };
     return new Date(dateString).toLocaleDateString("id-ID", options);
   };
+
+  useEffect(() => {
+    const filteredData = lembur.filter(
+      (lembur) =>
+        (lembur.user?.username
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ??
+          false) ||
+        (lembur.keteranganLembur
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ??
+          false) ||
+        (formatDate(lembur.tanggalLembur)
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ??
+          false)
+    );
+    setTotalPages(Math.ceil(filteredData.length / limit));
+  }, [searchTerm, limit, lembur]);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleLimitChange = (event) => {
+    setLimit(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to the first page when limit changes
+  };
+
+  function onPageChange(page) {
+    setCurrentPage(page);
+  }
+
+  const filteredLembur = lembur.filter(
+    (lembur) =>
+      (lembur.user?.username.toLowerCase().includes(searchTerm.toLowerCase()) ??
+        false) ||
+      (lembur.keteranganLembur
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ??
+        false) ||
+      (formatDate(lembur.tanggalLembur)
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ??
+        false)
+  );
+
+  const paginatedLembur = filteredLembur.slice(
+    (currentPage - 1) * limit,
+    currentPage * limit
+  );
 
   const generatePdf = async (id) => {
     const token = localStorage.getItem("token");
@@ -87,20 +112,20 @@ function Lembur() {
         try {
           const response = await axios({
             url: `http://localhost:2024/api/lembur/download-pdf/${id}`,
-            method: 'GET',
-            responseType: 'blob', 
+            method: "GET",
+            responseType: "blob",
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-  
+
           const url = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement('a');
+          const link = document.createElement("a");
           link.href = url;
-          link.setAttribute('download', 'Surat Lembur.pdf');
+          link.setAttribute("download", "Surat Lembur.pdf");
           document.body.appendChild(link);
           link.click();
-  
+
           Swal.fire("Berhasil", "Berhasil Mengunduh Pdf", "success");
         } catch (error) {
           console.log(error);
@@ -129,20 +154,28 @@ function Lembur() {
                   <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                     Lembur
                   </h6>
-                  <div className="flex justify-between items-center mt-2">
-                    <div className="flex items-center">
-                      <FontAwesomeIcon
-                        icon={faSearch}
-                        className="px-3 py-2 border-blue-700 rounded-md"
-                      />
+                  <div className="flex items-center gap-2 mt-2">
+                    <div className="relative w-64">
                       <input
-                        type="text"
-                        placeholder="Cari lembur..."
+                        type="search"
+                        id="search-dropdown"
                         value={searchTerm}
                         onChange={handleSearch}
-                        className="px-3 py-2 border rounded-md"
+                        className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                        placeholder="Search name..."
+                        required
                       />
                     </div>
+                    <select
+                      value={limit}
+                      onChange={handleLimitChange}
+                      className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                    >
+                      <option value="5">05</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
+                    </select>
                   </div>
                 </div>
                 <div className="mt-4">
@@ -176,84 +209,67 @@ function Lembur() {
                     </thead>
                     {/* <!-- Tabel Body --> */}
                     <tbody className="text-left">
-                      {currentItems
-                        .filter(filterLembur)
-                        .map((lemburData, index) => (
-                          <tr
-                            key={index}
-                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      {paginatedLembur.map((lembur, index) => (
+                        <tr
+                          key={index}
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        >
+                          <th
+                            scope="row"
+                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                           >
-                            <th
-                              scope="row"
-                              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              {indexOfFirstItem + index + 1}
-                            </th>
-                            <td className="px-6 py-4">
-                              {lemburData.user.username}
-                            </td>
+                            {(currentPage - 1) * limit + index + 1}
+                          </th>
+                          <td className="px-6 py-4 capitalize">
+                            {lembur.user.username}
+                          </td>
 
-                            <td className="px-6 py-4">
-                              {lemburData.keteranganLembur}
-                            </td>
-                            <td className="px-6 py-4">
-                              {formatDate(lemburData.tanggalLebur)}
-                            </td>
-                            <td className="py-3">
-                              <div className="flex items-center -space-x-4 ml-12">
-                                <a
-                                  href={`/admin/detailLembur/${lemburData.id}`}
-                                >
-                                  <button className="z-30 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-red-50">
-                                    <span className="relative inline-block">
-                                      <FontAwesomeIcon
-                                        icon={faInfo}
-                                        className="h-4 w-4"
-                                      />
-                                    </span>
-                                  </button>
-                                </a>
-                                <button
-                                  type="button"
-                                  onClick={(e) => generatePdf(lemburData.id)}
-                                >
-                                  <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
-                                    <span className="relative inline-block">
-                                      <FontAwesomeIcon
-                                        icon={faPrint}
-                                        className="h-4 w-4"
-                                      />
-                                    </span>
-                                  </button>
+                          <td className="px-6 py-4 capitalize">
+                            {lembur.keteranganLembur}
+                          </td>
+                          <td className="px-6 py-4 capitalize">
+                            {formatDate(lembur.tanggalLembur)}
+                          </td>
+                          <td className="py-3">
+                            <div className="flex items-center -space-x-4 ml-12">
+                              <a href={`/admin/detailLembur/${lembur.id}`}>
+                                <button className="z-30 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-red-50">
+                                  <span className="relative inline-block">
+                                    <FontAwesomeIcon
+                                      icon={faInfo}
+                                      className="h-4 w-4"
+                                    />
+                                  </span>
                                 </button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
+                              </a>
+                              <button
+                                type="button"
+                                onClick={(e) => generatePdf(lembur.id)}
+                              >
+                                <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                                  <span className="relative inline-block">
+                                    <FontAwesomeIcon
+                                      icon={faPrint}
+                                      className="h-4 w-4"
+                                    />
+                                  </span>
+                                </button>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
-                <div className="flex justify-center mt-4">
-                  <ul className="pagination">
-                    {Array(Math.ceil(lembur.length / itemsPerPage))
-                      .fill()
-                      .map((_, index) => (
-                        <li
-                          key={index}
-                          className={`page-item ${
-                            currentPage === index + 1 ? "active" : ""
-                          }`}
-                        >
-                          <button
-                            onClick={() => paginate(index + 1)}
-                            className="page-link"
-                          >
-                            {index + 1}
-                          </button>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
+                <Pagination
+                  className="mt-5"
+                  layout="table"
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={onPageChange}
+                  showIcons
+                />
               </div>
             </div>
           </div>

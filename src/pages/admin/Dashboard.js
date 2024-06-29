@@ -246,13 +246,21 @@ function Dashboard() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4">{absen.user.username}</td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-4 capitalize">
+                        {absen.user.username}
+                      </td>
+                      <td className="px-6 py-4 capitalize">
                         {formatDate(absen.tanggalAbsen)}
                       </td>
-                      <td className="px-6 py-4">{absen.jamMasuk || "-"}</td>
-                      <td className="px-6 py-4">{absen.jamPulang || "-"}</td>
-                      <td className="px-6 py-4">{absen.statusAbsen}</td>
+                      <td className="px-6 py-4 capitalize">
+                        {absen.jamMasuk || "-"}
+                      </td>
+                      <td className="px-6 py-4 capitalize">
+                        {absen.jamPulang || "-"}
+                      </td>
+                      <td className="px-6 py-4 capitalize">
+                        {absen.statusAbsen}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -303,12 +311,16 @@ function Dashboard() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4">{cuti.user.username}</td>
-                      <td className="px-6 py-4">{formatDate(cuti.awalCuti)}</td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-4 capitalize">
+                        {cuti.user.username}
+                      </td>
+                      <td className="px-6 py-4 capitalize">
+                        {formatDate(cuti.awalCuti)}
+                      </td>
+                      <td className="px-6 py-4 capitalize">
                         {formatDate(cuti.akhirCuti)}
                       </td>
-                      <td className="px-6 py-4">{cuti.status}</td>
+                      <td className="px-6 py-4 capitalize">{cuti.status}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -350,7 +362,9 @@ function Dashboard() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4">{jabatan.namaJabatan}</td>
+                      <td className="px-6 py-4 capitalize">
+                        {jabatan.namaJabatan}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -401,10 +415,12 @@ function Dashboard() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4">{lokasi.namaLokasi}</td>
-                      <td className="px-6 py-4">{lokasi.alamat}</td>
-                      <td className="px-6 py-4">{karyawan}</td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-4 capitalize">
+                        {lokasi.namaLokasi}
+                      </td>
+                      <td className="px-6 py-4 capitalize">{lokasi.alamat}</td>
+                      <td className="px-6 py-4 capitalize">{karyawan}</td>
+                      <td className="px-6 py-4 capitalize">
                         {lokasi.organisasi.namaOrganisasi}
                       </td>
                     </tr>
@@ -451,8 +467,12 @@ function Dashboard() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4">{organisasi.namaOrganisasi}</td>
-                      <td className="px-6 py-4">{organisasi.alamat}</td>
+                      <td className="px-6 py-4 capitalize">
+                        {organisasi.namaOrganisasi}
+                      </td>
+                      <td className="px-6 py-4 capitalize">
+                        {organisasi.alamat}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
