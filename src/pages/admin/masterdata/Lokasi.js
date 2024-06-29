@@ -13,18 +13,18 @@ import Swal from "sweetalert2";
 
 function Lokasi() {
   const [userData, setUserData] = useState([]);
-   const idAdmin = localStorage.getItem("adminId");
-   const [karyawan, setKaryawan] = useState("");
+  const idAdmin = localStorage.getItem("adminId");
+  const [karyawan, setKaryawan] = useState("");
 
-   const getallUser = async () => {
-     try {
-       const res = await axios.get(
-         `http://localhost:2024/api/user/${idAdmin}/users`
-       );
-       setKaryawan(res.data.length);
-     } catch (error) {}
-   };
- 
+  const getallUser = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:2024/api/user/${idAdmin}/users`
+      );
+      setKaryawan(res.data.length);
+    } catch (error) {}
+  };
+
   const getAllLokasibyAdmin = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -87,18 +87,18 @@ function Lokasi() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div class=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
-          <div class="p-5 mt-10">
+        <div className=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
+          <div className="p-5 mt-10">
             {/* <!-- Card --> */}
-            <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-              <div class="flex justify-between">
-                <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+            <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+              <div className="flex justify-between">
+                <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                   Data Lokasi
                 </h6>
                 <a
                   type="button"
                   href="/admin/addlok"
-                  class="text-white bg-indigo-500 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                  className="text-white bg-indigo-500 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                 >
                   <FontAwesomeIcon icon={faPlus} size="lg" />
                 </a>
@@ -106,51 +106,51 @@ function Lokasi() {
               <hr />
 
               {/* <!-- Tabel --> */}
-              <div class="relative overflow-x-auto mt-5">
+              <div className="relative overflow-x-auto mt-5">
                 <table
                   id="dataJabatan"
-                  class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                  className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                 >
                   {/* <!-- Tabel Head --> */}
-                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         No
                       </th>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         Nama Lokasi
                       </th>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         Alamat
                       </th>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         Jumlah Karyawan
                       </th>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         Organisasi
                       </th>
-                      <th scope="col" class="px-6 py-3 text-center">
+                      <th scope="col" className="px-6 py-3 text-center">
                         Aksi
                       </th>
                     </tr>
                   </thead>
                   {/* <!-- Tabel Body --> */}
-                  <tbody class="text-left">
+                  <tbody className="text-left">
                     {userData.map((lokasi, index) => (
                       <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         key={index}
                       >
                         <th
                           scope="row"
-                          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                           {index + 1}
                         </th>
-                        <td class="px-6 py-4">{lokasi.namaLokasi}</td>
-                        <td class="px-6 py-4">{lokasi.alamat}</td>
-                        <td class="px-6 py-4">{karyawan} </td>
-                        <td class="px-6 py-4">
+                        <td className="px-6 py-4">{lokasi.namaLokasi}</td>
+                        <td className="px-6 py-4">{lokasi.alamat}</td>
+                        <td className="px-6 py-4">{karyawan} </td>
+                        <td className="px-6 py-4">
                           {lokasi.organisasi.namaOrganisasi}
                         </td>
                         <td className=" py-3">

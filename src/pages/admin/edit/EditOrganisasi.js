@@ -311,7 +311,7 @@ function EditOrganisasi() {
                     </div>
                     <div className="flex justify-between">
                       <a
-                        href="/superadmin/organisasi"
+                        href="/admin/organisasi"
                         className="text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 bg-red-600 hover:bg-red-800 focus:outline-none focus:ring-red-300"
                       >
                         <FontAwesomeIcon icon={faArrowLeft} /> &nbsp;Batal

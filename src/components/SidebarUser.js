@@ -106,7 +106,7 @@ const Sidebar = () => {
               <li>
                 <button
                   type="button"
-                  class="flex items-center w-full p-2 text-base text-blue-900 transition duration-75 rounded-lg group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                  className="flex items-center w-full p-2 text-base text-blue-900 transition duration-75 rounded-lg group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                   // aria-controls="dropdown-masterdata"
                   // data-dropdown-toggle="dropdown-masterdata"
                   onClick={toggleMasterData}
@@ -115,7 +115,7 @@ const Sidebar = () => {
                     className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                     icon={faDatabase}
                   />
-                  <span class="flex-1 ml-3 text-left whitespace-nowrap">
+                  <span className="flex-1 ml-3 text-left whitespace-nowrap">
                     Master Data
                   </span>
                   <FontAwesomeIcon
@@ -133,13 +133,13 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/admin/karyawan"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faUsersGear}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">
+                      <span className="flex-1 ml-3 whitespace-nowrap">
                         Karyawan
                       </span>
                     </a>
@@ -149,13 +149,13 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/admin/jabatan"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faBriefcase}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Jabatan</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Jabatan</span>
                     </a>
                   </li>
 
@@ -163,13 +163,13 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/admin/shift"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faBusinessTime}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Shift</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Shift</span>
                     </a>
                   </li>
 
@@ -177,13 +177,13 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/admin/lokasi"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faMapLocationDot}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Lokasi</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Lokasi</span>
                     </a>
                   </li>
 
@@ -191,13 +191,13 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/admin/organisasi"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faBuilding}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">
+                      <span className="flex-1 ml-3 whitespace-nowrap">
                         Organisasi
                       </span>
                     </a>
@@ -208,7 +208,7 @@ const Sidebar = () => {
               <li>
                 <button
                   type="button"
-                  class="flex items-center w-full p-2 text-base text-blue-900 transition duration-75 rounded-lg group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                  className="flex items-center w-full p-2 text-base text-blue-900 transition duration-75 rounded-lg group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                   // aria-controls="dropdown-example"
                   // data-collapse-toggle="dropdown-example"
                   onClick={toggleRekapan}
@@ -217,7 +217,7 @@ const Sidebar = () => {
                     className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                     icon={faSignal}
                   />
-                  <span class="flex-1 ml-3 text-left whitespace-nowrap">
+                  <span className="flex-1 ml-3 text-left whitespace-nowrap">
                     Rekapan
                   </span>
                   <FontAwesomeIcon
@@ -236,26 +236,26 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/admin/simpel"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faUserGear}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Simpel</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Simpel</span>
                     </a>
                   </li>
                   {/* <!-- Menu PerKaryawan --> */}
                   <li>
                     <a
                       href="/admin/perkaryawan"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faUserPen}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">
+                      <span className="flex-1 ml-3 whitespace-nowrap">
                         Perkaryawan
                       </span>
                     </a>
@@ -264,26 +264,26 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/admin/harian"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faCalendarDay}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Harian</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Harian</span>
                     </a>
                   </li>
                   {/* <!-- Menu Mingguan --> */}
                   <li>
                     <a
                       href="/admin/mingguan"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faCalendarWeek}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">
+                      <span className="flex-1 ml-3 whitespace-nowrap">
                         Mingguan
                       </span>
                     </a>
@@ -292,13 +292,13 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/admin/bulanan"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faCalendar}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Bulanan</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Bulanan</span>
                     </a>
                   </li>
                 </ul>
@@ -308,7 +308,7 @@ const Sidebar = () => {
               <li>
                 <button
                   type="button"
-                  class="flex items-center w-full p-2 text-base text-blue-900 transition duration-75 rounded-lg group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                  className="flex items-center w-full p-2 text-base text-blue-900 transition duration-75 rounded-lg group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                   // aria-controls="dropdown-data"
                   // data-collapse-toggle="dropdown-data"
                   onClick={toggleAbsen}
@@ -317,7 +317,7 @@ const Sidebar = () => {
                     className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                     icon={faTable}
                   />
-                  <span class="flex-1 ml-3 text-left whitespace-nowrap">
+                  <span className="flex-1 ml-3 text-left whitespace-nowrap">
                     Data Absensi
                   </span>
                   <FontAwesomeIcon
@@ -336,39 +336,39 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/admin/absensi"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faAddressCard}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Absensi</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Absensi</span>
                     </a>
                   </li>
                   {/* <!-- Menu Cuti --> */}
                   <li>
                     <a
                       href="/admin/cuti"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faCalendarDays}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Cuti</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Cuti</span>
                     </a>
                   </li>
                   {/* <!-- Menu Kehadiran --> */}
                   <li>
                     <a
                       href="/admin/kehadiran"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faUserCheck}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">
+                      <span className="flex-1 ml-3 whitespace-nowrap">
                         Kehadiran
                       </span>
                     </a>
@@ -377,13 +377,13 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/admin/lembur"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faBusinessTime}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Lembur</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Lembur</span>
                     </a>
                   </li>
                 </ul>
@@ -461,7 +461,7 @@ const Sidebar = () => {
               <li>
                 <button
                   type="button"
-                  class="flex items-center w-full p-2 text-base text-blue-900 transition duration-75 rounded-lg group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                  className="flex items-center w-full p-2 text-base text-blue-900 transition duration-75 rounded-lg group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                   // aria-controls="dropdown-masterdata"
                   // data-dropdown-toggle="dropdown-masterdata"
                   onClick={toggleMasterData}
@@ -470,7 +470,7 @@ const Sidebar = () => {
                     className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                     icon={faUserTie}
                   />
-                  <span class="flex-1 ml-3 text-left whitespace-nowrap">
+                  <span className="flex-1 ml-3 text-left whitespace-nowrap">
                     Data Admin
                   </span>
                   <FontAwesomeIcon
@@ -488,26 +488,26 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/superadmin/admin"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faChalkboardUser}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Admin</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Admin</span>
                     </a>
                   </li>
                   {/* <!-- Menu Organisasi --> */}
                   <li>
                     <a
                       href="/superadmin/organisasi"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faBuilding}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">
+                      <span className="flex-1 ml-3 whitespace-nowrap">
                         Organisasi
                       </span>
                     </a>
@@ -516,13 +516,13 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/superadmin/jabatan"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faBriefcase}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Jabatan</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Jabatan</span>
                     </a>
                   </li>
 
@@ -530,13 +530,13 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/superadmin/shift"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faBusinessTime}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Shift</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Shift</span>
                     </a>
                   </li>
 
@@ -544,13 +544,13 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/superadmin/lokasi"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faMapLocationDot}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Lokasi</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Lokasi</span>
                     </a>
                   </li>
                 </ul>
@@ -559,7 +559,7 @@ const Sidebar = () => {
               <li>
                 <button
                   type="button"
-                  class="flex items-center w-full p-2 text-base text-blue-900 transition duration-75 rounded-lg group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                  className="flex items-center w-full p-2 text-base text-blue-900 transition duration-75 rounded-lg group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                   // aria-controls="dropdown-example"
                   // data-collapse-toggle="dropdown-example"
                   onClick={toggleRekapan}
@@ -568,7 +568,7 @@ const Sidebar = () => {
                     className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                     icon={faUserPlus}
                   />
-                  <span class="flex-1 ml-3 text-left whitespace-nowrap">
+                  <span className="flex-1 ml-3 text-left whitespace-nowrap">
                     Data User
                   </span>
                   <FontAwesomeIcon
@@ -587,26 +587,26 @@ const Sidebar = () => {
                   <li>
                     <a
                       href="/superadmin/data-user"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faUsers}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">User</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">User</span>
                     </a>
                   </li>
                   {/* <!-- Menu PerKaryawan --> */}
                   <li>
                     <a
                       href="/superadmin/absensi"
-                      class="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                      className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
                     >
                       <FontAwesomeIcon
                         className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
                         icon={faAddressCard}
                       />{" "}
-                      <span class="flex-1 ml-3 whitespace-nowrap">Absensi</span>
+                      <span className="flex-1 ml-3 whitespace-nowrap">Absensi</span>
                     </a>
                   </li>
                 </ul>

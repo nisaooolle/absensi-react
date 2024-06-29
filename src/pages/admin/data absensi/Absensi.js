@@ -86,26 +86,26 @@ function Absensi() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div class="sm:ml-64 content-page container ml-0 md:ml-64 mt-6">
-          <div class="p-5 mt-10">
-            <main id="content" class="flex-1 p-4 sm:p-6">
-              <div class="bg-white rounded-lg shadow-xl p-4">
-                <div class="flex justify-between">
-                  <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+        <div className="sm:ml-64 content-page container ml-0 md:ml-64 mt-6">
+          <div className="p-5 mt-10">
+            <main id="content" className="flex-1 p-4 sm:p-6">
+              <div className="bg-white rounded-lg shadow-xl p-4">
+                <div className="flex justify-between">
+                  <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                     Detail History Absensi
                   </h6>
                   {/* <!-- <a type="button" href="https://demo-absen.excellentsistem.com/admin/tambah_lokasi"
-                  class="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"><i
-                      class="fa-solid fa-plus"></i></a> --> */}
+                  className="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"><i
+                      className="fa-solid fa-plus"></i></a> --> */}
                 </div>
                 <hr />
                 <form
                   action=""
                   method="post"
-                  class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-5"
+                  className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-5"
                 >
                   <select
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     id="bulan"
                     name="bulan"
                   >
@@ -125,7 +125,7 @@ function Absensi() {
                   </select>
                   <input
                     type="text"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     id="tanggal"
                     name="tanggal"
                     placeholder="Pilih Tanggal"
@@ -133,22 +133,22 @@ function Absensi() {
                   />
                   <input
                     type="number"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     id="tahun"
                     name="tahun"
                     placeholder="Pilih Tahun"
                     // value=""
                   />
-                  <div class="flex sm:flex-row gap-4 mx-auto items-center">
+                  <div className="flex sm:flex-row gap-4 mx-auto items-center">
                     <button
                       type="submit"
-                      class="bg-indigo-500 hover:bg-indigo text-white font-bold py-2 px-4 rounded inline-block"
+                      className="bg-indigo-500 hover:bg-indigo text-white font-bold py-2 px-4 rounded inline-block"
                     >
                       <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
                     <a
                       href="https://demo-absen.excellentsistem.com/Admin/export_simple"
-                      class="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
+                      className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
                     >
                       <FontAwesomeIcon icon={faFileExport} />
                     </a>
@@ -169,66 +169,66 @@ function Absensi() {
                     />
                   </div>
                 </div>
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+                <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
                   <table
                     id="rekapSimple"
-                    class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                    className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                   >
-                    <thead class="text-left text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <thead className="text-left text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                       <tr>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           No
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Username
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Tanggal
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Kehadiran
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Jam Masuk
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Foto Masuk
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Jam Pulang
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Foto Pulang
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Jam Kerja
                         </th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" className="px-4 py-3">
                           Aksi
                         </th>
                       </tr>
                     </thead>
-                    <tbody class="text-left">
+                    <tbody className="text-left">
                       {currentItems
                         .filter(filterAbsen)
                         .map((absenData, index) => (
                           <tr
                             key={index}
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               {indexOfFirstItem + index + 1}
                             </th>
-                            <td class="px-6 py-4">{absenData.user.username}</td>
-                            <td class="px-6 py-4">
+                            <td className="px-6 py-4">{absenData.user.username}</td>
+                            <td className="px-6 py-4">
                               {formatDate(absenData.tanggalAbsen)}
                             </td>
-                            <td class="px-6 py-4">{absenData.statusAbsen}</td>
-                            <td class="px-6 py-4">{absenData.jamMasuk} </td>
-                            <td class="px-6 py-4">
+                            <td className="px-6 py-4">{absenData.statusAbsen}</td>
+                            <td className="px-6 py-4">{absenData.jamMasuk} </td>
+                            <td className="px-6 py-4">
                               <img
                                 src={
                                   absenData.fotoMasuk
@@ -236,12 +236,12 @@ function Absensi() {
                                     : "-"
                                 }
                                 alt="Foto Masuk"
-                                class="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 id="foto_masuk"
                               />
                             </td>
-                            <td class="px-6 py-4">{absenData.jamPulang}</td>
-                            <td class="px-6 py-4">
+                            <td className="px-6 py-4">{absenData.jamPulang}</td>
+                            <td className="px-6 py-4">
                               <img
                                 src={
                                   absenData.fotoPulang
@@ -249,12 +249,12 @@ function Absensi() {
                                     : "-"
                                 }
                                 alt="Foto Pulang"
-                                class="block py-2.5 px-0 w-25 max-h-96 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                className="block py-2.5 px-0 w-25 max-h-96 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 id="foto_masuk"
                               />
                             </td>
-                            <td class="px-6 py-4">00 jam 00 menit </td>
-                            <td class="px-6 py-4">
+                            <td className="px-6 py-4">00 jam 00 menit </td>
+                            <td className="px-6 py-4">
                               <a href={`/admin/detailA/${absenData.id}`}>
                                 <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
                                   <span className="relative inline-block">

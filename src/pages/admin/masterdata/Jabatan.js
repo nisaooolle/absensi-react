@@ -150,11 +150,11 @@ function Jabatan() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div class=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
-          <div class="p-5 mt-10">
-            <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-              <div class="flex justify-between">
-                <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+        <div className=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
+          <div className="p-5 mt-10">
+            <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+              <div className="flex justify-between">
+                <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                   Data Jabatan
                 </h6>
                 <div className="flex items-center gap-2 mt-2">
@@ -182,56 +182,56 @@ function Jabatan() {
                   <a
                     type="button"
                     href="/admin/addjab"
-                    class="text-white bg-indigo-500 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800 mt-2"
+                    className="text-white bg-indigo-500 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800 mt-2"
                   >
                     <FontAwesomeIcon icon={faPlus} size="lg" />
                   </a>
                 </div>
               </div>
               <hr />
-              <div class="relative overflow-x-auto mt-5">
+              <div className="relative overflow-x-auto mt-5">
                 <table
                   id="dataJabatan"
-                  class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                  className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                 >
-                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         No
                       </th>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         Nama Jabatan
                       </th>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         Jumlah Karyawan
                       </th>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         Admin
                       </th>
-                      <th scope="col" class="px-6 py-3 text-center">
+                      <th scope="col" className="px-6 py-3 text-center">
                         Aksi
                       </th>
                     </tr>
                   </thead>
-                  <tbody class="text-left">
+                  <tbody className="text-left">
                     {paginatedJabatan.map((jabatan, index) => (
                       <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         key={index}
                       >
                         <th
                           scope="row"
-                          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                           {(currentPage - 1) * limit + index + 1}
                         </th>
-                        <td class="px-6 py-4">{jabatan.namaJabatan}</td>
-                        <td class="px-6 py-4">
+                        <td className="px-6 py-4">{jabatan.namaJabatan}</td>
+                        <td className="px-6 py-4">
                           {jumlahKaryawan[jabatan.idJabatan] !== undefined
                             ? jumlahKaryawan[jabatan.idJabatan] || "Kosong"
                             : "Loading..."}
                         </td>
-                        <td class="px-6 py-4">{jabatan.admin.username} </td>
+                        <td className="px-6 py-4">{jabatan.admin.username} </td>
                         <td className="py-3">
                           <div className="flex items-center -space-x-4 ml-12">
                             <a href={`/admin/editJ/${jabatan.idJabatan}`}>
