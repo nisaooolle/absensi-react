@@ -197,7 +197,7 @@ function Lembur() {
                               {lemburData.keteranganLembur}
                             </td>
                             <td className="px-6 py-4">
-                              {formatDate(lemburData.tanggalLebur)}
+                              {formatDate(lemburData.tanggalLembur)}
                             </td>
                             <td className="py-3">
                               <div className="flex items-center -space-x-4 ml-12">

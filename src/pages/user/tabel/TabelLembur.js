@@ -193,7 +193,7 @@ function TabelLembur() {
                       NO
                     </th>
                     <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
-                      KETERANGAN LEMBUR
+                      TANGGAL LEMBUR
                     </th>
                     <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       JAM MULAI
@@ -201,8 +201,9 @@ function TabelLembur() {
                     <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       JAM SELESAI
                     </th>
+
                     <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
-                      TANGGAL LEMBUR
+                      KETERANGAN LEMBUR
                     </th>
                     <th className="whitespace-nowrap px-4 py-2 font-medium text-center">
                       AKSI
@@ -216,7 +217,7 @@ function TabelLembur() {
                         {(currentPage - 1) * limit + index + 1}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
-                        {formatDate(lemburData.tanggalLebur)}
+                        {formatDate(lemburData.tanggalLembur)}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {lemburData.jamMulai}

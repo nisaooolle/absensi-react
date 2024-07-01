@@ -8,12 +8,15 @@ import Swal from "sweetalert2";
 
 function Cuti() {
   const [userData, setUserData] = useState([]);
+  const adminId = localStorage.getItem("adminId");
+  
+
   const getAllCuti = async () => {
     const token = localStorage.getItem("token");
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/cuti/getall`,
+        `http://localhost:2024/api/cuti/admin/${adminId}`,
         {
           headers: {
             Authorization: `${token}`,
