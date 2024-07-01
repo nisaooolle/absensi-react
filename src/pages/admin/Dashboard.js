@@ -110,13 +110,14 @@ function Dashboard() {
     }
   };
 
-  const formatDate = (tanggal) => {
-    const date = new Date(tanggal);
-    return date.toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "long",
+  const formatDate = (dateString) => {
+    const options = {
+      weekday: "long",
       year: "numeric",
-    });
+      month: "long",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString("id-ID", options);
   };
 
   useEffect(() => {

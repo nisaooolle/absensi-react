@@ -59,6 +59,7 @@ function Harian() {
 
   const formatDate = (dateString) => {
     const options = {
+      weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -113,9 +114,9 @@ function Harian() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div className="sm:ml-64 content-page container p-8 ml-0 md:ml-64 mt-12">
+        <div className="sm:ml-64 content-page container p-5 ml-0 md:ml-56 mt-12">
           <div className="p-4">
-            <div className="p-5 ">
+            <div className="p-5">
               <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-none shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                 <div className="flex justify-between">
                   <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
@@ -201,25 +202,31 @@ function Harian() {
                         {absensiData.map((absensi, index) => (
                           <tr key={index}>
                             <td className="px-5 py-3">{index + 1}</td>
-                            <td className="px-5 py-3">
+                            <td className="px-5 py-3 capitalize">
                               {absensi.user.username}
                             </td>
-                            <td className="px-5 py-3">
+                            <td className="px-5 py-3 capitalize">
                               {formatDate(absensi.tanggalAbsen)}
                             </td>
                             <td className="px-5 py-3">{absensi.jamMasuk}</td>
                             <td className="px-5 py-3">
                               <img
-                                src={absensi.fotoMasuk}
+                                src={
+                                  absensi.fotoMasuk ? absensi.fotoMasuk : "-"
+                                }
                                 alt="foto masuk"
                                 className="w-16 h-8 rounded-sm"
                               />
                             </td>
-                            <td className="px-5 py-3">{absensi.lokasiMasuk}</td>
+                            <td className="px-5 py-3 capitalize">
+                              {absensi.lokasiMasuk}
+                            </td>
                             <td className="px-5 py-3">{absensi.jamPulang}</td>
                             <td className="px-5 py-3">
                               <img
-                                src={absensi.fotoPulang}
+                                src={
+                                  absensi.fotoPulang ? absensi.fotoPulang : "-"
+                                }
                                 alt="foto pulang"
                                 className="w-16 h-8 rounded-sm"
                               />
@@ -227,7 +234,9 @@ function Harian() {
                             <td className="px-5 py-3">
                               {formatLamaKerja(absensi.user.startKerja)}
                             </td>
-                            <td className="px-5 py-3">{absensi.statusAbsen}</td>
+                            <td className="px-5 py-3 capitalize">
+                              {absensi.statusAbsen}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
