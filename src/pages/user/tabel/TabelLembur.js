@@ -77,6 +77,8 @@ function TabelLembur() {
               title: "Berhasil Menghapus!!",
               showConfirmButton: false,
               timer: 1500,
+            }).then(() => {
+              window.location.reload("/user/history_lembur"); // Add this line to reload the page
             });
           })
           .catch((error) => {
@@ -105,7 +107,7 @@ function TabelLembur() {
           ?.toLowerCase()
           .includes(searchTerm.toLowerCase()) ??
           false) ||
-        (formatDate(lemburData.tanggalLebur)
+        (formatDate(lemburData.tanggalLembur)
           ?.toLowerCase()
           .includes(searchTerm.toLowerCase()) ??
           false)
@@ -138,7 +140,7 @@ function TabelLembur() {
         ?.toLowerCase()
         .includes(searchTerm.toLowerCase()) ??
         false) ||
-      (formatDate(lemburData.tanggalLebur)
+      (formatDate(lemburData.tanggalLembur)
         ?.toLowerCase()
         .includes(searchTerm.toLowerCase()) ??
         false)
@@ -217,16 +219,15 @@ function TabelLembur() {
                         {(currentPage - 1) * limit + index + 1}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
-                        {formatDate(lemburData.tanggalLembur)}
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
+                         {formatDate(lemburData.tanggalLembur)}
+                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {lemburData.jamMulai}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                         {lemburData.jamSelesai}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
-                        {lemburData.keteranganLembur}
+                        {formatDate(lemburData.keteranganLembur)}
                       </td>
                       <td className="whitespace-nowrap text-center py-3">
                         <div className="flex items-center -space-x-4 ml-12">

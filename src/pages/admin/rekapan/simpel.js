@@ -31,6 +31,7 @@ function Simpel() {
 
   const formatDate = (dateString) => {
     const options = {
+      weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -124,7 +125,7 @@ function Simpel() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div className="sm:ml-64 content-page container p-8 ml-0 md:ml-64 mt-12">
+        <div className="sm:ml-64 content-page container p-4 ml-0 md:ml-56 mt-5">
           <div className="p-5 mt-10">
             <main id="content" className="flex-1 p-4 sm:p-6">
               <div className="bg-white rounded-lg shadow-md p-4">
@@ -221,13 +222,15 @@ function Simpel() {
                         ? absensiData.map((absensi, index) => (
                             <tr key={index}>
                               <td className="px-5 py-3">{index + 1}</td>
-                              <td className="px-5 py-3">
+                              <td className="px-5 py-3 capitalize">
                                 {absensi.user.username}
                               </td>
-                              <td className="px-5 py-3">
+                              <td className="px-5 py-3 capitalize">
                                 {formatDate(absensi.tanggalAbsen)}
                               </td>
-                              <td className="px-5 py-3">{absensi.jamMasuk}</td>
+                              <td className="px-5 py-3 capitalize">
+                                {absensi.jamMasuk}
+                              </td>
                               <td className="px-5 py-3">
                                 <img
                                   src={absensi.fotoMasuk}
@@ -235,24 +238,24 @@ function Simpel() {
                                   className="w-16 h-8 rounded-sm"
                                 />
                               </td>
-                              <td className="px-5 py-3">
+                              <td className="px-5 py-3 capitalize">
                                 {absensi.lokasiMasuk}
                               </td>
                               <td className="px-5 py-3">{absensi.jamPulang}</td>
                               <td className="px-5 py-3">
                                 <img
                                   src={absensi.fotoPulang}
-                                  alt="foto pulang"
+                                  alt="Foto Pulang"
                                   className="w-16 h-8 rounded-sm"
                                 />
                               </td>
-                              <td className="px-5 py-3">
+                              <td className="px-5 py-3 capitalize">
                                 {absensi.lokasiPulang}
                               </td>
                               <td className="px-5 py-3">
                                 {formatLamaKerja(absensi.user.startKerja)}
                               </td>
-                              <td className="px-5 py-3">
+                              <td className="px-5 py-3 capitalize">
                                 {absensi.statusAbsen}
                               </td>
                             </tr>

@@ -150,7 +150,7 @@ function Jabatan() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div className=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
+        <div className=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-5">
           <div className="p-5 mt-10">
             <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
               <div className="flex justify-between">
@@ -225,13 +225,17 @@ function Jabatan() {
                         >
                           {(currentPage - 1) * limit + index + 1}
                         </th>
-                        <td className="px-6 py-4">{jabatan.namaJabatan}</td>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-4 capitalize">
+                          {jabatan.namaJabatan}
+                        </td>
+                        <td className="px-6 py-4 capitalize">
                           {jumlahKaryawan[jabatan.idJabatan] !== undefined
                             ? jumlahKaryawan[jabatan.idJabatan] || "Kosong"
                             : "Loading..."}
                         </td>
-                        <td className="px-6 py-4">{jabatan.admin.username} </td>
+                        <td className="px-6 py-4 capitalize">
+                          {jabatan.admin.username}{" "}
+                        </td>
                         <td className="py-3">
                           <div className="flex items-center -space-x-4 ml-12">
                             <a href={`/admin/editJ/${jabatan.idJabatan}`}>

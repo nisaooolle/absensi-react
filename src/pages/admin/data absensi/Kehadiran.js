@@ -2,22 +2,27 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarAdmin";
 import Sidebar from "../../../components/SidebarUser";
 import axios from "axios";
+import { Pagination } from "flowbite-react";
 
 function Kehadiran() {
-  const [allUser, setAllUser] = useState([]);
+  const [kehadiran, setKehadiran] = useState([]);
   const [allAbsensi, setAllAbsensi] = useState([]);
   const idAdmin = localStorage.getItem("adminId");
   const adminId = localStorage.getItem("adminId");
   const [lateCount, setLateCount] = useState(0);
   const [earlyCount, setEarlyCount] = useState(0);
   const [permissionCount, setPermissionCount] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [limit, setLimit] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const getAllKaryawanUser = async () => {
     try {
       const all = await axios.get(
         `http://localhost:2024/api/user/${idAdmin}/users`
       );
-      setAllUser(all.data);
+      setKehadiran(all.data);
     } catch (error) {
       console.log(error);
     }
@@ -39,27 +44,72 @@ function Kehadiran() {
     getAllKaryawanUser();
     getAllAbsensiByAdmin();
   }, []);
- 
 
   const getAbsensiByUserId = (userId, status) => {
-    return allAbsensi.filter((abs) => abs.user.id === userId && abs.statusAbsen === status).length;
+    return allAbsensi.filter(
+      (abs) => abs.user.id === userId && abs.statusAbsen === status
+    ).length;
   };
-  
+
   useEffect(() => {
-    const userAbsensiCounts = allUser.map((user) => ({
+    const userAbsensiCounts = kehadiran.map((user) => ({
       userId: user.id,
       lateCount: getAbsensiByUserId(user.id, "Terlambat"),
       earlyCount: getAbsensiByUserId(user.id, "Lebih Awal"),
       permissionCount: getAbsensiByUserId(user.id, "Izin"),
     }));
-  
-    setAllUser((prevUsers) =>
+
+    setKehadiran((prevUsers) =>
       prevUsers.map((user) => {
-        const updatedCounts = userAbsensiCounts.find((u) => u.userId === user.id);
+        const updatedCounts = userAbsensiCounts.find(
+          (u) => u.userId === user.id
+        );
         return updatedCounts ? { ...user, ...updatedCounts } : user;
       })
     );
   }, [allAbsensi]);
+
+  useEffect(() => {
+    const filteredData = kehadiran.filter(
+      (kehadiran) =>
+        (kehadiran.username.toLowerCase().includes(searchTerm.toLowerCase()) ??
+          false) ||
+        (kehadiran.jabatan?.namaJabatan
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ??
+          false)
+    );
+    setTotalPages(Math.ceil(filteredData.length / limit));
+  }, [searchTerm, limit, kehadiran]);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleLimitChange = (event) => {
+    setLimit(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to the first page when limit changes
+  };
+
+  function onPageChange(page) {
+    setCurrentPage(page);
+  }
+
+  const filteredKehadiran = kehadiran.filter(
+    (kehadiran) =>
+      (kehadiran.username.toLowerCase().includes(searchTerm.toLowerCase()) ??
+        false) ||
+      (kehadiran.jabatan?.namaJabatan
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ??
+        false)
+  );
+
+  const paginatedKehadiran = filteredKehadiran.slice(
+    (currentPage - 1) * limit,
+    currentPage * limit
+  );
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -77,8 +127,31 @@ function Kehadiran() {
                   <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                     Data Kehadiran
                   </h6>
+                  <div className="flex items-center gap-2 mt-2">
+                    <div className="relative w-64">
+                      <input
+                        type="search"
+                        id="search-dropdown"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                        placeholder="Search name..."
+                        required
+                      />
+                    </div>
+                    <select
+                      value={limit}
+                      onChange={handleLimitChange}
+                      className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                    >
+                      <option value="5">05</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
+                    </select>
+                  </div>
                 </div>
-                <hr />
+                <hr className="mt-3" />
                 <div className="relative overflow-x-auto mt-5">
                   <table
                     id="dataKehadiran"
@@ -107,7 +180,7 @@ function Kehadiran() {
                       </tr>
                     </thead>
                     <tbody className="text-left">
-                      {allUser.map((item, index) => (
+                      {paginatedKehadiran.map((kehadiran, index) => (
                         <tr
                           key={index}
                           className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -116,22 +189,38 @@ function Kehadiran() {
                             scope="row"
                             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                           >
-                            {index + 1}
+                            {(currentPage - 1) * limit + index + 1}
                           </th>
-                          <td className="px-6 py-4">{item.username}</td>
-                          <td className="px-6 py-4">
-                            {item.jabatan
-                              ? item.jabatan.namaJabatan
+                          <td className="px-6 py-4 text-gray-700 capitalize">
+                            {kehadiran.username}
+                          </td>
+                          <td className="px-6 py-4 text-gray-700 capitalize">
+                            {kehadiran.jabatan
+                              ? kehadiran.jabatan.namaJabatan
                               : "Tidak ada jabatan"}
                           </td>
-                          <td className="px-6 py-4">{item.lateCount}</td>
-                          <td className="px-6 py-4">{item.earlyCount}</td>
-                          <td className="px-6 py-4">{item.permissionCount}</td>
+                          <td className="px-6 py-4 text-gray-700 capitalize">
+                            {kehadiran.lateCount}
+                          </td>
+                          <td className="px-6 py-4 text-gray-700 capitalize">
+                            {kehadiran.earlyCount}
+                          </td>
+                          <td className="px-6 py-4 text-gray-700 capitalize">
+                            {kehadiran.permissionCount}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
+                <Pagination
+                  className="mt-5"
+                  layout="table"
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={onPageChange}
+                  showIcons
+                />
               </div>
             </div>
           </div>

@@ -69,6 +69,7 @@ function Bulanan() {
 
   const formatDate = (dateString) => {
     const options = {
+      weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -123,11 +124,11 @@ function Bulanan() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div className="sm:ml-64 content-page container p-8 ml-0 md:ml-64 mt-12">
+        <div className="sm:ml-64 content-page container p-4 ml-0 md:ml-56 mt-5">
           <div className="p-4">
             <div className="p-5">
               <main id="content" className="flex-1 p-4 sm:p-6">
-                <div className="bg-white rounded-lg shadow-md p-4">
+                <div className="bg-white rounded-lg shadow-xl p-4">
                   <div className="flex justify-between">
                     <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                       Rekap Bulanan Semua Karyawan
@@ -224,35 +225,42 @@ function Bulanan() {
                           absensiData.map((absensi, index) => (
                             <tr key={index}>
                               <td className="px-5 py-3">{index + 1}</td>
-                              <td className="px-5 py-3">
+                              <td className="px-5 py-3 capitalize">
                                 {absensi.user.username}
                               </td>
-                              <td className="px-5 py-3">
+                              <td className="px-5 py-3 capitalize">
                                 {formatDate(absensi.tanggalAbsen)}
                               </td>
                               <td className="px-5 py-3">{absensi.jamMasuk}</td>
                               <td className="px-5 py-3">
                                 <img
-                                  src={absensi.fotoMasuk}
-                                  alt="foto masuk"
-                                  className="w-16 h-8 rounded-sm"
+                                  src={
+                                    absensi.fotoMasuk ? absensi.fotoMasuk : "-"
+                                  }
+                                  alt="Foto Masuk"
+                                  className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                  id="foto_masuk"
                                 />
                               </td>
-                              <td className="px-5 py-3">
+                              <td className="px-5 py-3 capitalize">
                                 {absensi.lokasiMasuk}
                               </td>
                               <td className="px-5 py-3">{absensi.jamPulang}</td>
                               <td className="px-5 py-3">
                                 <img
-                                  src={absensi.fotoPulang}
-                                  alt="foto pulang"
+                                  src={
+                                    absensi.fotoPulang
+                                      ? absensi.fotoPulang
+                                      : "-"
+                                  }
+                                  alt="Foto Pulang"
                                   className="w-16 h-8 rounded-sm"
                                 />
                               </td>
                               <td className="px-5 py-3">
                                 {formatLamaKerja(absensi.user.startKerja)}
                               </td>
-                              <td className="px-5 py-3">
+                              <td className="px-5 py-3 capitalize">
                                 {absensi.statusAbsen}
                               </td>
                             </tr>

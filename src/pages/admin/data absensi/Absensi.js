@@ -9,12 +9,14 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { Pagination } from "flowbite-react";
 
 function Absensi() {
   const [absensi, setAbsensi] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [totalPages, setTotalPages] = useState(1);
 
   const getAllAbsensi = async () => {
     const token = localStorage.getItem("token");
@@ -40,42 +42,60 @@ function Absensi() {
     getAllAbsensi();
   }, []);
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  // Filter function for search
-  const filterAbsen = (absenData) => {
-    const searchLower = searchTerm.toLowerCase();
-    return (
-      (absenData.jamMasuk &&
-        absenData.jamMasuk.toLowerCase().includes(searchLower)) ||
-      (absenData.jamPulang &&
-        absenData.jamPulang.toLowerCase().includes(searchLower)) ||
-      (absenData.status &&
-        absenData.status.toLowerCase().includes(searchLower)) ||
-      (absenData.keterangan &&
-        absenData.keterangan.toLowerCase().includes(searchLower)) ||
-      (absenData.user.username &&
-        absenData.user.username.toLowerCase().includes(searchLower))
-    );
-  };
-  // Pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = absensi.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Function to format date in Indonesian
   const formatDate = (dateString) => {
     const options = {
+      weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
     };
     return new Date(dateString).toLocaleDateString("id-ID", options);
   };
+
+  useEffect(() => {
+    const filteredData = absensi.filter(
+      (absensi) =>
+        absensi.user?.username
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        absensi.statusAbsen?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (formatDate(absensi.tanggalAbsen)
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ??
+          false)
+    );
+    setTotalPages(Math.ceil(filteredData.length / limit));
+  }, [searchTerm, limit, absensi]);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleLimitChange = (event) => {
+    setLimit(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to the first page when limit changes
+  };
+
+  function onPageChange(page) {
+    setCurrentPage(page);
+  }
+
+  const filteredAbsensi = absensi.filter(
+    (absensi) =>
+      absensi.user?.username
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      absensi.statusAbsen?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (formatDate(absensi.tanggalAbsen)
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ??
+        false)
+  );
+
+  const paginatedAbsensi = filteredAbsensi.slice(
+    (currentPage - 1) * limit,
+    currentPage * limit
+  );
 
   return (
     <div className="flex flex-col h-screen">
@@ -86,19 +106,37 @@ function Absensi() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div className="sm:ml-64 content-page container ml-0 md:ml-64 mt-6">
-          <div className="p-5 mt-10">
+        <div className="sm:ml-64 content-page container ml-0 md:ml-64 mt-6 text-center">
+          <div className="p-5 mt-5">
             <main id="content" className="flex-1 p-4 sm:p-6">
-              <div className="bg-white rounded-lg shadow-xl p-4">
+              <div className="bg-white rounded-lg shadow-xl p-8">
                 <div className="flex justify-between">
-                  <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                    Detail History Absensi
-                  </h6>
-                  {/* <!-- <a type="button" href="https://demo-absen.excellentsistem.com/admin/tambah_lokasi"
-                  className="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"><i
-                      className="fa-solid fa-plus"></i></a> --> */}
+                  <h6 className="text-xl font-bold">Detail History Absensi</h6>
+                  <div className="flex items-center gap-2 mt-2">
+                    <div className="relative w-64">
+                      <input
+                        type="search"
+                        id="search-dropdown"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                        placeholder="Search name..."
+                        required
+                      />
+                    </div>
+                    <select
+                      value={limit}
+                      onChange={handleLimitChange}
+                      className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                    >
+                      <option value="5">05</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
+                    </select>
+                  </div>
                 </div>
-                <hr />
+                <hr className="mt-3" />
                 <form
                   action=""
                   method="post"
@@ -154,21 +192,7 @@ function Absensi() {
                     </a>
                   </div>
                 </form>
-                <div className="flex justify-between items-center mt-4">
-                  <div className="flex items-center">
-                    <FontAwesomeIcon
-                      icon={faSearch}
-                      className="mr-2 text-gray-500"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Cari absen..."
-                      value={searchTerm}
-                      onChange={handleSearch}
-                      className="px-3 py-2 border-blue-700 rounded-md"
-                    />
-                  </div>
-                </div>
+
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
                   <table
                     id="rekapSimple"
@@ -209,93 +233,76 @@ function Absensi() {
                       </tr>
                     </thead>
                     <tbody className="text-left">
-                      {currentItems
-                        .filter(filterAbsen)
-                        .map((absenData, index) => (
-                          <tr
-                            key={index}
-                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      {paginatedAbsensi.map((absensi, index) => (
+                        <tr
+                          key={index}
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        >
+                          <th
+                            scope="row"
+                            className="px-4 py-4 font-medium text-gray-900 dark:text-white"
                           >
-                            <th
-                              scope="row"
-                              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              {indexOfFirstItem + index + 1}
-                            </th>
-                            <td className="px-6 py-4">{absenData.user.username}</td>
-                            <td className="px-6 py-4">
-                              {formatDate(absenData.tanggalAbsen)}
-                            </td>
-                            <td className="px-6 py-4">{absenData.statusAbsen}</td>
-                            <td className="px-6 py-4">{absenData.jamMasuk} </td>
-                            <td className="px-6 py-4">
-                              <img
-                                src={
-                                  absenData.fotoMasuk
-                                    ? absenData.fotoMasuk
-                                    : "-"
-                                }
-                                alt="Foto Masuk"
-                                className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                id="foto_masuk"
-                              />
-                            </td>
-                            <td className="px-6 py-4">{absenData.jamPulang}</td>
-                            <td className="px-6 py-4">
-                              <img
-                                src={
-                                  absenData.fotoPulang
-                                    ? absenData.fotoPulang
-                                    : "-"
-                                }
-                                alt="Foto Pulang"
-                                className="block py-2.5 px-0 w-25 max-h-96 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                id="foto_masuk"
-                              />
-                            </td>
-                            <td className="px-6 py-4">00 jam 00 menit </td>
-                            <td className="px-6 py-4">
-                              <a href={`/admin/detailA/${absenData.id}`}>
-                                <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
-                                  <span className="relative inline-block">
-                                    <FontAwesomeIcon
-                                      icon={faInfo}
-                                      className="h-4 w-4"
-                                    />
-                                  </span>
-                                </button>
-                              </a>
-                            </td>
-                          </tr>
-                        ))}
+                            {(currentPage - 1) * limit + index + 1}
+                          </th>
+                          <td className="px-4 py-2 text-gray-700 text-center capitalize">
+                            {absensi.user.username}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 text-center capitalize">
+                            {formatDate(absensi.tanggalAbsen)}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 text-center capitalize">
+                            {absensi.statusAbsen}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 text-center capitalize">
+                            {absensi.jamMasuk}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 text-center capitalize">
+                            <img
+                              src={absensi.fotoMasuk ? absensi.fotoMasuk : "-"}
+                              alt="Foto Masuk"
+                              className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                              id="foto_masuk"
+                            />
+                          </td>
+                          <td className="px-4 py-4">{absensi.jamPulang}</td>
+                          <td className="px-4 py-4">
+                            <img
+                              src={
+                                absensi.fotoPulang ? absensi.fotoPulang : "-"
+                              }
+                              alt="Foto Pulang"
+                              className="block py-2.5 px-0 w-25 max-h-96 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                              id="foto_masuk"
+                            />
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 text-center capitalize">
+                            00 jam 00 menit
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 text-center capitalize">
+                            <a href={`/admin/detailA/${absensi.id}`}>
+                              <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faInfo}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+                            </a>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
-                <div className="flex justify-center mt-4">
-                  <ul className="pagination">
-                    {Array(Math.ceil(absensi.length / itemsPerPage))
-                      .fill()
-                      .map((_, index) => (
-                        <li
-                          key={index}
-                          className={`page-item ${
-                            currentPage === index + 1 ? "active" : ""
-                          }`}
-                        >
-                          <button
-                            onClick={() => paginate(index + 1)}
-                            className={`page-link ${
-                              currentPage === index + 1
-                                ? "bg-blue-500 text-white"
-                                : "text-gray-500"
-                            }`}
-                          >
-                            {index + 1}
-                          </button>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
+                <Pagination
+                  className="mt-5"
+                  layout="table"
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={onPageChange}
+                  showIcons
+                />
               </div>
             </main>
           </div>

@@ -36,33 +36,33 @@ function Mingguan() {
     }
   };
 
-    const exportMingguan = async () => {
-      try {
-          const response = await axios.get(
-              "http://localhost:2024/api/absensi/export/absensi-mingguan",
-              {
-                  params: {
-                      tanggalAwal: tanggalAwal,
-                      tanggalAkhir: tanggalAkhir,
-                  },
-                  responseType: 'blob',
-              }
-          );
+  const exportMingguan = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:2024/api/absensi/export/absensi-mingguan",
+        {
+          params: {
+            tanggalAwal: tanggalAwal,
+            tanggalAkhir: tanggalAkhir,
+          },
+          responseType: "blob",
+        }
+      );
 
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute('download', 'AbsensiMingguan.xlsx');
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          window.URL.revokeObjectURL(url);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "AbsensiMingguan.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
 
-          Swal.fire("Berhasil", "Berhasil mengunduh data", "success");
-      } catch (error) {
-          Swal.fire("Error", "Gagal mengunduh data", "error");
-          console.log(error);
-      }
+      Swal.fire("Berhasil", "Berhasil mengunduh data", "success");
+    } catch (error) {
+      Swal.fire("Error", "Gagal mengunduh data", "error");
+      console.log(error);
+    }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -220,13 +220,13 @@ function Mingguan() {
                                     {index + 1}
                                   </td>
 
-                                  <td className="px-6 py-4">
+                                  <td className="px-6 py-4 capitalize">
                                     {absensi.user.username}
                                   </td>
-                                  <td className="px-6 py-4">
+                                  <td className="px-6 py-4 capitalize">
                                     {formatDate(absensi.tanggalAbsen)}
                                   </td>
-                                  <td className="px-6 py-4">
+                                  <td className="px-6 py-4 capitalize">
                                     {absensi.jamMasuk}
                                   </td>
                                   <td className="px-6 py-4">
@@ -236,7 +236,7 @@ function Mingguan() {
                                       className="w-16 h-8 rounded-sm"
                                     />
                                   </td>
-                                  <td className="px-6 py-4">
+                                  <td className="px-6 py-4 capitalize">
                                     {absensi.jamPulang}
                                   </td>
                                   <td className="px-6 py-4">
@@ -249,7 +249,7 @@ function Mingguan() {
                                   <td className="px-6 py-4">
                                     {formatLamaKerja(absensi.user.startKerja)}
                                   </td>
-                                  <td className="px-6 py-4">
+                                  <td className="px-6 py-4 capitalize">
                                     {absensi.statusAbsen}
                                   </td>
                                 </tr>
