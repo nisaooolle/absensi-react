@@ -11,17 +11,28 @@ function AddUser() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [idOrganisasi, setIdOrganisasi] = useState("");
-  const [idJabatan, setIdJabatan] = useState("");
-  const [idShift, setIdShift] = useState("");
+  const [idOrganisasi, setIdOrganisasi] = useState(null);
+  const [idJabatan, setIdJabatan] = useState(null);
+  const [idShift, setIdShift] = useState(null);
   const [password, setPassword] = useState("");
   const idSuperAdmin = localStorage.getItem("superadminId");
-  const idAdmin = localStorage.getItem("adminId");
+  const [idAdmin, setIdAdmin] = useState(null);
   const [organisasiList, setOrganisasiList] = useState([]);
   const [jabatanList, setJabatanList] = useState([]);
   const [shiftList, setShiftList] = useState([]);
+  const [adminList, setAdminList] = useState([]);
   const history = useHistory();
 
+  const getAllAdmin = async () => {
+    try {
+      const adm = await axios.get(
+        `http://localhost:2024/api/admin/get-all-by-super/${idSuperAdmin}`
+      );
+      setAdminList(adm.data);
+    } catch (Error) {
+      console.log(Error);
+    }
+  };
   const handleShowPasswordChange = () => {
     setShowPassword(!showPassword);
   };
@@ -30,6 +41,7 @@ function AddUser() {
     GetAllOrganisasi();
     GetAllJabatan();
     GetAllShift();
+    getAllAdmin();
   }, []);
 
   const GetAllOrganisasi = async () => {
@@ -161,11 +173,32 @@ function AddUser() {
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
                       <label htmlFor="id_organisasi" className="sr-only">
+                        Admin
+                      </label>
+                      <select
+                        value={idAdmin || ""}
+                        onChange={(e) => setIdAdmin(Number(e.target.value))}
+                        name="id_organisasi"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                      >
+                        <option value="" disabled selected>
+                          Pilih Admin
+                        </option>
+                        {adminList &&
+                          adminList.map((org) => (
+                            <option key={org.id} value={org.id}>
+                              {org.username}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                    <div className="relative z-0 w-full mb-6 group">
+                      <label htmlFor="id_organisasi" className="sr-only">
                         Organisasi
                       </label>
                       <select
-                        value={idOrganisasi}
-                        onChange={(e) => setIdOrganisasi(e.target.value)}
+                        value={idOrganisasi || ""}
+                        onChange={(e) => setIdOrganisasi(Number(e.target.value))}
                         name="id_organisasi"
                         className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                       >
@@ -183,8 +216,8 @@ function AddUser() {
                     <div className="relative z-0 w-full mb-6 group">
                       <select
                         id="id_jabatan"
-                        value={idJabatan}
-                        onChange={(e) => setIdJabatan(e.target.value)}
+                        value={idJabatan || ""}
+                        onChange={(e) => setIdJabatan(Number(e.target.value))}
                         name="id_jabatan"
                         className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                       >
@@ -192,7 +225,7 @@ function AddUser() {
                           Pilih Jabatan
                         </option>
                         {jabatanList.map((jab) => (
-                          <option key={jab.id} value={jab.idJabatan}>
+                          <option key={jab.idJabatan} value={jab.idJabatan}>
                             {jab.namaJabatan}
                           </option>
                         ))}
@@ -204,8 +237,8 @@ function AddUser() {
                       </label>
                       <select
                         name="id_shift"
-                        value={idShift}
-                        onChange={(e) => setIdShift(e.target.value)}
+                        value={idShift || ""}
+                        onChange={(e) => setIdShift(Number(e.target.value))}
                         className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                       >
                         <option value="" disabled selected>

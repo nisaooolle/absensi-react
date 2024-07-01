@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
+import Navbar from "../../../components/NavbarSuper";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +13,6 @@ function EditShift() {
   const [waktuPulang, setWaktuPulang] = useState("");
   const { id } = useParams();
   const history = useHistory();
-  const idAdmin = localStorage.getItem("adminId");
 
   const getShift = async () => {
     try {
@@ -36,13 +35,9 @@ function EditShift() {
     };
     try {
       await axios.put(
-        `http://localhost:2024/api/shift/editbyId/${id}?idAdmin=${idAdmin}`,
+        `http://localhost:2024/api/shift/editbyId/${id}`,
         shift,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        
       );
       Swal.fire({
         title: "Berhasil",

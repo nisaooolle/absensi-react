@@ -79,9 +79,6 @@ function AddJabatanSA() {
                 {/* <!-- Form Input --> */}
                 <form
                   onSubmit={tambahJabatan}
-                  action="https://demo-absen.excellentsistem.com/superadmin/aksi_tambah_jabatan"
-                  method="post"
-                  enctype="multipart/form-data"
                 >
                   <div class="grid md:grid-cols-2 md:gap-6">
                     {/* <!-- Nama Jabatan Input --> */}
