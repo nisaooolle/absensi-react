@@ -59,6 +59,7 @@ function Perkaryawan() {
 
   const formatDate = (dateString) => {
     const options = {
+      weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -138,9 +139,9 @@ function Perkaryawan() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div className="sm:ml-64 content-page container p-8 ml-0 md:ml-64 mt-12">
+        <div className="sm:ml-64 content-page container p-4 ml-0 md:ml-56">
           <div className="p-4">
-            <div className="p-5 mt-10">
+            <div className="p-5 mt-5">
               <main id="content" className="flex-1 p-4 sm:p-6">
                 <div className="bg-white rounded-lg shadow-md p-4">
                   <div className="flex justify-between">
@@ -160,7 +161,13 @@ function Perkaryawan() {
                       <option value="">Pilih Karyawan</option>
                       {listUser.map((user) => (
                         <option key={user.id} value={user.id}>
-                          {user.username}
+                          {user.username
+                            .split(" ")
+                            .map(
+                              (word) =>
+                                word.charAt(0).toUpperCase() + word.slice(1)
+                            )
+                            .join(" ")}
                         </option>
                       ))}
                     </select>
@@ -218,24 +225,30 @@ function Perkaryawan() {
                         {listAbsensi.map((absensi, index) => (
                           <tr key={absensi.id}>
                             <td className="px-6 py-3">{index + 1}</td>
-                            <td className="px-6 py-3">
+                            <td className="px-6 py-3 capitalize">
                               {absensi.user.username}
                             </td>
-                            <td className="px-6 py-3">
+                            <td className="px-6 py-3 capitalize">
                               {formatDate(absensi.tanggalAbsen)}
                             </td>
-                            <td className="px-6 py-3">{absensi.jamMasuk}</td>
-                            <td className="px-6 py-3">
+                            <td className="px-6 py-3 capitalize">
+                              {absensi.jamMasuk}
+                            </td>
+                            <td className="px-6 py-3 capitalize">
                               <img src={absensi.fotoMasuk} alt="Foto Masuk" />
                             </td>
-                            <td className="px-6 py-3">{absensi.jamPulang}</td>
-                            <td className="px-6 py-3">
+                            <td className="px-6 py-3 capitalize">
+                              {absensi.jamPulang}
+                            </td>
+                            <td className="px-6 py-3 capitalize">
                               <img src={absensi.fotoPulang} alt="Foto Pulang" />
                             </td>
-                            <td className="px-6 py-3">
+                            <td className="px-6 py-3 capitalize">
                               {formatLamaKerja(absensi.user.startKerja)}
                             </td>
-                            <td className="px-6 py-3">{absensi.statusAbsen}</td>
+                            <td className="px-6 py-3 capitalize">
+                              {absensi.statusAbsen}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
