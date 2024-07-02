@@ -8,18 +8,21 @@ import Swal from "sweetalert2";
 import { Pagination } from "flowbite-react";
 
 function Cuti() {
-  const [cuti, setCuti] = useState([]);
+   const [userData, setUserData] = useState([]);
+  const adminId = localStorage.getItem("adminId");
+  
+   const [cuti, setCuti] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
+ 
   const getAllCuti = async () => {
     const token = localStorage.getItem("token");
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/cuti/getall`,
+        `http://localhost:2024/api/cuti/admin/${adminId}`,
         {
           headers: {
             Authorization: `${token}`,

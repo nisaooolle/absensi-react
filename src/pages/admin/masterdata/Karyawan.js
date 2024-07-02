@@ -18,13 +18,14 @@ function Karyawan() {
   const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const idAdmin = localStorage.getItem("adminId");
 
   const getAllKaryawan = async () => {
     const token = localStorage.getItem("token");
-
+    
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/user/get-allUser`,
+        `http://localhost:2024/api/user/byAdmin/${idAdmin}`,
         {
           headers: {
             Authorization: `${token}`,

@@ -224,7 +224,39 @@ function Lembur() {
                             {lembur.user.username}
                           </td>
 
-                          <td className="px-6 py-4 capitalize">
+                             <td className="px-6 py-4">
+                              {lemburData.keteranganLembur}
+                            </td>
+                            <td className="px-6 py-4">
+                              {formatDate(lemburData.tanggalLembur)}
+                            </td>
+                            <td className="py-3">
+                              <div className="flex items-center -space-x-4 ml-12">
+                                <a
+                                  href={`/admin/detailLembur/${lemburData.id}`}
+                                >
+                                  <button className="z-30 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-red-50">
+                                    <span className="relative inline-block">
+                                      <FontAwesomeIcon
+                                        icon={faInfo}
+                                        className="h-4 w-4"
+                                      />
+                                    </span>
+                                  </button>
+                                </a>
+                                <button
+                                  type="button"
+                                  onClick={(e) => generatePdf(lemburData.id)}
+                                >
+                                  <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                                    <span className="relative inline-block">
+                                      <FontAwesomeIcon
+                                        icon={faPrint}
+                                        className="h-4 w-4"
+                                      />
+                                    </span>
+                                  </button>
+                           <td className="px-6 py-4 capitalize">
                             {lembur.keteranganLembur}
                           </td>
                           <td className="px-6 py-4 capitalize">
@@ -253,7 +285,7 @@ function Lembur() {
                                       className="h-4 w-4"
                                     />
                                   </span>
-                                </button>
+                                 </button>
                               </button>
                             </div>
                           </td>
