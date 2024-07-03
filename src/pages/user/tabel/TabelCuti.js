@@ -77,7 +77,7 @@ function TabelCuti() {
               showConfirmButton: false,
               timer: 1500,
             }).then(() => {
-              window.location.reload("/user/history_cuti");
+              window.location.reload();
             });
           })
           .catch((error) => {

@@ -31,7 +31,6 @@ function Profile() {
   const [edit, setEdit] = useState(false);
   const [organisasi, setOrganisasi] = useState("");
   const [adminId, setidAdmin] = useState("");
-  const [organisasiList, setOrganisasiList] = useState([]);
 
   const getProfile = async () => {
     try {
@@ -48,7 +47,7 @@ function Profile() {
       setFotoUser(response.data.fotoUser);
       setEmail(response.data.email);
       setUsername(response.data.username);
-      setOrganisasi(response.data.organisasi.namaOrganisasi);
+      setOrganisasi(response.data.organisasi.id);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -60,7 +59,6 @@ function Profile() {
     const usmail = {
       email: email,
       username: username,
-      idOrganisasi: organisasi,
     };
 
     try {
@@ -91,18 +89,9 @@ function Profile() {
     }
   };
 
-  const getAllOrganisasi = async () => {
-    try {
-      const org = await axios.get(`http://localhost:2024/api/organisasi/all`);
-      setOrganisasiList(org.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     getProfile();
-    getAllOrganisasi();
   }, []);
 
   const handleFileChange = (event) => {
@@ -287,19 +276,11 @@ function Profile() {
                             id="organisasi"
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             value={organisasi}
-                            onChange={(e) => setOrganisasi(Number(e.target.value))}
-                            disabled={!ubahUsername}
-                            required
-                          >
-                            <option value="" disabled>
-                              Pilih Organisasi
-                            </option>
-                            {organisasiList.map((org) => (
-                              <option key={org.id} value={org.id}>
-                                {org.namaOrganisasi}
-                              </option>
-                            ))}
-                          </select>
+                            onChange={(e) =>
+                              setOrganisasi(Number(e.target.value))
+                            }
+                            disabled
+                          ></select>
                         </div>
                         {/* )} */}
                       </div>
