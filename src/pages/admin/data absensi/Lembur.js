@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarAdmin";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfo, faPrint, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faInfo, faPrint } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Pagination } from "flowbite-react";
@@ -50,17 +50,11 @@ function Lembur() {
   useEffect(() => {
     const filteredData = lembur.filter(
       (lembur) =>
-        (lembur.user?.username
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()) ??
+        (lembur.user?.username.toLowerCase().includes(searchTerm.toLowerCase()) ??
           false) ||
-        (lembur.keteranganLembur
-          ?.toLowerCase()
-          .includes(searchTerm.toLowerCase()) ??
+        (lembur.keteranganLembur?.toLowerCase().includes(searchTerm.toLowerCase()) ??
           false) ||
-        (formatDate(lembur.tanggalLembur)
-          ?.toLowerCase()
-          .includes(searchTerm.toLowerCase()) ??
+        (formatDate(lembur.tanggalLembur)?.toLowerCase().includes(searchTerm.toLowerCase()) ??
           false)
     );
     setTotalPages(Math.ceil(filteredData.length / limit));
@@ -83,13 +77,9 @@ function Lembur() {
     (lembur) =>
       (lembur.user?.username.toLowerCase().includes(searchTerm.toLowerCase()) ??
         false) ||
-      (lembur.keteranganLembur
-        ?.toLowerCase()
-        .includes(searchTerm.toLowerCase()) ??
+      (lembur.keteranganLembur?.toLowerCase().includes(searchTerm.toLowerCase()) ??
         false) ||
-      (formatDate(lembur.tanggalLembur)
-        ?.toLowerCase()
-        .includes(searchTerm.toLowerCase()) ??
+      (formatDate(lembur.tanggalLembur)?.toLowerCase().includes(searchTerm.toLowerCase()) ??
         false)
   );
 
@@ -136,6 +126,7 @@ function Lembur() {
       }
     });
   };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -145,10 +136,9 @@ function Lembur() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div className=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
+        <div className="sm:ml-64 content-page container p-8 ml-0 md:ml-64 mt-12">
           <div className="p-4">
             <div className="p-5">
-              {/* <!-- Card --> */}
               <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                 <div className="flex justify-between">
                   <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
@@ -181,13 +171,11 @@ function Lembur() {
                 <div className="mt-4">
                   <hr />
                 </div>
-                {/* <!-- Tabel --> */}
                 <div className="relative overflow-x-auto mt-5">
                   <table
                     id="dataKehadiran"
                     className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                   >
-                    {/* <!-- Tabel Head --> */}
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                       <tr>
                         <th scope="col" className="px-6 py-3">
@@ -202,14 +190,13 @@ function Lembur() {
                         <th scope="col" className="px-6 py-3">
                           Tanggal Lembur
                         </th>
-                        <th scope="col" className="px-6 py-3 text-center ">
+                        <th scope="col" className="px-6 py-3 text-center">
                           Aksi
                         </th>
                       </tr>
                     </thead>
-                    {/* <!-- Tabel Body --> */}
                     <tbody className="text-left">
-                      {paginatedLembur.map((lembur, index) => (
+                      {paginatedLembur.map((lemburData, index) => (
                         <tr
                           key={index}
                           className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -221,50 +208,17 @@ function Lembur() {
                             {(currentPage - 1) * limit + index + 1}
                           </th>
                           <td className="px-6 py-4 capitalize">
-                            {lembur.user.username}
+                            {lemburData.user.username}
                           </td>
-
-                             <td className="px-6 py-4">
-                              {lemburData.keteranganLembur}
-                            </td>
-                            <td className="px-6 py-4">
-                              {formatDate(lemburData.tanggalLembur)}
-                            </td>
-                            <td className="py-3">
-                              <div className="flex items-center -space-x-4 ml-12">
-                                <a
-                                  href={`/admin/detailLembur/${lemburData.id}`}
-                                >
-                                  <button className="z-30 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-red-50">
-                                    <span className="relative inline-block">
-                                      <FontAwesomeIcon
-                                        icon={faInfo}
-                                        className="h-4 w-4"
-                                      />
-                                    </span>
-                                  </button>
-                                </a>
-                                <button
-                                  type="button"
-                                  onClick={(e) => generatePdf(lemburData.id)}
-                                >
-                                  <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
-                                    <span className="relative inline-block">
-                                      <FontAwesomeIcon
-                                        icon={faPrint}
-                                        className="h-4 w-4"
-                                      />
-                                    </span>
-                                  </button>
-                           <td className="px-6 py-4 capitalize">
-                            {lembur.keteranganLembur}
+                          <td className="px-6 py-4">
+                            {lemburData.keteranganLembur}
                           </td>
-                          <td className="px-6 py-4 capitalize">
-                            {formatDate(lembur.tanggalLembur)}
+                          <td className="px-6 py-4">
+                            {formatDate(lemburData.tanggalLembur)}
                           </td>
                           <td className="py-3">
                             <div className="flex items-center -space-x-4 ml-12">
-                              <a href={`/admin/detailLembur/${lembur.id}`}>
+                              <a href={`/admin/detailLembur/${lemburData.id}`}>
                                 <button className="z-30 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-red-50">
                                   <span className="relative inline-block">
                                     <FontAwesomeIcon
@@ -276,16 +230,15 @@ function Lembur() {
                               </a>
                               <button
                                 type="button"
-                                onClick={(e) => generatePdf(lembur.id)}
+                                onClick={() => generatePdf(lemburData.id)}
+                                className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50"
                               >
-                                <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
-                                  <span className="relative inline-block">
-                                    <FontAwesomeIcon
-                                      icon={faPrint}
-                                      className="h-4 w-4"
-                                    />
-                                  </span>
-                                 </button>
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faPrint}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
                               </button>
                             </div>
                           </td>
