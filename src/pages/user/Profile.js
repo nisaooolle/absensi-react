@@ -31,6 +31,7 @@ function Profile() {
   const [edit, setEdit] = useState(false);
   const [organisasi, setOrganisasi] = useState("");
   const [adminId, setidAdmin] = useState("");
+  const [organisasiList, setOrganisasiList] = useState([]);
 
   const getProfile = async () => {
     try {
@@ -56,10 +57,17 @@ function Profile() {
   const HandleUbahUsernameEmail = async (e) => {
     e.preventDefault();
 
+    const usmail = {
+      email: email,
+      username: username,
+      idOrganisasi: organisasi,
+    };
+
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/user/edit-email-username/${id}?email=${email}&username=${username}`,
-        {}, // Tidak ada data yang perlu dikirim dalam tubuh permintaan
+        `http://localhost:2024/api/user/edit-email-username/${id}`,
+        usmail,
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -67,11 +75,10 @@ function Profile() {
         }
       );
 
-      setProfile(response.data);
       setUsername(response.data.username);
       setEmail(response.data.email);
-      setOrganisasi(response.data.organisasi.namaOrganisasi);
       Swal.fire("Berhasil", "Berhasil mengubah username dan email", "success");
+
       setTimeout(() => {
         Swal.fire("Info", "Silahkan login kembali", "info");
         setTimeout(() => {
@@ -84,8 +91,18 @@ function Profile() {
     }
   };
 
+  const getAllOrganisasi = async () => {
+    try {
+      const org = await axios.get(`http://localhost:2024/api/organisasi/all`);
+      setOrganisasiList(org.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getProfile();
+    getAllOrganisasi();
   }, []);
 
   const handleFileChange = (event) => {
@@ -141,7 +158,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/admin/ubah-foto/${id}`,
+        `http://localhost:2024/api/user/editFotoBY/${id}`,
         formData,
         {
           headers: {
@@ -262,30 +279,27 @@ function Profile() {
                           disabled={!ubahUsername}
                         />
                         {/* {profile.organisasi && ( */}
-                        <div className="relative">
-                          <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
+                        <div className="relative mt-2">
+                          <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                             Organisasi
                           </label>
-                          {/* <input
-                              type="selected"
-                              id="organisasi"
-                              name="nama_organisasi"
-                              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                              placeholder="Masukkan Organisasi"
-                              value={profile.organisasi.namaOrganisasi}
-                              disabled={!edit}
-                              required
-                            /> */}
-                          <input
-                            type="organisasi"
+                          <select
                             id="organisasi"
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            placeholder="Masukkan organisasi"
                             value={organisasi}
-                            onChange={(e) => setOrganisasi(e.target.value)}
+                            onChange={(e) => setOrganisasi(Number(e.target.value))}
                             disabled={!ubahUsername}
                             required
-                          />
+                          >
+                            <option value="" disabled>
+                              Pilih Organisasi
+                            </option>
+                            {organisasiList.map((org) => (
+                              <option key={org.id} value={org.id}>
+                                {org.namaOrganisasi}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                         {/* )} */}
                       </div>
