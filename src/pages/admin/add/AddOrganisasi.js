@@ -63,8 +63,15 @@ export default function AddOrganisasi() {
       );
 
       setLoading(false);
-      Swal.fire("Berhasil", "Berhasil menambahkan organisasi", "success");
-      window.location.href = "/admin/organisasi";
+      Swal.fire({
+        title: "Berhasil",
+        text: "Berhasil menambahkan data",
+        icon: "success",
+        showConfirmButton: false, // Ini akan menghilangkan tombol konfirmasi
+      });
+      setTimeout(() => {
+        window.location.href = "/admin/organisasi";
+      }, 2000);
     } catch (error) {
       setLoading(false);
       Swal.fire("Gagal", "Gagal Menambahkan organisasi", "error");
