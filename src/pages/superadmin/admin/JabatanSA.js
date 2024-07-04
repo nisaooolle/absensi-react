@@ -17,7 +17,6 @@ function JabatanSA() {
   const idSuperAdmin = localStorage.getItem("superadminId");
   const token = localStorage.getItem("token");
 
-  
   const getAllJabatan = async () => {
     try {
       const response = await axios.get(
@@ -87,7 +86,7 @@ function JabatanSA() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div className=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
+        <div className=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-5">
           <div className="p-5 mt-10">
             {/* <!-- Card --> */}
             <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -138,10 +137,14 @@ function JabatanSA() {
                         >
                           {index + 1}
                         </th>
-                        <td className="px-6 py-4">{jabatan.namaJabatan}</td>
-                        <td className=" py-3">
-                          <div className="flex items-center -space-x-4 ml-12">
-                            <a href={`/superadmin/detailJ/${jabatan.idJabatan}`}>
+                        <td className="px-6 py-4 capitalize">
+                          {jabatan.namaJabatan}
+                        </td>
+                        <td className="py-3">
+                          <div className="flex items-center -space-x-4">
+                            <a
+                              href={`/superadmin/detailJ/${jabatan.idJabatan}`}
+                            >
                               <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
                                 <span className="relative inline-block">
                                   <FontAwesomeIcon

@@ -41,16 +41,19 @@ function OrganisasiSA() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Delete",
-      cancelButtonText: "Cancel",
+      confirmButtonText: "Hapus",
+      cancelButtonText: "Batal",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:2024/api/organisasi/delete/` + id, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          });
+          await axios.delete(
+            `http://localhost:2024/api/organisasi/delete/` + id,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
 
           Swal.fire({
             icon: "success",
@@ -71,19 +74,21 @@ function OrganisasiSA() {
       }
     });
   };
+
   useEffect(() => {
     getAllKaryawan();
   }, []);
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
         <Navbar />
       </div>
-      <div className="flex h-full">
-        <div className="fixed">
+      <div className="flex h-full pt-5">
+        <div className="fixed h-full">
           <Sidebar />
         </div>
-        <div className=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-12">
+        <div className="sm:ml-64 content-page container p-8 ml-0 md:ml-64 mt-4 overflow-auto">
           <div className="p-5 mt-10">
             {/* <!-- Card --> */}
             <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -94,7 +99,7 @@ function OrganisasiSA() {
                 <a
                   type="button"
                   href="/superadmin/addO"
-                  className="text-white bg-indigo-500  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                  className="text-white bg-indigo-500 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                 >
                   <FontAwesomeIcon icon={faPlus} size="lg" />
                 </a>
@@ -128,7 +133,7 @@ function OrganisasiSA() {
                       <th scope="col" className="px-6 py-3">
                         Email
                       </th>
-                      <th scope="col" className="px-6 py-3 text-center">
+                      <th scope="col" className="px-6 py-3 ">
                         Aksi
                       </th>
                     </tr>
@@ -142,17 +147,27 @@ function OrganisasiSA() {
                       >
                         <th
                           scope="row"
-                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          className="px-6 py-4 font-medium text-gray-900 dark:text-white"
                         >
                           {index + 1}
                         </th>
-                        <td className="px-6 py-4">{admin.admin.username}</td>
-                        <td className="px-6 py-4">{admin.namaOrganisasi}</td>
-                        <td className="px-6 py-4">{admin.alamat}</td>
-                        <td className="px-6 py-4">{admin.nomerTelepon}</td>
-                        <td className="px-6 py-4">{admin.emailOrganisasi}</td>
-                        <td className=" py-3">
-                          <div className="flex items-center -space-x-4 ml-12">
+                        <td className="px-6 py-4 whitespace-nowrap capitalize">
+                          {admin.admin.username}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap capitalize">
+                          {admin.namaOrganisasi}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap capitalize">
+                          {admin.alamat}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {admin.nomerTelepon}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {admin.emailOrganisasi}
+                        </td>
+                        <td className="py-3">
+                          <div className="flex items-center -space-x-4">
                             <a href={`/superadmin/detailO/${admin.id}`}>
                               <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
                                 <span className="relative inline-block">

@@ -210,9 +210,13 @@ function User() {
                         >
                           {(currentPage - 1) * limit + index + 1}
                         </th>
-                        <td className="px-6 py-4">{user.username}</td>
+                        <td className="px-6 py-4 capitalize">
+                          {user.username}
+                        </td>
                         <td className="px-6 py-4">{user.email}</td>
-                        <td className="px-6 py-4">{user.admin?.username}</td>
+                        <td className="px-6 py-4 capitalize">
+                          {user.admin?.username}
+                        </td>
                         <td className="py-3">
                           <div className="flex items-center -space-x-4 ml-14">
                             <a href={`/superadmin/detailU/${user.id}`}>

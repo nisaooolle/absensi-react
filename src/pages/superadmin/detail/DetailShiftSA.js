@@ -49,7 +49,7 @@ function DetailShiftSA() {
                     Detail Shift
                   </h6>
                 </div>
-                <div className="mt-7 text-left">
+                <div className="mt-3 text-left">
                   <hr />
                 </div>
                 <div className="mt-7 text-left">
@@ -59,7 +59,7 @@ function DetailShiftSA() {
                         type="text"
                         name="admin"
                         id="admin"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={shift.admin?.username || ""}
@@ -78,7 +78,7 @@ function DetailShiftSA() {
                         type="text"
                         name="nama_shift"
                         id="namaShift"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={shift.namaShift}
@@ -108,7 +108,7 @@ function DetailShiftSA() {
                         htmlFor="jamMasuk"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                       >
-                        Tanggal
+                        Jam Masuk
                       </label>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
