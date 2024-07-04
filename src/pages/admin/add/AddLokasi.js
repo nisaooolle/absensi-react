@@ -40,8 +40,15 @@ function AddLokasi() {
         `http://localhost:2024/api/lokasi/tambah/${idAdmin}?idOrganisasi=${selectedOrganisasi}`,
         add
       );
-      Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
-      window.location.href = "/admin/lokasi";
+      Swal.fire({
+        title: "Berhasil",
+        text: "Berhasil menambahkan data",
+        icon: "success",
+        showConfirmButton: false, // Ini akan menghilangkan tombol konfirmasi
+      });
+      setTimeout(() => {
+        window.location.href = "/admin/lokasi";
+      }, 2000);
     } catch (error) {
       console.log(error);
       Swal.fire("Error", error.message || "Gagal menambahkan data", "error");

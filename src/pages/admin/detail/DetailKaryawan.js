@@ -43,7 +43,7 @@ function DetailKaryawan() {
                     Detail Karyawan
                   </h6>
                 </div>
-                <div className="mt-7 text-left">
+                <div className="mt-2 text-left">
                   <hr />
                 </div>
                 <div className="mt-7 text-left">
@@ -65,7 +65,7 @@ function DetailKaryawan() {
                         htmlFor="email"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                       >
-                        email
+                        Email
                       </label>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
@@ -73,7 +73,7 @@ function DetailKaryawan() {
                         type="text"
                         name="username"
                         id="username"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={user.username || ""}
@@ -85,7 +85,7 @@ function DetailKaryawan() {
                         htmlFor="username"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                       >
-                        username
+                        Username
                       </label>
                     </div>
 
@@ -94,7 +94,7 @@ function DetailKaryawan() {
                         type="text"
                         name="id_jabatan"
                         id="id_jabatan"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={user.jabatan?.namaJabatan || ""}
@@ -114,7 +114,7 @@ function DetailKaryawan() {
                         type="text"
                         name="id_shift"
                         id="id_shift"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={user.shift?.namaShift || ""}
@@ -131,8 +131,7 @@ function DetailKaryawan() {
                     </div>
                   </div>
 
-                  <div className=" text-left mt-4">
-                    {/* <!-- email & username Input --> */}
+                  <div className="text-left mt-4">
                     <div className="relative z-0 w-full mb-6 group">
                       <img
                         className="max-w-xs max-h-64 mb-6 ml-12"

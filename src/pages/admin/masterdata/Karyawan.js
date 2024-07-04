@@ -22,7 +22,7 @@ function Karyawan() {
 
   const getAllKaryawan = async () => {
     const token = localStorage.getItem("token");
-    
+
     try {
       const response = await axios.get(
         `http://localhost:2024/api/user/byAdmin/${idAdmin}`,
@@ -46,16 +46,19 @@ function Karyawan() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Delete",
-      cancelButtonText: "Cancel",
+      confirmButtonText: "Hapus",
+      cancelButtonText: "Batal",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:2024/api/user/delete/` + id, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          });
+          await axios.delete(
+            `http://localhost:2024/api/user/delete-user/` + id,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
 
           Swal.fire({
             icon: "success",
