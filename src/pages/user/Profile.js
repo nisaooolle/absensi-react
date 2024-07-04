@@ -47,7 +47,7 @@ function Profile() {
       setFotoUser(response.data.fotoUser);
       setEmail(response.data.email);
       setUsername(response.data.username);
-      setOrganisasi(response.data.organisasi.id);
+      setOrganisasi(response.data.organisasi.namaOrganisasi);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -88,7 +88,6 @@ function Profile() {
       Swal.fire("Gagal", "Gagal mengubah username dan email", "error");
     }
   };
-
 
   useEffect(() => {
     getProfile();
@@ -272,15 +271,13 @@ function Profile() {
                           <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900">
                             Organisasi
                           </label>
-                          <select
+                          <input
+                            type="organisasi"
                             id="organisasi"
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder="Masukkan Email"
                             value={organisasi}
-                            onChange={(e) =>
-                              setOrganisasi(Number(e.target.value))
-                            }
-                            disabled
-                          ></select>
+                            disabled />
                         </div>
                         {/* )} */}
                       </div>
