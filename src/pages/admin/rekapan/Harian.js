@@ -25,7 +25,12 @@ function Harian() {
           params: { tanggalAbsen: tanggal },
         }
       );
-      setAbsensiData(response.data);
+
+      if (response.data.length === 0) {
+        Swal.fire("Tidak ada", "Tidak ada yang absen hari ini", "info");
+      } else {
+        setAbsensiData(response.data);
+      }
     } catch (error) {
       console.error(error);
       Swal.fire("Gagal", "Gagal Mengambil data", "error");
@@ -230,7 +235,7 @@ function Harian() {
                                 alt="foto pulang"
                                 className="w-16 h-8 rounded-sm"
                               />
-                            </td>{" "}
+                            </td>
                             <td className="px-5 py-3">
                               {formatLamaKerja(absensi.user.startKerja)}
                             </td>
