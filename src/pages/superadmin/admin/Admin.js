@@ -42,8 +42,8 @@ function Admin() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Delete",
-      cancelButtonText: "Cancel",
+      confirmButtonText: "Hapus",
+      cancelButtonText: "Batal",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
@@ -120,7 +120,7 @@ function Admin() {
                       <th scope="col" className="px-6 py-3">
                         Username
                       </th>
-                      <th scope="col" className="px-6 py-3 text-center">
+                      <th scope="col" className="px-6 py-3">
                         Aksi
                       </th>
                     </tr>
@@ -145,11 +145,13 @@ function Admin() {
                             data-cfemail="5a363b23363b1a3d373b333674393537"
                           >
                             {admin.email}
-                          </a>{" "}
+                          </a>
                         </td>
-                        <td className="px-6 py-4">{admin.username}</td>
-                        <td className=" py-3">
-                          <div className="flex items-center -space-x-4 ml-12">
+                        <td className="px-6 py-4 capitalize">
+                          {admin.username}
+                        </td>
+                        <td className="py-3">
+                          <div className="flex items-center -space-x-4">
                             <a href={`/superadmin/detailA/${admin.id}`}>
                               <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
                                 <span className="relative inline-block">

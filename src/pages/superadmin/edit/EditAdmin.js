@@ -49,8 +49,16 @@ function EditAdmin() {
       );
       setEmail(res.data.email);
       setUsername(res.data.username);
-      Swal.fire("Berhasil", "Berhasil mengubah data", "success");
-      history.push("/superadmin/admin");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Edit Berhasil",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setTimeout(() => {
+        window.location.href = "/superadmin/admin";
+      }, 1500);
     } catch (error) {
       console.log(error);
     }
@@ -81,10 +89,7 @@ function EditAdmin() {
 
             <div className="mt-5 text-left">
               {/* <!-- Form Input --> */}
-              <form
-                onSubmit={updateAdmin}
-                encType="multipart/form-data"
-              >
+              <form onSubmit={updateAdmin} encType="multipart/form-data">
                 {/* <!-- Email Input --> */}
                 <div className="relative z-0 w-full mb-6 group">
                   <input
@@ -116,7 +121,7 @@ function EditAdmin() {
                     value={username}
                     // value={author}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                     placeholder=" "
                     autoComplete="off"
                     required

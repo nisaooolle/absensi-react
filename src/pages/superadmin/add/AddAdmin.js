@@ -27,8 +27,15 @@ function AddAdmin() {
         `http://localhost:2024/api/admin/register-by-superadmin/${idSuperAdmin}`,
         newUser
       );
-      Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
-      window.location.href = "/superadmin/admin";
+      Swal.fire({
+        title: "Berhasil",
+        text: "Berhasil menambahkan data",
+        icon: "success",
+        showConfirmButton: false, // Ini akan menghilangkan tombol konfirmasi
+      });
+      setTimeout(() => {
+        window.location.href = "/superadmin/admin";
+      }, 2000);
     } catch (error) {
       console.log(error);
       Swal.fire("Error", "Gagal menambahkan data", "error");
