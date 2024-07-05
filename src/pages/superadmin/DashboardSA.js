@@ -70,7 +70,10 @@ function DashboardSA() {
   const getLokasi = () =>
     fetchData("http://localhost:2024/api/lokasi/getall", setLokasiData);
   const getOrganisasi = () =>
-    fetchData(`http://localhost:2024/api/organisasi/superadmin/${id}`, setOrganisasiData);
+    fetchData(
+      `http://localhost:2024/api/organisasi/superadmin/${id}`,
+      setOrganisasiData
+    );
 
   const getUsername = async () => {
     try {
@@ -271,7 +274,7 @@ function DashboardSA() {
                           {admin.email}
                         </a>
                       </td>
-                      <td className="px-6 py-4">{admin.username}</td>
+                      <td className="px-6 py-4 capitalize">{admin.username}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -328,9 +331,13 @@ function DashboardSA() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4">{admin.admin.username}</td>
-                      <td className="px-6 py-4">{admin.namaOrganisasi}</td>
-                      <td className="px-6 py-4">{admin.alamat}</td>
+                      <td className="px-6 py-4 capitalize">
+                        {admin.admin.username}
+                      </td>
+                      <td className="px-6 py-4 capitalize">
+                        {admin.namaOrganisasi}
+                      </td>
+                      <td className="px-6 py-4 capitalize">{admin.alamat}</td>
                       <td className="px-6 py-4">{admin.nomerTelepon}</td>
                       <td className="px-6 py-4">{admin.emailOrganisasi}</td>
                     </tr>

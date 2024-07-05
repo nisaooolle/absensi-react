@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function EditShift() {
   const [namaShift, setNamaShift] = useState("");
@@ -16,7 +17,9 @@ function EditShift() {
 
   const getShift = async () => {
     try {
-      const res = await axios.get(`http://localhost:2024/api/shift/getbyId/${id}`);
+      const res = await axios.get(
+        `http://localhost:2024/api/shift/getbyId/${id}`
+      );
       setNamaShift(res.data.namaShift);
       setWaktuMasuk(res.data.waktuMasuk);
       setWaktuPulang(res.data.waktuPulang);
@@ -27,21 +30,34 @@ function EditShift() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const shift = {
-        namaShift: namaShift,
-        waktuMasuk: waktuMasuk,
-        waktuPulang: waktuPulang
+      namaShift: namaShift,
+      waktuMasuk: waktuMasuk,
+      waktuPulang: waktuPulang,
     };
     try {
-        await axios.put(`http://localhost:2024/api/shift/editbyId/${id}?idAdmin=${idAdmin}`, shift, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        history.push("/admin/shift");
+      await axios.put(
+        `http://localhost:2024/api/shift/editbyId/${id}?idAdmin=${idAdmin}`,
+        shift,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      Swal.fire({
+        title: "Berhasil",
+        text: "Berhasil mengubah data shift",
+        icon: "success",
+        showConfirmButton: false,
+      });
+
+      setTimeout(() => {
+        window.location.href = "/admin/shift";
+      }, 2000);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-};
+  };
 
   useEffect(() => {
     getShift();

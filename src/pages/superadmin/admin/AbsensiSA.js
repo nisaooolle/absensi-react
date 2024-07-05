@@ -188,8 +188,12 @@ function Absensi() {
                       >
                         {(currentPage - 1) * limit + index + 1}
                       </th>
-                      <td className="px-6 py-4">{absenData.user.admin.username}</td>
-                      <td className="px-6 py-4">{absenData.user.username}</td>
+                      <td className="px-6 py-4 capitalize">
+                        {absenData.user.admin.username}
+                      </td>
+                      <td className="px-6 py-4 capitalize">
+                        {absenData.user.username}
+                      </td>
                       <td className="px-6 py-4">
                         {formatDate(absenData.tanggalAbsen)}
                       </td>

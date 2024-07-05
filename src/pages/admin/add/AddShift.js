@@ -24,8 +24,15 @@ function AddShift() {
         `http://localhost:2024/api/shift/tambahShift/${idAdmin}`,
         shift
       );
-      Swal.fire("Berhasil", "Berhasil menambahkan organisasi", "success");
-      window.location.href = "/admin/shift";
+      Swal.fire({
+        title: "Berhasil",
+        text: "Berhasil menambahkan data",
+        icon: "success",
+        showConfirmButton: false, // Ini akan menghilangkan tombol konfirmasi
+      });
+      setTimeout(() => {
+        window.location.href = "/admin/shift";
+      }, 2000);
     } catch (error) {
       console.error("There was an error uploading the organization!", error);
     }

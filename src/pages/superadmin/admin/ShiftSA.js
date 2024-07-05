@@ -126,7 +126,7 @@ function ShiftSA() {
                       <th scope="col" className="px-6 py-3">
                         Waktu pulang
                       </th>
-                      <th scope="col" className="px-6 py-3 text-center">
+                      <th scope="col" className="px-6 py-3">
                         Aksi
                       </th>
                     </tr>
@@ -144,12 +144,16 @@ function ShiftSA() {
                         >
                           {index + 1}
                         </th>
-                        <td className="px-6 py-4">{shift.admin.username} </td>
-                        <td className="px-6 py-4">{shift.namaShift}</td>
+                        <td className="px-6 py-4 capitalize">
+                          {shift.admin.username}
+                        </td>
+                        <td className="px-6 py-4 capitalize">
+                          {shift.namaShift}
+                        </td>
                         <td className="px-6 py-4">{shift.waktuMasuk}</td>
                         <td className="px-6 py-4">{shift.waktuPulang}</td>
                         <td className="py-3">
-                          <div className="flex items-center -space-x-4 ml-12">
+                          <div className="flex items-center -space-x-4">
                             <a href={`/superadmin/detailS/${shift.id}`}>
                               <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
                                 <span className="relative inline-block">

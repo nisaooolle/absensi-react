@@ -34,7 +34,7 @@ function DetailOrganisasiSA() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div className="sm:ml-64 content-page container p-8 ml-14 md:ml-64 mt-12">
+        <div className="sm:ml-64 content-page container p-8 ml-14 md:ml-64 mt-3">
           <div className="p-4">
             <div className="p-5 mt-10">
               {/* <!-- Card --> */}
@@ -53,7 +53,7 @@ function DetailOrganisasiSA() {
                     <div className="mt-5 text-center">
                       {/* <!-- Mengubah kelas "text-left" menjadi "text-center" --> */}
                       <img
-                        className="rounded-full w-86 h-96 mx-auto"
+                        className="rounded-full w-32 h-32 mx-auto"
                         src={
                           organisasi && organisasi.fotoOrganisasi
                             ? organisasi.fotoOrganisasi
@@ -71,7 +71,7 @@ function DetailOrganisasiSA() {
                           name="nama"
                           id="nama"
                           value={organisasi ? organisasi.namaOrganisasi : ""}
-                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                           placeholder=" "
                           autoComplete="off"
                           required
@@ -130,7 +130,7 @@ function DetailOrganisasiSA() {
                             name="alamat"
                             id="alamat"
                             value={organisasi ? organisasi.alamat : ""}
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                             placeholder=" "
                             autoComplete="off"
                             required
@@ -152,7 +152,7 @@ function DetailOrganisasiSA() {
                             name="kecamatan"
                             id="kecamatan"
                             value={organisasi ? organisasi.kecamatan : ""}
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                             placeholder=" "
                             autoComplete="off"
                             required
@@ -171,7 +171,7 @@ function DetailOrganisasiSA() {
                             name="kabupaten"
                             id="kabupaten"
                             value={organisasi ? organisasi.kabupaten : ""}
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                             placeholder=" "
                             autoComplete="off"
                             required
@@ -192,7 +192,7 @@ function DetailOrganisasiSA() {
                           name="provinsi"
                           id="provinsi"
                           value={organisasi ? organisasi.provinsi : ""}
-                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                           placeholder=" "
                           autoComplete="off"
                           required
