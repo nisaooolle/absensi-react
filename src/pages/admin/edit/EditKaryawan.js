@@ -58,6 +58,23 @@ function EditKaryawan() {
     getShiftOptions();
   }, [id, adminId]);
 
+  useEffect(() => {
+    if (jabatanOptions.length > 0 && idJabatan) {
+      const jabatanExist = jabatanOptions.some(
+        (option) => option.idJabatan === idJabatan
+      );
+      if (!jabatanExist) {
+        setIdJabatan(jabatanOptions[0].idJabatan);
+      }
+    }
+    if (shiftOptions.length > 0 && idShift) {
+      const shiftExist = shiftOptions.some((option) => option.id === idShift);
+      if (!shiftExist) {
+        setIdShift(shiftOptions[0].id);
+      }
+    }
+  }, [jabatanOptions, shiftOptions, idJabatan, idShift]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -69,23 +86,13 @@ function EditKaryawan() {
       );
       Swal.fire("Berhasil", "Berhasil mengubah data karyawan", "success");
       setTimeout(() => {
-        setTimeout(() => {
-          history.push("/admin/karyawan");
-          window.location.reload();  
-        }, 2000);      }, 2000);
+        history.push("/admin/karyawan");
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    if (jabatanOptions.length > 0) {
-      setIdJabatan(jabatanOptions[0].idJabatan);
-    }
-    if (shiftOptions.length > 0) {
-      setIdShift(shiftOptions[0].id);
-    }
-  }, [jabatanOptions, shiftOptions]);
 
   return (
     <div className="flex flex-col h-screen">

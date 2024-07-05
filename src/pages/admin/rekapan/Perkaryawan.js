@@ -14,7 +14,6 @@ function Perkaryawan() {
   const [listUser, setListUser] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const idAdmin = localStorage.getItem("adminId");
-  const userId = selectedUser;
 
   const getAllUserByAdmin = async () => {
     try {
@@ -22,22 +21,19 @@ function Perkaryawan() {
         `http://localhost:2024/api/user/${idAdmin}/users`
       );
       setListUser(usList.data);
-      console.log(usList);
     } catch (error) {
       console.log(error);
     }
   };
 
   const getAbsensiByUserId = async (userId) => {
-    if (userId === undefined) {
-      Swal.fire("Gagal", "User belum pernah absensi", "error");
-    }
     try {
       const abs = await axios.get(
         `http://localhost:2024/api/absensi/getByUserId/${userId}`
       );
       if (abs.data.length === 0) {
         Swal.fire("Gagal", "User belum pernah absensi", "error");
+        setListAbsensi([]);
       } else {
         setListAbsensi(abs.data);
       }
@@ -50,7 +46,11 @@ function Perkaryawan() {
   const handleUserChange = (event) => {
     const userId = event.target.value;
     setSelectedUser(userId);
-    getAbsensiByUserId(userId);
+    if (userId) {
+      getAbsensiByUserId(userId);
+    } else {
+      setListAbsensi([]);
+    }
   };
 
   useEffect(() => {
@@ -109,7 +109,7 @@ function Perkaryawan() {
   const exportPerkaryawan = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/absensi/export/absensi-rekapan-perkaryawan?userId=${userId}`,
+        `http://localhost:2024/api/absensi/export/absensi-rekapan-perkaryawan?userId=${selectedUser}`,
         {
           responseType: "blob",
         }
@@ -130,6 +130,7 @@ function Perkaryawan() {
       console.log(error);
     }
   };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -181,7 +182,7 @@ function Perkaryawan() {
                       </button>
                       <button
                         className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
-                        onClick={() => exportPerkaryawan(selectedUser)}
+                        onClick={() => exportPerkaryawan()}
                       >
                         <FontAwesomeIcon icon={faFileExport} />
                       </button>

@@ -27,8 +27,11 @@ function Mingguan() {
             },
           }
         );
-        setAbsensi(response.data);
-        setError(null);
+        if (response.data.length === 0) {
+          Swal.fire("Tidak ada", "Tidak ada yang absen Minggu ini", "info");
+        } else {
+          setAbsensi(response.data);
+        }        setError(null);
       } catch (error) {
         console.error("Error fetching data:", error);
         setError("Error fetching data. Please try again later.");
