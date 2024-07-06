@@ -5,6 +5,7 @@ import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function AddAdmin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,7 +25,7 @@ function AddAdmin() {
         password: password,
       };
       const response = await axios.post(
-        `http://localhost:2024/api/admin/register-by-superadmin/${idSuperAdmin}`,
+        `${API_DUMMY}/api/admin/register-by-superadmin/${idSuperAdmin}`,
         newUser
       );
       Swal.fire({

@@ -4,6 +4,7 @@ import Sidebar from "../../components/SidebarUser";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Toast } from "flowbite-react";
+import { API_DUMMY } from "../../utils/api";
 
 function IzinAbsen() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -50,7 +51,7 @@ function IzinAbsen() {
     };
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/absensi/izin-tengah-hari/${userId}`,
+        `${API_DUMMY}/api/absensi/izin-tengah-hari/${userId}`,
         izin
       );
       Swal.fire("Berhasil", "Berhasil Izin ", "success");

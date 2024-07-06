@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import Loader from "../../../components/Loader";
+import { API_DUMMY } from "../../../utils/api";
 
 export default function AddOrganisasi() {
   const [loading, setLoading] = useState(false);
@@ -39,7 +40,7 @@ export default function AddOrganisasi() {
     try {
       // Send the organisasi object first
       const organisasiResponse = await axios.post(
-        `http://localhost:2024/api/organisasi/tambahByIdAdmin/${idAdmin}/data`,
+        `${API_DUMMY}/api/organisasi/tambahByIdAdmin/${idAdmin}/data`,
         organisasi,
         {
           headers: {
@@ -53,7 +54,7 @@ export default function AddOrganisasi() {
       formData.append("organisasiId", organisasiId);
 
       await axios.post(
-        `http://localhost:2024/api/organisasi/tammbahImageByOrg/${idAdmin}/image`,
+        `${API_DUMMY}/api/organisasi/tammbahImageByOrg/${idAdmin}/image`,
         formData,
         {
           headers: {

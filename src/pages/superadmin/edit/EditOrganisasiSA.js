@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function EditOrganisasiSA() {
   const [email, setEmail] = useState("");
@@ -22,7 +23,7 @@ function EditOrganisasiSA() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:2024/api/organisasi/getById/` + param.id, {
+      .get(`${API_DUMMY}/api/organisasi/getById/` + param.id, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -68,7 +69,7 @@ function EditOrganisasiSA() {
 
     await axios
       .put(
-        `http://localhost:2024/api/organisasi/editById/${param.id}?idAdmin=${idAdmin}`,
+        `${API_DUMMY}/api/organisasi/editById/${param.id}?idAdmin=${idAdmin}`,
         formData,
         {
           headers: {

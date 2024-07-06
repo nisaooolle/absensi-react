@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 function JabatanSA() {
   const [userData, setUserData] = useState([]);
   const idSuperAdmin = localStorage.getItem("superadminId");
@@ -20,7 +21,7 @@ function JabatanSA() {
   const getAllJabatan = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/jabatan/getBySuper/${idSuperAdmin} `,
+        `${API_DUMMY}/api/jabatan/getBySuper/${idSuperAdmin} `,
         {
           headers: {
             Authorization: `${token}`,
@@ -47,7 +48,7 @@ function JabatanSA() {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `http://localhost:2024/api/jabatan/delete/` + idJabatan,
+            `${API_DUMMY}/api/jabatan/delete/` + idJabatan,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,

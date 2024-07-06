@@ -5,6 +5,7 @@ import Navbar from "../../../components/NavbarAdmin";
 import Sidebar from "../../../components/SidebarUser";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
+import { API_DUMMY } from "../../../utils/api";
 
 function DetailLokasi() {
   const [lokasi, setLokasi] = useState(null);
@@ -13,7 +14,7 @@ function DetailLokasi() {
   const getLokasiId = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/lokasi/GetById/${id}`
+        `${API_DUMMY}/api/lokasi/GetById/${id}`
       );
       setLokasi(res.data);
     } catch (error) {

@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Pagination } from "flowbite-react";
+import { API_DUMMY } from "../../../utils/api";
 
 function Jabatan() {
   const [userData, setUserData] = useState([]);
@@ -24,7 +25,7 @@ function Jabatan() {
   const getAllJabatan = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/jabatan/getByAdmin/${idAdmin}`,
+        `${API_DUMMY}/api/jabatan/getByAdmin/${idAdmin}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -41,7 +42,7 @@ function Jabatan() {
   const getAllUser = async (idJabatan) => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/user/byJabatan/${idJabatan}`,
+        `${API_DUMMY}/api/user/byJabatan/${idJabatan}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -70,7 +71,7 @@ function Jabatan() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:2024/api/jabatan/delete/` + id, {
+          await axios.delete(`${API_DUMMY}/api/jabatan/delete/` + id, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function LokasiSA() {
   const [lokasiList, setLokasiList] = useState([]);
@@ -19,7 +20,7 @@ function LokasiSA() {
   const getLokasiBySuperAdmin = async () => {
     try {
       const lok = await axios.get(
-        `http://localhost:2024/api/lokasi/superadmin/${idSuperAdmin}`
+        `${API_DUMMY}/api/lokasi/superadmin/${idSuperAdmin}`
       );
       setLokasiList(lok.data);
 
@@ -27,7 +28,7 @@ function LokasiSA() {
       const jumlahKaryawanData = {};
       for (const lokasi of lok.data) {
         const kar = await axios.get(
-          `http://localhost:2024/api/user/${lokasi.admin.id}/users`
+          `${API_DUMMY}/api/user/${lokasi.admin.id}/users`
         );
         jumlahKaryawanData[lokasi.admin.id] = kar.data.length;
       }
@@ -56,7 +57,7 @@ function LokasiSA() {
 
       if (result.isConfirmed) {
         await axios.delete(
-          `http://localhost:2024/api/lokasi/delete/${idLokasi}`
+          `${API_DUMMY}/api/lokasi/delete/${idLokasi}`
         );
         Swal.fire("Dihapus!", "Data lokasi telah dihapus.", "success");
         window.location.reload();

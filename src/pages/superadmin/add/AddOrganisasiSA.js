@@ -5,6 +5,7 @@ import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 function AddOrganisasiSA() {
   const [showPassword, setShowPassword] = useState(false);
   const [emailOrganisasi, setEmailOrganisasi] = useState("");
@@ -23,7 +24,7 @@ function AddOrganisasiSA() {
   const GetALLAdmin = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/admin/get-all-by-super/${idSuperAdmin}`
+        `${API_DUMMY}/api/admin/get-all-by-super/${idSuperAdmin}`
       );
       setAdminList(response.data);
     } catch (error) {
@@ -35,7 +36,7 @@ function AddOrganisasiSA() {
   const GetALLOrganisasi = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/admin/get-all-by-super/${idSuperAdmin}`
+        `${API_DUMMY}/api/admin/get-all-by-super/${idSuperAdmin}`
       );
 
       setOrganisasiList(response.data);
@@ -55,13 +56,13 @@ function AddOrganisasiSA() {
         nomerTelepon: nomerTelepon,
         emailOrganisasi: emailOrganisasi,
        };
-  
-      
-  
+
+
+
       const response = await axios.post(
-        `http://localhost:2024/api/organisasi/tambahByIdSuperAdmin/${idSuperAdmin}?idAdmin=${idAdmin}`,
+        `${API_DUMMY}/api/organisasi/tambahByIdSuperAdmin/${idSuperAdmin}?idAdmin=${idAdmin}`,
         organisasi,
-       
+
       );
       Swal.fire("Berhasil", "Berhasil menambahkan data", "success");
       window.location.href = "/superadmin/organisasi";

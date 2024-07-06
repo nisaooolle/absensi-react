@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 import Logo from "../components/absensii.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import ikon dari react-icons
+import { API_DUMMY } from "../utils/api";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -31,7 +32,7 @@ function Register() {
     }
     try {
       const response = await axios.post(
-        `http://localhost:2024/api/admin/register`,
+        `${API_DUMMY}/api/admin/register`,
         {
           username,
           email,

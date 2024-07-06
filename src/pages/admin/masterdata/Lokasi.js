@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Pagination } from "flowbite-react";
+import { API_DUMMY } from "../../../utils/api";
 
 function Lokasi() {
   const [userData, setUserData] = useState([]);
@@ -24,7 +25,7 @@ function Lokasi() {
   const getallUser = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/user/${idAdmin}/users`
+        `${API_DUMMY}/api/user/${idAdmin}/users`
       );
       setKaryawan(res.data.length);
     } catch (error) {}
@@ -34,7 +35,7 @@ function Lokasi() {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/lokasi/get-admin/${idAdmin}`
+        `${API_DUMMY}/api/lokasi/get-admin/${idAdmin}`
       );
 
       setUserData(response.data);
@@ -54,7 +55,7 @@ function Lokasi() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:2024/api/lokasi/Delete/` + id, {
+          await axios.delete(`${API_DUMMY}/api/lokasi/Delete/` + id, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },

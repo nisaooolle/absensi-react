@@ -5,6 +5,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
+import { API_DUMMY } from "../../../utils/api";
 
 function DetailShiftSA() {
   const [shift, setShift] = useState(null);
@@ -13,7 +14,7 @@ function DetailShiftSA() {
   const getShiftId = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/shift/getbyId/${id}`
+        `${API_DUMMY}/api/shift/getbyId/${id}`
       );
       setShift(response.data);
     } catch (error) {

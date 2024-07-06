@@ -6,6 +6,7 @@ import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { API_DUMMY } from "../../../utils/api";
 
 function AddUser() {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,7 +27,7 @@ function AddUser() {
   const getAllAdmin = async () => {
     try {
       const adm = await axios.get(
-        `http://localhost:2024/api/admin/get-all-by-super/${idSuperAdmin}`
+        `${API_DUMMY}/api/admin/get-all-by-super/${idSuperAdmin}`
       );
       setAdminList(adm.data);
     } catch (Error) {
@@ -47,7 +48,7 @@ function AddUser() {
   const GetAllOrganisasi = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/organisasi/superadmin/${idSuperAdmin}`
+        `${API_DUMMY}/api/organisasi/superadmin/${idSuperAdmin}`
       );
       setOrganisasiList(response.data);
     } catch (error) {
@@ -57,7 +58,7 @@ function AddUser() {
 
   const GetAllJabatan = async () => {
     try {
-      const response = await axios.get(`http://localhost:2024/api/jabatan/all`);
+      const response = await axios.get(`${API_DUMMY}/api/jabatan/all`);
       setJabatanList(response.data);
     } catch (error) {
       console.log(error);
@@ -67,7 +68,7 @@ function AddUser() {
   const GetAllShift = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/shift/getall`
+        `${API_DUMMY}/api/shift/getall`
       );
       setShiftList(response.data);
     } catch (error) {
@@ -86,7 +87,7 @@ function AddUser() {
         idAdmin: idAdmin,
       };
       const response = await axios.post(
-        `http://localhost:2024/api/user/tambahkaryawan/${idAdmin}?idOrganisasi=${idOrganisasi}&idJabatan=${idJabatan}&idShift=${idShift}`,
+        `${API_DUMMY}/api/user/tambahkaryawan/${idAdmin}?idOrganisasi=${idOrganisasi}&idJabatan=${idJabatan}&idShift=${idShift}`,
         newUser
       );
       Swal.fire({

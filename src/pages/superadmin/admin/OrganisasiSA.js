@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function OrganisasiSA() {
   const [userData, setUserData] = useState([]);
@@ -20,7 +21,7 @@ function OrganisasiSA() {
   const getAllKaryawan = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/organisasi/superadmin/${idSuperAdmin}`,
+        `${API_DUMMY}/api/organisasi/superadmin/${idSuperAdmin}`,
         {
           headers: {
             Authorization: `${token}`,
@@ -47,7 +48,7 @@ function OrganisasiSA() {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `http://localhost:2024/api/organisasi/delete/` + id,
+            `${API_DUMMY}/api/organisasi/delete/` + id,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,

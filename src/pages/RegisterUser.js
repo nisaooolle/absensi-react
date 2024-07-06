@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 import Logo from "../components/absensii.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { API_DUMMY } from "../utils/api";
 
 function RegisterUser() {
   const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ function RegisterUser() {
   const GetALLOrganisasi = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:2024/api/organisasi/all"
+        `${API_DUMMY}/api/organisasi/all`
       );
       setOrganisasiList(response.data);
     } catch (error) {
@@ -45,7 +46,7 @@ function RegisterUser() {
 
     try {
       const response = await axios.post(
-        ` http://localhost:2024/api/user/register?idOrganisasi=${idOrganisasi}`,
+        ` ${API_DUMMY}/api/user/register?idOrganisasi=${idOrganisasi}`,
         {
           username: username,
           email: email,

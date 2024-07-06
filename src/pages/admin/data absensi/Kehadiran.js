@@ -3,6 +3,7 @@ import Navbar from "../../../components/NavbarAdmin";
 import Sidebar from "../../../components/SidebarUser";
 import axios from "axios";
 import { Pagination } from "flowbite-react";
+import { API_DUMMY } from "../../../utils/api";
 
 function Kehadiran() {
   const [kehadiran, setKehadiran] = useState([]);
@@ -20,7 +21,7 @@ function Kehadiran() {
   const getAllKaryawanUser = async () => {
     try {
       const all = await axios.get(
-        `http://localhost:2024/api/user/${idAdmin}/users`
+        `${API_DUMMY}/api/user/${idAdmin}/users`
       );
       setKehadiran(all.data);
     } catch (error) {
@@ -31,7 +32,7 @@ function Kehadiran() {
   const getAllAbsensiByAdmin = async () => {
     try {
       const abs = await axios.get(
-        `http://localhost:2024/api/absensi/admin/${adminId}`
+        `${API_DUMMY}/api/absensi/admin/${adminId}`
       );
 
       setAllAbsensi(abs.data);

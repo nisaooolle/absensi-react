@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Pagination } from "flowbite-react";
+import { API_DUMMY } from "../../../utils/api";
 
 function Karyawan() {
   const [userData, setUserData] = useState([]);
@@ -25,7 +26,7 @@ function Karyawan() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/user/byAdmin/${idAdmin}`,
+        `${API_DUMMY}/api/user/byAdmin/${idAdmin}`,
         {
           headers: {
             Authorization: `${token}`,
@@ -52,7 +53,7 @@ function Karyawan() {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `http://localhost:2024/api/user/delete-user/` + id,
+            `${API_DUMMY}/api/user/delete-user/` + id,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,

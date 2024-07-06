@@ -6,6 +6,7 @@ import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function EditJabatanSA() {
   const [jabatan, setJabatan] = useState("");
@@ -15,7 +16,7 @@ function EditJabatanSA() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:2024/api/jabatan/getbyid/` + idJabatan, {
+      .get(`${API_DUMMY}/api/jabatan/getbyid/` + idJabatan, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -35,7 +36,7 @@ function EditJabatanSA() {
 
     try {
       const res = await axios.put(
-        `http://localhost:2024/api/jabatan/editById/${idJabatan}`,
+        `${API_DUMMY}/api/jabatan/editById/${idJabatan}`,
         jabatan,
         {
           headers: {

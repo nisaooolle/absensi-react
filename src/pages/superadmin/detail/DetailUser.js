@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { API_DUMMY } from "../../../utils/api";
 
 function DetailUser() {
   const { id } = useParams();
@@ -14,7 +15,7 @@ function DetailUser() {
   const getUserData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/user/getUserBy/${id}`
+        `${API_DUMMY}/api/user/getUserBy/${id}`
       );
       setUser(res.data);
     } catch (error) {

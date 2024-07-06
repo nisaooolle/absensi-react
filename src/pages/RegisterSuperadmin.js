@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 import Logo from "../components/absensii.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import ikon dari react-icons
+import { API_DUMMY } from '../utils/api';
 
 function RegisterSuperadmin() {
     const [email, setEmail] = useState("");
@@ -17,15 +18,15 @@ function RegisterSuperadmin() {
     const [showPassword, setShowPassword] = useState(false);
     const [organisasiList, setOrganisasiList] = useState([]);
     const [organisasi, setOrganisasi] = useState("");
-  
+
     // useEffect(() => {
     //   GetALLOrganisasi();
     // }, []);
-  
+
     // const GetALLOrganisasi = async () => {
     //   try {
     //     const response = await axios.get(
-    //       "http://localhost:2024/api/organisasi/all"
+    //       `${API_DUMMY}/api/organisasi/all"
     //     );
     //     setOrganisasiList(response.data);
     //   } catch (error) {
@@ -33,7 +34,7 @@ function RegisterSuperadmin() {
     //     Swal.fire("Error", "Gagal mendapatkan data organisasi", "error");
     //   }
     // };
-  
+
     const handleSubmit = async (e) => {
       e.preventDefault();
       const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -49,7 +50,7 @@ function RegisterSuperadmin() {
       }
       try {
         const response = await axios.post(
-          `http://localhost:2024/api/superadmin/register`,
+          `${API_DUMMY}/api/superadmin/register`,
           {
             username,
             email,
@@ -57,7 +58,7 @@ function RegisterSuperadmin() {
             role,
           }
         );
-  
+
         if (response.data === "Username already taken") {
           Swal.fire({
             icon: "error",
@@ -121,7 +122,7 @@ function RegisterSuperadmin() {
                   required
                   placeholder="Username"
                 />
-               
+
                 <div className="relative mt-5">
                   <input
                     className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"

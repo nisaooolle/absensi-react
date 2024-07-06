@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { API_DUMMY } from "../../../utils/api";
 
 function AddJabatanSA() {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +23,7 @@ function AddJabatanSA() {
         namaJabatan: namaJabatan,
       };
       const response = await axios.post(
-        `http://localhost:2024/api/jabatan/add/${adminId}`,
+        `${API_DUMMY}/api/jabatan/add/${adminId}`,
         jabatan
       );
       Swal.fire({
@@ -41,7 +42,7 @@ function AddJabatanSA() {
   const GetALLAdmin = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/admin/get-all-by-super/${idSuperAdmin}`
+        `${API_DUMMY}/api/admin/get-all-by-super/${idSuperAdmin}`
       );
       setAdminList(response.data);
     } catch (error) {

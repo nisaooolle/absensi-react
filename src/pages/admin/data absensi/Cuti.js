@@ -6,23 +6,24 @@ import { faCheck, faPrint, faXmark } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Pagination } from "flowbite-react";
+import { API_DUMMY } from "../../../utils/api";
 
 function Cuti() {
    const [userData, setUserData] = useState([]);
   const adminId = localStorage.getItem("adminId");
-  
+
    const [cuti, setCuti] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
- 
+
   const getAllCuti = async () => {
     const token = localStorage.getItem("token");
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/cuti/admin/${adminId}`,
+        `${API_DUMMY}/api/cuti/admin/${adminId}`,
         {
           headers: {
             Authorization: `${token}`,
@@ -50,7 +51,7 @@ function Cuti() {
       if (result.isConfirmed) {
         try {
           const response = await axios({
-            url: `http://localhost:2024/api/cuti/download-pdf/${id}`,
+            url: `${API_DUMMY}/api/cuti/download-pdf/${id}`,
             method: "GET",
             responseType: "blob",
             headers: {
@@ -89,7 +90,7 @@ function Cuti() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.put(`http://localhost:2024/api/cuti/terima-cuti/` + id, {
+          await axios.put(`${API_DUMMY}/api/cuti/terima-cuti/` + id, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -119,7 +120,7 @@ function Cuti() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.put(`http://localhost:2024/api/cuti/tolak-cuti/` + id, {
+          await axios.put(`${API_DUMMY}/api/cuti/tolak-cuti/` + id, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },

@@ -15,6 +15,7 @@ import Navbar from "../../components/NavbarUser";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../utils/api";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -32,7 +33,7 @@ function Dashboard() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/user/getUserBy/${userId}`,
+        `${API_DUMMY}/api/user/getUserBy/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -50,7 +51,7 @@ function Dashboard() {
     const userId = localStorage.getItem("userId");
     try {
       const absensiCheckResponse = await axios.get(
-        `http://localhost:2024/api/absensi/checkAbsensi/${userId}`
+        `${API_DUMMY}/api/absensi/checkAbsensi/${userId}`
       );
       const isUserAlreadyAbsenToday =
         absensiCheckResponse.data ===
@@ -69,7 +70,7 @@ function Dashboard() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/absensi/getizin/${userId}`,
+        `${API_DUMMY}/api/absensi/getizin/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -90,7 +91,7 @@ function Dashboard() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/absensi/getByUserId/${userId}`,
+        `${API_DUMMY}/api/absensi/getByUserId/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -110,7 +111,7 @@ function Dashboard() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/cuti/getByUser/${userId}`,
+        `${API_DUMMY}/api/cuti/getByUser/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

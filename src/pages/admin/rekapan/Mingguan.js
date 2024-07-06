@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function Mingguan() {
   const [absensi, setAbsensi] = useState({});
@@ -19,7 +20,7 @@ function Mingguan() {
     if (tanggalAwal && tanggalAkhir) {
       try {
         const response = await axios.get(
-          "http://localhost:2024/api/absensi/rekap-mingguan",
+          `${API_DUMMY}/api/absensi/rekap-mingguan`,
           {
             params: {
               tanggalAwal: tanggalAwal,
@@ -42,7 +43,7 @@ function Mingguan() {
   const exportMingguan = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:2024/api/absensi/export/absensi-mingguan",
+        `${API_DUMMY}/api/absensi/export/absensi-mingguan`,
         {
           params: {
             tanggalAwal: tanggalAwal,

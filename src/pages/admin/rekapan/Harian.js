@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function Harian() {
   const [tanggal, setTanggal] = useState("");
@@ -20,7 +21,7 @@ function Harian() {
   const handleSearch = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/absensi/by-tanggal`,
+        `${API_DUMMY}/api/absensi/by-tanggal`,
         {
           params: { tanggalAbsen: tanggal },
         }
@@ -40,7 +41,7 @@ function Harian() {
   const handleExport = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/absensi/export/harian?tanggal=${tanggal}`,
+        `${API_DUMMY}/api/absensi/export/harian?tanggal=${tanggal}`,
         {
           responseType: "blob",
         }

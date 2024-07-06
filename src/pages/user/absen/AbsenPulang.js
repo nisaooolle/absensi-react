@@ -5,6 +5,7 @@ import Webcam from "react-webcam";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { toBeDisabled } from "@testing-library/jest-dom/matchers";
+import { API_DUMMY } from "../../../utils/api";
 
 function AbsenPulang() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -21,9 +22,9 @@ function AbsenPulang() {
   const getShift = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/shift/getShift-byUserId/${userId}`
+        `${API_DUMMY}/api/shift/getShift-byUserId/${userId}`
       );
-  
+
       if (response.data && response.data.waktuPulang) {
         setWaktuPulang(response.data.waktuPulang);
       } else {
@@ -115,7 +116,7 @@ function AbsenPulang() {
 
           try {
             const absensiCheckResponse = await axios.get(
-              `http://localhost:2024/api/absensi/checkAbsensi/${userId}`
+              `${API_DUMMY}/api/absensi/checkAbsensi/${userId}`
             );
             const isUserAlreadyAbsenToday =
               absensiCheckResponse.data ===
@@ -134,7 +135,7 @@ function AbsenPulang() {
                 formData.append("keteranganPulangAwal", keteranganPulangAwal);
 
                 const response = await axios.put(
-                  `http://localhost:2024/api/absensi/pulang/${userId}`,
+                  `${API_DUMMY}/api/absensi/pulang/${userId}`,
                   formData,
                   {
                     headers: {
@@ -164,7 +165,7 @@ function AbsenPulang() {
                 formData.append("keteranganPulangAwal", keteranganPulangAwal);
 
                 const response = await axios.put(
-                  `http://localhost:2024/api/absensi/pulang/${userId}`,
+                  `${API_DUMMY}/api/absensi/pulang/${userId}`,
                   formData,
                   {
                     headers: {

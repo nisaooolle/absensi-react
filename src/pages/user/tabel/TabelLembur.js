@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Pagination } from "flowbite-react";
+import { API_DUMMY } from "../../../utils/api";
 
 function TabelLembur() {
   const [lembur, setLembur] = useState([]);
@@ -36,7 +37,7 @@ function TabelLembur() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/lembur/getByuserId/${userId}`,
+        `${API_DUMMY}/api/lembur/getByuserId/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -65,7 +66,7 @@ function TabelLembur() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:2024/api/lembur/delete/${id}`, {
+          .delete(`${API_DUMMY}/api/lembur/delete/${id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

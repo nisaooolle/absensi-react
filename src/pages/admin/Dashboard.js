@@ -9,6 +9,7 @@ import {
 import Navbar from "../../components/NavbarAdmin";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../utils/api";
 
 function Dashboard() {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -26,7 +27,7 @@ function Dashboard() {
   const getallUser = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/user/${idAdmin}/users`
+        `${API_DUMMY}/api/user/${idAdmin}/users`
       );
       setKaryawan(res.data.length);
     } catch (error) {}
@@ -70,24 +71,24 @@ function Dashboard() {
   };
 
   const getUser = () =>
-    fetchData("http://localhost:2024/api/user/get-allUser", setUserData);
+    fetchData(`${API_DUMMY}/api/user/get-allUser`, setUserData);
   const getAbsensi = () =>
-    fetchData("http://localhost:2024/api/absensi/getAll", setAbsenData);
+    fetchData(`${API_DUMMY}/api/absensi/getAll`, setAbsenData);
   const getCuti = () =>
-    fetchData("http://localhost:2024/api/cuti/getall", setCutiData);
+    fetchData(`${API_DUMMY}/api/cuti/getall`, setCutiData);
   const getJabatan = () =>
     fetchData(
-      `http://localhost:2024/api/jabatan/getByAdmin/${adminId}`,
+      `${API_DUMMY}/api/jabatan/getByAdmin/${adminId}`,
       setJabatanData
     );
   const getLokasi = () =>
     fetchData(
-      `http://localhost:2024/api/lokasi/get-admin/${idAdmin}`,
+      `${API_DUMMY}/api/lokasi/get-admin/${idAdmin}`,
       setLokasiData
     );
   const getOrganisasi = () =>
     fetchData(
-      `http://localhost:2024/api/organisasi/all-by-admin/${idAdmin}`,
+      `${API_DUMMY}/api/organisasi/all-by-admin/${idAdmin}`,
       setOrganisasiData
     );
 
@@ -97,7 +98,7 @@ function Dashboard() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/admin/getById/${id}`,
+        `${API_DUMMY}/api/admin/getById/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

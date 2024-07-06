@@ -5,6 +5,7 @@ import Navbar from "../../../components/NavbarAdmin";
 import Sidebar from "../../../components/SidebarUser";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
+import { API_DUMMY } from "../../../utils/api";
 
 function DetailAbsensi() {
   const [absensi, setAbsensi] = useState(null);
@@ -13,7 +14,7 @@ function DetailAbsensi() {
   const getAbsensiId = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/absensi/getData/${id}`
+        `${API_DUMMY}/api/absensi/getData/${id}`
       );
       setAbsensi(res.data);
     } catch (error) {

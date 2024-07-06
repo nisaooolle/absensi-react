@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Pagination } from "flowbite-react";
+import { API_DUMMY } from "../../../utils/api";
 
 function TabelAbsen() {
   const [absensi, setAbsensi] = useState([]);
@@ -34,7 +35,7 @@ function TabelAbsen() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/absensi/getByUserId/${userId}`,
+        `${API_DUMMY}/api/absensi/getByUserId/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

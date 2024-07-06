@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function Admin() {
   const [userData, setUserData] = useState([]);
@@ -21,7 +22,7 @@ function Admin() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/admin/get-all-by-super/${idSuperAdmin}`,
+        `${API_DUMMY}/api/admin/get-all-by-super/${idSuperAdmin}`,
         {
           headers: {
             Authorization: `${token}`,
@@ -47,7 +48,7 @@ function Admin() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:2024/api/admin/delete/` + id, {
+          await axios.delete(`${API_DUMMY}/api/admin/delete/` + id, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },

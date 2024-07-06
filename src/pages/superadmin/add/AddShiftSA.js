@@ -6,6 +6,7 @@ import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { API_DUMMY } from "../../../utils/api";
 
 function AddShift() {
   const [waktuMasuk, setWaktuMasuk] = useState("");
@@ -18,7 +19,7 @@ function AddShift() {
 
   const getAllAdmin = async () => {
     try {
-      const response = await axios.get(`http://localhost:2024/api/admin/all`, {
+      const response = await axios.get(`${API_DUMMY}/api/admin/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -44,7 +45,7 @@ function AddShift() {
     };
     try {
       const response = await axios.post(
-        `http://localhost:2024/api/shift/tambahShift/${idAdmin}`,
+        `${API_DUMMY}/api/shift/tambahShift/${idAdmin}`,
         shift
       );
       Swal.fire({

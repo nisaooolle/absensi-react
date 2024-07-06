@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 import Logo from "../components/absensii.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import ikon dari react-icons
+import { API_DUMMY } from "../utils/api";
 
 function Login() {
   const history = useHistory();
@@ -11,12 +12,12 @@ function Login() {
   const [passwordType, setPasswordType] = useState("password");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
- 
+
   const login = async (e) => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post("http://localhost:2024/api/login", {
+      const { data } = await axios.post(`${API_DUMMY}/api/login`, {
         email: email,
         password: password,
       });
@@ -56,7 +57,7 @@ function Login() {
   };
 
   return (
-   
+
     <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
       <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Logo from "../components/absensii.png";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
+import { API_DUMMY } from "../utils/api";
 const NavbarSuper = () => {
   const [profileSu, setProfileSu] = useState([]);
 
@@ -11,7 +12,7 @@ const NavbarSuper = () => {
   const getSu = async () => {
     try {
       const superAdmin = await axios.get(
-        `http://localhost:2024/api/superadmin/getbyid/${id}`
+        `${API_DUMMY}/api/superadmin/getbyid/${id}`
       );
       setProfileSu(superAdmin.data.imageSuperAdmin);
     } catch (error) {

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function AddLokasiSA() {
   const [namaLokasi, setNamaLokasi] = useState("");
@@ -16,7 +17,7 @@ function AddLokasiSA() {
   const getAllOrganisasi = async () => {
     try {
       const org = await axios.get(
-        `http://localhost:2024/api/organisasi/superadmin/${idSuperAdmin}`
+        `${API_DUMMY}/api/organisasi/superadmin/${idSuperAdmin}`
       );
       setOrganisasiList(org.data);
     } catch (error) {
@@ -36,7 +37,7 @@ function AddLokasiSA() {
         alamat: alamat,
       };
       await axios.post(
-        `http://localhost:2024/api/lokasi/add/superadmin/${idSuperAdmin}?idOrganisasi=${organisasiSelected}`,
+        `${API_DUMMY}/api/lokasi/add/superadmin/${idSuperAdmin}?idOrganisasi=${organisasiSelected}`,
         newLokasi
       );
       Swal.fire("Berhasil", "Berhasil menambahkan data", "success");

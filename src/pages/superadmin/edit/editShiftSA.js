@@ -6,6 +6,7 @@ import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function EditShift() {
   const [namaShift, setNamaShift] = useState("");
@@ -17,7 +18,7 @@ function EditShift() {
   const getShift = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/shift/getbyId/${id}`
+        `${API_DUMMY}/api/shift/getbyId/${id}`
       );
       setNamaShift(res.data.namaShift);
       setWaktuMasuk(res.data.waktuMasuk);
@@ -35,9 +36,9 @@ function EditShift() {
     };
     try {
       await axios.put(
-        `http://localhost:2024/api/shift/editbyId/${id}`,
+        `${API_DUMMY}/api/shift/editbyId/${id}`,
         shift,
-        
+
       );
       Swal.fire({
         title: "Berhasil",

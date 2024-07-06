@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Pagination } from "flowbite-react";
+import { API_DUMMY } from "../../../utils/api";
 
 function User() {
   const [userData, setUserData] = useState([]);
@@ -24,7 +25,7 @@ function User() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/user/get-allUser`,
+        `${API_DUMMY}/api/user/get-allUser`,
         {
           headers: {
             Authorization: `${token}`,
@@ -51,7 +52,7 @@ function User() {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `http://localhost:2024/api/user/delete-user/` + id,
+            `${API_DUMMY}/api/user/delete-user/` + id,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,

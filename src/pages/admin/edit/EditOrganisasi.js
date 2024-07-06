@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Loader from "../../../components/Loader";
+import { API_DUMMY } from "../../../utils/api";
 
 function EditOrganisasi() {
   const { id } = useParams();
@@ -37,7 +38,7 @@ function EditOrganisasi() {
         };
 
         const response = await axios.get(
-          `http://localhost:2024/api/organisasi/getById/${id}`,
+          `${API_DUMMY}/api/organisasi/getById/${id}`,
           config
         );
         const dataOrganisasi = response.data;
@@ -100,7 +101,7 @@ function EditOrganisasi() {
 
       setLoading(true);
       await axios.put(
-        `http://localhost:2024/api/organisasi/editById/${id}?idAdmin=${idAdmin}`,
+        `${API_DUMMY}/api/organisasi/editById/${id}?idAdmin=${idAdmin}`,
         formData,
         config
       );

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { API_DUMMY } from "../../utils/api";
 
 function DetailAbsen() {
   const [absensi, setAbsensi] = useState([]);
@@ -15,7 +16,7 @@ function DetailAbsen() {
 
     try {
       const absensiResponse = await axios.get(
-        `http://localhost:2024/api/absensi/getData/${id}`,
+        `${API_DUMMY}/api/absensi/getData/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
