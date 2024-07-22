@@ -99,11 +99,11 @@ function Absensi() {
       <div className="sticky top-0 z-50">
         <NavbarSuper />
       </div>
-      <div className="flex flex-1">
-        <div className="fixed">
+      <div className="flex h-full pt-5">
+        <div className="fixed h-full">
           <Sidebar />
         </div>
-        <div className="content-page flex-1 p-8 md:ml-64 mt-16 text-center">
+        <div className="content-page flex-1 p-8 md:ml-64 mt-16 text-center overflow-auto">
           <div className="tabel-absen bg-white p-5 rounded-xl shadow-xl border border-gray-300">
             <div className="flex justify-between">
               <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
@@ -142,37 +142,37 @@ function Absensi() {
               >
                 <thead className="text-left text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3 whitespace-nowrap">
                       No
                     </th>
-                    <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3 whitespace-nowrap">
                       Admin
                     </th>
-                    <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3 whitespace-nowrap">
                       User
                     </th>
-                    <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3 whitespace-nowrap">
                       Tanggal
                     </th>
-                    <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3 whitespace-nowrap">
                       Kehadiran
                     </th>
-                    <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3 whitespace-nowrap">
                       Jam Masuk
                     </th>
-                    <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3 whitespace-nowrap">
                       Foto Masuk
                     </th>
-                    <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3 whitespace-nowrap">
                       Jam Pulang
                     </th>
-                    <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3 whitespace-nowrap">
                       Foto Pulang
                     </th>
-                    <th scope="col" className="px-4 py-3">
+                    {/* <th scope="col" className="px-4 py-3 whitespace-nowrap">
                       Jam Kerja
-                    </th>
-                    <th scope="col" className="px-4 py-3">
+                    </th> */}
+                    <th scope="col" className="px-4 py-3 whitespace-nowrap">
                       Aksi
                     </th>
                   </tr>
@@ -189,18 +189,22 @@ function Absensi() {
                       >
                         {(currentPage - 1) * limit + index + 1}
                       </th>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 whitespace-nowrap capitalize">
                         {absenData.user.admin.username}
                       </td>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 whitespace-nowrap capitalize">
                         {absenData.user.username}
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-4 whitespace-nowrap">
                         {formatDate(absenData.tanggalAbsen)}
                       </td>
-                      <td className="px-6 py-4">{absenData.statusAbsen}</td>
-                      <td className="px-6 py-4">{absenData.jamMasuk} </td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {absenData.statusAbsen}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {absenData.jamMasuk}{" "}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
                         <img
                           src={absenData.fotoMasuk ? absenData.fotoMasuk : "-"}
                           alt="Foto Masuk"
@@ -208,8 +212,10 @@ function Absensi() {
                           id="foto_masuk"
                         />
                       </td>
-                      <td className="px-6 py-4">{absenData.jamPulang}</td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {absenData.jamPulang}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
                         <img
                           src={
                             absenData.fotoPulang ? absenData.fotoPulang : "-"
@@ -219,8 +225,10 @@ function Absensi() {
                           id="foto_masuk"
                         />
                       </td>
-                      <td className="px-6 py-4">00 jam 00 menit </td>
-                      <td className="px-6 py-4">
+                      {/* <td className="px-6 py-4 whitespace-nowrap">
+                        00 jam 00 menit{" "}
+                      </td> */}
+                      <td className="px-6 py-4 whitespace-nowrap">
                         <a href={`/superadmin/detailAbsensi/${absenData.id}`}>
                           <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
                             <span className="relative inline-block">

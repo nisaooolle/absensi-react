@@ -57,7 +57,7 @@ function DetailUser() {
                     Detail User
                   </h6>
                 </div>
-                <div className="mt-7 text-left">
+                <div className="mt-3 text-left">
                   <hr />
                 </div>
                 <div className="mt-7 text-left">
@@ -86,7 +86,7 @@ function DetailUser() {
                         type="text"
                         name="username"
                         id="username"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={user.username || ""}
@@ -106,7 +106,7 @@ function DetailUser() {
                         type="text"
                         name="id_jabatan"
                         id="id_jabatan"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={user.jabatan?.namaJabatan || ""}
@@ -125,7 +125,7 @@ function DetailUser() {
                         type="text"
                         name="id_shift"
                         id="id_shift"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={user.shift?.namaShift || ""}
@@ -144,7 +144,7 @@ function DetailUser() {
                         type="text"
                         name="id_admin"
                         id="id_admin"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={user.admin?.username || ""}
