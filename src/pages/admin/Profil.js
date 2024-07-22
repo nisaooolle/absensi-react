@@ -10,6 +10,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loader from "../../components/Loader";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../utils/api";
 function Profil() {
   const [showPassword, setShowPassword] = useState(false);
   const [imageAdmin, setImageAdmin] = useState("");
@@ -32,7 +33,7 @@ function Profil() {
   const getProfile = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/admin/getById/${id}`,
+        `${API_DUMMY}/api/admin/getById/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -58,7 +59,7 @@ function Profil() {
     };
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/admin/edit-email-username/${id}`,
+        `${API_DUMMY}/api/admin/edit-email-username/${id}`,
         usmail,
 
         {
@@ -109,7 +110,7 @@ function Profil() {
 
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/admin/edit-password/${id}`,
+        `${API_DUMMY}/api/admin/edit-password/${id}`,
         {
           old_password: passwordLama,
           new_password: passwordBaru,
@@ -142,7 +143,7 @@ function Profil() {
 
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/admin/ubah-foto/${id}`,
+        `${API_DUMMY}/api/admin/ubah-foto/${id}`,
         formData,
         {
           headers: {

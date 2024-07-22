@@ -12,6 +12,7 @@ import {
 import Swal from "sweetalert2";
 import axios from "axios";
 import { Pagination } from "flowbite-react";
+import { API_DUMMY } from "../../../utils/api";
 function Organisasi() {
   const [userData, setUserData] = useState([]);
   const idAdmin = localStorage.getItem("adminId");
@@ -25,7 +26,7 @@ function Organisasi() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/organisasi/all-by-admin/${idAdmin}`
+        `${API_DUMMY}/api/organisasi/all-by-admin/${idAdmin}`
       );
 
       setUserData(response.data);
@@ -47,7 +48,7 @@ function Organisasi() {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `http://localhost:2024/api/organisasi/delete/` + id
+            `${API_DUMMY}/api/organisasi/delete/` + id
           );
 
           Swal.fire({

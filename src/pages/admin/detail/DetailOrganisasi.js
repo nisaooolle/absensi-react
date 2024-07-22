@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
+import { API_DUMMY } from "../../../utils/api";
 
 function DetailOrganisasi() {
   const [organisasi, setOrganisasi] = useState(null);
@@ -13,7 +14,7 @@ function DetailOrganisasi() {
   const getOrganisasiId = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/organisasi/getById/${id}`
+        `${API_DUMMY}/api/organisasi/getById/${id}`
       );
       setOrganisasi(res.data);
     } catch (error) {

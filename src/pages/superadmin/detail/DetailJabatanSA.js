@@ -5,6 +5,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom/cjs/react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { API_DUMMY } from "../../../utils/api";
 
 function DetailJabatanSA() {
     const { id } = useParams();
@@ -13,7 +14,7 @@ function DetailJabatanSA() {
   const getJabatan = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/jabatan/getbyid/${id}`
+        `${API_DUMMY}/api/jabatan/getbyid/${id}`
       );
       setJabatan(res.data);
     } catch (error) {

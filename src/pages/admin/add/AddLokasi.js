@@ -6,6 +6,7 @@ import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import axios, { all } from "axios";
 import Swal from "sweetalert2";
 import { Toast } from "flowbite-react";
+import { API_DUMMY } from "../../../utils/api";
 
 function AddLokasi() {
   const [namaLokasi, setNamaLokasi] = useState("");
@@ -18,7 +19,7 @@ function AddLokasi() {
   const getLokasi = async () => {
     try {
       const org = await axios.get(
-        `http://localhost:2024/api/organisasi/all-by-admin/${idAdmin}`
+        `${API_DUMMY}/api/organisasi/all-by-admin/${idAdmin}`
       );
       setOrganisasiList(org.data || []);
     } catch (error) {
@@ -37,7 +38,7 @@ function AddLokasi() {
         alamat: alamat,
       };
       await axios.post(
-        `http://localhost:2024/api/lokasi/tambah/${idAdmin}?idOrganisasi=${selectedOrganisasi}`,
+        `${API_DUMMY}/api/lokasi/tambah/${idAdmin}?idOrganisasi=${selectedOrganisasi}`,
         add
       );
       Swal.fire({

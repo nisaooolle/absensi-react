@@ -9,6 +9,7 @@ import {
 } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function EditAdmin() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ function EditAdmin() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:2024/api/admin/getById/` + param.id, {
+      .get(`${API_DUMMY}/api/admin/getById/` + param.id, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -39,7 +40,7 @@ function EditAdmin() {
 
     try {
       const res = await axios.put(
-        `http://localhost:2024/api/admin/edit-email-username/${param.id}`,
+        `${API_DUMMY}/api/admin/edit-email-username/${param.id}`,
         admin,
         {
           headers: {

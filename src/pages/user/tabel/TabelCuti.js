@@ -6,6 +6,7 @@ import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { Pagination } from "flowbite-react";
+import { API_DUMMY } from "../../../utils/api";
 
 function TabelCuti() {
   const [cuti, setCuti] = useState([]);
@@ -35,7 +36,7 @@ function TabelCuti() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/cuti/getByUser/${userId}`,
+        `${API_DUMMY}/api/cuti/getByUser/${userId}`,
         {
           headers: {
             Authorization: `${token}`,
@@ -64,7 +65,7 @@ function TabelCuti() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:2024/api/cuti/delete/${id}`, {
+          .delete(`${API_DUMMY}/api/cuti/delete/${id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

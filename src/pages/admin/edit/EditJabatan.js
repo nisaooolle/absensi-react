@@ -6,6 +6,7 @@ import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function EditJabatan() {
   const [namaJabatan, setNamaJabatan] = useState("");
@@ -23,7 +24,7 @@ function EditJabatan() {
         };
 
         const response = await axios.get(
-          `http://localhost:2024/api/jabatan/getbyid/${id}`,
+          `${API_DUMMY}/api/jabatan/getbyid/${id}`,
           config
         );
         const { namaJabatan } = response.data;
@@ -67,7 +68,7 @@ function EditJabatan() {
 
     try {
       await axios.put(
-        `http://localhost:2024/api/jabatan/editById/${id}`,
+        `${API_DUMMY}/api/jabatan/editById/${id}`,
         JabatanData,
         config
       );

@@ -10,6 +10,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loader from "../../components/Loader";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../utils/api";
 
 function ProfilSA() {
   const [showPassword, setShowPassword] = useState(false);
@@ -44,7 +45,7 @@ function ProfilSA() {
 
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/superadmin/edit-password/${id}`,
+        `${API_DUMMY}/api/superadmin/edit-password/${id}`,
         {
           old_password: passwordLama,
           new_password: passwordBaru,
@@ -68,7 +69,7 @@ function ProfilSA() {
   const getProfile = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/superadmin/getbyid/${id}`,
+        `${API_DUMMY}/api/superadmin/getbyid/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -93,7 +94,7 @@ function ProfilSA() {
     };
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/superadmin/edit-email-username/${id}`,
+        `${API_DUMMY}/api/superadmin/edit-email-username/${id}`,
         usMail,
         {
           headers: {
@@ -140,7 +141,7 @@ function ProfilSA() {
 
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/superadmin/ubah-foto/${id}`,
+        `${API_DUMMY}/api/superadmin/ubah-foto/${id}`,
         formData,
         {
           headers: {

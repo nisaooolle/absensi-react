@@ -10,7 +10,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
+
+import { API_DUMMY } from "../../../utils/api";
+
 import { Pagination } from "flowbite-react";
+
 
 function ShiftSA() {
   const [userData, setUserData] = useState([]);
@@ -25,7 +29,7 @@ function ShiftSA() {
   const getAllShift = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/shift/getBySuper/${idSuperAdmin}`,
+        `${API_DUMMY}/api/shift/getBySuper/${idSuperAdmin}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -51,7 +55,7 @@ function ShiftSA() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:2024/api/shift/delete/` + id, {
+          await axios.delete(`${API_DUMMY}/api/shift/delete/` + id, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },

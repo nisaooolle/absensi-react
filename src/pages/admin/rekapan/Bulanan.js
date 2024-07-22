@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function Bulanan() {
   const [bulan, setBulan] = React.useState("");
@@ -17,7 +18,7 @@ function Bulanan() {
   const handleSearch = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:2024/api/absensi/get-absensi-bulan",
+        `${API_DUMMY}/api/absensi/get-absensi-bulan`,
         {
           params: { tanggalAbsen: `${tahun}-${bulan}-01` },
         }
@@ -42,7 +43,7 @@ function Bulanan() {
   const exportBulanan = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/absensi/export/absensi-bulanan?month=${bulan}&year=${tahun}`,
+        `${API_DUMMY}/api/absensi/export/absensi-bulanan?month=${bulan}&year=${tahun}`,
         {
           responseType: "blob",
         }

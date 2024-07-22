@@ -6,6 +6,7 @@ import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function EditKaryawan() {
   const [username, setUsername] = useState("");
@@ -20,7 +21,7 @@ function EditKaryawan() {
   const getUser = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/user/getUserBy/${id}`
+        `${API_DUMMY}/api/user/getUserBy/${id}`
       );
       setUsername(res.data.username);
       setIdJabatan(res.data.jabatan ? res.data.jabatan.idJabatan : "");
@@ -33,7 +34,7 @@ function EditKaryawan() {
   const getJabatanOptions = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/jabatan/getByAdmin/${adminId}`
+        `${API_DUMMY}/api/jabatan/getByAdmin/${adminId}`
       );
       setJabatanOptions(res.data);
     } catch (error) {
@@ -44,7 +45,7 @@ function EditKaryawan() {
   const getShiftOptions = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/shift/getall-byadmin/${adminId}`
+        `${API_DUMMY}/api/shift/getall-byadmin/${adminId}`
       );
       setShiftOptions(res.data);
     } catch (error) {
@@ -79,7 +80,7 @@ function EditKaryawan() {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:2024/api/user/edit-kar/${id}?idJabatan=${idJabatan}&idShift=${idShift}`,
+        `${API_DUMMY}/api/user/edit-kar/${id}?idJabatan=${idJabatan}&idShift=${idShift}`,
         {
           username: username,
         }

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { API_DUMMY } from "../../../utils/api";
 
 function DetailAdmin() {
   const { id } = useParams();
@@ -16,7 +17,7 @@ function DetailAdmin() {
   const getUserData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/admin/getById/${id}`
+        `${API_DUMMY}/api/admin/getById/${id}`
       );
       setAdmin(res.data);
     } catch (error) {

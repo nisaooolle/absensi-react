@@ -11,6 +11,7 @@ import {
 import Swal from "sweetalert2";
 import axios from "axios";
 import { Pagination } from "flowbite-react";
+import { API_DUMMY } from "../../../utils/api";
 
 function Shift() {
   const [userData, setUserData] = useState([]);
@@ -27,7 +28,7 @@ function Shift() {
   // const getallUser = async () => {
   //   try {
   //     const res = await axios.get(
-  //       `http://localhost:2024/api/user/${idAdmin}/users`
+  //       `${API_DUMMY}/api/user/${idAdmin}/users`
   //     );
   //     setKaryawan(res.data.length);
   //   } catch (error) {}
@@ -38,7 +39,7 @@ function Shift() {
 
   //   try {
   //     const response = await axios.get(
-  //       `http://localhost:2024/api/shift/getall-byadmin/${idAdmin}`
+  //       `${API_DUMMY}/api/shift/getall-byadmin/${idAdmin}`
   //     );
 
   //     setUserData(response.data);
@@ -49,7 +50,7 @@ function Shift() {
   const getAllShift = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/shift/getall-byadmin/${idAdmin}`,
+        `${API_DUMMY}/api/shift/getall-byadmin/${idAdmin}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -66,7 +67,7 @@ function Shift() {
   const getAllUser = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/user/byShift/${id}`,
+        `${API_DUMMY}/api/user/byShift/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -94,7 +95,7 @@ function Shift() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:2024/api/shift/delete/` + id, {
+          await axios.delete(`${API_DUMMY}/api/shift/delete/` + id, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },

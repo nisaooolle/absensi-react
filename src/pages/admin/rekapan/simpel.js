@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function Simpel() {
   const [bulan, setBulan] = useState("");
@@ -17,7 +18,7 @@ function Simpel() {
   const handleSearch = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:2024/api/absensi/get-absensi-bulan-simpel",
+        `${API_DUMMY}/api/absensi/get-absensi-bulan-simpel`,
         {
           params: { bulan: bulan },
         }
@@ -91,7 +92,7 @@ function Simpel() {
   const exportSimpel = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/absensi/export/absensi-bulanan-simpel?bulan=${bulan}`,
+        `${API_DUMMY}/api/absensi/export/absensi-bulanan-simpel?bulan=${bulan}`,
         {
           responseType: "blob",
         }

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function AddKaryawan() {
   const [showPassword, setShowPassword] = useState(false);
@@ -33,7 +34,7 @@ function AddKaryawan() {
   const GetAllOrganisasi = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/organisasi/all-by-admin/${idAdmin}`
+        `${API_DUMMY}/api/organisasi/all-by-admin/${idAdmin}`
       );
       setOrganisasiList(response.data);
     } catch (error) {
@@ -44,7 +45,7 @@ function AddKaryawan() {
   const GetAllJabatan = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/jabatan/getByAdmin/${adminId}`
+        `${API_DUMMY}/api/jabatan/getByAdmin/${adminId}`
       );
       setJabatanList(response.data);
     } catch (error) {
@@ -55,7 +56,7 @@ function AddKaryawan() {
   const GetAllShift = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/shift/getall-byadmin/${idAdmin}`
+        `${API_DUMMY}/api/shift/getall-byadmin/${idAdmin}`
       );
       setShiftList(response.data);
     } catch (error) {
@@ -73,7 +74,7 @@ function AddKaryawan() {
         password: password,
       };
       const response = await axios.post(
-        `http://localhost:2024/api/user/tambahkaryawan/${idAdmin}?idOrganisasi=${idOrganisasi}&idJabatan=${idJabatan}&idShift=${idShift}`,
+        `${API_DUMMY}/api/user/tambahkaryawan/${idAdmin}?idOrganisasi=${idOrganisasi}&idJabatan=${idJabatan}&idShift=${idShift}`,
         newUser
       );
       Swal.fire({

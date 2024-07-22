@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { API_DUMMY } from "../../../utils/api";
 
 function AddJabatan() {
   const [namaJabatan, setNamaJabatan] = useState("");
@@ -15,7 +16,7 @@ function AddJabatan() {
   const getKaryawanByadmin = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/user/${idAdmin}/users`
+        `${API_DUMMY}/api/user/${idAdmin}/users`
       );
       const jumlahKaryawan = response.data.length;
       setJumlahKaryawan(jumlahKaryawan);
@@ -33,7 +34,7 @@ function AddJabatan() {
         jumlahKaryawan: null,
       };
       const response = await axios.post(
-        `http://localhost:2024/api/jabatan/add/${adminId}`,
+        `${API_DUMMY}/api/jabatan/add/${adminId}`,
         add
       );
       console.log(response);

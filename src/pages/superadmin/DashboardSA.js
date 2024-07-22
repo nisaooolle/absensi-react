@@ -9,6 +9,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../utils/api";
 // import jwt from 'jsonwebtoken';
 
 function DashboardSA() {
@@ -62,23 +63,23 @@ function DashboardSA() {
   };
 
   const getUser = () =>
-    fetchData("http://localhost:2024/api/user/get-allUser", setUserData);
+    fetchData(`${API_DUMMY}/api/user/get-allUser`, setUserData);
   const getAbsensi = () =>
-    fetchData("http://localhost:2024/api/absensi/getAll", setAbsenData);
+    fetchData(`${API_DUMMY}/api/absensi/getAll`, setAbsenData);
   const getJabatan = () =>
-    fetchData("http://localhost:2024/api/jabatan/all", setJabatanData);
+    fetchData(`${API_DUMMY}/api/jabatan/all`, setJabatanData);
   const getLokasi = () =>
-    fetchData("http://localhost:2024/api/lokasi/getall", setLokasiData);
+    fetchData(`${API_DUMMY}/api/lokasi/getall`, setLokasiData);
   const getOrganisasi = () =>
     fetchData(
-      `http://localhost:2024/api/organisasi/superadmin/${id}`,
+      `${API_DUMMY}/api/organisasi/superadmin/${id}`,
       setOrganisasiData
     );
 
   const getUsername = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/superadmin/getbyid/${id}`,
+        `${API_DUMMY}/api/superadmin/getbyid/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -97,7 +98,7 @@ function DashboardSA() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/admin/get-all-by-super/${idSuperAdmin}`,
+        `${API_DUMMY}/api/admin/get-all-by-super/${idSuperAdmin}`,
         {
           headers: {
             Authorization: `${token}`,
@@ -117,7 +118,7 @@ function DashboardSA() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/organisasi/superadmin/${idSuperAdmin}`,
+        `${API_DUMMY}/api/organisasi/superadmin/${idSuperAdmin}`,
         {
           headers: {
             Authorization: `${token}`,

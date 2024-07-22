@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function EditUser() {
   const [username, setUsername] = useState("");
@@ -24,7 +25,7 @@ function EditUser() {
   const getUser = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/user/getUserBy/${id}`
+        `${API_DUMMY}/api/user/getUserBy/${id}`
       );
       setUsername(res.data.username);
       setIdJabatan(res.data.jabatan ? res.data.jabatan.idJabatan : "");
@@ -37,7 +38,7 @@ function EditUser() {
   const getJabatanOptions = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/jabatan/getBySuper/${idSuperAdmin}`
+        `${API_DUMMY}/api/jabatan/getBySuper/${idSuperAdmin}`
       );
       setJabatanOptions(res.data);
     } catch (error) {
@@ -48,7 +49,7 @@ function EditUser() {
   const getShiftOptions = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/shift/getBySuper/${idSuperAdmin}`
+        `${API_DUMMY}/api/shift/getBySuper/${idSuperAdmin}`
       );
       setShiftOptions(res.data);
     } catch (error) {
@@ -66,7 +67,7 @@ function EditUser() {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:2024/api/user/edit-kar/${id}?idJabatan=${idJabatan}&idShift=${idShift}`,
+        `${API_DUMMY}/api/user/edit-kar/${id}?idJabatan=${idJabatan}&idShift=${idShift}`,
         {
           username: username,
         }

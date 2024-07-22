@@ -5,6 +5,7 @@ import Webcam from "react-webcam";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Loader from "../../../components/Loader";
+import { API_DUMMY } from "../../../utils/api";
 
 function AbsenMasuk() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -93,7 +94,7 @@ function AbsenMasuk() {
 
           try {
             const absensiCheckResponse = await axios.get(
-              `http://localhost:2024/api/absensi/checkAbsensi/${userId}`
+              `${API_DUMMY}/api/absensi/checkAbsensi/${userId}`
             );
             const isUserAlreadyAbsenToday =
               absensiCheckResponse.data ===
@@ -115,7 +116,7 @@ function AbsenMasuk() {
               );
 
               const response = await axios.post(
-                `http://localhost:2024/api/absensi/masuk/${userId}`,
+                `${API_DUMMY}/api/absensi/masuk/${userId}`,
                 formData,
                 {
                   headers: {

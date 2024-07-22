@@ -6,6 +6,7 @@ import { faInfo, faPrint } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Pagination } from "flowbite-react";
+import { API_DUMMY } from "../../../utils/api";
 
 function Lembur() {
   const [lembur, setLembur] = useState([]);
@@ -19,7 +20,7 @@ function Lembur() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/lembur/getall`,
+        `${API_DUMMY}/api/lembur/getall`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -101,7 +102,7 @@ function Lembur() {
       if (result.isConfirmed) {
         try {
           const response = await axios({
-            url: `http://localhost:2024/api/lembur/download-pdf/${id}`,
+            url: `${API_DUMMY}/api/lembur/download-pdf/${id}`,
             method: "GET",
             responseType: "blob",
             headers: {

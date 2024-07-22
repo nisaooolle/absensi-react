@@ -10,6 +10,7 @@ import {
 import Swal from "sweetalert2";
 import axios from "axios";
 import Lokasi from "../masterdata/Lokasi";
+import { API_DUMMY } from "../../../utils/api";
 
 function EditLokasi() {
   const [namaLokasi, setNamaLokasi] = useState("");
@@ -30,7 +31,7 @@ function EditLokasi() {
   const getLokasi = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/lokasi/GetById/${id}`
+        `${API_DUMMY}/api/lokasi/GetById/${id}`
       );
       setNamaLokasi(res.data.namaLokasi || "");
       setAlamat(res.data.alamat || "");
@@ -60,7 +61,7 @@ function EditLokasi() {
       adminId,
     };
     try {
-      await axios.put(`http://localhost:2024/api/lokasi/Update/${id}`, lokasi, {
+      await axios.put(`${API_DUMMY}/api/lokasi/Update/${id}`, lokasi, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

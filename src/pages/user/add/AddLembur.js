@@ -3,6 +3,7 @@ import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/api";
 
 function AddLembur() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -34,7 +35,7 @@ function AddLembur() {
 
     try {
       await axios.post(
-        `http://localhost:2024/api/lembur/tambahLembur/${userId}`,
+        `${API_DUMMY}/api/lembur/tambahLembur/${userId}`,
         add,
         {
           headers: {

@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { API_DUMMY } from "../../../utils/api";
 
 function Perkaryawan() {
   const [listAbsensi, setListAbsensi] = useState([]);
@@ -18,7 +19,7 @@ function Perkaryawan() {
   const getAllUserByAdmin = async () => {
     try {
       const usList = await axios.get(
-        `http://localhost:2024/api/user/${idAdmin}/users`
+        `${API_DUMMY}/api/user/${idAdmin}/users`
       );
       setListUser(usList.data);
     } catch (error) {
@@ -29,7 +30,7 @@ function Perkaryawan() {
   const getAbsensiByUserId = async (userId) => {
     try {
       const abs = await axios.get(
-        `http://localhost:2024/api/absensi/getByUserId/${userId}`
+        `${API_DUMMY}/api/absensi/getByUserId/${userId}`
       );
       if (abs.data.length === 0) {
         Swal.fire("Gagal", "User belum pernah absensi", "error");
@@ -109,7 +110,7 @@ function Perkaryawan() {
   const exportPerkaryawan = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/absensi/export/absensi-rekapan-perkaryawan?userId=${selectedUser}`,
+        `${API_DUMMY}/api/absensi/export/absensi-rekapan-perkaryawan?userId=${selectedUser}`,
         {
           responseType: "blob",
         }

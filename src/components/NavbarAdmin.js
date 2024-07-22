@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Logo from "../components/absensii.png";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
+import { API_DUMMY } from "../utils/api";
 const NavbarAdmin = () => {
   const [profileAdmin, setProfileAdmin] = useState("");
   const role = localStorage.getItem("role");
@@ -10,7 +11,7 @@ const NavbarAdmin = () => {
     const id = localStorage.getItem("adminId");
     try {
       const admin = await axios.get(
-        `http://localhost:2024/api/admin/getById/${id}`
+        `${API_DUMMY}/api/admin/getById/${id}`
       );
       setProfileAdmin(admin.data.imageAdmin);
     } catch (error) {

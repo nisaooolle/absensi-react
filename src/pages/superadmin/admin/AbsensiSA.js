@@ -5,6 +5,7 @@ import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Pagination } from "flowbite-react";
 import NavbarSuper from "../../../components/NavbarSuper";
+import { API_DUMMY } from "../../../utils/api";
 
 function Absensi() {
   const [absensi, setAbsensi] = useState([]);
@@ -18,7 +19,7 @@ function Absensi() {
 
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/absensi/getAll`,
+        `${API_DUMMY}/api/absensi/getAll`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

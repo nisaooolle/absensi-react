@@ -3,6 +3,7 @@ import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { API_DUMMY } from "../../../utils/api";
 
 function AddCuti() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -32,7 +33,7 @@ function AddCuti() {
 
     try {
       await axios.post(
-        `http://localhost:2024/api/cuti/tambahCuti/${userId}`,
+        `${API_DUMMY}/api/cuti/tambahCuti/${userId}`,
         add,
         {
           headers: {

@@ -6,6 +6,7 @@ import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { API_DUMMY } from "../../../utils/api";
 
 function EditLokasiSA() {
   const { idLokasi } = useParams();
@@ -15,7 +16,7 @@ function EditLokasiSA() {
   const getLokasi = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/lokasi/getByIdLokasi/${idLokasi}`
+        `${API_DUMMY}/api/lokasi/getByIdLokasi/${idLokasi}`
       );
       setNamaLokasi(res.data.namaLokasi);
       setAlamat(res.data.alamat);
@@ -32,7 +33,7 @@ function EditLokasiSA() {
         alamat: alamat,
       };
       const edit = await axios.put(
-        `http://localhost:2024/api/lokasi/editByIdLokasi/${idLokasi}`,
+        `${API_DUMMY}/api/lokasi/editByIdLokasi/${idLokasi}`,
         lokasi
       );
       setNamaLokasi(edit.data.namaLokasi);

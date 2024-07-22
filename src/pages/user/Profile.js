@@ -10,6 +10,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loader from "../../components/Loader";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../utils/api";
 function Profile() {
   const [passwordLama, setPasswordLama] = useState("");
   const [passwordBaru, setPasswordBaru] = useState("");
@@ -35,7 +36,7 @@ function Profile() {
   const getProfile = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:2024/api/user/getUserBy/${id}`,
+        `${API_DUMMY}/api/user/getUserBy/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -63,7 +64,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/user/edit-email-username/${id}`,
+        `${API_DUMMY}/api/user/edit-email-username/${id}`,
         usmail,
 
         {
@@ -113,7 +114,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/user/edit-password/${id}`,
+        `${API_DUMMY}/api/user/edit-password/${id}`,
         {
           old_password: passwordLama,
           new_password: passwordBaru,
@@ -146,7 +147,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        `http://localhost:2024/api/user/editFotoBY/${id}`,
+        `${API_DUMMY}/api/user/editFotoBY/${id}`,
         formData,
         {
           headers: {

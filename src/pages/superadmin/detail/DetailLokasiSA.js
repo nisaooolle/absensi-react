@@ -5,6 +5,7 @@ import Navbar from "../../../components/NavbarSuper";
 import Sidebar from "../../../components/SidebarUser";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
+import { API_DUMMY } from "../../../utils/api";
 
 function DetailLokasiSA() {
   const { idLokasi } = useParams();
@@ -14,7 +15,7 @@ function DetailLokasiSA() {
   const getLokasi = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2024/api/lokasi/getByIdLokasi/${idLokasi}`
+        `${API_DUMMY}/api/lokasi/getByIdLokasi/${idLokasi}`
       );
       setNamaLokasi(res.data.namaLokasi);
       setAlamat(res.data.alamat);
@@ -55,7 +56,7 @@ function DetailLokasiSA() {
                 <div className="mt-5 text-left">
                   {/* <!-- Form Input --> */}
                   <form
-                 
+
                   >
                     {/* <!-- Nama & Alamat Input --> */}
                     <div className="grid md:grid-cols-2 md:gap-6">

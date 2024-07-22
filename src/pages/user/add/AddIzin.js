@@ -3,6 +3,7 @@ import Navbar from "../../../components/NavbarUser";
 import Sidebar from "../../../components/SidebarUser";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { API_DUMMY } from "../../../utils/api";
 
 function AddIzin() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,7 +27,7 @@ function AddIzin() {
 
     try {
       await axios.post(
-        `http://localhost:2024/api/absensi/izin/${userId}`,
+        `${API_DUMMY}/api/absensi/izin/${userId}`,
         add,
         {
           headers: {
