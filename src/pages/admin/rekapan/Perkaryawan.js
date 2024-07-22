@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import Select from "react-select";
 import Navbar from "../../../components/NavbarAdmin";
 import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,20 +14,27 @@ import { API_DUMMY } from "../../../utils/api";
 function Perkaryawan() {
   const [listAbsensi, setListAbsensi] = useState([]);
   const [listUser, setListUser] = useState([]);
-  const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUser, setSelectedUser] = useState(null);
   const idAdmin = localStorage.getItem("adminId");
 
+  // Fetch user data
   const getAllUserByAdmin = async () => {
     try {
-      const usList = await axios.get(
-        `${API_DUMMY}/api/user/${idAdmin}/users`
-      );
-      setListUser(usList.data);
+      const usList = await axios.get(`${API_DUMMY}/api/user/${idAdmin}/users`);
+      const userOptions = usList.data.map((user) => ({
+        value: user.id,
+        label: user.username
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" "),
+      }));
+      setListUser(userOptions);
     } catch (error) {
       console.log(error);
     }
   };
 
+  // Fetch absensi data by user id
   const getAbsensiByUserId = async (userId) => {
     try {
       const abs = await axios.get(
@@ -44,73 +52,29 @@ function Perkaryawan() {
     }
   };
 
-  const handleUserChange = (event) => {
-    const userId = event.target.value;
-    setSelectedUser(userId);
-    if (userId) {
-      getAbsensiByUserId(userId);
+  // Handle user selection
+  const handleUserChange = (selectedOption) => {
+    setSelectedUser(selectedOption);
+    if (selectedOption) {
+      getAbsensiByUserId(selectedOption.value);
     } else {
       setListAbsensi([]);
     }
   };
 
-  useEffect(() => {
-    getAllUserByAdmin();
-  }, []);
-
-  const formatDate = (dateString) => {
-    const options = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    return new Date(dateString).toLocaleDateString("id-ID", options);
-  };
-
-  const formatLamaKerja = (startKerja) => {
-    const startDate = new Date(startKerja);
-    const currentDate = new Date();
-
-    const diffYears = currentDate.getFullYear() - startDate.getFullYear();
-
-    let diffMonths = currentDate.getMonth() - startDate.getMonth();
-    if (diffMonths < 0) {
-      diffMonths += 12;
-    }
-
-    let diffDays = Math.floor(
-      (currentDate - startDate) / (1000 * 60 * 60 * 24)
-    );
-
-    const lastDayOfLastMonth = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      0
-    ).getDate();
-    if (currentDate.getDate() < startDate.getDate()) {
-      diffMonths -= 1;
-      diffDays -= lastDayOfLastMonth;
-    }
-
-    let durationString = "";
-    if (diffYears > 0) {
-      durationString += `${diffYears} tahun `;
-    }
-    if (diffMonths > 0) {
-      durationString += `${diffMonths} bulan `;
-    }
-    if (diffDays > 0) {
-      durationString += `${diffDays} hari`;
-    }
-
-    return durationString.trim();
-  };
-
+  // Export data function
   const exportPerkaryawan = async () => {
+    if (!selectedUser) {
+      Swal.fire(
+        "Peringatan",
+        "Silakan pilih karyawan terlebih dahulu",
+        "warning"
+      );
+      return;
+    }
     try {
       const response = await axios.get(
-        `${API_DUMMY}/api/absensi/export/absensi-rekapan-perkaryawan?userId=${selectedUser}`,
+        `${API_DUMMY}/api/absensi/export/absensi-rekapan-perkaryawan?userId=${selectedUser.value}`,
         {
           responseType: "blob",
         }
@@ -130,6 +94,22 @@ function Perkaryawan() {
       Swal.fire("Error", "Gagal mengunduh data", "error");
       console.log(error);
     }
+  };
+
+  // Initialize data on component mount
+  useEffect(() => {
+    getAllUserByAdmin();
+  }, []);
+
+  // Format date
+  const formatDate = (dateString) => {
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString("id-ID", options);
   };
 
   return (
@@ -153,37 +133,28 @@ function Perkaryawan() {
                   </div>
                   <hr />
                   <form className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-5">
-                    <select
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 js-example-basic-single"
-                      id="id_user"
-                      name="id_user"
-                      onChange={handleUserChange}
-                      value={selectedUser}
-                    >
-                      <option value="">Pilih Karyawan</option>
-                      {listUser.map((user) => (
-                        <option key={user.id} value={user.id}>
-                          {user.username
-                            .split(" ")
-                            .map(
-                              (word) =>
-                                word.charAt(0).toUpperCase() + word.slice(1)
-                            )
-                            .join(" ")}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="w-full">
+                      <Select
+                        options={listUser}
+                        value={selectedUser}
+                        onChange={handleUserChange}
+                        placeholder="Pilih Karyawan"
+                        className="basic-single w-full"
+                        classNamePrefix="select"
+                      />
+                    </div>
+
                     <div className="flex sm:flex-row gap-4 mx-auto items-center">
                       <button
                         type="button"
                         className="bg-indigo-500 hover:bg-indigo text-white font-bold py-2 px-4 rounded inline-block"
-                        onClick={() => getAbsensiByUserId(selectedUser)}
+                        onClick={() => getAbsensiByUserId(selectedUser?.value)}
                       >
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                       </button>
                       <button
                         className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
-                        onClick={() => exportPerkaryawan()}
+                        onClick={exportPerkaryawan}
                       >
                         <FontAwesomeIcon icon={faFileExport} />
                       </button>
@@ -246,10 +217,10 @@ function Perkaryawan() {
                               <img src={absensi.fotoPulang} alt="Foto Pulang" />
                             </td>
                             <td className="px-6 py-3 capitalize">
-                              {formatLamaKerja(absensi.user.startKerja)}
+                              {absensi.jamKerja}
                             </td>
                             <td className="px-6 py-3 capitalize">
-                              {absensi.statusAbsen}
+                              {absensi.keterangan}
                             </td>
                           </tr>
                         ))}
