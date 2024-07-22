@@ -13,14 +13,15 @@ import { API_DUMMY } from "../../../utils/api";
 
 function Simpel() {
   const [bulan, setBulan] = useState("");
+  const [tahun, setTahun] = useState("");
   const [absensiData, setAbsensiData] = useState([]);
 
   const handleSearch = async () => {
     try {
       const response = await axios.get(
-        `${API_DUMMY}/api/absensi/get-absensi-bulan-simpel`,
+        `${API_DUMMY}/api/absensi/get-absensi-bulan`,
         {
-          params: { bulan: bulan },
+          params: { tanggalAbsen: `${tahun}-${bulan}-01` },
         }
       );
       setAbsensiData(response.data);
@@ -92,8 +93,9 @@ function Simpel() {
   const exportSimpel = async () => {
     try {
       const response = await axios.get(
-        `${API_DUMMY}/api/absensi/export/absensi-bulanan-simpel?bulan=${bulan}`,
+        `${API_DUMMY}/api/absensi/export/absensi-bulanan-simpel`,
         {
+          params: { month: bulan, year: tahun },
           responseType: "blob",
         }
       );
@@ -103,7 +105,7 @@ function Simpel() {
       link.href = url;
       link.setAttribute(
         "download",
-        `Absensi-Simpel ${getMonthName(bulan)}.xlsx`
+        `Absensi-Simpel ${getMonthName(bulan)}-${tahun}.xlsx`
       );
       document.body.appendChild(link);
       link.click();
@@ -144,7 +146,7 @@ function Simpel() {
                     value={bulan}
                     onChange={(e) => setBulan(e.target.value)}
                   >
-                    <option>Pilih Bulan</option>
+                    <option value="">Pilih Bulan</option>
                     <option value="01">Januari</option>
                     <option value="02">Februari</option>
                     <option value="03">Maret</option>
@@ -158,6 +160,16 @@ function Simpel() {
                     <option value="11">November</option>
                     <option value="12">Desember</option>
                   </select>
+                  <input
+                    type="number"
+                    id="form_tahun"
+                    name="tahun"
+                    value={tahun}
+                    onChange={(e) => setTahun(e.target.value)}
+                    className="w-40 sm:w-64 sm:w-40 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 pr-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ml-3"
+                    placeholder="Pilih Tahun"
+                    pattern="[0-9]{4}"
+                  />
                   <div className="flex sm:flex-row gap-4 mx-auto items-center">
                     <button
                       type="button"
@@ -219,49 +231,60 @@ function Simpel() {
                       </tr>
                     </thead>
                     <tbody className="text-left">
-                      {absensiData.length > 0 && absensiData != null
-                        ? absensiData.map((absensi, index) => (
-                            <tr key={index}>
-                              <td className="px-5 py-3">{index + 1}</td>
-                              <td className="px-5 py-3 capitalize">
-                                {absensi.user.username}
-                              </td>
-                              <td className="px-5 py-3 capitalize">
-                                {formatDate(absensi.tanggalAbsen)}
-                              </td>
-                              <td className="px-5 py-3 capitalize">
-                                {absensi.jamMasuk}
-                              </td>
-                              <td className="px-5 py-3">
-                                <img
-                                  src={absensi.fotoMasuk}
-                                  alt="foto masuk"
-                                  className="w-16 h-8 rounded-sm"
-                                />
-                              </td>
-                              <td className="px-5 py-3 capitalize">
-                                {absensi.lokasiMasuk}
-                              </td>
-                              <td className="px-5 py-3">{absensi.jamPulang}</td>
-                              <td className="px-5 py-3">
-                                <img
-                                  src={absensi.fotoPulang}
-                                  alt="Foto Pulang"
-                                  className="w-16 h-8 rounded-sm"
-                                />
-                              </td>
-                              <td className="px-5 py-3 capitalize">
-                                {absensi.lokasiPulang}
-                              </td>
-                              <td className="px-5 py-3">
-                                {formatLamaKerja(absensi.user.startKerja)}
-                              </td>
-                              <td className="px-5 py-3 capitalize">
-                                {absensi.statusAbsen}
-                              </td>
-                            </tr>
-                          ))
-                        : null}
+                      {absensiData.length > 0 && absensiData != null ? (
+                        absensiData.map((absensi, index) => (
+                          <tr key={index}>
+                            <td className="px-5 py-3">{index + 1}</td>
+                            <td className="px-5 py-3 capitalize">
+                              {absensi.user.username}
+                            </td>
+                            <td className="px-5 py-3 capitalize">
+                              {formatDate(absensi.tanggalAbsen)}
+                            </td>
+                            <td className="px-5 py-3 capitalize">
+                              {absensi.jamMasuk}
+                            </td>
+                            <td className="px-5 py-3">
+                              <img
+                                src={absensi.fotoMasuk}
+                                alt="foto masuk"
+                                className="w-16 h-8 rounded-sm"
+                              />
+                            </td>
+                            <td className="px-5 py-3 capitalize">
+                              {absensi.lokasiMasuk}
+                            </td>
+                            <td className="px-5 py-3">{absensi.jamPulang}</td>
+                            <td className="px-5 py-3">
+                              <img
+                                src={absensi.fotoPulang}
+                                alt="Foto Pulang"
+                                className="w-16 h-8 rounded-sm"
+                              />
+                            </td>
+                            <td className="px-5 py-3 capitalize">
+                              {absensi.lokasiPulang}
+                            </td>
+                            <td className="px-5 py-3">
+                              {formatLamaKerja(absensi.user.startKerja)}
+                            </td>
+                            <td className="px-5 py-3 capitalize">
+                              {absensi.statusAbsen}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="10" className="text-center py-3">
+                            <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white mt-5 mb-3">
+                              Tidak Ada Absensi di Bulan Ini!!!
+                            </h1>
+                            <p className="text-center">
+                              Silahkan pilih bulan dan tahun lain
+                            </p>
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>

@@ -72,80 +72,56 @@ function AbsenMasuk() {
   };
 
   const handleCaptureAndSubmitMasuk = async () => {
-    Swal.fire({
-      title: "Konfirmasi Absensi",
-      text: "Apakah Anda yakin ingin melakukan absensi?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, Absen!",
-      cancelButtonText: "Batal",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        setLoading(true);
-        const imageSrc = webcamRef.current.getScreenshot();
-        const imageBlob = await fetch(imageSrc).then((res) => res.blob());
+    const imageSrc = webcamRef.current.getScreenshot();
+    const imageBlob = await fetch(imageSrc).then((res) => res.blob());
 
-        setFetchingLocation(true);
-        navigator.geolocation.getCurrentPosition(async (position) => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
+    setFetchingLocation(true);
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
 
-          try {
-            const absensiCheckResponse = await axios.get(
-              `${API_DUMMY}/api/absensi/checkAbsensi/${userId}`
-            );
-            const isUserAlreadyAbsenToday =
-              absensiCheckResponse.data ===
-              "Pengguna sudah melakukan absensi hari ini.";
-            if (isUserAlreadyAbsenToday) {
-              Swal.fire(
-                "Info",
-                "Anda sudah melakukan absensi hari ini.",
-                "info"
-              );
-              setLoading(false);
-            } else {
-              const formData = new FormData();
-              formData.append("image", imageBlob);
-              formData.append("lokasiMasuk", `${latitude},${longitude}`);
-              formData.append(
-                "keteranganTerlambat",
-                keteranganTerlambat || "-"
-              );
+      try {
+        const absensiCheckResponse = await axios.get(
+          `${API_DUMMY}/api/absensi/checkAbsensi/${userId}`
+        );
+        const isUserAlreadyAbsenToday =
+          absensiCheckResponse.data ===
+          "Pengguna sudah melakukan absensi hari ini.";
+        if (isUserAlreadyAbsenToday) {
+          Swal.fire("Info", "Anda sudah melakukan absensi hari ini.", "info");
+        } else {
+          const formData = new FormData();
+          formData.append("image", imageBlob);
+          formData.append("lokasiMasuk", `${latitude},${longitude}`);
+          formData.append("keteranganTerlambat", keteranganTerlambat || "-");
 
-              const response = await axios.post(
-                `${API_DUMMY}/api/absensi/masuk/${userId}`,
-                formData,
-                {
-                  headers: {
-                    "Content-Type": "multipart/form-data",
-                  },
-                }
-              );
-
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Berhasil Absen",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-              setLoading(false);
-              setTimeout(() => {
-                window.location.href = "/user/history_absen";
-              }, 1500);
+          const response = await axios.post(
+            `${API_DUMMY}/api/absensi/masuk/${userId}`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
             }
-          } catch (err) {
-            console.error("Error:", err);
-            Swal.fire("Error", "Gagal Absen", "error");
-            setLoading(false);
-          }
+          );
 
-          setFetchingLocation(false);
-        });
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil Absen",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          setTimeout(() => {
+            window.location.href = "/user/history_absen";
+          }, 1500);
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        Swal.fire("Error", "Gagal Absen", "error");
       }
+
+      setFetchingLocation(false);
     });
   };
 
