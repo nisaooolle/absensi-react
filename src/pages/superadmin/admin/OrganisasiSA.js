@@ -12,9 +12,15 @@ import {
 import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
+import { Pagination } from "flowbite-react";
 
 function OrganisasiSA() {
   const [userData, setUserData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [limit, setLimit] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   const idSuperAdmin = localStorage.getItem("superadminId");
   const token = localStorage.getItem("token");
   const getAllKaryawan = async () => {
@@ -79,6 +85,49 @@ function OrganisasiSA() {
     getAllKaryawan();
   }, []);
 
+  useEffect(() => {
+    const filteredData = userData.filter(
+      (admin) =>
+        admin.admin?.username
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        admin.namaOrganisasi
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        admin.alamat?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        admin.nomerTelepon?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        admin.emailOrganisasi?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setTotalPages(Math.ceil(filteredData.length / limit));
+  }, [searchTerm, limit, userData]);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleLimitChange = (event) => {
+    setLimit(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to the first page when limit changes
+  };
+
+  function onPageChange(page) {
+    setCurrentPage(page);
+  }
+
+  const filteredOrganisasi = userData.filter(
+    (admin) =>
+      admin.admin?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      admin.namaOrganisasi?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      admin.alamat?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      admin.nomerTelepon?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      admin.emailOrganisasi?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const paginatedOrganisasi = filteredOrganisasi.slice(
+    (currentPage - 1) * limit,
+    currentPage * limit
+  );
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -96,13 +145,36 @@ function OrganisasiSA() {
                 <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                   Data Organisasi
                 </h6>
-                <a
-                  type="button"
-                  href="/superadmin/addO"
-                  className="text-white bg-indigo-500 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
-                >
-                  <FontAwesomeIcon icon={faPlus} size="lg" />
-                </a>
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="relative w-64">
+                    <input
+                      type="search"
+                      id="search-dropdown"
+                      value={searchTerm}
+                      onChange={handleSearch}
+                      className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                      placeholder="Search name..."
+                      required
+                    />
+                  </div>
+                  <select
+                    value={limit}
+                    onChange={handleLimitChange}
+                    className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                  >
+                    <option value="5">05</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                  </select>
+                  <a
+                    type="button"
+                    href="/superadmin/addO"
+                    className="text-white bg-indigo-500 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800 mt-2"
+                  >
+                    <FontAwesomeIcon icon={faPlus} size="lg" />
+                  </a>
+                </div>
               </div>
               <hr />
 
@@ -140,7 +212,7 @@ function OrganisasiSA() {
                   </thead>
                   {/* <!-- Tabel Body --> */}
                   <tbody className="text-left">
-                    {userData.map((admin, index) => (
+                    {paginatedOrganisasi.map((admin, index) => (
                       <tr
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         key={index}
@@ -149,7 +221,7 @@ function OrganisasiSA() {
                           scope="row"
                           className="px-6 py-4 font-medium text-gray-900 dark:text-white"
                         >
-                          {index + 1}
+                          {(currentPage - 1) * limit + index + 1}
                         </th>
                         <td className="px-6 py-4 whitespace-nowrap capitalize">
                           {admin.admin.username}
@@ -207,6 +279,14 @@ function OrganisasiSA() {
                   </tbody>
                 </table>
               </div>
+              <Pagination
+                className="mt-5"
+                layout="table"
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={onPageChange}
+                showIcons
+              />
             </div>
           </div>
         </div>

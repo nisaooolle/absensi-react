@@ -151,7 +151,10 @@ function RegisterUser() {
                   </button>
                   <p className="mt-6 text-base text-gray-600 text-center">
                     Sudah mempunyai akun?
-                    <a href="/" className="border-b border-gray-500 border-dotted">
+                    <a
+                      href="/"
+                      className="border-b border-blue-500 border-dotted"
+                    >
                       Login
                     </a>
                   </p>
