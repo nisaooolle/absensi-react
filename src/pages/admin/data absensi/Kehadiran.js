@@ -20,9 +20,7 @@ function Kehadiran() {
 
   const getAllKaryawanUser = async () => {
     try {
-      const all = await axios.get(
-        `${API_DUMMY}/api/user/${idAdmin}/users`
-      );
+      const all = await axios.get(`${API_DUMMY}/api/user/${idAdmin}/users`);
       setKehadiran(all.data);
     } catch (error) {
       console.log(error);
@@ -31,9 +29,7 @@ function Kehadiran() {
 
   const getAllAbsensiByAdmin = async () => {
     try {
-      const abs = await axios.get(
-        `${API_DUMMY}/api/absensi/admin/${adminId}`
-      );
+      const abs = await axios.get(`${API_DUMMY}/api/absensi/admin/${adminId}`);
 
       setAllAbsensi(abs.data);
     } catch (error) {
@@ -52,13 +48,25 @@ function Kehadiran() {
     ).length;
   };
 
+  const getTotalMasukPerBulan = (userId) => {
+    const currentMonth = new Date().getMonth() + 1;
+    return allAbsensi.filter(
+      (abs) =>
+        abs.user.id === userId &&
+        (abs.statusAbsen === "Lebih Awal" || abs.statusAbsen === "Terlambat") &&
+        new Date(abs.tanggalAbsen).getMonth() + 1 === currentMonth
+    ).length;
+  };
+
   useEffect(() => {
     const userAbsensiCounts = kehadiran.map((user) => ({
       userId: user.id,
       lateCount: getAbsensiByUserId(user.id, "Terlambat"),
       earlyCount: getAbsensiByUserId(user.id, "Lebih Awal"),
       permissionCount: getAbsensiByUserId(user.id, "Izin"),
+      totalMasuk: getTotalMasukPerBulan(user.id),
     }));
+
 
     setKehadiran((prevUsers) =>
       prevUsers.map((user) => {
@@ -178,6 +186,10 @@ function Kehadiran() {
                         <th scope="col" className="px-6 py-3">
                           Izin
                         </th>
+                        <th scope="col" className="px-6 py-3">
+                          Total Masuk
+                          <span className="text-xs font-normal"> / Bulan</span>
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="text-left">
@@ -208,6 +220,9 @@ function Kehadiran() {
                           </td>
                           <td className="px-6 py-4 text-gray-700 capitalize">
                             {kehadiran.permissionCount}
+                          </td>
+                          <td className="px-6 py-4 text-gray-700 capitalize">
+                            {kehadiran.totalMasuk}
                           </td>
                         </tr>
                       ))}
