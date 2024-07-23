@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import { Pagination } from "flowbite-react";
 import { API_DUMMY } from "../../../utils/api";
+import Swal from "sweetalert2";
 
 function Absensi() {
   const [absensi, setAbsensi] = useState([]);
@@ -98,6 +99,49 @@ function Absensi() {
     currentPage * limit
   );
 
+  const exportAbsensi = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:2024/api/absensi/rekap-perkaryawan/export`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          responseType: "blob", // Important for handling binary data
+        }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `absensi.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      Swal.fire({
+        title: "Berhasil",
+        text: "Berhasil mengunduh data",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500, // Auto close after 1.5 seconds
+      });
+      window.location.reload();
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: "Gagal mengunduh data",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 1500, // Auto close after 1.5 seconds
+      });
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -142,7 +186,7 @@ function Absensi() {
                       <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button> */}
                     <a
-                      href="https://demo-absen.excellentsistem.com/Admin/export_simple"
+                      onClick={exportAbsensi}
                       className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
                     >
                       <FontAwesomeIcon icon={faFileExport} />
