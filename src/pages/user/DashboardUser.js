@@ -197,7 +197,7 @@ function Dashboard() {
         </div>
         <div className="content-page container p-8 min-h-screen ml-0 md:ml-64 mt-5">
           <div className="mt-12 bg-slate-200 p-5 rounded-xl shadow-xl">
-            <h1 className="judul text-3xl font-semibold text-center">
+            <h1 className="judul text-3xl font-semibold text-center capitalize">
               Selamat Datang @{username.username}
             </h1>
 
