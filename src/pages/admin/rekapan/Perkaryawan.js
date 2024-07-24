@@ -10,6 +10,7 @@ import {
 import Swal from "sweetalert2";
 import axios from "axios";
 import { API_DUMMY } from "../../../utils/api";
+import NavbarAdmin from "../../../components/NavbarAdmin";
 
 function Perkaryawan() {
   const [listAbsensi, setListAbsensi] = useState([]);
@@ -115,120 +116,138 @@ function Perkaryawan() {
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
-        <Navbar />
+        <NavbarAdmin />
       </div>
-      <div className="flex h-full">
-        <div className="fixed">
+      <div className="flex h-full pt-5">
+        <div className="fixed h-full">
           <Sidebar />
         </div>
-        <div className="sm:ml-64 content-page container p-4 ml-0 md:ml-56">
-          <div className="p-4">
-            <div className="p-5 mt-5">
-              <main id="content" className="flex-1 p-4 sm:p-6">
-                <div className="bg-white rounded-lg shadow-md p-4">
-                  <div className="flex justify-between">
-                    <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                      Rekap Perkaryawan
-                    </h6>
-                  </div>
-                  <hr />
-                  <form className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-5">
-                    <div className="w-full">
-                      <Select
-                        options={listUser}
-                        value={selectedUser}
-                        onChange={handleUserChange}
-                        placeholder="Pilih Karyawan"
-                        className="basic-single w-full"
-                        classNamePrefix="select"
-                      />
-                    </div>
+        <div className="content-page flex-1 p-8 md:ml-64 mt-16 text-center overflow-auto">
+          <div className="tabel-absen bg-white p-5 rounded-xl shadow-xl border border-gray-300">
+            <div className="flex justify-between">
+              <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                Rekap Perkaryawan
+              </h6>
+            </div>
+            <hr />
+            <form className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-5">
+              <div className="w-full">
+                <Select
+                  options={listUser}
+                  value={selectedUser}
+                  onChange={handleUserChange}
+                  placeholder="Pilih Karyawan"
+                  className="basic-single w-full"
+                  classNamePrefix="select"
+                  styles={{
+                    container: (provided) => ({
+                      ...provided,
+                      width: "100%", // Ensure it takes full width of parent container
+                    }),
+                    placeholder: (provided) => ({
+                      ...provided,
+                      textAlign: "left", // Align placeholder text to the left
+                    }),
+                    singleValue: (provided) => ({
+                      ...provided,
+                      textAlign: "left", // Align selected value text to the left
+                    }),
+                    menu: (provided) => ({
+                      ...provided,
+                      textAlign: "left", // Align options text to the left
+                    }),
+                    option: (provided) => ({
+                      ...provided,
+                      textAlign: "left", // Align individual option text to the left
+                    }),
+                  }}
+                />
+              </div>
 
-                    <div className="flex sm:flex-row gap-4 mx-auto items-center">
-                      <button
-                        type="button"
-                        className="bg-indigo-500 hover:bg-indigo text-white font-bold py-2 px-4 rounded inline-block"
-                        onClick={() => getAbsensiByUserId(selectedUser?.value)}
-                      >
-                        <FontAwesomeIcon icon={faMagnifyingGlass} />
-                      </button>
-                      <button
-                        className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
-                        onClick={exportPerkaryawan}
-                      >
-                        <FontAwesomeIcon icon={faFileExport} />
-                      </button>
-                    </div>
-                  </form>
+              <div className="flex sm:flex-row gap-4 mx-auto items-center">
+                <button
+                  type="button"
+                  className="bg-indigo-500 hover:bg-indigo text-white font-bold py-2 px-4 rounded inline-block"
+                  onClick={() => getAbsensiByUserId(selectedUser?.value)}
+                >
+                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                </button>
+                <button
+                  className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
+                  onClick={exportPerkaryawan}
+                >
+                  <FontAwesomeIcon icon={faFileExport} />
+                </button>
+              </div>
+            </form>
 
-                  <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
-                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                      <thead className="text-xs text-left text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                          <th scope="col" className="px-6 py-3">
-                            No
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Nama
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Tanggal
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Jam Masuk
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Foto Masuk
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Jam Pulang
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Foto Pulang
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Jam Kerja
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Keterangan
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {listAbsensi.map((absensi, index) => (
-                          <tr key={absensi.id}>
-                            <td className="px-6 py-3">{index + 1}</td>
-                            <td className="px-6 py-3 capitalize">
-                              {absensi.user.username}
-                            </td>
-                            <td className="px-6 py-3 capitalize">
-                              {formatDate(absensi.tanggalAbsen)}
-                            </td>
-                            <td className="px-6 py-3 capitalize">
-                              {absensi.jamMasuk}
-                            </td>
-                            <td className="px-6 py-3 capitalize">
-                              <img src={absensi.fotoMasuk} alt="Foto Masuk" />
-                            </td>
-                            <td className="px-6 py-3 capitalize">
-                              {absensi.jamPulang}
-                            </td>
-                            <td className="px-6 py-3 capitalize">
-                              <img src={absensi.fotoPulang} alt="Foto Pulang" />
-                            </td>
-                            <td className="px-6 py-3 capitalize">
-                              {absensi.jamKerja}
-                            </td>
-                            <td className="px-6 py-3 capitalize">
-                              {absensi.keterangan}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </main>
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-left text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      No
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Nama
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Tanggal
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Jam Masuk
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Foto Masuk
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Jam Pulang
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Foto Pulang
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Jam Kerja
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Keterangan
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {listAbsensi.map((absensi, index) => (
+                    <tr key={absensi.id}>
+                      <td className="px-6 py-3 whitespace-nowrap">
+                        {index + 1}
+                      </td>
+                      <td className="px-6 py-3 whitespace-nowrap capitalize">
+                        {absensi.user.username}
+                      </td>
+                      <td className="px-6 py-3 whitespace-nowrap capitalize">
+                        {formatDate(absensi.tanggalAbsen)}
+                      </td>
+                      <td className="px-6 py-3 whitespace-nowrap capitalize">
+                        {absensi.jamMasuk}
+                      </td>
+                      <td className="px-6 py-3 whitespace-nowrap capitalize">
+                        <img src={absensi.fotoMasuk} alt="Foto Masuk" />
+                      </td>
+                      <td className="px-6 py-3 whitespace-nowrap capitalize">
+                        {absensi.jamPulang}
+                      </td>
+                      <td className="px-6 py-3 whitespace-nowrap capitalize">
+                        <img src={absensi.fotoPulang} alt="Foto Pulang" />
+                      </td>
+                      <td className="px-6 py-3 whitespace-nowrap capitalize">
+                        {absensi.jamKerja}
+                      </td>
+                      <td className="px-6 py-3 whitespace-nowrap capitalize">
+                        {absensi.keterangan}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

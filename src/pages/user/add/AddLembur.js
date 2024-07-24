@@ -34,15 +34,11 @@ function AddLembur() {
     }
 
     try {
-      await axios.post(
-        `${API_DUMMY}/api/lembur/tambahLembur/${userId}`,
-        add,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axios.post(`${API_DUMMY}/api/lembur/tambahLembur/${userId}`, add, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       Swal.fire({
         position: "center",
         icon: "success",
@@ -69,6 +65,11 @@ function AddLembur() {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+
+  const handleBack = () => {
+    window.location.href = "/user/dashboard";
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -146,6 +147,13 @@ function AddLembur() {
                 </div>
               </div>
               <div className="flex justify-between mt-6">
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  className="block w-20 sm:w-24 rounded-lg text-black outline outline-red-500 py-3 text-sm sm:text-xs font-medium"
+                >
+                  Kembali
+                </button>
                 <button
                   type="submit"
                   className="block w-20 sm:w-24 rounded-lg text-black outline outline-blue-500 py-3 text-sm sm:text-xs font-medium"

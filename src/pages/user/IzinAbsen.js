@@ -62,6 +62,10 @@ function IzinAbsen() {
     }
   };
 
+  const handleBack = () => {
+    window.location.href = "/user/history_absen";
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -107,6 +111,13 @@ function IzinAbsen() {
                 />
               </div>
               <div className="flex justify-between mt-6">
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  className="block w-20 sm:w-24 rounded-lg text-black outline outline-red-500 py-3 text-sm sm:text-xs font-medium"
+                >
+                  Kembali
+                </button>
                 <button
                   type="submit"
                   className="block w-20 sm:w-24 rounded-lg text-black outline outline-blue-500 py-3 text-sm sm:text-xs font-medium"
