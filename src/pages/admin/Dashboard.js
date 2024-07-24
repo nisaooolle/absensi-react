@@ -26,9 +26,7 @@ function Dashboard() {
 
   const getallUser = async () => {
     try {
-      const res = await axios.get(
-        `${API_DUMMY}/api/user/${idAdmin}/users`
-      );
+      const res = await axios.get(`${API_DUMMY}/api/user/${idAdmin}/users`);
       setKaryawan(res.data.length);
     } catch (error) {}
   };
@@ -74,18 +72,11 @@ function Dashboard() {
     fetchData(`${API_DUMMY}/api/user/get-allUser`, setUserData);
   const getAbsensi = () =>
     fetchData(`${API_DUMMY}/api/absensi/getAll`, setAbsenData);
-  const getCuti = () =>
-    fetchData(`${API_DUMMY}/api/cuti/getall`, setCutiData);
+  const getCuti = () => fetchData(`${API_DUMMY}/api/cuti/getall`, setCutiData);
   const getJabatan = () =>
-    fetchData(
-      `${API_DUMMY}/api/jabatan/getByAdmin/${adminId}`,
-      setJabatanData
-    );
+    fetchData(`${API_DUMMY}/api/jabatan/getByAdmin/${adminId}`, setJabatanData);
   const getLokasi = () =>
-    fetchData(
-      `${API_DUMMY}/api/lokasi/get-admin/${idAdmin}`,
-      setLokasiData
-    );
+    fetchData(`${API_DUMMY}/api/lokasi/get-admin/${idAdmin}`, setLokasiData);
   const getOrganisasi = () =>
     fetchData(
       `${API_DUMMY}/api/organisasi/all-by-admin/${idAdmin}`,
@@ -97,14 +88,11 @@ function Dashboard() {
     const id = localStorage.getItem("adminId");
 
     try {
-      const response = await axios.get(
-        `${API_DUMMY}/api/admin/getById/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${API_DUMMY}/api/admin/getById/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setUsername(response.data.username);
     } catch (error) {
       console.error("Error fetching username:", error);
@@ -153,7 +141,7 @@ function Dashboard() {
         <div className="content-page container p-8 ml-0 md:ml-64 mt-12">
           <div className="mt-5 w-full">
             <div className="p-4 text-center bg-indigo-300 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-              <h2 className="text-2xl font-semibold mb-4">
+              <h2 className="text-2xl font-semibold mb-4 capitalize">
                 Selamat Datang di Absensi
                 <span> @{username}</span>
               </h2>

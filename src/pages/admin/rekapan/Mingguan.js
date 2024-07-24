@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../utils/api";
+import NavbarAdmin from "../../../components/NavbarAdmin";
 
 function Mingguan() {
   const [absensi, setAbsensi] = useState({});
@@ -32,7 +33,8 @@ function Mingguan() {
           Swal.fire("Tidak ada", "Tidak ada yang absen Minggu ini", "info");
         } else {
           setAbsensi(response.data);
-        }        setError(null);
+        }
+        setError(null);
       } catch (error) {
         console.error("Error fetching data:", error);
         setError("Error fetching data. Please try again later.");
@@ -123,149 +125,145 @@ function Mingguan() {
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
-        <Navbar />
+        <NavbarAdmin />
       </div>
-      <div className="flex h-full">
-        <div className="fixed">
+      <div className="flex h-full pt-5">
+        <div className="fixed h-full">
           <Sidebar />
         </div>
-        <div className="sm:ml-64 content-page container p-8 ml-0 md:ml-64 mt-12">
-          <div className="p-4">
-            <div className="p-5">
-              <div className="w-full p-4 text-center bg-white border border-gray-200 shadow sm:p-8 dark:bg-gray-800">
-                <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                  Rekap Mingguan
-                </h6>
-                <hr />
-                <form
-                  onSubmit={handleSubmit}
-                  className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-5"
-                >
-                  <input
-                    type="date"
-                    className="appearance-none block w-full bg-white border border-gray-300 rounded py-2 px-3 text-gray-700"
-                    value={tanggalAwal}
-                    onChange={(e) => setTanggalAwal(e.target.value)}
-                  />
-                  <input
-                    type="date"
-                    className="appearance-none block w-full bg-white border border-gray-300 rounded py-2 px-3 text-gray-700"
-                    value={tanggalAkhir}
-                    onChange={(e) => setTanggalAkhir(e.target.value)}
-                  />
-                  <button
-                    type="submit"
-                    className="bg-indigo-500 hover:bg-indigo text-white font-bold py-2 px-4 rounded inline-block"
-                  >
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                  </button>
-                  <button
-                    onClick={exportMingguan}
-                    className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
-                  >
-                    <FontAwesomeIcon icon={faFileExport} />
-                  </button>
-                </form>
-                {error && <div className="text-red-500 mt-4">{error}</div>}
-                <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5 py-3">
-                  {Object.keys(absensi).length === 0 ? (
-                    <div>
-                      <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white mt-5 mb-3">
-                        Tidak Ada Absen Minggu ini !!
-                      </h1>
-                      <p className="text-center">Silahkan pilih tanggal lain</p>
-                    </div>
-                  ) : (
-                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                      <thead className="text-xs text-left text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                          <th scope="col" className="px-6 py-3">
-                            No
-                          </th>
-                          {/* <th scope="col" className="px-6 py-3">
-                            Rentang Tanggal
-                          </th> */}
-                          <th scope="col" className="px-6 py-3">
-                            Nama
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Tanggal
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Jam Masuk
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Foto Masuk
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Jam Pulang
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Foto Pulang
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Jam Kerja
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Keterangan
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {Object.entries(absensi).map(
-                          ([weekRange, absensiList], index) => (
-                            <React.Fragment key={weekRange}>
-                              {absensiList.map((absensi, idx) => (
-                                <tr
-                                  key={idx}
-                                  className="bg-white border-b dark:bg-gray-800"
-                                >
-                                  <td className="px-6 py-4 text-center">
-                                    {index + 1}
-                                  </td>
+        <div className="content-page flex-1 p-8 md:ml-64 mt-16 text-center overflow-auto">
+          <div className="tabel-absen bg-white p-5 rounded-xl shadow-xl border border-gray-300">
+            <div className="flex justify-between">
+              <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                Rekap Mingguan
+              </h6>
+            </div>
 
-                                  <td className="px-6 py-4 capitalize">
-                                    {absensi.user.username}
-                                  </td>
-                                  <td className="px-6 py-4 capitalize">
-                                    {formatDate(absensi.tanggalAbsen)}
-                                  </td>
-                                  <td className="px-6 py-4 capitalize">
-                                    {absensi.jamMasuk}
-                                  </td>
-                                  <td className="px-6 py-4">
-                                    <img
-                                      src={absensi.fotoMasuk}
-                                      alt="foto masuk"
-                                      className="w-16 h-8 rounded-sm"
-                                    />
-                                  </td>
-                                  <td className="px-6 py-4 capitalize">
-                                    {absensi.jamPulang}
-                                  </td>
-                                  <td className="px-6 py-4">
-                                    <img
-                                      src={absensi.fotoPulang}
-                                      alt="foto pulang"
-                                      className="w-16 h-8 rounded-sm"
-                                    />
-                                  </td>
-                                  <td className="px-6 py-4">
-                                    {formatLamaKerja(absensi.user.startKerja)}
-                                  </td>
-                                  <td className="px-6 py-4 capitalize">
-                                    {absensi.statusAbsen}
-                                  </td>
-                                </tr>
-                              ))}
-                            </React.Fragment>
-                          )
-                        )}
-                      </tbody>
-                    </table>
-                  )}
+            <hr />
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-5"
+            >
+              <input
+                type="date"
+                className="appearance-none block w-full bg-white border border-gray-300 rounded py-2 px-3 text-gray-700"
+                value={tanggalAwal}
+                onChange={(e) => setTanggalAwal(e.target.value)}
+              />
+              <input
+                type="date"
+                className="appearance-none block w-full bg-white border border-gray-300 rounded py-2 px-3 text-gray-700"
+                value={tanggalAkhir}
+                onChange={(e) => setTanggalAkhir(e.target.value)}
+              />
+              <button
+                type="submit"
+                className="bg-indigo-500 hover:bg-indigo text-white font-bold py-2 px-4 rounded inline-block"
+              >
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </button>
+              <button
+                onClick={exportMingguan}
+                className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
+              >
+                <FontAwesomeIcon icon={faFileExport} />
+              </button>
+            </form>
+            {error && <div className="text-red-500 mt-4">{error}</div>}
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5 py-3">
+              {Object.keys(absensi).length === 0 ? (
+                <div>
+                  <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white mt-5 mb-3">
+                    Tidak Ada Absen Minggu ini !!
+                  </h1>
+                  <p className="text-center">Silahkan pilih tanggal lain</p>
                 </div>
-              </div>
+              ) : (
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                  <thead className="text-xs text-left text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                      <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                        No
+                      </th>
+                      <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                        Nama
+                      </th>
+                      <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                        Tanggal
+                      </th>
+                      <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                        Jam Masuk
+                      </th>
+                      <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                        Foto Masuk
+                      </th>
+                      <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                        Jam Pulang
+                      </th>
+                      <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                        Foto Pulang
+                      </th>
+                      <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                        Jam Kerja
+                      </th>
+                      <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                        Keterangan
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(absensi).map(
+                      ([weekRange, absensiList], index) => (
+                        <React.Fragment key={weekRange}>
+                          {absensiList.map((absensi, idx) => (
+                            <tr
+                              key={idx}
+                              className="bg-white border-b dark:bg-gray-800"
+                            >
+                              <td className="px-6 py-4 whitespace-nowrap text-center">
+                                {index + 1}
+                              </td>
+
+                              <td className="px-6 py-4 whitespace-nowrap capitalize">
+                                {absensi.user.username}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap capitalize">
+                                {formatDate(absensi.tanggalAbsen)}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap capitalize">
+                                {absensi.jamMasuk}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <img
+                                  src={absensi.fotoMasuk}
+                                  alt="foto masuk"
+                                  className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                />
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap capitalize">
+                                {absensi.jamPulang}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <img
+                                  src={absensi.fotoPulang}
+                                  alt="foto pulang"
+                                  className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                />
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                {formatLamaKerja(absensi.user.startKerja)}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap capitalize">
+                                {absensi.statusAbsen}
+                              </td>
+                            </tr>
+                          ))}
+                        </React.Fragment>
+                      )
+                    )}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         </div>

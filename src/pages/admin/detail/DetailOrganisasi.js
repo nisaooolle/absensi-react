@@ -13,9 +13,7 @@ function DetailOrganisasi() {
 
   const getOrganisasiId = async () => {
     try {
-      const res = await axios.get(
-        `${API_DUMMY}/api/organisasi/getById/${id}`
-      );
+      const res = await axios.get(`${API_DUMMY}/api/organisasi/getById/${id}`);
       setOrganisasi(res.data);
     } catch (error) {
       console.log(error);
@@ -35,7 +33,7 @@ function DetailOrganisasi() {
         <div className="fixed">
           <Sidebar />
         </div>
-        <div className="sm:ml-64 content-page container p-8 ml-14 md:ml-64 mt-12">
+        <div className="sm:ml-64 content-page container p-8 ml-14 md:ml-64 mt-2">
           <div className="p-4">
             <div className="p-5 mt-10">
               {/* <!-- Card --> */}
@@ -54,7 +52,7 @@ function DetailOrganisasi() {
                     <div className="mt-5 text-center">
                       {/* <!-- Mengubah kelas "text-left" menjadi "text-center" --> */}
                       <img
-                        className="rounded-full w-96 h-96 mx-auto"
+                        className="rounded-full w-48 h-48 mx-auto"
                         src={
                           organisasi && organisasi.fotoOrganisasi
                             ? organisasi.fotoOrganisasi
@@ -65,7 +63,7 @@ function DetailOrganisasi() {
                     </div>
 
                     {/* <!-- Nama & Email Input --> */}
-                    <div className="grid md:grid-cols-2 md:gap-6">
+                    <div className="grid md:grid-cols-2 md:gap-6 mt-5">
                       <div className="relative z-0 w-full mb-6 group">
                         <input
                           type="text"

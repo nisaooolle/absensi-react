@@ -18,14 +18,11 @@ function Absensi() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await axios.get(
-        `${API_DUMMY}/api/absensi/getAll`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${API_DUMMY}/api/absensi/getAll`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       setAbsensi(response.data);
     } catch (error) {
@@ -202,7 +199,7 @@ function Absensi() {
                         {absenData.statusAbsen}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {absenData.jamMasuk}{" "}
+                        {absenData.jamMasuk}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <img
@@ -221,7 +218,7 @@ function Absensi() {
                             absenData.fotoPulang ? absenData.fotoPulang : "-"
                           }
                           alt="Foto Pulang"
-                          className="block py-2.5 px-0 w-25 max-h-96 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           id="foto_masuk"
                         />
                       </td>
