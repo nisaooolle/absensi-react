@@ -52,33 +52,7 @@ const Sidebar = () => {
     setAbsenOpen(!absenOpen);
   };
 
-  function logout() {
-    // Tampilkan SweetAlert2 konfirmasi sebelum logout
-    Swal.fire({
-      title: "Logout",
-      text: "Apakah Anda yakin ingin logout?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, Logout",
-      cancelButtonText: "Batal",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Hapus item dari local storage saat logout
-        localStorage.clear();  
-        Swal.fire({
-          title: "Logout Berhasil",
-          text: "Anda telah berhasil logout.",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 1000,
-        }).then(() => {
-          window.location.href = "/";
-        });
-      }
-    });
-  }
+
 
   return (
     <aside
@@ -613,7 +587,7 @@ const Sidebar = () => {
               </li>
             </ul>
           )}
-          <li>
+          {/* <li>
             <a
               href="/"
               onClick={(e) => {
@@ -628,7 +602,7 @@ const Sidebar = () => {
               />
               <span className="flex-1 ms-3 whitespace-nowrap">Logout</span>
             </a>
-          </li>
+          </li> */}
         </ul>
       </div>
     </aside>
