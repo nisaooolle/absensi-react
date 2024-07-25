@@ -13,6 +13,8 @@ function RegisterUser() {
   const [idOrganisasi, setIdOrganisasi] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [organisasiList, setOrganisasiList] = useState([]);
+  const [shiftList, setShiftList] = useState([]);
+  const [selectedShift, setSelectedShift] = useState("");
   const history = useHistory();
 
   useEffect(() => {
@@ -21,10 +23,25 @@ function RegisterUser() {
 
   const GetALLOrganisasi = async () => {
     try {
-      const response = await axios.get(
-        `${API_DUMMY}/api/organisasi/all`
-      );
+      const response = await axios.get(`${API_DUMMY}/api/organisasi/all`);
       setOrganisasiList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleOrganisasiChange = async (e) => {
+    const organisasiId = e.target.value;
+    setIdOrganisasi(organisasiId);
+    await fetchShiftsByOrganisasi(organisasiId);
+  };
+
+  const fetchShiftsByOrganisasi = async (organisasiId) => {
+    try {
+      const response = await axios.get(
+        `${API_DUMMY}/api/shift/byOrganisasi/${organisasiId}`
+      );
+      setShiftList(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -46,7 +63,7 @@ function RegisterUser() {
 
     try {
       const response = await axios.post(
-        ` ${API_DUMMY}/api/user/register?idOrganisasi=${idOrganisasi}`,
+        `${API_DUMMY}/api/user/register?idOrganisasi=${idOrganisasi}&idShift=${selectedShift}`,
         {
           username: username,
           email: email,
@@ -70,16 +87,13 @@ function RegisterUser() {
       Swal.fire("Error", "Gagal mendaftar silahkan coba lagi", "error");
     }
   };
+
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
       <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
         <div className="lg:w-1/2 xl:w-5/12 p-2">
           <div>
-            <img
-              src={Logo}
-              className="w-16 mx-auto
-             "
-            />
+            <img src={Logo} className="w-16 mx-auto" alt="Logo" />
           </div>
           <div className="mt-2 flex flex-col items-center">
             <h1 className="text-2xl xl:text-3xl font-extrabold">Sign up</h1>
@@ -105,10 +119,10 @@ function RegisterUser() {
                   <select
                     className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                     value={idOrganisasi}
-                    onChange={(e) => setIdOrganisasi(e.target.value)}
+                    onChange={handleOrganisasiChange}
                     required
                   >
-                    <option value="" disabled selected>
+                    <option value="" disabled>
                       Pilih Organisasi
                     </option>
                     {organisasiList &&
@@ -118,6 +132,24 @@ function RegisterUser() {
                         </option>
                       ))}
                   </select>
+                  {shiftList.length > 0 && (
+                    <select
+                      className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+                      value={selectedShift}
+                      onChange={(e) => setSelectedShift(e.target.value)}
+                      required
+                    >
+                      <option value="" disabled>
+                        Pilih Shift
+                      </option>
+                      {shiftList &&
+                        shiftList.map((shift) => (
+                          <option key={shift.id} value={shift.id}>
+                            {shift.namaShift}
+                          </option>
+                        ))}
+                    </select>
+                  )}
                   <div className="relative mt-5">
                     <input
                       className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
@@ -129,10 +161,9 @@ function RegisterUser() {
                     />
                     <span
                       className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-                      onClick={() => setShowPassword(!showPassword)} // Mengubah state showPassword ketika ikon diklik
+                      onClick={() => setShowPassword(!showPassword)}
                     >
-                      {showPassword ? <FaEye /> : <FaEyeSlash />}{" "}
-                      {/* Menampilkan ikon view atau hide password sesuai dengan state showPassword */}
+                      {showPassword ? <FaEye /> : <FaEyeSlash />}
                     </span>
                   </div>
                   <button className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
