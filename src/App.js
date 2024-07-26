@@ -79,6 +79,7 @@ import DetailOrganisasiSA from "./pages/superadmin/detail/DetailOrganisasiSA";
 import DetailAbsensiSA from "./pages/superadmin/detail/DetailAbsensiSA";
 import ProfileSA from "./pages/superadmin/ProfilSA";
 import ProfilSA from "./pages/superadmin/ProfilSA";
+import SidebarNavbar from "./components/SidebarNavbar";
 
 function App() {
   const role = localStorage.getItem("role");
@@ -95,6 +96,7 @@ function App() {
           {role === "ADMIN" && (
             <>
               <Route path="/admin/dashboard" component={Dashboard} exact />
+              <Route path="/admin/sidebar" component={SidebarNavbar} exact />
               <Route path="/admin/profil" component={Profil} exact />
               {/* master data */}
               <Route path="/admin/karyawan" component={Karyawan} exact />
@@ -197,11 +199,7 @@ function App() {
                 component={OrganisasiSA}
                 exact
               />
-              <Route
-                path="/superadmin/profile"
-                component={ProfilSA}
-                exact
-              />
+              <Route path="/superadmin/profile" component={ProfilSA} exact />
               <Route
                 path="/superadmin/addO"
                 component={AddOrganisasiSA}

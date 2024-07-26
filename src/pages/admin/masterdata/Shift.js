@@ -12,6 +12,8 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { Pagination } from "flowbite-react";
 import { API_DUMMY } from "../../../utils/api";
+import SidebarNavbar from "../../../components/SidebarNavbar";
+import NavbarAdmin from "../../../components/NavbarAdmin";
 
 function Shift() {
   const [userData, setUserData] = useState([]);
@@ -66,14 +68,11 @@ function Shift() {
 
   const getAllUser = async (id) => {
     try {
-      const response = await axios.get(
-        `${API_DUMMY}/api/user/byShift/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${API_DUMMY}/api/user/byShift/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       setJumlahKaryawan((prevState) => ({
         ...prevState,
@@ -171,11 +170,11 @@ function Shift() {
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
-        <Navbar />
+        <SidebarNavbar />
       </div>
       <div className="flex h-full">
-        <div className="fixed">
-          <Sidebar />
+        <div className="sticky top-16 z-40">
+          <NavbarAdmin />
         </div>
         <div className=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-5">
           <div className="p-5 mt-10">

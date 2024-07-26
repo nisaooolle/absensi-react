@@ -12,6 +12,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Pagination } from "flowbite-react";
 import { API_DUMMY } from "../../../utils/api";
+import SidebarNavbar from "../../../components/SidebarNavbar";
+import NavbarAdmin from "../../../components/NavbarAdmin";
 
 function Lokasi() {
   const [userData, setUserData] = useState([]);
@@ -24,9 +26,7 @@ function Lokasi() {
 
   const getallUser = async () => {
     try {
-      const res = await axios.get(
-        `${API_DUMMY}/api/user/${idAdmin}/users`
-      );
+      const res = await axios.get(`${API_DUMMY}/api/user/${idAdmin}/users`);
       setKaryawan(res.data.length);
     } catch (error) {}
   };
@@ -127,11 +127,11 @@ function Lokasi() {
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
-        <Navbar />
+        <SidebarNavbar />
       </div>
       <div className="flex h-full">
-        <div className="fixed">
-          <Sidebar />
+        <div className="sticky top-16 z-40">
+          <NavbarAdmin />
         </div>
         <div className=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-5">
           <div className="p-5 mt-10">

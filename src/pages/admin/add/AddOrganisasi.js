@@ -7,6 +7,8 @@ import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import Loader from "../../../components/Loader";
 import { API_DUMMY } from "../../../utils/api";
+import SidebarNavbar from "../../../components/SidebarNavbar";
+import NavbarAdmin from "../../../components/NavbarAdmin";
 
 export default function AddOrganisasi() {
   const [loading, setLoading] = useState(false);
@@ -84,11 +86,11 @@ export default function AddOrganisasi() {
       {loading && <Loader />}
       <div className="flex flex-col h-screen">
         <div className="sticky top-0 z-50">
-          <Navbar />
+          <SidebarNavbar />
         </div>
         <div className="flex h-full">
-          <div className="fixed">
-            <Sidebar />
+          <div className="sticky top-16 z-40">
+            <NavbarAdmin />
           </div>
           <div className="sm:ml-64 content-page container p-8 ml-14 md:ml-64 mt-12">
             <div className="p-4">
