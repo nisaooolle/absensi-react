@@ -7,6 +7,8 @@ import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../utils/api";
+import SidebarNavbar from "../../../components/SidebarNavbar";
+import NavbarAdmin from "../../../components/NavbarAdmin";
 
 function EditKaryawan() {
   const [username, setUsername] = useState("");
@@ -20,9 +22,7 @@ function EditKaryawan() {
 
   const getUser = async () => {
     try {
-      const res = await axios.get(
-        `${API_DUMMY}/api/user/getUserBy/${id}`
-      );
+      const res = await axios.get(`${API_DUMMY}/api/user/getUserBy/${id}`);
       setUsername(res.data.username);
       setIdJabatan(res.data.jabatan ? res.data.jabatan.idJabatan : "");
       setIdShift(res.data.shift ? res.data.shift.id : "");
@@ -95,7 +95,6 @@ function EditKaryawan() {
       setTimeout(() => {
         history.push("/admin/karyawan");
         window.location.reload();
-
       }, 2000);
     } catch (error) {
       console.log(error);
@@ -105,11 +104,11 @@ function EditKaryawan() {
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
-        <Navbar />
+        <SidebarNavbar />
       </div>
       <div className="flex h-full">
-        <div className="fixed">
-          <Sidebar />
+        <div className="sticky top-16 z-40">
+          <NavbarAdmin />
         </div>
         <div className="sm:ml-64 content-page container p-8 ml-14 md:ml-64 mt-12">
           <div className="p-4">

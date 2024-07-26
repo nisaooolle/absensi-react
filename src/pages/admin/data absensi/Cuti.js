@@ -7,12 +7,14 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Pagination } from "flowbite-react";
 import { API_DUMMY } from "../../../utils/api";
+import SidebarNavbar from "../../../components/SidebarNavbar";
+import NavbarAdmin from "../../../components/NavbarAdmin";
 
 function Cuti() {
-   const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState([]);
   const adminId = localStorage.getItem("adminId");
 
-   const [cuti, setCuti] = useState([]);
+  const [cuti, setCuti] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
@@ -220,11 +222,11 @@ function Cuti() {
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
-        <Navbar />
+        <SidebarNavbar />
       </div>
       <div className="flex h-full">
-        <div className="fixed">
-          <Sidebar />
+        <div className="sticky top-16 z-40">
+          <NavbarAdmin />
         </div>
         <div className="sm:ml-64 content-page container p-4 ml-0 md:ml-64 mt-5">
           <div className="p-5 mt-10 overflow-x-auto">

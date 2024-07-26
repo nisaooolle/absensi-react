@@ -6,6 +6,8 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import { API_DUMMY } from "../../../utils/api";
+import SidebarNavbar from "../../../components/SidebarNavbar";
+import NavbarAdmin from "../../../components/NavbarAdmin";
 
 function DetailKaryawan() {
   const { id } = useParams();
@@ -13,9 +15,7 @@ function DetailKaryawan() {
 
   const getUserData = async () => {
     try {
-      const res = await axios.get(
-        `${API_DUMMY}/api/user/getUserBy/${id}`
-      );
+      const res = await axios.get(`${API_DUMMY}/api/user/getUserBy/${id}`);
       setUser(res.data);
     } catch (error) {
       console.log(error);
@@ -27,11 +27,11 @@ function DetailKaryawan() {
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
-        <Navbar />
+        <SidebarNavbar />
       </div>
       <div className="flex h-full">
-        <div className="fixed">
-          <Sidebar />
+        <div className="sticky top-16 z-40">
+          <NavbarAdmin />
         </div>
         <div className=" sm:ml-64 content-page container p-8  ml-14 md:ml-64 mt-12">
           <div className="p-4">

@@ -8,6 +8,7 @@ import axios from "axios";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Pagination } from "flowbite-react";
 import { API_DUMMY } from "../../../utils/api";
+import SidebarNavbar from "../../../components/SidebarNavbar";
 
 function TabelLembur() {
   const [lembur, setLembur] = useState([]);
@@ -152,13 +153,13 @@ function TabelLembur() {
     currentPage * limit
   );
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
-        <Navbar toggleSidebar={toggleSidebar} />
+        <SidebarNavbar />
       </div>
-      <div className="flex flex-1">
-        <div className="fixed">
-          <Sidebar isOpen={sidebarOpen} />
+      <div className="flex h-full">
+        <div className="sticky top-16 z-40">
+          <Navbar />
         </div>
         <div className="content-page flex-1 p-8 md:ml-64 mt-16">
           <div className="tabel-lembur bg-blue-100 p-5 rounded-xl shadow-xl border border-gray-300 text-center">

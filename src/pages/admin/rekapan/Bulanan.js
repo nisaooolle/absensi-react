@@ -10,6 +10,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../utils/api";
 import NavbarAdmin from "../../../components/NavbarAdmin";
+import SidebarNavbar from "../../../components/SidebarNavbar";
 
 function Bulanan() {
   const [bulan, setBulan] = React.useState("");
@@ -121,11 +122,11 @@ function Bulanan() {
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
-        <NavbarAdmin />
+        <SidebarNavbar />
       </div>
-      <div className="flex h-full pt-5">
-        <div className="fixed h-full">
-          <Sidebar />
+      <div className="flex h-full">
+        <div className="sticky top-16 z-40">
+          <NavbarAdmin />
         </div>
         <div className="content-page flex-1 p-8 md:ml-64 mt-16 text-center overflow-auto">
           <div className="tabel-absen bg-white p-5 rounded-xl shadow-xl border border-gray-300">
@@ -252,7 +253,7 @@ function Bulanan() {
                           <img
                             src={absensi.fotoPulang ? absensi.fotoPulang : "-"}
                             alt="Foto Pulang"
-                            className="w-16 h-8 rounded-sm"
+                            className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           />
                         </td>
                         <td className="px-5 py-3 whitespace-nowrap text-center">
