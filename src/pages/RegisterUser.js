@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import Logo from "../components/absensii.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -16,8 +16,10 @@ function RegisterUser() {
   const [shiftList, setShiftList] = useState([]);
   const [selectedShift, setSelectedShift] = useState("");
   const history = useHistory();
+  const [noShiftsError, setNoShiftsError] = useState(false);
 
   useEffect(() => {
+   
     GetALLOrganisasi();
   }, []);
 
@@ -33,17 +35,30 @@ function RegisterUser() {
   const handleOrganisasiChange = async (e) => {
     const organisasiId = e.target.value;
     setIdOrganisasi(organisasiId);
-    await fetchShiftsByOrganisasi(organisasiId);
+    const selectedOrganisasi = organisasiList.find(
+      (org) => org.id === parseInt(organisasiId)
+    );
+    if (selectedOrganisasi) {
+      await fetchShiftsByAdmin(selectedOrganisasi.admin.id);
+    } else {
+      console.log("Organisasi tidak ditemukan");
+    }
   };
 
-  const fetchShiftsByOrganisasi = async (organisasiId) => {
+  const fetchShiftsByAdmin = async (idAdmin) => {
     try {
       const response = await axios.get(
-        `${API_DUMMY}/api/shift/byOrganisasi/${organisasiId}`
+        `${API_DUMMY}/api/shift/getbyadmin?idAdmin=${idAdmin}`
       );
-      setShiftList(response.data);
+      if (response.data.length === 0) {
+        setNoShiftsError(true);
+      } else {
+        setShiftList(response.data);
+        setNoShiftsError(false);
+      }
     } catch (error) {
       console.log(error);
+      setNoShiftsError(true);
     }
   };
 
@@ -62,12 +77,12 @@ function RegisterUser() {
     }
 
     try {
-      const response = await axios.post(
+      await axios.post(
         `${API_DUMMY}/api/user/register?idOrganisasi=${idOrganisasi}&idShift=${selectedShift}`,
         {
-          username: username,
-          email: email,
-          password: password,
+          username,
+          email,
+          password,
         }
       );
 
@@ -98,7 +113,7 @@ function RegisterUser() {
           <div className="mt-2 flex flex-col items-center">
             <h1 className="text-2xl xl:text-3xl font-extrabold">Sign up</h1>
             <div className="w-full flex-1 mt-8">
-              <form action="" onSubmit={handleSubmit} method="POST">
+              <form onSubmit={handleSubmit} method="POST">
                 <div className="mx-auto max-w-xs">
                   <input
                     className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
@@ -125,14 +140,17 @@ function RegisterUser() {
                     <option value="" disabled>
                       Pilih Organisasi
                     </option>
-                    {organisasiList &&
-                      organisasiList.map((org) => (
-                        <option key={org.id} value={org.id}>
-                          {org.namaOrganisasi}
-                        </option>
-                      ))}
+                    {organisasiList.map((org) => (
+                      <option key={org.id} value={org.id}>
+                        {org.namaOrganisasi}
+                      </option>
+                    ))}
                   </select>
-                  {shiftList.length > 0 && (
+                  {noShiftsError ? (
+                    <div className="mt-5 text-red-600">
+                      Organisasi belum memiliki shift
+                    </div>
+                  ) : shiftList.length > 0 ? (
                     <select
                       className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                       value={selectedShift}
@@ -142,14 +160,13 @@ function RegisterUser() {
                       <option value="" disabled>
                         Pilih Shift
                       </option>
-                      {shiftList &&
-                        shiftList.map((shift) => (
-                          <option key={shift.id} value={shift.id}>
-                            {shift.namaShift}
-                          </option>
-                        ))}
+                      {shiftList.map((shift) => (
+                        <option key={shift.id} value={shift.id}>
+                          {shift.namaShift}
+                        </option>
+                      ))}
                     </select>
-                  )}
+                  ) : null}
                   <div className="relative mt-5">
                     <input
                       className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"

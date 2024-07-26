@@ -130,7 +130,7 @@ const Navbar = ({ toggleSidebar }) => {
                       </button>
                     </Link>
                     <button
-                      onClick={() => console.log("Logout")}
+                      onClick={() =>  logout()}
                       role="menuitem"
                       tabIndex="-1"
                       id="user-menu-item-2"
