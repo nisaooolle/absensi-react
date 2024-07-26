@@ -120,7 +120,7 @@ const NavbarSuper = () => {
                     className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1"
                     tabIndex="-1"
                   >
-                    <Link to="/superadmin/profil">
+                    <Link to="/superadmin/profile">
                       <button
                         role="menuitem"
                         tabIndex="-1"
@@ -131,7 +131,7 @@ const NavbarSuper = () => {
                       </button>
                     </Link>
                     <button
-                      onClick={() => console.log("Logout")}
+                      onClick={() => logout()}
                       role="menuitem"
                       tabIndex="-1"
                       id="user-menu-item-2"
