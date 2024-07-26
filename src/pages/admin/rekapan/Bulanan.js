@@ -225,16 +225,16 @@ function Bulanan() {
                     absensiData.map((absensi, index) => (
                       <tr key={index}>
                         <td className="px-5 py-3">{index + 1}</td>
-                        <td className="px-5 py-3 capitalize whitespace-nowrap">
+                        <td className="px-5 py-3 capitalize text-center whitespace-nowrap">
                           {absensi.user.username}
                         </td>
-                        <td className="px-5 py-3 capitalize whitespace-nowrap">
+                        <td className="px-5 py-3 capitalize text-center whitespace-nowrap">
                           {formatDate(absensi.tanggalAbsen)}
                         </td>
-                        <td className="px-5 py-3 whitespace-nowrap">
+                        <td className="px-5 py-3 text-center whitespace-nowrap">
                           {absensi.jamMasuk}
                         </td>
-                        <td className="px-5 py-3 whitespace-nowrap">
+                        <td className="px-5 py-3 text-center whitespace-nowrap">
                           <img
                             src={absensi.fotoMasuk ? absensi.fotoMasuk : "-"}
                             alt="Foto Masuk"
@@ -242,7 +242,7 @@ function Bulanan() {
                             id="foto_masuk"
                           />
                         </td>
-                        <td className="px-5 py-3 whitespace-nowrap capitalize">
+                        <td className="px-5 py-3 whitespace-nowrap capitalize text-center">
                           {absensi.lokasiMasuk}
                         </td>
                         <td className="px-5 py-3 whitespace-nowrap">
@@ -255,10 +255,10 @@ function Bulanan() {
                             className="w-16 h-8 rounded-sm"
                           />
                         </td>
-                        <td className="px-5 py-3 whitespace-nowrap">
+                        <td className="px-5 py-3 whitespace-nowrap text-center">
                           {formatLamaKerja(absensi.user.startKerja)}
                         </td>
-                        <td className="px-5 py-3 capitalize whitespace-nowrap">
+                        <td className="px-5 py-3 capitalize text-center whitespace-nowrap">
                           {absensi.statusAbsen}
                         </td>
                       </tr>

@@ -35,21 +35,31 @@ function Perkaryawan() {
     }
   };
 
-  // Fetch absensi data by user id
   const getAbsensiByUserId = async (userId) => {
     try {
       const abs = await axios.get(
         `${API_DUMMY}/api/absensi/getByUserId/${userId}`
       );
-      if (abs.data.length === 0) {
-        Swal.fire("Gagal", "User belum pernah absensi", "error");
-        setListAbsensi([]);
+      console.log("Response:", abs);
+      if (abs.status === 200) {
+        if (abs.data.length === 0) {
+          Swal.fire("Informasi", "User belum pernah absensi", "info");
+          setListAbsensi([]);
+        } else {
+          setListAbsensi(abs.data);
+        }
+      } else if (abs.status === 404) {
+        Swal.fire("Gagal", "Data tidak ditemukan", "error");
       } else {
-        setListAbsensi(abs.data);
+        Swal.fire("Gagal", "Gagal Mengambil data", "error");
       }
     } catch (error) {
-      console.log(error);
-      Swal.fire("Gagal", "Gagal Mengambil data ", "error");
+      console.log("Error:", error);
+      if (error.response && error.response.status === 404) {
+        Swal.fire("Gagal", "User belum pernah absensi", "info");
+      } else {
+        Swal.fire("Gagal", "Gagal Mengambil data", "error");
+      }
     }
   };
 
@@ -113,6 +123,44 @@ function Perkaryawan() {
     return new Date(dateString).toLocaleDateString("id-ID", options);
   };
 
+  const formatLamaKerja = (startKerja) => {
+    const startDate = new Date(startKerja);
+    const currentDate = new Date();
+
+    const diffYears = currentDate.getFullYear() - startDate.getFullYear();
+
+    let diffMonths = currentDate.getMonth() - startDate.getMonth();
+    if (diffMonths < 0) {
+      diffMonths += 12;
+    }
+
+    let diffDays = Math.floor(
+      (currentDate - startDate) / (1000 * 60 * 60 * 24)
+    );
+
+    const lastDayOfLastMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      0
+    ).getDate();
+    if (currentDate.getDate() < startDate.getDate()) {
+      diffMonths -= 1;
+      diffDays -= lastDayOfLastMonth;
+    }
+
+    let durationString = "";
+    if (diffYears > 0) {
+      durationString += `${diffYears} tahun `;
+    }
+    if (diffMonths > 0) {
+      durationString += `${diffMonths} bulan `;
+    }
+    if (diffDays > 0) {
+      durationString += `${diffDays} hari`;
+    }
+
+    return durationString.trim();
+  };
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -220,29 +268,37 @@ function Perkaryawan() {
                       <td className="px-6 py-3 whitespace-nowrap">
                         {index + 1}
                       </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize">
+                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
                         {absensi.user.username}
                       </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize">
+                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
                         {formatDate(absensi.tanggalAbsen)}
                       </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize">
+                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
                         {absensi.jamMasuk}
                       </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize">
-                        <img src={absensi.fotoMasuk} alt="Foto Masuk" />
+                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
+                        <img
+                          src={absensi.fotoMasuk}
+                          className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          alt="Foto Masuk"
+                        />
                       </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize">
+                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
                         {absensi.jamPulang}
                       </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize">
-                        <img src={absensi.fotoPulang} alt="Foto Pulang" />
+                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
+                        <img
+                          src={absensi.fotoPulang}
+                          className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          alt="Foto Pulang"
+                        />
                       </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize">
-                        {absensi.jamKerja}
+                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
+                        {formatLamaKerja(absensi.user.startKerja)}
                       </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize">
-                        {absensi.keterangan}
+                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
+                        {absensi.statusAbsen}
                       </td>
                     </tr>
                   ))}
