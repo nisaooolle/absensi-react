@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../utils/api";
+import SidebarNavbar from "../../../components/SidebarNavbar";
 
 function EditJabatanSA() {
   const [jabatan, setJabatan] = useState("");
@@ -54,11 +55,11 @@ function EditJabatanSA() {
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
-        <Navbar />
+        <SidebarNavbar />
       </div>
       <div className="flex h-full">
-        <div className="fixed">
-          <Sidebar />
+        <div className="sticky top-16 z-40">
+          <Navbar />
         </div>
       </div>
       <div className=" sm:ml-64 content-page p-8  ml-14 md:ml-64 mb-12">
@@ -99,19 +100,19 @@ function EditJabatanSA() {
 
                   {/* <!-- Button --> */}
                   <div className="flex justify-between">
-                      <a
-                        className="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                        href="/superadmin/jabatan"
-                      >
-                        <FontAwesomeIcon icon={faArrowLeft} />
-                      </a>
-                      <button
-                        type="submit"
-                        className="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
-                      >
-                        <FontAwesomeIcon icon={faFloppyDisk} />
-                      </button>
-                    </div>
+                    <a
+                      className="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                      href="/superadmin/jabatan"
+                    >
+                      <FontAwesomeIcon icon={faArrowLeft} />
+                    </a>
+                    <button
+                      type="submit"
+                      className="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                    >
+                      <FontAwesomeIcon icon={faFloppyDisk} />
+                    </button>
+                  </div>
                 </form>
               </div>
             </div>
