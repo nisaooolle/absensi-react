@@ -6,8 +6,6 @@ import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../utils/api";
-import SidebarNavbar from "../../../components/SidebarNavbar";
-import NavbarAdmin from "../../../components/NavbarAdmin";
 
 function AddShift() {
   const [waktuMasuk, setWaktuMasuk] = useState("");
@@ -22,6 +20,7 @@ function AddShift() {
       waktuMasuk: waktuMasuk,
       waktuPulang: waktuPulang,
     };
+
     try {
       const response = await axios.post(
         `${API_DUMMY}/api/shift/tambahShift/${idAdmin}`,
@@ -37,38 +36,33 @@ function AddShift() {
         window.location.href = "/admin/shift";
       }, 2000);
     } catch (error) {
-      console.error("There was an error uploading the organization!", error);
+      console.error("There was an error adding the shift!", error);
+      Swal.fire("Error", "Gagal menambahkan shift", "error");
     }
   };
 
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
-        <SidebarNavbar />
+        <Navbar />
       </div>
       <div className="flex h-full">
-        <div className="sticky top-16 z-40">
-          <NavbarAdmin />
+        <div className="fixed">
+          <Sidebar />
         </div>
         <div className=" sm:ml-64 content-page container p-8  ml-14 md:ml-64 mt-12">
           <div className="p-4">
-            <div className="p-5 ">
-              {/* <!-- Card --> */}
+            <div className="p-5">
               <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                {/* <!-- Header --> */}
                 <div className="flex justify-between">
                   <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
                     Tambah Shift
                   </h6>
                 </div>
-
                 <hr />
-
                 <div className="mt-5 text-left">
-                  {/* <!-- Form Input --> */}
                   <form onSubmit={TambahShift}>
                     <div className="grid md:grid-cols-2 md:gap-6">
-                      {/* <!-- Shift Input --> */}
                       <div className="relative z-0 w-full mb-6 group">
                         <input
                           type="text"
@@ -89,7 +83,6 @@ function AddShift() {
                         </label>
                       </div>
 
-                      {/* <!-- Jam Masuk Input --> */}
                       <div className="relative z-0 w-full mb-6 group">
                         <input
                           type="time"
@@ -112,7 +105,6 @@ function AddShift() {
                     </div>
 
                     <div className="grid md:grid-cols-2 md:gap-6">
-                      {/* <!-- Jam Pulang Input --> */}
                       <div className="relative z-0 w-full mb-6 group">
                         <input
                           type="time"
@@ -134,7 +126,6 @@ function AddShift() {
                       </div>
                     </div>
 
-                    {/* <!-- Button --> */}
                     <div className="flex justify-between">
                       <a
                         className="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
