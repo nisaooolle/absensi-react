@@ -7,8 +7,6 @@ import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../utils/api";
-import SidebarNavbar from "../../../components/SidebarNavbar";
-import NavbarAdmin from "../../../components/NavbarAdmin";
 
 function EditKaryawan() {
   const [username, setUsername] = useState("");
@@ -59,23 +57,6 @@ function EditKaryawan() {
     getShiftOptions();
   }, [id, adminId]);
 
-  useEffect(() => {
-    if (jabatanOptions.length > 0 && idJabatan) {
-      const jabatanExist = jabatanOptions.some(
-        (option) => option.idJabatan === idJabatan
-      );
-      if (!jabatanExist) {
-        setIdJabatan(jabatanOptions[0].idJabatan);
-      }
-    }
-    if (shiftOptions.length > 0 && idShift) {
-      const shiftExist = shiftOptions.some((option) => option.id === idShift);
-      if (!shiftExist) {
-        setIdShift(shiftOptions[0].id);
-      }
-    }
-  }, [jabatanOptions, shiftOptions, idJabatan, idShift]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -104,11 +85,11 @@ function EditKaryawan() {
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
-        <SidebarNavbar />
+        <Navbar />
       </div>
       <div className="flex h-full">
-        <div className="sticky top-16 z-40">
-          <NavbarAdmin />
+        <div className="fixed">
+          <Sidebar />
         </div>
         <div className="sm:ml-64 content-page container p-8 ml-14 md:ml-64 mt-12">
           <div className="p-4">
