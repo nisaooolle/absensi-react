@@ -80,6 +80,9 @@ import DetailAbsensiSA from "./pages/superadmin/detail/DetailAbsensiSA";
 import ProfileSA from "./pages/superadmin/ProfilSA";
 import ProfilSA from "./pages/superadmin/ProfilSA";
 import SidebarNavbar from "./components/SidebarNavbar";
+import ForgotPass from "./pages/ForgotPass";
+import VerifyCode from "./pages/VerifyCode";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   const role = localStorage.getItem("role");
@@ -91,6 +94,10 @@ function App() {
           <Route path="/register" component={Register} exact />
           <Route path="/registerUser" component={RegisterUser} exact />
           <Route path="/registerSA" component={RegisterSuperadmin} exact />
+          <Route path="/forgotpass" component={ForgotPass} exact />
+          <Route path="/verify-code" component={VerifyCode} exact/>
+          <Route path="/reset-password/:token" component={ResetPassword} exact/>
+
           {/* start admin */}
           {/* Admin Routes */}
           {role === "ADMIN" && (
