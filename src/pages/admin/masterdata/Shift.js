@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleInfo,
@@ -176,149 +174,147 @@ function Shift() {
         <div className="sticky top-16 z-40">
           <NavbarAdmin />
         </div>
-        <div className=" sm:ml-64 content-page container p-8  ml-0 md:ml-64 mt-5">
-          <div className="p-5 mt-10">
-            {/* <!-- Card --> */}
-            <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-              <div className="flex justify-between">
-                <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                  Data Shift
-                </h6>
-                <div className="flex items-center gap-2 mt-2">
-                  <div className="relative w-64">
-                    <input
-                      type="search"
-                      id="search-dropdown"
-                      value={searchTerm}
-                      onChange={handleSearch}
-                      className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                      placeholder="Search name..."
-                      required
-                    />
-                  </div>
-                  <select
-                    value={limit}
-                    onChange={handleLimitChange}
-                    className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
-                  >
-                    <option value="5">05</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                  </select>
-                  <a
-                    type="button"
-                    href="/admin/addshift"
-                    className="text-white bg-indigo-500 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800 mt-2"
-                  >
-                    <FontAwesomeIcon icon={faPlus} size="lg" />
-                  </a>
+        <div className="content-page flex-1 p-8 md:ml-64 mt-16 text-center overflow-auto">
+          <div className="tabel-absen bg-white p-5 rounded-xl shadow-xl border border-gray-300">
+            <div className="flex flex-col md:flex-row justify-between">
+              <h2 className="text-xl font-bold mb-4 md:mb-0">Data Shift</h2>
+              <div className="flex items-center gap-2 mt-2">
+                <div className="relative w-64">
+                  <input
+                    type="search"
+                    id="search-dropdown"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                    placeholder="Search name..."
+                    required
+                  />
                 </div>
-              </div>
-              <hr />
-
-              {/* <!-- Tabel --> */}
-              <div className="relative overflow-x-auto mt-5">
-                <table
-                  id="dataJabatan"
-                  className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                <select
+                  value={limit}
+                  onChange={handleLimitChange}
+                  className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
                 >
-                  {/* <!-- Tabel Head --> */}
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">
-                        No
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Nama shift
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Waktu Masuk
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Waktu pulang
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Jumlah karyawan
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Admin
-                      </th>
-                      <th scope="col" className="px-6 py-3 text-center">
-                        aksi
-                      </th>
-                    </tr>
-                  </thead>
-                  {/* <!-- Tabel Body --> */}
-                  <tbody className="text-left">
-                    {paginatedShift.map((shift, index) => (
-                      <tr
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                        key={index}
-                      >
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          {(currentPage - 1) * limit + index + 1}
-                        </th>
-                        <td className="px-6 py-4 capitalize">
-                          {shift.namaShift}
-                        </td>
-                        <td className="px-6 py-4 capitalize">
-                          {shift.waktuMasuk}
-                        </td>
-                        <td className="px-6 py-4 capitalize">
-                          {shift.waktuPulang}
-                        </td>
-                        <td className="px-6 py-4 capitalize">
-                          {jumlahKaryawan[shift.id] !== undefined
-                            ? jumlahKaryawan[shift.id] || "Kosong"
-                            : "Loading..."}
-                        </td>
-                        <td className="px-6 py-4 capitalize">
-                          {shift.admin.username}{" "}
-                        </td>
-                        <td className="py-3">
-                          <div className="flex items-center -space-x-4 ml-12">
-                            <a href={`/admin/editS/${shift.id}`}>
-                              <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
-                                <span className="relative inline-block">
-                                  <FontAwesomeIcon
-                                    icon={faPenToSquare}
-                                    className="h-4 w-4"
-                                  />
-                                </span>
-                              </button>
-                            </a>
+                  <option value="5">05</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                </select>
+                <a
+                  type="button"
+                  href="/admin/addshift"
+                  className="text-white bg-indigo-500 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800 mt-2"
+                >
+                  <FontAwesomeIcon icon={faPlus} size="lg" />
+                </a>
+              </div>
+            </div>
+            <hr />
 
-                            <button
-                              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                              onClick={() => deleteData(shift.id)}
-                            >
+            {/* <!-- Tabel --> */}
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+              <table
+                id="dataJabatan"
+                className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+              >
+                {/* <!-- Tabel Head --> */}
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      No
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Nama shift
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Waktu Masuk
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Waktu pulang
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Jumlah karyawan
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Admin
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 whitespace-nowrap text-center"
+                    >
+                      Aksi
+                    </th>
+                  </tr>
+                </thead>
+                {/* <!-- Tabel Body --> */}
+                <tbody className="text-left">
+                  {paginatedShift.map((shift, index) => (
+                    <tr
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      key={index}
+                    >
+                      <th
+                        scope="row"
+                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {(currentPage - 1) * limit + index + 1}
+                      </th>
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
+                        {shift.namaShift}
+                      </td>
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
+                        {shift.waktuMasuk}
+                      </td>
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
+                        {shift.waktuPulang}
+                      </td>
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
+                        {jumlahKaryawan[shift.id] !== undefined
+                          ? jumlahKaryawan[shift.id] || "Kosong"
+                          : "Loading..."}
+                      </td>
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
+                        {shift.admin.username}
+                      </td>
+                      <td className="py-3">
+                        <div className="flex items-center -space-x-4 ml-12">
+                          <a href={`/admin/editS/${shift.id}`}>
+                            <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
                               <span className="relative inline-block">
                                 <FontAwesomeIcon
-                                  icon={faTrash}
+                                  icon={faPenToSquare}
                                   className="h-4 w-4"
                                 />
                               </span>
                             </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <Pagination
-                className="mt-5"
-                layout="table"
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={onPageChange}
-                showIcons
-              />
+                          </a>
+
+                          <button
+                            className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                            onClick={() => deleteData(shift.id)}
+                          >
+                            <span className="relative inline-block">
+                              <FontAwesomeIcon
+                                icon={faTrash}
+                                className="h-4 w-4"
+                              />
+                            </span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
+            <Pagination
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+            />
           </div>
         </div>
       </div>

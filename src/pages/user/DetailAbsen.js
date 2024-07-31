@@ -84,11 +84,11 @@ function DetailAbsen() {
       <div className="sticky top-0 z-50">
         <SidebarNavbar />
       </div>
-      <div className="flex h-full">
+      <div className="flex flex-grow">
         <div className="sticky top-16 z-40">
           <Navbar />
         </div>
-        <div className=" sm:ml-64 content-page container p-8  ml-14 md:ml-64 mt-12">
+        <div className="flex-grow container p-4 sm:ml-64 ml-4 md:ml-64 mt-5">
           <div className="p-4">
             <div className="p-5 mt-5">
               {/* <!-- Card --> */}
@@ -104,7 +104,7 @@ function DetailAbsen() {
                 </div>
                 <div className="mt-7 text-left">
                   {absensi.map((item, index) => (
-                    <div key={index} className="grid md:grid-cols-2 md:gap-6">
+                    <div key={index} className="grid md:grid-cols-2 gap-6">
                       <div className="relative z-0 w-full mb-6 group">
                         <input
                           type="text"
@@ -224,12 +224,12 @@ function DetailAbsen() {
                           htmlFor="foto"
                           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
-                          Foto Masuk:
+                          Foto Masuk
                         </label>
                       </div>
                       <div className="relative z-0 w-full mb-6 group">
                         <img
-                          className="max-width-100 max-height-70 mt-10"
+                          className="max-width-60 max-height-70 mt-10"
                           style={{ marginBottom: "25px", marginLeft: "5px" }}
                           src={item.fotoPulang ? item.fotoPulang : "-"}
                           alt="Foto Pulang"
@@ -238,7 +238,7 @@ function DetailAbsen() {
                           htmlFor="foto"
                           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
-                          Foto Pulang:
+                          Foto Pulang
                         </label>
                       </div>
                       <div className="relative z-0 w-full mb-6 group">

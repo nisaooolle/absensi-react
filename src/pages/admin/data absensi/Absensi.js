@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFileExport,
-  faInfo,
-  faMagnifyingGlass,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faFileExport, faInfo } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Pagination } from "flowbite-react";
 import { API_DUMMY } from "../../../utils/api";
@@ -155,8 +148,10 @@ function Absensi() {
         </div>
         <div className="content-page flex-1 p-8 md:ml-64 mt-16 text-center overflow-auto">
           <div className="tabel-absen bg-white p-5 rounded-xl shadow-xl border border-gray-300">
-            <div className="flex justify-between">
-              <h6 className="text-xl font-bold">Detail History Absensi</h6>
+            <div className="flex flex-col md:flex-row justify-between">
+              <h2 className="text-xl font-bold mb-4 md:mb-0">
+                History Absensi
+              </h2>
               <div className="flex items-center gap-2 mt-2">
                 <div className="relative w-64">
                   <input

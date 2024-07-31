@@ -29,6 +29,11 @@ function DetailLembur() {
     return <div>Loading...</div>;
   }
 
+  const formatDateIndo = (date) => {
+    const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+    return new Date(date).toLocaleDateString("id-ID", options);
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -38,9 +43,9 @@ function DetailLembur() {
         <div className="sticky top-16 z-40">
           <NavbarAdmin />
         </div>
-        <div className="sm:ml-64 content-page container p-8 ml-14 md:ml-64 mt-12">
+        <div className="flex-grow container p-4 sm:ml-64 ml-4 md:ml-64 mt-10">
           <div className="p-4">
-            <div className="p-5 mt-5">
+            <div className="p-5">
               {/* Card */}
               <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                 {/* Header */}
@@ -59,7 +64,7 @@ function DetailLembur() {
                         type="text"
                         name="username"
                         id="username"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=" "
                         autoComplete="off"
                         value={lembur.user?.username || ""}
@@ -81,7 +86,7 @@ function DetailLembur() {
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         autoComplete="off"
-                        value={lembur.tanggalLebur}
+                        value={formatDateIndo(lembur.tanggalLembur)}
                         required
                         readOnly
                       />
@@ -135,7 +140,7 @@ function DetailLembur() {
                         type="text"
                         name="keterangan"
                         id="keterangan"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                         placeholder=""
                         autoComplete="off"
                         value={lembur.keteranganLembur}
