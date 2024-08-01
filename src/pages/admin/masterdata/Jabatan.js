@@ -192,73 +192,76 @@ function Jabatan() {
                 id="dataJabatan"
                 className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
               >
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">
-                        No
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Nama Jabatan
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Jumlah Karyawan
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Admin
-                      </th>
-                      <th scope="col" className="px-6 py-3 text-center">
-                        Aksi
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-left">
-                    {paginatedJabatan.slice().reverse().map((jabatan, index) => (
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">
+                      No
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Nama Jabatan
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Jumlah Karyawan
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Admin
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-center">
+                      Aksi
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="text-left">
+                  {paginatedJabatan
+                    .slice()
+                    .reverse()
+                    .map((jabatan, index) => (
                       <tr
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         key={index}
-
                       >
-                        {(currentPage - 1) * limit + index + 1}
-                      </th>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {jabatan.namaJabatan}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {jumlahKaryawan[jabatan.idJabatan] !== undefined
-                          ? jumlahKaryawan[jabatan.idJabatan] || "Kosong"
-                          : "Loading..."}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {jabatan.admin.username}
-                      </td>
-                      <td className="py-3">
-                        <div className="flex items-center -space-x-4 ml-12">
-                          <a href={`/admin/editJ/${jabatan.idJabatan}`}>
-                            <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                          {(currentPage - 1) * limit + index + 1}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {jabatan.namaJabatan}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {jumlahKaryawan[jabatan.idJabatan] !== undefined
+                            ? jumlahKaryawan[jabatan.idJabatan] || "Kosong"
+                            : "Loading..."}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {jabatan.admin.username}
+                        </td>
+                        <td className="py-3">
+                          <div className="flex items-center -space-x-4 ml-12">
+                            <a href={`/admin/editJ/${jabatan.idJabatan}`}>
+                              <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faPenToSquare}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+                            </a>
+
+                            <button
+                              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                              onClick={() => deleteData(jabatan.idJabatan)}
+                            >
                               <span className="relative inline-block">
                                 <FontAwesomeIcon
-                                  icon={faPenToSquare}
+                                  icon={faTrash}
                                   className="h-4 w-4"
                                 />
                               </span>
                             </button>
-                          </a>
-
-                          <button
-                            className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                            onClick={() => deleteData(jabatan.idJabatan)}
-                          >
-                            <span className="relative inline-block">
-                              <FontAwesomeIcon
-                                icon={faTrash}
-                                className="h-4 w-4"
-                              />
-                            </span>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

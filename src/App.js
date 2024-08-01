@@ -79,10 +79,12 @@ import DetailOrganisasiSA from "./pages/superadmin/detail/DetailOrganisasiSA";
 import DetailAbsensiSA from "./pages/superadmin/detail/DetailAbsensiSA";
 import ProfileSA from "./pages/superadmin/ProfilSA";
 import ProfilSA from "./pages/superadmin/ProfilSA";
-import SidebarNavbar from "./components/SidebarNavbar";
 import ForgotPass from "./pages/ForgotPass";
 import VerifyCode from "./pages/VerifyCode";
 import ResetPassword from "./pages/ResetPassword";
+import VerifyCodeSup from "./pages/superadmin/VerifyCodeSup";
+import ResetPasswordSup from "./pages/superadmin/ResetPasswordSup";
+import ForgotPassSup from "./pages/superadmin/ForgotpassSup";
 
 function App() {
   const role = localStorage.getItem("role");
@@ -95,15 +97,25 @@ function App() {
           <Route path="/registerUser" component={RegisterUser} exact />
           <Route path="/registerSA" component={RegisterSuperadmin} exact />
           <Route path="/forgotpass" component={ForgotPass} exact />
-          <Route path="/verify-code" component={VerifyCode} exact/>
-          <Route path="/reset-password/:token" component={ResetPassword} exact/>
-
+          <Route path="/verify-code" component={VerifyCode} exact />
+          <Route
+            path="/reset-password/:token"
+            component={ResetPassword}
+            exact
+          />
+          {/* superadmin */}
+          <Route path="/forgotpassSup" component={ForgotPassSup} exact />
+          <Route path="/verify-code-sup" component={VerifyCodeSup} exact />
+          <Route
+            path="/reset-password-sup/:token"
+            component={ResetPasswordSup}
+            exact
+          />
           {/* start admin */}
           {/* Admin Routes */}
           {role === "ADMIN" && (
             <>
               <Route path="/admin/dashboard" component={Dashboard} exact />
-              <Route path="/admin/sidebar" component={SidebarNavbar} exact />
               <Route path="/admin/profil" component={Profil} exact />
               {/* master data */}
               <Route path="/admin/karyawan" component={Karyawan} exact />
