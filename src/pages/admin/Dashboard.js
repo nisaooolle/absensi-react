@@ -226,7 +226,7 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {absenData.map((absen, index) => (
+                {absenData.slice().reverse().map((absen, index) => (
                     <tr
                       key={index}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -291,7 +291,7 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {cutiData.map((cuti, index) => (
+                  {cutiData.slice().reverse().map((cuti, index) =>  (
                     <tr
                       key={index}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -342,7 +342,7 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {jabatanData.map((jabatan, index) => (
+                  {jabatanData.slice().reverse().map((jabatan, index) => (
                     <tr
                       key={index}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -395,7 +395,7 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {lokasiData.map((lokasi, index) => (
+                  {lokasiData.slice().reverse().map((lokasi, index) => (
                     <tr
                       key={index}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -447,7 +447,7 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {organisasiData.map((organisasi, index) => (
+                  {organisasiData.slice().reverse().map((organisasi, index) => (
                     <tr
                       key={index}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
