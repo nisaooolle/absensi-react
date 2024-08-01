@@ -174,7 +174,7 @@ function DashboardSA() {
         <div className="content-page container p-8 ml-0 md:ml-64 mt-12">
           <div className="mt-5 w-full">
             <div className="p-4 text-center bg-indigo-300 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-              <h2 className="text-2xl font-semibold mb-4">
+              <h2 className="text-2xl font-semibold mb-4 capitalize">
                 Selamat Datang di Absensi
                 <span> @{username}</span>
               </h2>
@@ -243,13 +243,13 @@ function DashboardSA() {
                 {/* <!-- Tabel Head --> */}
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       No
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Email
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Username
                     </th>
                   </tr>
@@ -267,7 +267,7 @@ function DashboardSA() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-4 whitespace-nowrap">
                         <a
                           href="/cdn-cgi/l/email-protection"
                           className="__cf_email__"
@@ -276,7 +276,9 @@ function DashboardSA() {
                           {admin.email}
                         </a>
                       </td>
-                      <td className="px-6 py-4 capitalize">{admin.username}</td>
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
+                        {admin.username}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -300,22 +302,22 @@ function DashboardSA() {
                 {/* <!-- Tabel Head --> */}
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       No
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Admin
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Nama
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Alamat
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Telepon
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Email
                     </th>
                   </tr>
@@ -333,15 +335,21 @@ function DashboardSA() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {admin.admin.username}
                       </td>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {admin.namaOrganisasi}
                       </td>
-                      <td className="px-6 py-4 capitalize">{admin.alamat}</td>
-                      <td className="px-6 py-4">{admin.nomerTelepon}</td>
-                      <td className="px-6 py-4">{admin.emailOrganisasi}</td>
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
+                        {admin.alamat}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {admin.nomerTelepon}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {admin.emailOrganisasi}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

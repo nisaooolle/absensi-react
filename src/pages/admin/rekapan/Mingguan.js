@@ -157,18 +157,20 @@ function Mingguan() {
                 value={tanggalAkhir}
                 onChange={(e) => setTanggalAkhir(e.target.value)}
               />
-              <button
-                type="submit"
-                className="bg-indigo-500 hover:bg-indigo text-white font-bold py-2 px-4 rounded inline-block"
-              >
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-              </button>
-              <button
-                onClick={exportMingguan}
-                className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
-              >
-                <FontAwesomeIcon icon={faFileExport} />
-              </button>
+              <div className="flex sm:flex-row gap-4 mx-auto items-center">
+                <button
+                  type="submit"
+                  className="bg-indigo-500 hover:bg-indigo text-white font-bold py-2 px-4 rounded inline-block"
+                >
+                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                </button>
+                <button
+                  onClick={exportMingguan}
+                  className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
+                >
+                  <FontAwesomeIcon icon={faFileExport} />
+                </button>
+              </div>
             </form>
             {error && <div className="text-red-500 mt-4">{error}</div>}
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5 py-3">
@@ -216,49 +218,52 @@ function Mingguan() {
                     {Object.entries(absensi).map(
                       ([weekRange, absensiList], index) => (
                         <React.Fragment key={weekRange}>
-                          {absensiList.slice().reverse().map((absensi, idx) => (
-                            <tr
-                              key={idx}
-                              className="bg-white border-b dark:bg-gray-800"
-                            >
-                              <td className="px-6 py-4 whitespace-nowrap text-center">
-                                {index + 1}
-                              </td>
+                          {absensiList
+                            .slice()
+                            .reverse()
+                            .map((absensi, idx) => (
+                              <tr
+                                key={idx}
+                                className="bg-white border-b dark:bg-gray-800"
+                              >
+                                <td className="px-6 py-4 whitespace-nowrap text-center">
+                                  {index + 1}
+                                </td>
 
-                              <td className="px-6 py-4 whitespace-nowrap capitalize text-center">
-                                {absensi.user.username}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap capitalize text-center">
-                                {formatDate(absensi.tanggalAbsen)}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap capitalize text-center">
-                                {absensi.jamMasuk}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <img
-                                  src={absensi.fotoMasuk}
-                                  alt="foto masuk"
-                                  className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                />
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap capitalize text-center">
-                                {absensi.jamPulang}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <img
-                                  src={absensi.fotoPulang}
-                                  alt="foto pulang"
-                                  className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                />
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                {formatLamaKerja(absensi.user.startKerja)}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap capitalize text-center">
-                                {absensi.statusAbsen}
-                              </td>
-                            </tr>
-                          ))}
+                                <td className="px-6 py-4 whitespace-nowrap capitalize text-center">
+                                  {absensi.user.username}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap capitalize text-center">
+                                  {formatDate(absensi.tanggalAbsen)}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap capitalize text-center">
+                                  {absensi.jamMasuk}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <img
+                                    src={absensi.fotoMasuk}
+                                    alt="foto masuk"
+                                    className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                  />
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap capitalize text-center">
+                                  {absensi.jamPulang}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <img
+                                    src={absensi.fotoPulang}
+                                    alt="foto pulang"
+                                    className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                  />
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  {formatLamaKerja(absensi.user.startKerja)}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap capitalize text-center">
+                                  {absensi.statusAbsen}
+                                </td>
+                              </tr>
+                            ))}
                         </React.Fragment>
                       )
                     )}

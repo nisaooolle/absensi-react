@@ -194,19 +194,22 @@ function Jabatan() {
               >
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       No
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Nama Jabatan
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Jumlah Karyawan
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Admin
                     </th>
-                    <th scope="col" className="px-6 py-3 text-center">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 whitespace-nowrap text-center"
+                    >
                       Aksi
                     </th>
                   </tr>

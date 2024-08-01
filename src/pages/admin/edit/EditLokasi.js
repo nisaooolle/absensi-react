@@ -98,7 +98,7 @@ function EditLokasi() {
         <div className="sticky top-16 z-40">
           <NavbarAdmin />
         </div>
-        <div className=" sm:ml-64 content-page container p-8  ml-14 md:ml-64 mt-12">
+        <div className="flex-grow container p-4 sm:ml-64 ml-4 md:ml-64 mt-10">
           <div className="p-4">
             <div className="p-5">
               {/* <!-- Card --> */}

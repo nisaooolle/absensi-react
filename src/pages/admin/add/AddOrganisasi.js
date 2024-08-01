@@ -92,7 +92,7 @@ export default function AddOrganisasi() {
           <div className="sticky top-16 z-40">
             <NavbarAdmin />
           </div>
-          <div className="sm:ml-64 content-page container p-8 ml-14 md:ml-64 mt-12">
+          <div className="flex-grow container p-4 sm:ml-64 ml-4 md:ml-64 mt-10">
             <div className="p-4">
               <div className="p-5">
                 <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -249,7 +249,7 @@ export default function AddOrganisasi() {
                           required
                         />
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between mt-3">
+                      <div className="flex flex-col sm:flex-row sm:justify-between">
                         <a
                           href="/admin/organisasi"
                           className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 mt-3 sm:mt-0"
@@ -262,7 +262,7 @@ export default function AddOrganisasi() {
                         </a>
                         <button
                           type="submit"
-                          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-3"
                         >
                           <FontAwesomeIcon
                             icon={faFloppyDisk}

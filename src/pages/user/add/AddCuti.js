@@ -78,7 +78,7 @@ function AddCuti() {
         <div className="sticky top-16 z-40">
           <Navbar />
         </div>
-        <div className="content-page max-h-screen container p-8 min-h-screen ml-64">
+        <div className="content-page max-h-screen container p-8 min-h-screen ml-0 sm:ml-64">
           <div className="add-cuti mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
             <h1 className="text-lg sm:text-xl font-medium mb-4 sm:mb-7">
               Halaman Cuti
@@ -114,7 +114,7 @@ function AddCuti() {
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 mt-2">
                 <div className="relative">
                   <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
                     Masuk Kerja
@@ -128,7 +128,7 @@ function AddCuti() {
                     onChange={(e) => setMasukKerja(e.target.value)}
                     required
                   />
-                </div>{" "}
+                </div>
                 <div className="relative">
                   <label className="block mb-2 text-sm sm:text-xs font-medium text-gray-900 ">
                     Keperluan

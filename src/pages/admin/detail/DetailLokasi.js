@@ -35,9 +35,9 @@ function DetailLokasi() {
         <div className="sticky top-16 z-40">
           <NavbarAdmin />
         </div>
-        <div className=" sm:ml-64 content-page container p-8  ml-14 md:ml-64 mt-12">
+        <div className="flex-grow container p-4 sm:ml-64 ml-4 md:ml-64 mt-10">
           <div className="p-4">
-            <div className="p-5 mt-10">
+            <div className="p-5">
               {/* <!-- Card --> */}
               <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                 <div className="flex justify-between">
@@ -45,21 +45,11 @@ function DetailLokasi() {
                     Detail Lokasi
                   </h6>
                 </div>
-
-                <hr />
-                <br />
-
-                {/* <!-- GET Data dan ID --> */}
-                {/* <!-- ID  --> */}
-
-                <div className="mt-5 text-left">
-                  {/* <!-- Form Input --> */}
-                  <form
-                    action="https://demo-absen.excellentsistem.com/"
-                    method="post"
-                    encType="multipart/form-data"
-                  >
-                    {/* <!-- Nama & Alamat Input --> */}
+                <div className="mt-7 text-left">
+                  <hr />
+                </div>
+                <div className="mt-7 text-left">
+                  <form>
                     <div className="grid md:grid-cols-2 md:gap-6">
                       <div className="relative z-0 w-full mb-6 group">
                         <input
@@ -106,7 +96,6 @@ function DetailLokasi() {
                         className="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                         href="/admin/lokasi"
                       >
-                        {" "}
                         <FontAwesomeIcon icon={faArrowLeft} />{" "}
                       </a>
                     </div>
