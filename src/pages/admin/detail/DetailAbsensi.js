@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import { API_DUMMY } from "../../../utils/api";
@@ -45,11 +43,11 @@ function DetailAbsensi() {
       <div className="sticky top-0 z-50">
         <SidebarNavbar />
       </div>
-      <div className="flex h-full">
+      <div className="flex flex-grow">
         <div className="sticky top-16 z-40">
           <NavbarAdmin />
         </div>
-        <div className=" sm:ml-64 content-page container p-8  ml-14 md:ml-64 mt-12">
+        <div className="flex-grow container p-4 sm:ml-64 ml-4 md:ml-64 mt-5">
           <div className="p-4">
             <div className="p-5 mt-5">
               {/* <!-- Card --> */}
@@ -64,7 +62,7 @@ function DetailAbsensi() {
                   <hr />
                 </div>
                 <div className="mt-7 text-left">
-                  <div className="grid md:grid-cols-2 md:gap-6">
+                  <div className="grid md:grid-cols-2 gap-6">
                     <div className="relative z-0 w-full mb-6 group">
                       <input
                         type="text"

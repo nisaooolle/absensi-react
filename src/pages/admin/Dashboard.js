@@ -205,22 +205,22 @@ function Dashboard() {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       No
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Username
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Tanggal
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Jam Masuk
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Jam Pulang
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Kehadiran
                     </th>
                   </tr>
@@ -233,23 +233,23 @@ function Dashboard() {
                     >
                       <th
                         scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {absen.user.username}
                       </td>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {formatDate(absen.tanggalAbsen)}
                       </td>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {absen.jamMasuk || "-"}
                       </td>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {absen.jamPulang || "-"}
                       </td>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {absen.statusAbsen}
                       </td>
                     </tr>
@@ -273,19 +273,19 @@ function Dashboard() {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       No
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Username
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Awal Cuti
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Akhir Cuti
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Status
                     </th>
                   </tr>
@@ -302,16 +302,18 @@ function Dashboard() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {cuti.user.username}
                       </td>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {formatDate(cuti.awalCuti)}
                       </td>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {formatDate(cuti.akhirCuti)}
                       </td>
-                      <td className="px-6 py-4 capitalize">{cuti.status}</td>
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
+                        {cuti.status}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -333,10 +335,10 @@ function Dashboard() {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       No
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Jabatan
                     </th>
                   </tr>
@@ -353,7 +355,7 @@ function Dashboard() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {jabatan.namaJabatan}
                       </td>
                     </tr>
@@ -377,19 +379,19 @@ function Dashboard() {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       No
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Nama Lokasi
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Alamat
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Jumlah Karyawan
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Organisasi
                     </th>
                   </tr>
@@ -406,12 +408,16 @@ function Dashboard() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {lokasi.namaLokasi}
                       </td>
-                      <td className="px-6 py-4 capitalize">{lokasi.alamat}</td>
-                      <td className="px-6 py-4 capitalize">{karyawan}</td>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
+                        {lokasi.alamat}
+                      </td>
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
+                        {karyawan}
+                      </td>
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {lokasi.organisasi.namaOrganisasi}
                       </td>
                     </tr>
@@ -435,13 +441,13 @@ function Dashboard() {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       No
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Nama Organisasi
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
                       Alamat
                     </th>
                   </tr>
@@ -458,10 +464,10 @@ function Dashboard() {
                       >
                         {index + 1}
                       </th>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {organisasi.namaOrganisasi}
                       </td>
-                      <td className="px-6 py-4 capitalize">
+                      <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {organisasi.alamat}
                       </td>
                     </tr>

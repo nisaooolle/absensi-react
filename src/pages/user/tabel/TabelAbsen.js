@@ -128,7 +128,7 @@ function TabelAbsen() {
           <Navbar />
         </div>
         <div className="flex-1 overflow-auto">
-          <div className="content-page flex-1 p-8 md:ml-64 mt-16">
+          <div className="content-page flex-1 p-8 md:ml-64 mt-12">
             <div className="tabel-absen bg-blue-100 p-5 rounded-xl shadow-xl border border-gray-300 text-center">
               <div className="flex flex-col md:flex-row justify-between">
                 <h2 className="text-xl font-bold mb-4 md:mb-0">

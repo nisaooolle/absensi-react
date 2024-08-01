@@ -229,17 +229,97 @@ function Kehadiran() {
                       ))}
                     </tbody>
                   </table>
+
                 </div>
-                <Pagination
-                  className="mt-5"
-                  layout="table"
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={onPageChange}
-                  showIcons
-                />
+                <select
+                  value={limit}
+                  onChange={handleLimitChange}
+                  className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                >
+                  <option value="5">05</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                </select>
               </div>
             </div>
+            <hr className="mt-3" />
+            <div className="relative overflow-x-auto mt-5">
+              <table
+                id="dataKehadiran"
+                className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+              >
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      No
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Username
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Jabatan
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Terlambat
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Lebih Awal
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Izin
+                    </th>
+                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                      Total Masuk
+                      <span className="text-xs font-normal"> / Bulan</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="text-left">
+                  {paginatedKehadiran.map((kehadiran, index) => (
+                    <tr
+                      key={index}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <th
+                        scope="row"
+                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {(currentPage - 1) * limit + index + 1}
+                      </th>
+                      <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
+                        {kehadiran.username}
+                      </td>
+                      <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
+                        {kehadiran.jabatan
+                          ? kehadiran.jabatan.namaJabatan
+                          : "Tidak ada jabatan"}
+                      </td>
+                      <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
+                        {kehadiran.lateCount}
+                      </td>
+                      <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
+                        {kehadiran.earlyCount}
+                      </td>
+                      <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
+                        {kehadiran.permissionCount}
+                      </td>
+                      <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
+                        {kehadiran.totalMasuk}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <Pagination
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+            />
           </div>
         </div>
       </div>
