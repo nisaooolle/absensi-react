@@ -112,7 +112,8 @@ function TabelAbsen() {
         false)
   );
 
-  const paginatedAbsen = filteredAbsen.slice(
+  // Reverse the filtered array before slicing for pagination
+  const paginatedAbsen = filteredAbsen.reverse().slice(
     (currentPage - 1) * limit,
     currentPage * limit
   );

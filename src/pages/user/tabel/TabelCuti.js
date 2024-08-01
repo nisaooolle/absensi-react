@@ -149,7 +149,8 @@ function TabelCuti() {
         false)
   );
 
-  const paginatedCuti = filteredCuti.slice(
+  // Reverse the filtered array before slicing for pagination
+  const paginatedCuti = filteredCuti.reverse().slice(
     (currentPage - 1) * limit,
     currentPage * limit
   );

@@ -264,7 +264,7 @@ function Perkaryawan() {
                   </tr>
                 </thead>
                 <tbody>
-                  {listAbsensi.map((absensi, index) => (
+                  {listAbsensi.slice().reverse().map((absensi, index) => (
                     <tr key={absensi.id}>
                       <td className="px-6 py-3 whitespace-nowrap">
                         {index + 1}

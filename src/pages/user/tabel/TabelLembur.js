@@ -80,7 +80,7 @@ function TabelLembur() {
               showConfirmButton: false,
               timer: 1500,
             }).then(() => {
-              window.location.reload("/user/history_lembur"); // Add this line to reload the page
+              window.location.reload("/user/history_lembur");
             });
           })
           .catch((error) => {
@@ -148,10 +148,12 @@ function TabelLembur() {
         false)
   );
 
-  const paginatedLembur = filteredLembur.slice(
+  // Reverse the filtered array before slicing for pagination
+  const paginatedLembur = filteredLembur.reverse().slice(
     (currentPage - 1) * limit,
     currentPage * limit
   );
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
