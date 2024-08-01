@@ -203,8 +203,9 @@ function Lokasi() {
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         key={index}
                       >
-                        {(currentPage - 1) * limit + index + 1}
-                      </th>
+                          <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                          {(currentPage - 1) * limit + index + 1}
+                        </td>
                       <td className="px-6 py-4 capitalize whitespace-nowrap">
                         {lokasi.namaLokasi}
                       </td>

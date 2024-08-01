@@ -12,6 +12,7 @@ function Login() {
   const [passwordType, setPasswordType] = useState("password");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showForgot, setShowForgot] = useState(false);
 
   const login = async (e) => {
     e.preventDefault();
@@ -56,8 +57,23 @@ function Login() {
     }
   };
 
+  const handleForgotPasswordChange = (event) => {
+    const selectedRole = event.target.value;
+    switch (selectedRole) {
+      case "user":
+        window.location.href = "/forgotpass";
+        break;
+      case "admin":
+        window.location.href = "/forgot-password-admin";
+        break;
+      case "superadmin":
+        window.location.href = "/forgotpassSup";
+        break;
+      default:
+        break;
+    }
+  };
   return (
-
     <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
       <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
@@ -110,18 +126,37 @@ function Login() {
                     <span className="ml-3">Sign In</span>
                   </button>
                   <div className="text-center mt-6">
-                  <Link
-                    className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-                    to="/forgotpass">
-                    Tidak ingat kata sandi?
-                  </Link>
-                  <br />
-                  <Link
-                    className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-                    to="/registerUser">
-                   Tidak memiliki akun? Register
-                  </Link>
-                </div>
+                    <a
+                      className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
+                      onClick={() => setShowForgot(true)}
+                    >
+                      Tidak ingat kata sandi?
+                    </a>
+                    {showForgot && (
+                      <>
+                        <select
+                          className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+                          onChange={handleForgotPasswordChange}
+                          required
+                        >
+                          <option value="" disabled selected>
+                            Pilih Role Untuk Forgot Password
+                          </option>
+                          <option value="user">User</option>
+                          <option value="admin">Admin</option>
+                          <option value="superadmin">Super Admin</option>
+                        </select>
+                        <br />
+                      </>
+                    )}
+                    <br />
+                    <Link
+                      className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
+                      to="/registerUser"
+                    >
+                      Tidak memiliki akun? Register
+                    </Link>
+                  </div>
                   {/* <p className="mt-6 text-base text-gray-600 text-center">
                     Tidak memiliki akun?
                     <a

@@ -197,8 +197,9 @@ function Karyawan() {
                         key={index}
 
                       >
-                        {(currentPage - 1) * limit + index + 1}
-                      </th>
+                       <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                          {(currentPage - 1) * limit + index + 1}
+                        </td>
                       <td className="px-6 py-4 text-gray-900 capitalize whitespace-nowrap">
                         {user.username}
                       </td>
