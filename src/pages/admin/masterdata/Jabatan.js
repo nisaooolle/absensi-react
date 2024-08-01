@@ -192,37 +192,31 @@ function Jabatan() {
                 id="dataJabatan"
                 className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
               >
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
-                      No
-                    </th>
-                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
-                      Nama Jabatan
-                    </th>
-                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
-                      Jumlah Karyawan
-                    </th>
-                    <th scope="col" className="px-6 py-3 whitespace-nowrap">
-                      Admin
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 whitespace-nowrap text-center"
-                    >
-                      Aksi
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="text-left">
-                  {paginatedJabatan.map((jabatan, index) => (
-                    <tr
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                      key={index}
-                    >
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">
+                        No
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Nama Jabatan
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Jumlah Karyawan
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Admin
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-center">
+                        Aksi
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-left">
+                    {paginatedJabatan.slice().reverse().map((jabatan, index) => (
+                      <tr
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        key={index}
+
                       >
                         {(currentPage - 1) * limit + index + 1}
                       </th>

@@ -298,17 +298,13 @@ function Cuti() {
                     </th>
                   </tr>
                 </thead>
+                  {/* <!-- Tabel Body --> */}
+                  <tbody className="text-left">
+                    {paginatedCuti.slice().reverse().map((cuti, index) => (
+                      <tr
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        key={index}
 
-                {/* <!-- Tabel Body --> */}
-                <tbody className="text-left">
-                  {paginatedCuti.map((cuti, index) => (
-                    <tr
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                      key={index}
-                    >
-                      <th
-                        scope="row"
-                        className="px-4 py-4 font-medium text-gray-900 dark:text-white"
                       >
                         {(currentPage - 1) * limit + index + 1}
                       </th>
