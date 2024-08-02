@@ -80,12 +80,11 @@ function AddLembur() {
         <div className="sticky top-16 z-40">
           <Navbar />
         </div>
-        <div className="content-page max-h-screen container p-8 min-h-screen ml-64">
-          <h1 className="judul text-3xl font-semibold">Halaman Lembur</h1>
+        <div className="content-page max-h-screen container p-8 min-h-screen ml-0 sm:ml-64">
           <div className="add-lembur mt-12 bg-white p-5 rounded-xl shadow-lg border border-gray-300">
-            <p className="text-lg sm:text-xl font-medium mb-4 sm:mb-7">
+            <h1 className="text-lg sm:text-2xl font-medium mb-4 sm:mb-7">
               Halaman Lembur
-            </p>
+            </h1>
             <form onSubmit={addLembur}>
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative mb-3">

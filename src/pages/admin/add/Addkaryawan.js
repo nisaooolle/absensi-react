@@ -102,7 +102,7 @@ function AddKaryawan() {
         <div className="sticky top-16 z-40">
           <NavbarAdmin />
         </div>
-        <div className="sm:ml-64 content-page container p-8 ml-14 md:ml-64 mt-12">
+        <div className="flex-grow container p-4 sm:ml-64 ml-4 md:ml-64 mt-10">
           <div className="p-4">
             <div className="p-5">
               <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
