@@ -110,7 +110,7 @@ export default function AddOrganisasi() {
                             type="text"
                             name="nama_organisasi"
                             id="nama_organisasi"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                             placeholder=" "
                             value={namaOrganisasi}
                             onChange={(e) => setNamaOrganisasi(e.target.value)}
@@ -128,7 +128,7 @@ export default function AddOrganisasi() {
                             type="text"
                             name="alamat"
                             id="alamat"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                             placeholder=" "
                             value={alamat}
                             onChange={(e) => setAlamat(e.target.value)}
@@ -148,7 +148,7 @@ export default function AddOrganisasi() {
                             type="text"
                             name="nomer_telepon"
                             id="nomer_telepon"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                             placeholder=" "
                             value={nomerTelepon}
                             onChange={(e) => setNomerTelepon(e.target.value)}
@@ -186,7 +186,7 @@ export default function AddOrganisasi() {
                             type="text"
                             name="kecamatan"
                             id="kecamatan"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                             placeholder=" "
                             value={kecamatan}
                             onChange={(e) => setKecamatan(e.target.value)}
@@ -204,7 +204,7 @@ export default function AddOrganisasi() {
                             type="text"
                             name="kabupaten"
                             id="kabupaten"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                             placeholder=" "
                             value={kabupaten}
                             onChange={(e) => setKabupaten(e.target.value)}
@@ -214,7 +214,7 @@ export default function AddOrganisasi() {
                             htmlFor="kabupaten"
                             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                           >
-                            Kabupaten
+                            Kota/Kabupaten
                           </label>
                         </div>
                       </div>
@@ -223,7 +223,7 @@ export default function AddOrganisasi() {
                           type="text"
                           name="provinsi"
                           id="provinsi"
-                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                           placeholder=" "
                           value={provinsi}
                           onChange={(e) => setProvinsi(e.target.value)}
@@ -252,7 +252,7 @@ export default function AddOrganisasi() {
                       <div className="flex flex-col sm:flex-row sm:justify-between">
                         <a
                           href="/admin/organisasi"
-                          className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 mt-3 sm:mt-0"
+                          className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center transition-colors duration-200 ease-in-out dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 mt-3 sm:mt-0 flex items-center justify-center"
                         >
                           <FontAwesomeIcon
                             icon={faArrowLeft}
@@ -260,6 +260,7 @@ export default function AddOrganisasi() {
                           />
                           Back
                         </a>
+
                         <button
                           type="submit"
                           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-3"
