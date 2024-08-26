@@ -219,41 +219,50 @@ function TabelLembur() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {paginatedLembur.map((lemburData, index) => (
-                      <tr key={index}>
-                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                          {(currentPage - 1) * limit + index + 1}
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
-                          {formatDate(lemburData.tanggalLembur)}
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
-                          {lemburData.jamMulai}
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
-                          {lemburData.jamSelesai}
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
-                          {lemburData.keteranganLembur}
-                        </td>
-                        <td className="whitespace-nowrap text-center py-3">
-                          <div className="flex items-center -space-x-4 ml-12">
-                            <button
-                              className="z-20 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-blue-50"
-                              onClick={() => BatalLembur(lemburData.id)}
-                            >
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faCircleXmark}
-                                  className="h-4 w-4"
-                                />
-                              </span>
-                            </button>
-                          </div>
+                    {paginatedLembur.length > 0 ? (
+                      paginatedLembur.map((lemburData, index) => (
+                        <tr key={index}>
+                          <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
+                            {(currentPage - 1) * limit + index + 1}
+                          </td>
+                          <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
+                            {formatDate(lemburData.tanggalLembur)}
+                          </td>
+                          <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
+                            {lemburData.jamMulai}
+                          </td>
+                          <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
+                            {lemburData.jamSelesai}
+                          </td>
+                          <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
+                            {lemburData.keteranganLembur}
+                          </td>
+                          <td className="whitespace-nowrap text-center py-3">
+                            <div className="flex items-center -space-x-4 ml-12">
+                              <button
+                                className="z-20 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-blue-50"
+                                onClick={() => BatalLembur(lemburData.id)}
+                              >
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faCircleXmark}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="6" className="text-center py-4">
+                          Tidak ada data yang ditampilkan
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
+
                 </table>
               </div>
               <Pagination

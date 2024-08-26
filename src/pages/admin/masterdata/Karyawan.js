@@ -163,97 +163,99 @@ function Karyawan() {
               </div>
             </div>
             <hr />
-              {/* <!-- Tabel --> */}
-              <div className="relative overflow-x-auto mt-5">
-                <table
-                  id="dataKaryawan"
-                  className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
-                >
-                  {/* <!-- Tabel Head --> */}
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            {/* <!-- Tabel --> */}
+            <div className="relative overflow-x-auto mt-5">
+              <table
+                id="dataKaryawan"
+                className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+              >
+                {/* <!-- Tabel Head --> */}
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">
+                      No
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Username
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Email
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Admin
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-center">
+                      Aksi
+                    </th>
+                  </tr>
+                </thead>
+                {/* <!-- Tabel Body --> */}
+                <tbody className="text-left">
+                  {paginatedUser.length === 0 ? (
                     <tr>
-                      <th scope="col" className="px-6 py-3">
-                        No
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Username
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Email
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Admin
-                      </th>
-                      <th scope="col" className="px-6 py-3 text-center">
-                        Aksi
-                      </th>
+                      <td
+                        className="px-4 py-2 text-center text-gray-700 capitalize whitespace-nowrap"
+                        colSpan={5}
+                      >
+                        Tidak ada data yang ditampilkan
+                      </td>
                     </tr>
-                  </thead>
-                  {/* <!-- Tabel Body --> */}
-                  <tbody className="text-left">
-                    {paginatedUser.slice().reverse().map((user, index) => (
+                  ) : (
+                    paginatedUser.slice().reverse().map((user, index) => (
                       <tr
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         key={index}
-
                       >
-                       <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
                           {(currentPage - 1) * limit + index + 1}
                         </td>
-                      <td className="px-6 py-4 text-gray-900 capitalize whitespace-nowrap">
-                        {user.username}
-                      </td>
-                      <td className="px-6 py-4 text-gray-900 whitespace-nowrap">
-                        <a
-                          href="/cdn-cgi/l/email-protection"
-                          className="__cf_email__"
-                          data-cfemail="5a363b23363b1a3d373b333674393537"
-                        >
-                          {user.email}
-                        </a>
-                      </td>
-                      <td className="px-6 py-4 text-gray-900 capitalize whitespace-nowrap">
-                        {user.admin.username}
-                      </td>
-                      <td className="py-3">
-                        <div className="flex items-center -space-x-4 ml-12">
-                          <a href={`/admin/detailK/${user.id}`}>
-                            <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faInfo}
-                                  className="h-4 w-4"
-                                />
-                              </span>
-                            </button>
-                          </a>
-                          <a href={`/admin/editK/${user.id}`}>
-                            <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faPenToSquare}
-                                  className="h-4 w-4"
-                                />
-                              </span>
-                            </button>
-                          </a>
-
-                          <button
-                            className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                            onClick={() => deleteData(user.id)}
+                        <td className="px-6 py-4 text-gray-900 capitalize whitespace-nowrap">
+                          {user.username}
+                        </td>
+                        <td className="px-6 py-4 text-gray-900 whitespace-nowrap">
+                          <a
+                            href="/cdn-cgi/l/email-protection"
+                            className="__cf_email__"
+                            data-cfemail="5a363b23363b1a3d373b333674393537"
                           >
-                            <span className="relative inline-block">
-                              <FontAwesomeIcon
-                                icon={faTrash}
-                                className="h-4 w-4"
-                              />
-                            </span>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                            {user.email}
+                          </a>
+                        </td>
+                        <td className="px-6 py-4 text-gray-900 capitalize whitespace-nowrap">
+                          {user.admin.username}
+                        </td>
+                        <td className="py-3">
+                          <div className="flex items-center -space-x-4 ml-12">
+                            <a href={`/admin/detailK/${user.id}`}>
+                              <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon icon={faInfo} className="h-4 w-4" />
+                                </span>
+                              </button>
+                            </a>
+                            <a href={`/admin/editK/${user.id}`}>
+                              <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon icon={faPenToSquare} className="h-4 w-4" />
+                                </span>
+                              </button>
+                            </a>
+
+                            <button
+                              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                              onClick={() => deleteData(user.id)}
+                            >
+                              <span className="relative inline-block">
+                                <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
+                              </span>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
+
               </table>
             </div>
             <Pagination

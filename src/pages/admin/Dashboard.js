@@ -29,7 +29,7 @@ function Dashboard() {
     try {
       const res = await axios.get(`${API_DUMMY}/api/user/${idAdmin}/users`);
       setKaryawan(res.data.length);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -226,35 +226,44 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                {absenData.slice().reverse().map((absen, index) => (
-                    <tr
-                      key={index}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    >
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
-                      >
-                        {index + 1}
-                      </th>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {absen.user.username}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {formatDate(absen.tanggalAbsen)}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {absen.jamMasuk || "-"}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {absen.jamPulang || "-"}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {absen.statusAbsen}
+                  {absenData.length === 0 ? (
+                    <tr>
+                      <td colSpan="6" className="px-6 py-4">
+                        Tidak ada data yang ditampilkan
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    absenData.slice().reverse().map((absen, index) => (
+                      <tr
+                        key={index}
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      >
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
+                        >
+                          {index + 1}
+                        </th>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {absen.user.username}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {formatDate(absen.tanggalAbsen)}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {absen.jamMasuk || "-"}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {absen.jamPulang || "-"}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {absen.statusAbsen}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
+
               </table>
             </div>
           </div>
@@ -291,32 +300,41 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {cutiData.slice().reverse().map((cuti, index) =>  (
-                    <tr
-                      key={index}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    >
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        {index + 1}
-                      </th>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {cuti.user.username}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {formatDate(cuti.awalCuti)}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {formatDate(cuti.akhirCuti)}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {cuti.status}
+                  {cutiData.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="px-6 py-4">
+                        Tidak ada data yang ditampilkan
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    cutiData.slice().reverse().map((cuti, index) => (
+                      <tr
+                        key={index}
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      >
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {index + 1}
+                        </th>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {cuti.user.username}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {formatDate(cuti.awalCuti)}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {formatDate(cuti.akhirCuti)}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {cuti.status}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
+
               </table>
             </div>
           </div>
@@ -344,23 +362,32 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {jabatanData.slice().reverse().map((jabatan, index) => (
-                    <tr
-                      key={index}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    >
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        {index + 1}
-                      </th>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {jabatan.namaJabatan}
+                  {jabatanData.length === 0 ? (
+                    <tr>
+                      <td colSpan="2" className="px-6 py-4">
+                        Tidak ada data yang ditampilkan
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    jabatanData.slice().reverse().map((jabatan, index) => (
+                      <tr
+                        key={index}
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      >
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {index + 1}
+                        </th>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {jabatan.namaJabatan}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
+
               </table>
             </div>
           </div>
@@ -397,32 +424,41 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {lokasiData.slice().reverse().map((lokasi, index) => (
-                    <tr
-                      key={index}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    >
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        {index + 1}
-                      </th>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {lokasi.namaLokasi}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {lokasi.alamat}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {karyawan}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {lokasi.organisasi.namaOrganisasi}
+                  {lokasiData.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="px-6 py-4">
+                        Tidak ada data yang ditampilkan
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    lokasiData.slice().reverse().map((lokasi, index) => (
+                      <tr
+                        key={index}
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      >
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {index + 1}
+                        </th>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {lokasi.namaLokasi}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {lokasi.alamat}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {karyawan}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {lokasi.organisasi.namaOrganisasi}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
+
               </table>
             </div>
           </div>
@@ -453,26 +489,35 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {organisasiData.slice().reverse().map((organisasi, index) => (
-                    <tr
-                      key={index}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    >
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        {index + 1}
-                      </th>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {organisasi.namaOrganisasi}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {organisasi.alamat}
+                  {organisasiData.length === 0 ? (
+                    <tr>
+                      <td colSpan="3" className="px-6 py-4">
+                        Tidak ada data yang ditampilkan
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    organisasiData.slice().reverse().map((organisasi, index) => (
+                      <tr
+                        key={index}
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      >
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {index + 1}
+                        </th>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {organisasi.namaOrganisasi}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {organisasi.alamat}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
+
               </table>
             </div>
           </div>

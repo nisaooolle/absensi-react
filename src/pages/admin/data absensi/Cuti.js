@@ -300,76 +300,85 @@ function Cuti() {
                 </thead>
                 {/* <!-- Tabel Body --> */}
                 <tbody className="text-left">
-                  {paginatedCuti
-                    .slice()
-                    .reverse()
-                    .map((cuti, index) => (
-                      <tr
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                        key={index}
-                      >
-                        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
-                          {(currentPage - 1) * limit + index + 1}
-                        </td>
-                        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
-                          {cuti.user.username}
-                        </td>
-                        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
-                          {formatDate(cuti.awalCuti)}
-                        </td>
-                        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
-                          {formatDate(cuti.akhirCuti)}
-                        </td>
-                        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
-                          {formatDate(cuti.masukKerja)}
-                        </td>
-                        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
-                          {cuti.keperluan}
-                        </td>
-                        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
-                          {cuti.status}
-                        </td>
-                        <td className="py-3">
-                          <div className="flex items-center -space-x-4 ml-12">
-                            <button
-                              className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
-                              onClick={() => konfirmasiSetujuCuti(cuti.id)}
-                            >
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faCheck}
-                                  className="h-4 w-4"
-                                />
-                              </span>
-                            </button>
-
-                            <button
-                              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                              onClick={() => BatalkanCuti(cuti.id)}
-                            >
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faXmark}
-                                  className="h-4 w-4"
-                                />
-                              </span>
-                            </button>
-
-                            <a onClick={() => DownloadPdfCuti(cuti.id)}>
-                              <button className="z-30 block rounded-full border-2 border-white  bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                  {paginatedCuti.length > 0 ? (
+                    paginatedCuti
+                      .slice()
+                      .reverse()
+                      .map((cuti, index) => (
+                        <tr
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          key={index}
+                        >
+                          <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                            {(currentPage - 1) * limit + index + 1}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                            {cuti.user.username}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                            {formatDate(cuti.awalCuti)}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                            {formatDate(cuti.akhirCuti)}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                            {formatDate(cuti.masukKerja)}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                            {cuti.keperluan}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                            {cuti.status}
+                          </td>
+                          <td className="py-3">
+                            <div className="flex items-center -space-x-4 ml-12">
+                              <button
+                                className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50"
+                                onClick={() => konfirmasiSetujuCuti(cuti.id)}
+                              >
                                 <span className="relative inline-block">
                                   <FontAwesomeIcon
-                                    icon={faPrint}
+                                    icon={faCheck}
                                     className="h-4 w-4"
                                   />
                                 </span>
                               </button>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+
+                              <button
+                                className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                                onClick={() => BatalkanCuti(cuti.id)}
+                              >
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faXmark}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+
+                              <a onClick={() => DownloadPdfCuti(cuti.id)}>
+                                <button className="z-30 block rounded-full border-2 border-white  bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                                  <span className="relative inline-block">
+                                    <FontAwesomeIcon
+                                      icon={faPrint}
+                                      className="h-4 w-4"
+                                    />
+                                  </span>
+                                </button>
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                  ) : (
+                    <tr>
+                      <td colSpan="8" className="text-center py-4">
+                        Tidak ada data yang ditampilkan
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
+
               </table>
             </div>
             <Pagination
