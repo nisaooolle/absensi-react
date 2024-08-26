@@ -200,74 +200,74 @@ function Organisasi() {
                 </thead>
                 {/* <!-- Tabel Body --> */}
                 <tbody className="text-left">
-                  {paginatedOrganisasi
-                    .slice()
-                    .reverse()
-                    .map((organisasi, index) => (
-                      <tr
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                        key={index}
-                      >
-                        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
-                          {(currentPage - 1) * limit + index + 1}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {organisasi.namaOrganisasi}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {organisasi.alamat}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {organisasi.nomerTelepon}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <a
-                            href="/cdn-cgi/l/email-protection"
-                            className="__cf_email__"
-                            data-cfemail="40253823252c2c252e3400272d21292c6e232f2d"
-                          >
-                            {organisasi.emailOrganisasi}
-                          </a>
-                        </td>
-                        <td className="py-3">
-                          <div className="flex items-center -space-x-4 ml-12">
-                            <a href={`/admin/detailO/${organisasi.id}`}>
-                              <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
-                                <span className="relative inline-block">
-                                  <FontAwesomeIcon
-                                    icon={faInfo}
-                                    className="h-4 w-4"
-                                  />
-                                </span>
-                              </button>
-                            </a>
-                            <a href={`/admin/editO/${organisasi.id}`}>
-                              <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
-                                <span className="relative inline-block">
-                                  <FontAwesomeIcon
-                                    icon={faPenToSquare}
-                                    className="h-4 w-4"
-                                  />
-                                </span>
-                              </button>
-                            </a>
+  {paginatedOrganisasi.length === 0 ? (
+    <tr>
+      <td
+        className="px-4 py-2 text-center text-gray-700 capitalize whitespace-nowrap"
+        colSpan={6}
+      >
+        Tidak ada data yang ditampilkan
+      </td>
+    </tr>
+  ) : (
+    paginatedOrganisasi.slice().reverse().map((organisasi, index) => (
+      <tr
+        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+        key={index}
+      >
+        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+          {(currentPage - 1) * limit + index + 1}
+        </td>
+        <td className="px-6 py-4 capitalize whitespace-nowrap">
+          {organisasi.namaOrganisasi}
+        </td>
+        <td className="px-6 py-4 capitalize whitespace-nowrap">
+          {organisasi.alamat}
+        </td>
+        <td className="px-6 py-4 capitalize whitespace-nowrap">
+          {organisasi.nomerTelepon}
+        </td>
+        <td className="px-6 py-4 whitespace-nowrap">
+          <a
+            href="/cdn-cgi/l/email-protection"
+            className="__cf_email__"
+            data-cfemail="40253823252c2c252e3400272d21292c6e232f2d"
+          >
+            {organisasi.emailOrganisasi}
+          </a>
+        </td>
+        <td className="py-3">
+          <div className="flex items-center -space-x-4 ml-12">
+            <a href={`/admin/detailO/${organisasi.id}`}>
+              <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
+                <span className="relative inline-block">
+                  <FontAwesomeIcon icon={faInfo} className="h-4 w-4" />
+                </span>
+              </button>
+            </a>
+            <a href={`/admin/editO/${organisasi.id}`}>
+              <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                <span className="relative inline-block">
+                  <FontAwesomeIcon icon={faPenToSquare} className="h-4 w-4" />
+                </span>
+              </button>
+            </a>
 
-                            <button
-                              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                              onClick={() => deleteData(organisasi.id)}
-                            >
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faTrash}
-                                  className="h-4 w-4"
-                                />
-                              </span>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
+            <button
+              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+              onClick={() => deleteData(organisasi.id)}
+            >
+              <span className="relative inline-block">
+                <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
+              </span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
+
               </table>
             </div>
             <Pagination

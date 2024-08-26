@@ -248,10 +248,17 @@ function Shift() {
                 </thead>
                 {/* <!-- Tabel Body --> */}
                 <tbody className="text-left">
-                  {paginatedShift
-                    .slice()
-                    .reverse()
-                    .map((shift, index) => (
+                  {paginatedShift.length === 0 ? (
+                    <tr>
+                      <td
+                        className="px-4 py-2 text-center text-gray-700 capitalize whitespace-nowrap"
+                        colSpan={7}
+                      >
+                        Tidak ada data yang ditampilkan
+                      </td>
+                    </tr>
+                  ) : (
+                    paginatedShift.slice().reverse().map((shift, index) => (
                       <tr
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         key={index}
@@ -281,30 +288,25 @@ function Shift() {
                             <a href={`/admin/editS/${shift.id}`}>
                               <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
                                 <span className="relative inline-block">
-                                  <FontAwesomeIcon
-                                    icon={faPenToSquare}
-                                    className="h-4 w-4"
-                                  />
+                                  <FontAwesomeIcon icon={faPenToSquare} className="h-4 w-4" />
                                 </span>
                               </button>
                             </a>
-
                             <button
                               className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
                               onClick={() => deleteData(shift.id)}
                             >
                               <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faTrash}
-                                  className="h-4 w-4"
-                                />
+                                <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
                               </span>
                             </button>
                           </div>
                         </td>
                       </tr>
-                    ))}
+                    ))
+                  )}
                 </tbody>
+
               </table>
             </div>
             <Pagination

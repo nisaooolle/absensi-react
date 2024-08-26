@@ -26,7 +26,7 @@ function Lokasi() {
     try {
       const res = await axios.get(`${API_DUMMY}/api/user/${idAdmin}/users`);
       setKaryawan(res.data.length);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const getAllLokasibyAdmin = async () => {
@@ -201,10 +201,17 @@ function Lokasi() {
                 </thead>
                 {/* <!-- Tabel Body --> */}
                 <tbody className="text-left">
-                  {paginatedLokasi
-                    .slice()
-                    .reverse()
-                    .map((lokasi, index) => (
+                  {paginatedLokasi.length === 0 ? (
+                    <tr>
+                      <td
+                        className="px-4 py-2 text-center text-gray-700 capitalize whitespace-nowrap"
+                        colSpan={6}
+                      >
+                        Tidak ada data yang ditampilkan
+                      </td>
+                    </tr>
+                  ) : (
+                    paginatedLokasi.slice().reverse().map((lokasi, index) => (
                       <tr
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         key={index}
@@ -229,20 +236,14 @@ function Lokasi() {
                             <a href={`/admin/detailL/${lokasi.idLokasi}`}>
                               <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
                                 <span className="relative inline-block">
-                                  <FontAwesomeIcon
-                                    icon={faInfo}
-                                    className="h-4 w-4"
-                                  />
+                                  <FontAwesomeIcon icon={faInfo} className="h-4 w-4" />
                                 </span>
                               </button>
                             </a>
                             <a href={`/admin/editL/${lokasi.idLokasi}`}>
                               <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
                                 <span className="relative inline-block">
-                                  <FontAwesomeIcon
-                                    icon={faPenToSquare}
-                                    className="h-4 w-4"
-                                  />
+                                  <FontAwesomeIcon icon={faPenToSquare} className="h-4 w-4" />
                                 </span>
                               </button>
                             </a>
@@ -251,17 +252,16 @@ function Lokasi() {
                               onClick={() => deleteData(lokasi.idLokasi)}
                             >
                               <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faTrash}
-                                  className="h-4 w-4"
-                                />
+                                <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
                               </span>
                             </button>
                           </div>
                         </td>
                       </tr>
-                    ))}
+                    ))
+                  )}
                 </tbody>
+
               </table>
             </div>
             <Pagination

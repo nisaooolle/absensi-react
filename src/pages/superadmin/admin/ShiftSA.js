@@ -201,63 +201,72 @@ function ShiftSA() {
                   </thead>
                   {/* <!-- Tabel Body --> */}
                   <tbody className="text-left">
-                    {paginatedShift.slice().reverse().map((shift, index) => (
-                      <tr
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                        key={index}
-                      >
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    {paginatedShift.length > 0 ? (
+                      paginatedShift.slice().reverse().map((shift, index) => (
+                        <tr
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          key={shift.id}
                         >
-                          {(currentPage - 1) * limit + index + 1}
-                        </th>
-                        <td className="px-6 py-4 capitalize">
-                          {shift.admin.username}
-                        </td>
-                        <td className="px-6 py-4 capitalize">
-                          {shift.namaShift}
-                        </td>
-                        <td className="px-6 py-4">{shift.waktuMasuk}</td>
-                        <td className="px-6 py-4">{shift.waktuPulang}</td>
-                        <td className="py-3">
-                          <div className="flex items-center -space-x-4">
-                            <a href={`/superadmin/detailS/${shift.id}`}>
-                              <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
+                          <th
+                            scope="row"
+                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            {(currentPage - 1) * limit + index + 1}
+                          </th>
+                          <td className="px-6 py-4 capitalize">
+                            {shift.admin.username}
+                          </td>
+                          <td className="px-6 py-4 capitalize">
+                            {shift.namaShift}
+                          </td>
+                          <td className="px-6 py-4">{shift.waktuMasuk}</td>
+                          <td className="px-6 py-4">{shift.waktuPulang}</td>
+                          <td className="py-3">
+                            <div className="flex items-center -space-x-4">
+                              <a href={`/superadmin/detailS/${shift.id}`}>
+                                <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
+                                  <span className="relative inline-block">
+                                    <FontAwesomeIcon
+                                      icon={faInfo}
+                                      className="h-4 w-4"
+                                    />
+                                  </span>
+                                </button>
+                              </a>
+                              <a href={`/superadmin/editS/${shift.id}`}>
+                                <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                                  <span className="relative inline-block">
+                                    <FontAwesomeIcon
+                                      icon={faPenToSquare}
+                                      className="h-4 w-4"
+                                    />
+                                  </span>
+                                </button>
+                              </a>
+                              <button
+                                className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                                onClick={() => deleteData(shift.id)}
+                              >
                                 <span className="relative inline-block">
                                   <FontAwesomeIcon
-                                    icon={faInfo}
+                                    icon={faTrash}
                                     className="h-4 w-4"
                                   />
                                 </span>
                               </button>
-                            </a>
-                            <a href={`/superadmin/editS/${shift.id}`}>
-                              <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
-                                <span className="relative inline-block">
-                                  <FontAwesomeIcon
-                                    icon={faPenToSquare}
-                                    className="h-4 w-4"
-                                  />
-                                </span>
-                              </button>
-                            </a>
-                            <button
-                              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                              onClick={() => deleteData(shift.id)}
-                            >
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faTrash}
-                                  className="h-4 w-4"
-                                />
-                              </span>
-                            </button>
-                          </div>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="6" className="text-center py-4">
+                          Tidak ada data yang ditampilkan
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
+
                 </table>
               </div>
               <Pagination

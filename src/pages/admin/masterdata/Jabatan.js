@@ -215,57 +215,66 @@ function Jabatan() {
                   </tr>
                 </thead>
                 <tbody className="text-left">
-                  {paginatedJabatan
-                    .slice()
-                    .reverse()
-                    .map((jabatan, index) => (
-                      <tr
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                        key={index}
+                  {paginatedJabatan.length === 0 ? (
+                    <tr>
+                      <td
+                        className="px-4 py-2 text-center text-gray-700 capitalize whitespace-nowrap"
+                        colSpan={5}
                       >
-                        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
-                          {(currentPage - 1) * limit + index + 1}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {jabatan.namaJabatan}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {jumlahKaryawan[jabatan.idJabatan] !== undefined
-                            ? jumlahKaryawan[jabatan.idJabatan] || "Kosong"
-                            : "Loading..."}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {jabatan.admin.username}
-                        </td>
-                        <td className="py-3">
-                          <div className="flex items-center -space-x-4 ml-12">
-                            <a href={`/admin/editJ/${jabatan.idJabatan}`}>
-                              <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                        Tidak ada data yang ditampilkan
+                      </td>
+                    </tr>
+                  ) : (
+                    paginatedJabatan
+                      .slice()
+                      .reverse()
+                      .map((jabatan, index) => (
+                        <tr
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          key={index}
+                        >
+                          <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                            {(currentPage - 1) * limit + index + 1}
+                          </td>
+                          <td className="px-6 py-4 capitalize whitespace-nowrap">
+                            {jabatan.namaJabatan}
+                          </td>
+                          <td className="px-6 py-4 capitalize whitespace-nowrap">
+                            {jumlahKaryawan[jabatan.idJabatan] !== undefined
+                              ? jumlahKaryawan[jabatan.idJabatan] || "Kosong"
+                              : "Loading..."}
+                          </td>
+                          <td className="px-6 py-4 capitalize whitespace-nowrap">
+                            {jabatan.admin.username}
+                          </td>
+                          <td className="py-3">
+                            <div className="flex items-center -space-x-4 ml-12">
+                              <a href={`/admin/editJ/${jabatan.idJabatan}`}>
+                                <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                                  <span className="relative inline-block">
+                                    <FontAwesomeIcon
+                                      icon={faPenToSquare}
+                                      className="h-4 w-4"
+                                    />
+                                  </span>
+                                </button>
+                              </a>
+
+                              <button
+                                className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                                onClick={() => deleteData(jabatan.idJabatan)}
+                              >
                                 <span className="relative inline-block">
-                                  <FontAwesomeIcon
-                                    icon={faPenToSquare}
-                                    className="h-4 w-4"
-                                  />
+                                  <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
                                 </span>
                               </button>
-                            </a>
-
-                            <button
-                              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                              onClick={() => deleteData(jabatan.idJabatan)}
-                            >
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon
-                                  icon={faTrash}
-                                  className="h-4 w-4"
-                                />
-                              </span>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                  )}
                 </tbody>
+
               </table>
             </div>
             <Pagination

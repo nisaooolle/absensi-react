@@ -190,43 +190,52 @@ function Kehadiran() {
                   </tr>
                 </thead>
                 <tbody className="text-left">
-                  {paginatedKehadiran
-                    .slice()
-                    .reverse()
-                    .map((kehadiran, index) => (
-                      <tr
-                        key={index}
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                      >
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  {paginatedKehadiran.length > 0 ? (
+                    paginatedKehadiran
+                      .slice()
+                      .reverse()
+                      .map((kehadiran, index) => (
+                        <tr
+                          key={index}
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         >
-                          {(currentPage - 1) * limit + index + 1}
-                        </th>
-                        <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
-                          {kehadiran.username}
-                        </td>
-                        <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
-                          {kehadiran.jabatan
-                            ? kehadiran.jabatan.namaJabatan
-                            : "Tidak ada jabatan"}
-                        </td>
-                        <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
-                          {kehadiran.lateCount}
-                        </td>
-                        <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
-                          {kehadiran.earlyCount}
-                        </td>
-                        <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
-                          {kehadiran.permissionCount}
-                        </td>
-                        <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
-                          {kehadiran.totalMasuk}
-                        </td>
-                      </tr>
-                    ))}
+                          <th
+                            scope="row"
+                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            {(currentPage - 1) * limit + index + 1}
+                          </th>
+                          <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
+                            {kehadiran.username}
+                          </td>
+                          <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
+                            {kehadiran.jabatan
+                              ? kehadiran.jabatan.namaJabatan
+                              : "Tidak ada jabatan"}
+                          </td>
+                          <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
+                            {kehadiran.lateCount}
+                          </td>
+                          <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
+                            {kehadiran.earlyCount}
+                          </td>
+                          <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
+                            {kehadiran.permissionCount}
+                          </td>
+                          <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
+                            {kehadiran.totalMasuk}
+                          </td>
+                        </tr>
+                      ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7" className="text-center py-4">
+                        Tidak ada data yang ditampilkan
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
+
               </table>
             </div>
             <Pagination

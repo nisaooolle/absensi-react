@@ -256,31 +256,39 @@ function DashboardSA() {
                 </thead>
                 {/* <!-- Tabel Body --> */}
                 <tbody className="text-left">
-                  {admin.map((admin, index) => (
-                    <tr
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                      key={index}
-                    >
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  {admin.length > 0 ? (
+                    admin.map((admin, index) => (
+                      <tr
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        key={index}
                       >
-                        {index + 1}
-                      </th>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <a
-                          href="/cdn-cgi/l/email-protection"
-                          className="__cf_email__"
-                          data-cfemail="5a363b23363b1a3d373b333674393537"
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          {admin.email}
-                        </a>
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {admin.username}
+                          {index + 1}
+                        </th>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <a
+                            href="/cdn-cgi/l/email-protection"
+                            className="__cf_email__"
+                            data-cfemail="5a363b23363b1a3d373b333674393537"
+                          >
+                            {admin.email}
+                          </a>
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {admin.username}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3" className="text-center py-4">
+                        Tidak ada data yang ditampilkan
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
@@ -324,34 +332,42 @@ function DashboardSA() {
                 </thead>
                 {/* <!-- Tabel Body --> */}
                 <tbody className="text-left">
-                  {organisasiData.map((admin, index) => (
-                    <tr
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                      key={index}
-                    >
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  {organisasiData.length > 0 ? (
+                    organisasiData.map((admin, index) => (
+                      <tr
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        key={index}
                       >
-                        {index + 1}
-                      </th>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {admin.admin.username}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {admin.namaOrganisasi}
-                      </td>
-                      <td className="px-6 py-4 capitalize whitespace-nowrap">
-                        {admin.alamat}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {admin.nomerTelepon}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {admin.emailOrganisasi}
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {index + 1}
+                        </th>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {admin.admin.username}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {admin.namaOrganisasi}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {admin.alamat}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {admin.nomerTelepon}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {admin.emailOrganisasi}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6" className="text-center py-4">
+                        Tidak ada data yang ditampilkan
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
