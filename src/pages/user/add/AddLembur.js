@@ -108,7 +108,7 @@ function AddLembur() {
                   <input
                     type="text"
                     id="keterangan"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 capitalize"
                     placeholder="Masukkan Keterangan Lembur"
                     value={keterangan_lembur}
                     onChange={(e) => setKeteranganLembur(e.target.value)}
