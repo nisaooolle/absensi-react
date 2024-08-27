@@ -27,6 +27,8 @@ import {
   faUsers,
   faUsersGear,
 } from "@fortawesome/free-solid-svg-icons";
+import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function SidebarNavbar() {
   const role = localStorage.getItem("role");
@@ -35,7 +37,90 @@ function SidebarNavbar() {
   const [rekapanOpen, setRekapanOpen] = useState(false);
   const [absenOpen, setAbsenOpen] = useState(false);
   const sidebarRef = useRef(null);
+  const location = useLocation();
 
+  const isActive = (paths) => {
+    return (
+      Array.isArray(paths) &&
+      paths.some((path) => location.pathname.startsWith(path))
+    );
+  };
+
+  useEffect(() => {
+    const isActive = (paths) => {
+      return (
+        Array.isArray(paths) &&
+        paths.some((path) => location.pathname.startsWith(path))
+      );
+    };
+
+    if (
+      isActive([
+        "/admin/simpel",
+        "/admin/perkaryawan",
+        "/admin/harian",
+        "/admin/mingguan",
+        "/admin/bulanan",
+        "/superadmin/data-user",
+        "/superadmin/absensi",
+      ])
+    ) {
+      setRekapanOpen(true);
+    } else {
+      setRekapanOpen(false);
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    // Check if any link inside dropdown is active and open the dropdown if it is
+    const isActive = (paths) => {
+      return (
+        Array.isArray(paths) &&
+        paths.some((path) => location.pathname.startsWith(path))
+      );
+    };
+
+    if (
+      isActive([
+        "/admin/absensi",
+        "/admin/kehadiran",
+        "/admin/cuti",
+        "/admin/lembur",
+      ])
+    ) {
+      setAbsenOpen(true);
+    } else {
+      setAbsenOpen(false);
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const isActive = (paths) => {
+      return (
+        Array.isArray(paths) &&
+        paths.some((path) => location.pathname.startsWith(path))
+      );
+    };
+
+    if (
+      isActive([
+        "/admin/karyawan",
+        "/admin/jabatan",
+        "/admin/shift",
+        "/admin/lokasi",
+        "/admin/organisasi",
+        "/superadmin/admin",
+        "/superadmin/jabatan",
+        "/superadmin/shift",
+        "/superadmin/lokasi",
+        "/superadmin/organisasi",
+      ])
+    ) {
+      setMasterDataOpen(true);
+    } else {
+      setMasterDataOpen(false);
+    }
+  }, [location.pathname]);
   // Fungsi untuk menampilkan atau menyembunyikan dropdown master data
   const toggleMasterData = () => {
     setMasterDataOpen(!masterDataOpen);
@@ -108,26 +193,37 @@ function SidebarNavbar() {
       >
         <div className="h-full flex flex-col">
           <div className={`bg-indigo-500 ${isOpen ? "hidden" : "block"}`}>
-            <a href="" className="flex items-center p-3">
+            <Link to="/" className="flex items-center p-3">
               <img src={Logo} className="h-11 me-3 text-white" alt="Logo" />
-            </a>
+              <span className="self-center text-xl font-semibold sm:text-xl whitespace-nowrap text-white">
+                Presensi App
+              </span>
+            </Link>
           </div>
-          <div className="bg-white flex-1 px-3 py-4">
+          <div className="bg-white shadow-lg shadow-blue-300 flex-1 px-3 py-4 h-full pb-4 overflow-y-auto">
             <nav className="">
               <ul className="space-y-2 font-medium">
                 {role === "ADMIN" && (
                   <ul>
                     <li>
-                      <a
-                        href="/admin/dashboard"
-                        className="flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group"
+                      <Link
+                        to="/admin/dashboard"
+                        className={`${
+                          isActive(["/admin/dashboard"])
+                            ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                            : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                        } flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group`}
                       >
                         <FontAwesomeIcon
-                          className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                          className={`flex-shrink-0 w-5 h-5 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                            isActive(["/admin/dashboard"])
+                              ? "text-white hover:text-black"
+                              : "text-blue-500"
+                          }`}
                           icon={faCube}
                         />
                         <span className="ms-3">Dashboard</span>
-                      </a>
+                      </Link>
                     </li>
                     {/* // <!-- Dropdown Master Data --> */}
                     <li>
@@ -158,82 +254,122 @@ function SidebarNavbar() {
                       >
                         {/* <!-- Menu Karyawan --> */}
                         <li>
-                          <a
-                            href="/admin/karyawan"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/karyawan"
+                            className={`flex items-center p-2 rounded-lg ml-9 pl-3 ${
+                              isActive(["/admin/karyawan"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/karyawan"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faUsersGear}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Karyawan
                             </span>
-                          </a>
+                          </Link>
                         </li>
 
                         {/* <!-- Menu Jabatan --> */}
                         <li>
-                          <a
-                            href="/admin/jabatan"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/jabatan"
+                            className={`flex items-center p-2 rounded-lg ml-9 pl-3 ${
+                              isActive(["/admin/jabatan"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/jabatan"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faBriefcase}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Jabatan
                             </span>
-                          </a>
+                          </Link>
                         </li>
 
                         {/* <!-- Menu Jam Kerja --> */}
                         <li>
-                          <a
-                            href="/admin/shift"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/shift"
+                            className={`flex items-center p-2 rounded-lg ml-9 pl-3 ${
+                              isActive(["/admin/shift"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
-                              icon={faBusinessTime}
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/shift"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
+                              icon={faBriefcase}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Shift
                             </span>
-                          </a>
+                          </Link>
                         </li>
 
                         {/* <!-- Menu Lokasi --> */}
                         <li>
-                          <a
-                            href="/admin/lokasi"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/lokasi"
+                            className={`flex items-center p-2 rounded-lg ml-9 pl-3 ${
+                              isActive(["/admin/lokasi"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/lokasi"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faMapLocationDot}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Lokasi
                             </span>
-                          </a>
+                          </Link>
                         </li>
 
                         {/* <!-- Menu Organisasi --> */}
                         <li>
-                          <a
-                            href="/admin/organisasi"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/organisasi"
+                            className={`flex items-center p-2 rounded-lg ml-9 pl-3 ${
+                              isActive(["/admin/organisasi"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/organisasi"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faBuilding}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Organisasi
                             </span>
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </li>
@@ -267,78 +403,118 @@ function SidebarNavbar() {
                       >
                         {/* <!-- Menu Simpel --> */}
                         <li>
-                          <a
-                            href="/admin/simpel"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/simpel"
+                            className={`flex items-center p-2 rounded-lg ml-9 pl-3 ${
+                              isActive(["/admin/simpel"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/simpel"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faUserGear}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Simpel
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         {/* <!-- Menu PerKaryawan --> */}
                         <li>
-                          <a
-                            href="/admin/perkaryawan"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/perkaryawan"
+                            className={`${
+                              isActive(["/admin/perkaryawan"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                            } flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/perkaryawan"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faUserPen}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Perkaryawan
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         {/* <!-- Menu Harian --> */}
                         <li>
-                          <a
-                            href="/admin/harian"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/harian"
+                            className={`${
+                              isActive(["/admin/harian"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                            } flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/harian"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faCalendarDay}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Harian
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         {/* <!-- Menu Mingguan --> */}
                         <li>
-                          <a
-                            href="/admin/mingguan"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/mingguan"
+                            className={`${
+                              isActive(["/admin/mingguan"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                            } flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/mingguan"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faCalendarWeek}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Mingguan
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         {/* <!-- Menu Bulanan --> */}
                         <li>
-                          <a
-                            href="/admin/bulanan"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/bulanan"
+                            className={`${
+                              isActive(["/admin/bulanan"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                            } flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/bulanan"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faCalendar}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Bulanan
                             </span>
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </li>
@@ -373,63 +549,95 @@ function SidebarNavbar() {
                       >
                         {/* <!-- Menu Absensi --> */}
                         <li>
-                          <a
-                            href="/admin/absensi"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/absensi"
+                            className={`flex items-center p-2 rounded-lg ml-9 pl-3 ${
+                              isActive(["/admin/absensi"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/absensi"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faAddressCard}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Absensi
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         {/* <!-- Menu Cuti --> */}
                         <li>
-                          <a
-                            href="/admin/cuti"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/cuti"
+                            className={`flex items-center p-2 rounded-lg ml-9 pl-3 ${
+                              isActive(["/admin/cuti"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/cuti"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faCalendarDays}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Cuti
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         {/* <!-- Menu Kehadiran --> */}
                         <li>
-                          <a
-                            href="/admin/kehadiran"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/kehadiran"
+                            className={`flex items-center p-2 rounded-lg ml-9 pl-3 ${
+                              isActive(["/admin/kehadiran"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/kehadiran"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faUserCheck}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Kehadiran
                             </span>
-                          </a>
+                          </Link>
                         </li>
-                        {/* <!-- Menu Mingguan --> */}
+                        {/* <!-- Menu Lembur --> */}
                         <li>
-                          <a
-                            href="/admin/lembur"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/admin/lembur"
+                            className={`flex items-center p-2 rounded-lg ml-9 pl-3 ${
+                              isActive(["/admin/lembur"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 textsition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/admin/lembur"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faBusinessTime}
                             />{" "}
                             <span className="flex-1 ml-3 whitespace-nowrap">
                               Lembur
                             </span>
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </li>
@@ -439,74 +647,108 @@ function SidebarNavbar() {
                   <ul>
                     {" "}
                     <li>
-                      <a
-                        href="/user/dashboard"
-                        className="flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group"
+                      <Link
+                        to="/user/dashboard"
+                        className={`${
+                          isActive(["/user/dashboard"])
+                            ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                            : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                        } flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group`}
                       >
                         <FontAwesomeIcon
-                          className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                          className={`flex-shrink-0 w-5 h-5 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                            isActive(["/user/dashboard"])
+                              ? "text-white hover:text-black"
+                              : "text-blue-500"
+                          }`}
                           icon={faCube}
                         />
                         <span className="ms-3">Dashboard</span>
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href="/user/history_absen"
-                        className="flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group"
+                      <Link
+                        to="/user/history_absen"
+                        className={`${
+                          isActive(["/user/history_absen"])
+                            ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                            : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                        } flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group`}
                       >
                         <FontAwesomeIcon
-                          className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                          className={`flex-shrink-0 w-5 h-5 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                            isActive(["/user/history_absen"])
+                              ? "text-white hover:text-black"
+                              : "text-blue-500"
+                          }`}
                           icon={faClock}
                         />
-                        <span className="flex-1 ms-3 whitespace-nowrap ">
-                          Absen
-                        </span>
-                      </a>
+                        <span className="ms-3">Absensi</span>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href="/user/history_cuti"
-                        className="flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group"
+                      <Link
+                        to="/user/history_cuti"
+                        className={`${
+                          isActive(["/user/history_cuti"])
+                            ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                            : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                        } flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group`}
                       >
                         <FontAwesomeIcon
-                          className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                          className={`flex-shrink-0 w-5 h-5 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                            isActive(["/user/history_cuti"])
+                              ? "text-white hover:text-black"
+                              : "text-blue-500"
+                          }`}
                           icon={faCalendarDays}
                         />
-                        <span className="flex-1 ms-3 whitespace-nowrap">
-                          Cuti
-                        </span>
-                      </a>
+                        <span className="ms-3">Cuti</span>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href="/user/history_lembur"
-                        className="flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group"
+                      <Link
+                        to="/user/history_lembur"
+                        className={`${
+                          isActive(["/user/history_lembur"])
+                            ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                            : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                        } flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group`}
                       >
                         <FontAwesomeIcon
-                          className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                          className={`flex-shrink-0 w-5 h-5 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                            isActive(["/user/history_lembur"])
+                              ? "text-white hover:text-black"
+                              : "text-blue-500"
+                          }`}
                           icon={faBusinessTime}
                         />
-                        <span className="flex-1 ms-3 whitespace-nowrap">
-                          Lembur
-                        </span>
-                      </a>
+                        <span className="ms-3">Lembur</span>
+                      </Link>
                     </li>
                   </ul>
                 )}
                 {role === "SUPERADMIN" && (
                   <ul>
                     <li>
-                      <a
-                        href="/superadmin/dashboard"
-                        className="flex items-center p-2 text-blue-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700 group"
+                      <Link
+                        to="/superadmin/dashboard"
+                        className={`flex items-center p-2 rounded-lg ${
+                          isActive(["/superadmin/dashboard"])
+                            ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                            : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                        }`}
                       >
                         <FontAwesomeIcon
-                          className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                          className={`flex-shrink-0 w-5 h-5 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                            isActive(["/superadmin/dashboard"])
+                              ? "text-white hover:text-black"
+                              : "text-blue-500"
+                          }`}
                           icon={faCube}
                         />
                         <span className="ms-3">Dashboard</span>
-                      </a>
+                      </Link>
                     </li>
                     {/* // <!-- Dropdown Master Data --> */}
                     <li>
@@ -533,84 +775,114 @@ function SidebarNavbar() {
                         // id="dropdown-masterdata"
                         className={`${
                           masterDataOpen ? "" : "hidden" // Tampilkan atau sembunyikan dropdown berdasarkan state masterDataOpen
-                        } py-2 space-y-2`}
+                        } py-2 space-y-2 ml-6`}
                       >
                         {/* <!-- Menu superadmin --> */}
                         <li>
-                          <a
-                            href="/superadmin/admin"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/superadmin/admin"
+                            className={`flex items-center p-2 rounded-lg ${
+                              isActive(["/superadmin/admin"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/superadmin/admin"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faChalkboardUser}
-                            />{" "}
-                            <span className="flex-1 ml-3 whitespace-nowrap">
-                              Admin
-                            </span>
-                          </a>
+                            />
+                            <span className="ms-3">Admin</span>
+                          </Link>
                         </li>
                         {/* <!-- Menu Organisasi --> */}
                         <li>
-                          <a
-                            href="/superadmin/organisasi"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/superadmin/organisasi"
+                            className={`flex items-center p-2 rounded-lg ${
+                              isActive(["/superadmin/organisasi"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/superadmin/organisasi"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faBuilding}
-                            />{" "}
-                            <span className="flex-1 ml-3 whitespace-nowrap">
-                              Organisasi
-                            </span>
-                          </a>
+                            />
+                            <span className="ms-3">Organisasi</span>
+                          </Link>
                         </li>
                         {/* <!-- Menu Jabatan --> */}
                         <li>
-                          <a
-                            href="/superadmin/jabatan"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/superadmin/jabatan"
+                            className={`flex items-center p-2 rounded-lg ${
+                              isActive(["/superadmin/jabatan"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/superadmin/jabatan"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faBriefcase}
-                            />{" "}
-                            <span className="flex-1 ml-3 whitespace-nowrap">
-                              Jabatan
-                            </span>
-                          </a>
+                            />
+                            <span className="ms-3">Jabatan</span>
+                          </Link>
                         </li>
 
                         {/* <!-- Menu Jam Kerja --> */}
                         <li>
-                          <a
-                            href="/superadmin/shift"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/superadmin/shift"
+                            className={`flex items-center p-2 rounded-lg ${
+                              isActive(["/superadmin/shift"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/superadmin/shift"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faBusinessTime}
-                            />{" "}
-                            <span className="flex-1 ml-3 whitespace-nowrap">
-                              Shift
-                            </span>
-                          </a>
+                            />
+                            <span className="ms-3">Shift</span>
+                          </Link>
                         </li>
 
                         {/* <!-- Menu Lokasi --> */}
                         <li>
-                          <a
-                            href="/superadmin/lokasi"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/superadmin/lokasi"
+                            className={`flex items-center p-2 rounded-lg ${
+                              isActive(["/superadmin/lokasi"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/superadmin/lokasi"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faMapLocationDot}
-                            />{" "}
-                            <span className="flex-1 ml-3 whitespace-nowrap">
-                              Lokasi
-                            </span>
-                          </a>
+                            />
+                            <span className="ms-3">Lokasi</span>
+                          </Link>
                         </li>
                       </ul>
                     </li>
@@ -640,37 +912,49 @@ function SidebarNavbar() {
                         // id="dropdown-masterdata"
                         className={`${
                           rekapanOpen ? "" : "hidden" // Tampilkan atau sembunyikan dropdown berdasarkan state masterDataOpen
-                        } py-2 space-y-2`}
+                        } py-2 space-y-2 ml-6`}
                       >
                         {/* <!-- Menu Simpel --> */}
                         <li>
-                          <a
-                            href="/superadmin/data-user"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/superadmin/data-user"
+                            className={`flex items-center p-2 rounded-lg ${
+                              isActive(["/superadmin/data-user"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/superadmin/data-user"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faUsers}
-                            />{" "}
-                            <span className="flex-1 ml-3 whitespace-nowrap">
-                              User
-                            </span>
-                          </a>
+                            />
+                            <span className="ms-3">User</span>
+                          </Link>
                         </li>
                         {/* <!-- Menu PerKaryawan --> */}
                         <li>
-                          <a
-                            href="/superadmin/absensi"
-                            className="flex items-center w-full p-2 text-blue-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-blue-700"
+                          <Link
+                            to="/superadmin/absensi"
+                            className={`flex items-center p-2 rounded-lg ${
+                              isActive(["/superadmin/absensi"])
+                                ? "bg-indigo-500 text-white dark:bg-indigo-500 dark:text-white hover:text-black"
+                                : "hover:bg-blue-100 dark:hover:bg-blue-700 text-gray-900 dark:text-white hover:text-black"
+                            }`}
                           >
                             <FontAwesomeIcon
-                              className="flex-shrink-0 w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white"
+                              className={`flex-shrink-0 w-5 h-5 transition duration-75 dark:text-blue-400 group-hover:text-blue-900 dark:group-hover:text-white ${
+                                isActive(["/superadmin/absensi"])
+                                  ? "text-white hover:text-black"
+                                  : "text-blue-500"
+                              }`}
                               icon={faAddressCard}
-                            />{" "}
-                            <span className="flex-1 ml-3 whitespace-nowrap">
-                              Absensi
-                            </span>
-                          </a>
+                            />
+                            <span className="ms-3">Absensi</span>
+                          </Link>
                         </li>
                       </ul>
                     </li>
