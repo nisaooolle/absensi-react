@@ -215,7 +215,7 @@ function Admin() {
                               {admin.email}
                             </a>
                           </td>
-                          <td className="px-6 py-4 capitalize">
+                          <td className="px-6 py-4">
                             {admin.username}
                           </td>
                           <td className="py-3">

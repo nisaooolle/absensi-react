@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarSuper";
-import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -37,34 +36,55 @@ function EditAdmin() {
 
   const updateAdmin = async (e) => {
     e.preventDefault();
-    const admin = { email: email, username: username };
+
+    const usmail = {
+      email: email,
+      username: username,
+    };
 
     try {
-      const res = await axios.put(
+      const response = await axios.put(
         `${API_DUMMY}/api/admin/edit-email-username/${param.id}`,
-        admin,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
+        usmail
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // }
       );
-      setEmail(res.data.email);
-      setUsername(res.data.username);
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Edit Berhasil",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+
+      setUsername(response.data.username);
+      setEmail(response.data.email);
+      Swal.fire("Berhasil", "Berhasil mengubah username dan email", "success");
+
       setTimeout(() => {
         window.location.href = "/superadmin/admin";
       }, 1500);
     } catch (error) {
-      console.log(error);
+      console.error("Error updating data:", error);
+
+      // Checking for specific error messages returned from the server
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        if (error.response.data.message.includes("Email sudah digunakan")) {
+          Swal.fire("Gagal", "Email sudah digunakan", "error");
+        } else if (
+          error.response.data.message.includes("Username sudah digunakan")
+        ) {
+          Swal.fire("Gagal", "Username sudah digunakan", "error");
+        } else {
+          Swal.fire("Gagal", "Gagal mengubah username dan email", "error");
+        }
+      } else {
+        Swal.fire("Gagal", "Terjadi kesalahan pada server", "error");
+      }
     }
   };
+
+  // Helper function to capitalize each word, but not the character after an apostrophe
 
   return (
     <div className="flex flex-col h-screen">
@@ -76,7 +96,7 @@ function EditAdmin() {
           <Navbar />
         </div>
       </div>
-      <div className=" sm:ml-64 content-page p-8  ml-14 md:ml-64 mb-40">
+      <div className=" sm:ml-64 content-page md:p-8 md:ml-64 mb-40">
         <div className="p-4">
           {/* // <!-- Card --> */}
           <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -95,16 +115,16 @@ function EditAdmin() {
                 {/* <!-- Email Input --> */}
                 <div className="relative z-0 w-full mb-6 group">
                   <input
-                    type="email"
+                    type="text"
                     name="email"
                     id="email"
                     value={email}
+                    // value={author}
                     onChange={(e) => setEmail(e.target.value)}
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     autoComplete="off"
                     required
-                    readOnly
                   />
                   <label
                     htmlFor="email"
@@ -123,7 +143,7 @@ function EditAdmin() {
                     value={username}
                     // value={author}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     autoComplete="off"
                     required
