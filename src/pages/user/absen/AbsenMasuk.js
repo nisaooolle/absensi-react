@@ -29,7 +29,6 @@ function AbsenMasuk() {
     southEast: { lat: -6.982790272517673, lon: 110.40416448162483 },
   };
 
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
@@ -46,7 +45,7 @@ function AbsenMasuk() {
         const { latitude, longitude } = position.coords;
         setLatitude(latitude);
         setLongitude(longitude);
-    
+
         try {
           const response = await fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
@@ -58,7 +57,7 @@ function AbsenMasuk() {
           console.error("Error:", error);
           setError("Gagal mendapatkan alamat");
         }
-    
+
         setFetchingLocation(false);
       },
       (error) => {
@@ -68,9 +67,7 @@ function AbsenMasuk() {
       },
       { enableHighAccuracy: true }
     );
-    
   }, [fetchingLocation]);
-
 
   const tambahkanNolDepan = (num) => {
     return num < 10 ? "0" + num : num;
@@ -92,7 +89,6 @@ function AbsenMasuk() {
     setSidebarOpen(!sidebarOpen);
   };
 
-
   // validasi
   const isWithinAllowedCoordinates = (lat, lon) => {
     const { northWest, northEast, southWest, southEast } = allowedCoordinates;
@@ -104,15 +100,20 @@ function AbsenMasuk() {
     const lonMax = northEast.lon;
 
     // Log koordinat dan batas untuk debugging
-    console.log('Koordinat Pengguna:', { lat, lon });
-    console.log('Koordinat Batas:', { northWest, northEast, southWest, southEast });
+    console.log("Koordinat Pengguna:", { lat, lon });
+    console.log("Koordinat Batas:", {
+      northWest,
+      northEast,
+      southWest,
+      southEast,
+    });
 
     // Validasi latitude dan longitude
     const isLatValid = lat >= latMin && lat <= latMax;
     const isLonValid = lon >= lonMin && lon <= lonMax;
 
-    console.log('Is Latitude Valid:', isLatValid);
-    console.log('Is Longitude Valid:', isLonValid);
+    console.log("Is Latitude Valid:", isLatValid);
+    console.log("Is Longitude Valid:", isLonValid);
 
     return isLatValid && isLonValid;
   };
@@ -126,55 +127,55 @@ function AbsenMasuk() {
       return;
     }
 
-if (isWithinAllowedCoordinates(latitude, longitude)) {
-  try {
-    const absensiCheckResponse = await axios.get(
-      `${API_DUMMY}/api/absensi/checkAbsensi/${userId}`
-    );
-    const isUserAlreadyAbsenToday =
-      absensiCheckResponse.data ===
-      "Pengguna sudah melakukan absensi hari ini.";
-    if (isUserAlreadyAbsenToday) {
-      Swal.fire("Info", "Anda sudah melakukan absensi hari ini.", "info");
-    } else {
-      const formData = new FormData();
-      formData.append("image", imageBlob);
-      formData.append("lokasiMasuk", `${address}`);
-      formData.append("keteranganTerlambat", keteranganTerlambat || "-");
-
-      const response = await axios.post(
-        `${API_DUMMY}/api/absensi/masuk/${userId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+    // if (isWithinAllowedCoordinates(latitude, longitude)) {
+    try {
+      const absensiCheckResponse = await axios.get(
+        `${API_DUMMY}/api/absensi/checkAbsensi/${userId}`
       );
+      const isUserAlreadyAbsenToday =
+        absensiCheckResponse.data ===
+        "Pengguna sudah melakukan absensi hari ini.";
+      if (isUserAlreadyAbsenToday) {
+        Swal.fire("Info", "Anda sudah melakukan absensi hari ini.", "info");
+      } else {
+        const formData = new FormData();
+        formData.append("image", imageBlob);
+        formData.append("lokasiMasuk", `${address}`);
+        formData.append("keteranganTerlambat", keteranganTerlambat || "-");
 
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Berhasil Absen",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      setTimeout(() => {
-        window.location.href = "/user/history_absen";
-      }, 1500);
+        const response = await axios.post(
+          `${API_DUMMY}/api/absensi/masuk/${userId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Berhasil Absen",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setTimeout(() => {
+          window.location.href = "/user/history_absen";
+        }, 1500);
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      Swal.fire("Error", "Gagal Absen", "error");
     }
-  } catch (err) {
-    console.error("Error:", err);
-    Swal.fire("Error", "Gagal Absen", "error");
-  }
-  } else {
-    Swal.fire(
-      "Error",
-      "Lokasi Anda di luar batas yang diizinkan untuk absensi",
-      "error"
-    );
-  }
-};
+    // } else {
+    //   Swal.fire(
+    //     "Error",
+    //     "Lokasi Anda di luar batas yang diizinkan untuk absensi",
+    //     "error"
+    //   );
+    // }
+  };
 
   return (
     <>
@@ -211,10 +212,7 @@ if (isWithinAllowedCoordinates(latitude, longitude)) {
               <form onSubmit={(e) => e.preventDefault()}>
                 <p className="font-bold text-center mt-8">Foto:</p>
                 <div className="flex justify-center webcam-container">
-                  <Webcam
-                    audio={false}
-                    ref={webcamRef}
-                  />
+                  <Webcam audio={false} ref={webcamRef} />
                 </div>
                 <div className="flex justify-center mt-6">
                   {fetchingLocation ? (
@@ -237,7 +235,8 @@ if (isWithinAllowedCoordinates(latitude, longitude)) {
                         );
                       }
                     }}
-                    className="block w-32 sm:w-40 bg-blue-500 text-white rounded-lg py-3 text-sm sm:text-xs font-medium">
+                    className="block w-32 sm:w-40 bg-blue-500 text-white rounded-lg py-3 text-sm sm:text-xs font-medium"
+                  >
                     {loading ? "Loading..." : "Ambil Foto"}
                   </button>
                 </div>
