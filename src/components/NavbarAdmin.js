@@ -61,8 +61,10 @@ const NavbarAdmin = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-start rtl:justify-end">
             <a href="" className="flex ms-2 md:me-24">
-              <img src={""} className="h-11 me-3 text-white" alt="" />
-              <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"></span>
+              <img src="" className="h-11 me-3 text-white" alt="" />
+              <span className="self-center text-xl font-semibold sm:text-xl whitespace-nowrap text-white">
+                {/* Presensi App */}
+              </span>
             </a>
           </div>
           <div className="flex items-center">
@@ -78,7 +80,7 @@ const NavbarAdmin = () => {
                 >
                   <span className="sr-only">Open user menu</span>
                   <img
-                    className="w-8 h-8 rounded-full"
+                    className="w-11 h-11 rounded-full"
                     src={
                       profileAdmin
                         ? profileAdmin
@@ -92,24 +94,25 @@ const NavbarAdmin = () => {
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="user-menu-button"
-                    className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1"
+                    className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg"
                     tabIndex="-1"
                   >
-                    <Link to="/admin/profil">
+                    <Link
+                      to="/admin/profil"
+                      className={`block text-sm text-gray-700 dark:text-white`}
+                    >
                       <button
                         role="menuitem"
                         tabIndex="-1"
                         id="user-menu-item-0"
-                        className="block px-4 py-2 text-sm text-gray-700 dark:text-white"
+                        className={`block px-4 py-2 text-sm text-gray-700 dark:text-white `}
                       >
                         Profile
                       </button>
                     </Link>
+
                     <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        logout();
-                      }}
+                      onClick={() => logout()}
                       role="menuitem"
                       tabIndex="-1"
                       id="user-menu-item-2"
