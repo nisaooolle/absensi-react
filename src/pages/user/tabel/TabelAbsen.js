@@ -19,6 +19,7 @@ function TabelAbsen() {
   const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const today = new Date().toISOString().split("T")[0];
 
   const formatDate = (dateString) => {
     const options = {
@@ -113,10 +114,9 @@ function TabelAbsen() {
   );
 
   // Reverse the filtered array before slicing for pagination
-  const paginatedAbsen = filteredAbsen.reverse().slice(
-    (currentPage - 1) * limit,
-    currentPage * limit
-  );
+  const paginatedAbsen = filteredAbsen
+    .reverse()
+    .slice((currentPage - 1) * limit, currentPage * limit);
 
   return (
     <div className="flex flex-col h-screen">
@@ -207,8 +207,8 @@ function TabelAbsen() {
                             {absenData.keteranganIzin != null
                               ? absenData.keteranganIzin
                               : absenData.keteranganTerlambat == null
-                                ? "-"
-                                : absenData.keteranganTerlambat}
+                              ? "-"
+                              : absenData.keteranganTerlambat}
                           </td>
                           <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                             {absenData.statusAbsen}
@@ -225,11 +225,64 @@ function TabelAbsen() {
                                   </span>
                                 </button>
                               </Link>
-                              {absenData.statusAbsen === "Izin" ? (
+                              <Link to="/user/izin_absen">
                                 <button
-                                  className="z-30 block rounded-full border-2 border-white bg-gray-100 p-4 text-gray-700 active:bg-red-50"
-                                  disabled
+                                  disabled={
+                                    absenData.statusAbsen === "Izin" ||
+                                    absenData.statusAbsen ===
+                                      "Izin Tengah Hari" ||
+                                    new Date(absenData.tanggalAbsen).setHours(
+                                      0,
+                                      0,
+                                      0,
+                                      0
+                                    ) < new Date(today).setHours(0, 0, 0, 0)
+                                  }
+                                  className={`z-20 block rounded-full border-2 border-white p-4 text-red-700 active:bg-red-50 ${
+                                    absenData.statusAbsen === "Izin" ||
+                                    absenData.statusAbsen ===
+                                      "Izin Tengah Hari" ||
+                                    new Date(absenData.tanggalAbsen).setHours(
+                                      0,
+                                      0,
+                                      0,
+                                      0
+                                    ) < new Date(today).setHours(0, 0, 0, 0)
+                                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                      : "bg-red-100 text-red-700"
+                                  }`}
                                 >
+                                  <span className="relative inline-block">
+                                    <FontAwesomeIcon
+                                      icon={faUserPlus}
+                                      className={`h-4 w-4 ${
+                                        absenData.statusAbsen === "Izin" ||
+                                        absenData.statusAbsen ===
+                                          "Izin Tengah Hari" ||
+                                        new Date(
+                                          absenData.tanggalAbsen
+                                        ).setHours(0, 0, 0, 0) <
+                                          new Date(today).setHours(0, 0, 0, 0)
+                                          ? "text-gray-500"
+                                          : "text-red-700"
+                                      }`}
+                                    />
+                                  </span>
+                                </button>
+                              </Link>
+                              {/* <button
+                                className="z-30 block rounded-full border-2 border-white bg-gray-100 p-4 text-gray-700 active:bg-red-50"
+                                disabled
+                              >
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    className="h-4 w-4"
+                                    icon={faUserPlus}
+                                  />
+                                </span>
+                              </button>
+                              <Link to="/user/izin_absen">
+                                <button className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50">
                                   <span className="relative inline-block">
                                     <FontAwesomeIcon
                                       className="h-4 w-4"
@@ -237,18 +290,7 @@ function TabelAbsen() {
                                     />
                                   </span>
                                 </button>
-                              ) : (
-                                <Link to="/user/izin_absen">
-                                  <button className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50">
-                                    <span className="relative inline-block">
-                                      <FontAwesomeIcon
-                                        className="h-4 w-4"
-                                        icon={faUserPlus}
-                                      />
-                                    </span>
-                                  </button>
-                                </Link>
-                              )}
+                              </Link> */}
                             </div>
                           </td>
                         </tr>
@@ -261,7 +303,6 @@ function TabelAbsen() {
                       </tr>
                     )}
                   </tbody>
-
                 </table>
               </div>
               <Pagination

@@ -10,7 +10,7 @@ import SidebarNavbar from "../../components/SidebarNavbar";
 function IzinAbsen() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
-  const [keteranganPulangAwal, setKeteranganPulangAwal] = useState("");
+  const [keteranganIzin, setKeteranganIzin] = useState("");
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -48,15 +48,15 @@ function IzinAbsen() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const izin = {
-      keteranganPulangAwal: keteranganPulangAwal,
+      keteranganIzin: keteranganIzin,
     };
     try {
       const response = await axios.put(
         `${API_DUMMY}/api/absensi/izin-tengah-hari/${userId}`,
         izin
       );
-      Swal.fire("Berhasil", "Berhasil Izin ", "success");
-      window.location.reload();
+      Swal.fire("Berhasil", "Berhasil Izin", "success");
+      window.location.href = "/user/history_absen";
     } catch (error) {
       console.error("Error:", error);
       Toast.error("Gagal Izin");
@@ -106,8 +106,8 @@ function IzinAbsen() {
                   id="keterangan"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-5"
                   placeholder="Masukkan Keterangan Izin"
-                  value={keteranganPulangAwal}
-                  onChange={(e) => setKeteranganPulangAwal(e.target.value)}
+                  value={keteranganIzin}
+                  onChange={(e) => setKeteranganIzin(e.target.value)}
                   required
                 />
               </div>

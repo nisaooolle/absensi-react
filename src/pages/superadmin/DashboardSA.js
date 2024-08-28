@@ -174,7 +174,7 @@ function DashboardSA() {
         <div className="content-page container p-8 ml-0 md:ml-64 mt-12 overflow-x-hidden">
           <div className="mt-5 w-full">
             <div className="p-4 text-center bg-indigo-300 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-              <h2 className="text-2xl font-semibold mb-4 capitalize">
+              <h2 className="text-2xl font-semibold mb-4">
                 Selamat Datang di Absensi
                 <span> @{username}</span>
               </h2>
