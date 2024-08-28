@@ -43,8 +43,16 @@ function ResetPasswordSup() {
         window.location.href = "/";
       }
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        Swal.fire("Gagal", error.response.data.message, "error");
+      if (error.response) {
+        if (error.response.status === 400) {
+          Swal.fire(
+            "Gagal",
+            "Email tidak sesuai dengan yang terdaftar",
+            "error"
+          );
+        } else {
+          Swal.fire("Gagal", "Terjadi kesalahan pada server", "error");
+        }
       } else {
         console.log(error);
         Swal.fire("Gagal", "Terjadi kesalahan pada server", "error");
@@ -160,7 +168,7 @@ function ResetPasswordSup() {
                 <div className="text-center">
                   <Link
                     className="inline-block text-sm w-full text-blue-500 align-baseline hover:text-blue-800"
-                    to="/forgotpass"
+                    to="/forgotpassSup"
                   >
                     Code Kadarluwarsa? Kirim ulang email anda di forgot password
                   </Link>

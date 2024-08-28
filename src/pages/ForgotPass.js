@@ -80,13 +80,21 @@ function ForgotPass() {
                     required
                   />
                 </div>
-                <div class="mb-6 text-center">
+                <div class="mb-6 mt-4 text-center">
                   <button
-                    class="w-full px-4 py-2 font-bold text-white bg-indigo-500 rounded-full hover:bg-indigo-700 focus:outline-none focus:shadow-outline"
+                    class="w-full px-4 py-2 font-bold text-white bg-indigo-500 rounded-full hover:bg-indigo-700 focus:outline-none focus:shadow-outline mb-4"
                     type="submit"
                   >
-                    Mengatur Ulang Kata Sandi
+                    Kirim
                   </button>
+                  <div class="flex justify-center">
+                    <a
+                      class="w-1/2 px-4 py-2 font-bold text-white bg-rose-500 rounded-full hover:bg-rose-700 focus:outline-none focus:shadow-outline"
+                      href="/"
+                    >
+                      Kembali
+                    </a>
+                  </div>
                 </div>
               </form>
             </div>
