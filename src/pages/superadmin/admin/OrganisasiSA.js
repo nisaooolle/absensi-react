@@ -213,78 +213,78 @@ function OrganisasiSA() {
                   </thead>
                   {/* <!-- Tabel Body --> */}
                   <tbody className="text-left">
-  {paginatedOrganisasi.length > 0 ? (
-    paginatedOrganisasi.slice().reverse().map((admin, index) => (
-      <tr
-        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-        key={index}
-      >
-        <th
-          scope="row"
-          className="px-6 py-4 font-medium text-gray-900 dark:text-white"
-        >
-          {(currentPage - 1) * limit + index + 1}
-        </th>
-        <td className="px-6 py-4 whitespace-nowrap capitalize">
-          {admin.admin.username}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap capitalize">
-          {admin.namaOrganisasi}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap capitalize">
-          {admin.alamat}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          {admin.nomerTelepon}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          {admin.emailOrganisasi}
-        </td>
-        <td className="py-3">
-          <div className="flex items-center -space-x-4">
-            <a href={`/superadmin/detailO/${admin.id}`}>
-              <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
-                <span className="relative inline-block">
-                  <FontAwesomeIcon
-                    icon={faInfo}
-                    className="h-4 w-4"
-                  />
-                </span>
-              </button>
-            </a>
-            <a href={`/superadmin/editO/${admin.id}`}>
-              <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
-                <span className="relative inline-block">
-                  <FontAwesomeIcon
-                    icon={faPenToSquare}
-                    className="h-4 w-4"
-                  />
-                </span>
-              </button>
-            </a>
-            <button
-              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-              onClick={() => deleteData(admin.id)}
-            >
-              <span className="relative inline-block">
-                <FontAwesomeIcon
-                  icon={faTrash}
-                  className="h-4 w-4"
-                />
-              </span>
-            </button>
-          </div>
-        </td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan="7" className="text-center py-4">
-        Tidak ada data yang ditampilkan
-      </td>
-    </tr>
-  )}
-</tbody>
+                    {paginatedOrganisasi.length > 0 ? (
+                      paginatedOrganisasi.slice().reverse().map((admin, index) => (
+                        <tr
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          key={index}
+                        >
+                          <th
+                            scope="row"
+                            className="px-6 py-4 font-medium text-gray-900 dark:text-white"
+                          >
+                            {(currentPage - 1) * limit + index + 1}
+                          </th>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {admin.admin.username}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap capitalize">
+                            {admin.namaOrganisasi}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap capitalize">
+                            {admin.alamat}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {admin.nomerTelepon}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {admin.emailOrganisasi}
+                          </td>
+                          <td className="py-3">
+                            <div className="flex items-center -space-x-4">
+                              <a href={`/superadmin/detailO/${admin.id}`}>
+                                <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
+                                  <span className="relative inline-block">
+                                    <FontAwesomeIcon
+                                      icon={faInfo}
+                                      className="h-4 w-4"
+                                    />
+                                  </span>
+                                </button>
+                              </a>
+                              <a href={`/superadmin/editO/${admin.id}`}>
+                                <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                                  <span className="relative inline-block">
+                                    <FontAwesomeIcon
+                                      icon={faPenToSquare}
+                                      className="h-4 w-4"
+                                    />
+                                  </span>
+                                </button>
+                              </a>
+                              <button
+                                className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                                onClick={() => deleteData(admin.id)}
+                              >
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="7" className="text-center py-4">
+                          Tidak ada data yang ditampilkan
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
 
                 </table>
               </div>

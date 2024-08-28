@@ -244,7 +244,7 @@ function Jabatan() {
                               ? jumlahKaryawan[jabatan.idJabatan] || "Kosong"
                               : "Loading..."}
                           </td>
-                          <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          <td className="px-6 py-4 whitespace-nowrap">
                             {jabatan.admin.username}
                           </td>
                           <td className="py-3">

@@ -213,7 +213,7 @@ function ShiftSA() {
                           >
                             {(currentPage - 1) * limit + index + 1}
                           </th>
-                          <td className="px-6 py-4 capitalize">
+                          <td className="px-6 py-4">
                             {shift.admin.username}
                           </td>
                           <td className="px-6 py-4 capitalize">
