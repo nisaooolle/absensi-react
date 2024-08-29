@@ -116,46 +116,25 @@ function AbsenPulang() {
         const currentTime = new Date();
         const currentHours = currentTime.getHours();
         const currentMinutes = currentTime.getMinutes();
+        const [shiftHours, shiftMinutes] = waktuPulang.split(":").map(Number);
+
+        const formData = new FormData();
+        formData.append("image", imageBlob);
+        formData.append("lokasiPulang", address);
+        if (keteranganPulangAwal) {
+          formData.append("keteranganPulangAwal", keteranganPulangAwal);
+        }
 
         if (isUserAlreadyAbsenToday) {
-          // Check if there is a value in keteranganPulangAwal
-          if (keteranganPulangAwal) {
-            const formData = new FormData();
-            formData.append("image", imageBlob);
-            formData.append("lokasiPulang", address);
-            formData.append("keteranganPulangAwal", keteranganPulangAwal);
-
-            const response = await axios.put(
-              `${API_DUMMY}/api/absensi/pulang/${userId}`,
-              formData,
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              }
-            );
-
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Berhasil Pulang",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            setTimeout(() => {
-              window.location.href = "/user/history_absen";
-            }, 1500);
-          } else if (
-            currentHours > 14 ||
-            (currentHours === 14 && currentMinutes >= 30)
+          if (
+            currentHours > shiftHours ||
+            (currentHours === shiftHours && currentMinutes >= shiftMinutes)
           ) {
-            const formData = new FormData();
-            formData.append("image", imageBlob);
-            formData.append("lokasiPulang", address);
-            formData.append("keteranganPulangAwal", keteranganPulangAwal);
-
-            const response = await axios.put(
-              `${API_DUMMY}/api/absensi/pulang/${userId}`,
+            // Sudah melewati waktu pulang, absensi diperbolehkan
+            await axios.put(
+              `${API_DUMMY}/api/absensi/pulang/${userId}?keteranganPulangAwal=${keteranganPulangAwal}&lokasiPulang=${encodeURIComponent(
+                address
+              )}`,
               formData,
               {
                 headers: {
@@ -177,7 +156,7 @@ function AbsenPulang() {
           } else {
             Swal.fire(
               "Info",
-              `Anda belum dapat melakukan absensi pulang sebelum pukul ${waktuPulang} `,
+              `Anda belum dapat melakukan absensi pulang sebelum pukul ${waktuPulang}.`,
               "info"
             );
           }

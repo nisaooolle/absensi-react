@@ -312,7 +312,7 @@ function Cuti() {
                           <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
                             {(currentPage - 1) * limit + index + 1}
                           </td>
-                          <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                          <td className="px-4 py-2 text-gray-700 whitespace-nowrap">
                             {cuti.user.username}
                           </td>
                           <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
@@ -378,7 +378,6 @@ function Cuti() {
                     </tr>
                   )}
                 </tbody>
-
               </table>
             </div>
             <Pagination

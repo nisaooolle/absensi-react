@@ -217,7 +217,7 @@ function Lembur() {
                         >
                           {(currentPage - 1) * limit + index + 1}
                         </th>
-                        <td className="px-6 py-4 whitespace-nowrap capitalize">
+                        <td className="px-6 py-4 whitespace-nowrap">
                           {lemburData.user.username}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -231,7 +231,10 @@ function Lembur() {
                             <a href={`/admin/detailLembur/${lemburData.id}`}>
                               <button className="z-30 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-red-50">
                                 <span className="relative inline-block">
-                                  <FontAwesomeIcon icon={faInfo} className="h-4 w-4" />
+                                  <FontAwesomeIcon
+                                    icon={faInfo}
+                                    className="h-4 w-4"
+                                  />
                                 </span>
                               </button>
                             </a>
@@ -241,7 +244,10 @@ function Lembur() {
                               className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50"
                             >
                               <span className="relative inline-block">
-                                <FontAwesomeIcon icon={faPrint} className="h-4 w-4" />
+                                <FontAwesomeIcon
+                                  icon={faPrint}
+                                  className="h-4 w-4"
+                                />
                               </span>
                             </button>
                           </div>
@@ -256,7 +262,6 @@ function Lembur() {
                     </tr>
                   )}
                 </tbody>
-
               </table>
             </div>
             <Pagination

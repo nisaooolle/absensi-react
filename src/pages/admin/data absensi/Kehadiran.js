@@ -205,7 +205,7 @@ function Kehadiran() {
                           >
                             {(currentPage - 1) * limit + index + 1}
                           </th>
-                          <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
+                          <td className="px-6 py-4 text-gray-700 whitespace-nowrap">
                             {kehadiran.username}
                           </td>
                           <td className="px-6 py-4 text-gray-700 capitalize whitespace-nowrap">
@@ -235,7 +235,6 @@ function Kehadiran() {
                     </tr>
                   )}
                 </tbody>
-
               </table>
             </div>
             <Pagination
