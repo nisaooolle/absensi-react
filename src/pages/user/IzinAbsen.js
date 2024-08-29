@@ -10,7 +10,7 @@ import SidebarNavbar from "../../components/SidebarNavbar";
 function IzinAbsen() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
-  const [keteranganIzin, setKeteranganIzin] = useState("");
+  const [keteranganPulangAwal, setKeteranganPulangAwal] = useState("");
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -48,7 +48,7 @@ function IzinAbsen() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const izin = {
-      keteranganIzin: keteranganIzin,
+      keteranganPulangAwal: keteranganPulangAwal,
     };
     try {
       const response = await axios.put(
@@ -106,8 +106,8 @@ function IzinAbsen() {
                   id="keterangan"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-5"
                   placeholder="Masukkan Keterangan Izin"
-                  value={keteranganIzin}
-                  onChange={(e) => setKeteranganIzin(e.target.value)}
+                  value={keteranganPulangAwal}
+                  onChange={(e) => setKeteranganPulangAwal(e.target.value)}
                   required
                 />
               </div>

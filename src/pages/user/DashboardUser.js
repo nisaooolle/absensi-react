@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
@@ -54,6 +53,7 @@ function Dashboard() {
     const userId = localStorage.getItem("userId");
 
     try {
+      // Cek apakah pengguna sudah melakukan absensi hari ini
       const absensiCheckResponse = await axios.get(
         `${API_DUMMY}/api/absensi/checkAbsensi/${userId}`
       );
@@ -62,18 +62,38 @@ function Dashboard() {
         "Pengguna sudah melakukan absensi hari ini.";
       console.log("Is User Already Absen Today:", isUserAlreadyAbsenToday);
 
+      // Cek apakah pengguna sudah mengambil izin hari ini
       const izinCheckResponse = await axios.get(
-        `${API_DUMMY}/api/absensi/checkIzin/${userId}`
+        `${API_DUMMY}/api/absensi/cheskIzin/${userId}`
       );
       const hasTakenLeave =
         izinCheckResponse.data === "Pengguna sudah melakukan izin.";
       console.log("Has taken leave:", hasTakenLeave);
 
-      setIsPulangDisabled(hasTakenLeave);
-      console.log("Is Pulang Disabled:", isPulangDisabled);
+      // Mengambil status absen dari API untuk memeriksa "Izin Tengah Hari"
+      const statusAbsenResponse = await axios.get(
+        `${API_DUMMY}/api/absensi/getByUserId/${userId}`
+      );
+      const absensiData = statusAbsenResponse.data;
 
-      // The 'Izin' button is disabled if the user has both 'absen masuk' and 'izin' on the same day
-      setIsIzinDisabled(isUserAlreadyAbsenToday && hasTakenLeave);
+      // Asumsi respons adalah array, cek apakah ada data absensi
+      if (absensiData.length > 0) {
+        const statusAbsen = absensiData[0].statusAbsen;
+        console.log("Status Absen:", statusAbsen);
+
+        // Cek apakah status absen adalah "Izin Tengah Hari"
+        const hasIzinTengahHari = statusAbsen === "Izin Tengah Hari";
+
+        // Disable tombol Pulang jika terdapat Izin Tengah Hari atau sudah melakukan izin
+        setIsPulangDisabled(hasIzinTengahHari || hasTakenLeave);
+
+        // Disable tombol Izin jika terdapat Izin Tengah Hari atau pengguna sudah melakukan absensi dan izin pada hari yang sama
+        setIsIzinDisabled(
+          hasIzinTengahHari || (isUserAlreadyAbsenToday && hasTakenLeave)
+        );
+      } else {
+        console.log("Tidak ada data absensi yang ditemukan.");
+      }
 
       // Set the 'Absen Masuk' status
       setIsAbsenMasuk(isUserAlreadyAbsenToday);
