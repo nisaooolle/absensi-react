@@ -19,28 +19,74 @@ function AddAdmin() {
   };
   const tambahAdmin = async (e) => {
     e.preventDefault();
+    const trimmedEmail = email.trim();
+    const trimmedUsername = username.trim();
+
     try {
+      const response = await axios.get(`${API_DUMMY}/api/admin/all`);
+      const existingUsers = response.data;
+
+      const isEmailExists = existingUsers.some(
+        (user) => user.email.toLowerCase() === trimmedEmail.toLowerCase()
+      );
+      const isUsernameExists = existingUsers.some(
+        (user) => user.username.toLowerCase() === trimmedUsername.toLowerCase()
+      );
+
+      if (isEmailExists || isUsernameExists) {
+        Swal.fire("Error", "Email atau Username sudah terdaftar", "error");
+        return;
+      }
       const newUser = {
         email: email,
         username: username,
         password: password,
       };
-      const response = await axios.post(
+
+      await axios.post(
         `${API_DUMMY}/api/admin/register-by-superadmin/${idSuperAdmin}`,
         newUser
       );
+
       Swal.fire({
         title: "Berhasil",
         text: "Berhasil menambahkan data",
         icon: "success",
-        showConfirmButton: false, // Ini akan menghilangkan tombol konfirmasi
+        showConfirmButton: false,
       });
+
       setTimeout(() => {
         window.location.href = "/superadmin/admin";
-      }, 2000);
+      }, 3000);
     } catch (error) {
       console.log(error);
-      Swal.fire("Error", "Gagal menambahkan data", "error");
+
+      // Extracting error message from the response
+      const errorResponse = error.response?.data;
+      const errorMessage = errorResponse?.message || error.message;
+
+      if (errorMessage.includes("Email sudah digunakan")) {
+        Swal.fire({
+          icon: "error",
+          title: "Email sudah terdaftar",
+          text: "Gunakan email lain.",
+          showConfirmButton: true,
+        });
+      } else if (errorMessage.includes("Username sudah digunakan")) {
+        Swal.fire({
+          icon: "error",
+          title: "Username sudah terdaftar",
+          text: "Pilih username lain.",
+          showConfirmButton: true,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Terjadi kesalahan",
+          text: "Gagal menambahkan data. Coba lagi nanti.",
+          showConfirmButton: true,
+        });
+      }
     }
   };
   return (

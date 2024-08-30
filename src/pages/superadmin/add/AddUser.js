@@ -80,14 +80,34 @@ function AddUser() {
   const tambahUser = async (e) => {
     e.preventDefault();
 
+   
+    const trimmedEmail = email.trim();
+    const trimmedUsername = username.trim();
+
     try {
+      // Fetch data semua pengguna
+      const response = await axios.get(`${API_DUMMY}/api/user/get-allUser`);
+      const existingUsers = response.data;
+
+      const isEmailExists = existingUsers.some(
+        (user) => user.email.toLowerCase() === trimmedEmail.toLowerCase()
+      );
+      const isUsernameExists = existingUsers.some(
+        (user) => user.username.toLowerCase() === trimmedUsername.toLowerCase()
+      );
+
+      if (isEmailExists || isUsernameExists) {
+        Swal.fire("Error", "Email atau Username sudah terdaftar", "error");
+        return;
+      }
+
       const newUser = {
-        email: email,
-        username: username,
+        email: trimmedEmail,
+        username: trimmedUsername,
         password: password,
-        idAdmin: idAdmin,
       };
-      const response = await axios.post(
+
+      await axios.post(
         `${API_DUMMY}/api/user/tambahkaryawan/${idAdmin}?idOrganisasi=${idOrganisasi}&idJabatan=${idJabatan}&idShift=${idShift}`,
         newUser
       );
