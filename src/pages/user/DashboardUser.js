@@ -16,6 +16,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../utils/api";
 import SidebarNavbar from "../../components/SidebarNavbar";
+import { Pagination } from "flowbite-react";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -28,6 +29,14 @@ function Dashboard() {
   const [isAbsenMasuk, setIsAbsenMasuk] = useState(false);
   const [isPulangDisabled, setIsPulangDisabled] = useState(false);
   const [isIzinDisabled, setIsIzinDisabled] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [limit, setLimit] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm1, setSearchTerm1] = useState("");
+  const [limit1, setLimit1] = useState(5);
+  const [currentPage1, setCurrentPage1] = useState(1);
+  const [totalPages1, setTotalPages1] = useState(1);
 
   const getUsername = async () => {
     const token = localStorage.getItem("token");
@@ -224,6 +233,84 @@ function Dashboard() {
       localStorage.removeItem("loginSuccess");
     }
   }, []);
+
+  useEffect(() => {
+    const filteredData = absensi.filter(
+      (absenData) =>
+        (absenData.statusAbsen
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ??
+          false) ||
+        (formatDate(absenData.tanggalAbsen)
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ??
+          false)
+    );
+    setTotalPages(Math.ceil(filteredData.length / limit));
+  }, [searchTerm, limit, absensi]);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleLimitChange = (event) => {
+    setLimit(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to the first page when limit changes
+  };
+
+  function onPageChange(page) {
+    setCurrentPage(page);
+  }
+
+  const filteredAbsen = absensi.filter(
+    (absenData) =>
+      (absenData.statusAbsen
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ??
+        false) ||
+      (formatDate(absenData.tanggalAbsen)
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ??
+        false)
+  );
+
+  // Reverse the filtered array before slicing for pagination
+  const paginatedAbsen = filteredAbsen
+    .reverse()
+    .slice((currentPage - 1) * limit, currentPage * limit);
+
+  useEffect(() => {
+    const filteredData = cuti.filter(
+      (item) =>
+        item.keperluan?.toLowerCase().includes(searchTerm1.toLowerCase()) ??
+        false
+    );
+    setTotalPages1(Math.ceil(filteredData.length / limit1));
+  }, [searchTerm1, limit1, cuti]);
+
+  const handleSearch1 = (event) => {
+    setSearchTerm1(event.target.value);
+  };
+
+  const handleLimitChange1 = (event) => {
+    setLimit1(parseInt(event.target.value));
+    setCurrentPage1(1); // Reset to the first page when limit changes
+  };
+
+  function onPageChange1(page) {
+    setCurrentPage1(page);
+  }
+
+  const filteredCuti = cuti.filter(
+    (item) =>
+      item.keperluan?.toLowerCase().includes(searchTerm1.toLowerCase()) ?? false
+  );
+
+  // Reverse the filtered array before slicing for pagination
+  const paginatedCuti = filteredCuti
+    .reverse()
+    .slice((currentPage - 1) * limit1, currentPage1 * limit1);
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -305,7 +392,7 @@ function Dashboard() {
                           isPulangDisabled ? "text-gray-400" : "text-black"
                         }`}
                       >
-                        Absensi Pulang.
+                        Absen Pulang.
                       </p>
                     </div>
                     <div
@@ -451,8 +538,35 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="tabel-absen mt-12 bg-blue-100 p-5 rounded-xl shadow-xl border border-gray-300">
-            <h2 className="text-xl font-bold text-black">History Absensi</h2>
+          <div className="tabel-absen mt-12 bg-blue-100 p-5 rounded-xl shadow-xl border border-gray-300 text-center">
+            <div className="flex flex-col md:flex-row justify-between">
+              <h2 className="text-xl font-bold mb-4 md:mb-0">
+                History Absensi
+              </h2>
+              <div className="flex items-center gap-2 mt-2 md:mt-0">
+                <div className="relative w-full md:w-64">
+                  <input
+                    type="search"
+                    id="search-dropdown"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                    placeholder="Search name..."
+                    required
+                  />
+                </div>
+                <select
+                  value={limit}
+                  onChange={handleLimitChange}
+                  className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                >
+                  <option value="5">05</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+            </div>
             <div className="overflow-x-auto rounded-lg border border-gray-200 mt-4">
               <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm border border-gray-300">
                 <thead className="text-left text-white bg-blue-500">
@@ -470,11 +584,11 @@ function Dashboard() {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                  {absensi.length > 0 ? (
-                    absensi.map((absenData, index) => (
+                  {paginatedAbsen.length > 0 ? (
+                    paginatedAbsen.map((absenData, index) => (
                       <tr key={index}>
                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                          {index + 1}
+                          {(currentPage - 1) * limit + index + 1}
                         </td>
                         <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                           {formatDate(absenData.tanggalAbsen)}
@@ -494,6 +608,14 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
+            <Pagination
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+            />
             <div className="flex justify-end mt-5">
               <button
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -504,8 +626,35 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="tabel-cuti mt-12 bg-blue-100 p-5 rounded-xl shadow-xl border border-gray-300">
-            <h2 className="text-xl font-bold text-black">Permohonan Cuti</h2>
+          <div className="tabel-cuti mt-12 bg-blue-100 p-5 rounded-xl shadow-xl border border-gray-300 text-center">
+            <div className="flex flex-col md:flex-row justify-between">
+              <h2 className="text-xl font-bold mb-4 md:mb-0">
+                Permohonan Cuti
+              </h2>
+              <div className="flex items-center gap-2 mt-2 md:mt-0">
+                <div className="relative w-full md:w-64">
+                  <input
+                    type="search"
+                    id="search-dropdown"
+                    value={searchTerm1}
+                    onChange={handleSearch1}
+                    className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                    placeholder="Search name..."
+                    required
+                  />
+                </div>
+                <select
+                  value={limit1}
+                  onChange={handleLimitChange1}
+                  className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                >
+                  <option value="5">05</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+            </div>
             <div className="overflow-x-auto rounded-lg border border-gray-200 mt-4">
               <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm border border-gray-300">
                 <thead className="text-left text-white bg-blue-500">
@@ -520,11 +669,11 @@ function Dashboard() {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                  {cuti.length > 0 ? (
-                    cuti.map((item, index) => (
+                  {paginatedCuti.length > 0 ? (
+                    paginatedCuti.map((item, index) => (
                       <tr key={index}>
                         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">
-                          {index + 1}
+                          {(currentPage1 - 1) * limit1 + index + 1}
                         </td>
                         <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center capitalize">
                           {item.keperluan}
@@ -541,6 +690,14 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
+            <Pagination
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage1}
+              totalPages={totalPages1}
+              onPageChange={onPageChange1}
+              showIcons
+            />
             <div className="flex justify-end mt-5">
               <button
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
