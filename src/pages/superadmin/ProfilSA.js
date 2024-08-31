@@ -5,7 +5,10 @@ import { MdDashboard } from "react-icons/md";
 import Navbar from "../../components/NavbarSuper";
 import Sidebar from "../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import {
+  faFloppyDisk,
+  faPenToSquare,
+} from "@fortawesome/free-regular-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loader from "../../components/Loader";
@@ -222,7 +225,11 @@ function ProfilSA() {
                         onClick={handleImageUpload}
                         disabled={loading || !selectedFile}
                       >
-                        {loading ? "Uploading..." : "Simpan"}
+                        {loading ? (
+                          "Uploading..."
+                        ) : (
+                          <FontAwesomeIcon icon={faFloppyDisk} />
+                        )}
                       </button>
                     </div>
                   </div>

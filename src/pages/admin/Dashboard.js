@@ -11,6 +11,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../utils/api";
 import SidebarNavbar from "../../components/SidebarNavbar";
+import { Pagination } from "flowbite-react";
 
 function Dashboard() {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -131,6 +132,267 @@ function Dashboard() {
       localStorage.removeItem("loginSuccess");
     }
   }, []);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [limit, setLimit] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  useEffect(() => {
+    const filteredData = absenData.filter(
+      (absenData) =>
+        absenData.user?.username
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        absenData.statusAbsen
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        (formatDate(absenData.tanggalAbsen)
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ??
+          false)
+    );
+    setTotalPages(Math.ceil(filteredData.length / limit));
+  }, [searchTerm, limit, absenData]);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleLimitChange = (event) => {
+    setLimit(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to the first page when limit changes
+  };
+
+  function onPageChange(page) {
+    setCurrentPage(page);
+  }
+
+  const filteredAbsenData = absenData.filter(
+    (absenData) =>
+      absenData.user?.username
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      absenData.statusAbsen?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (formatDate(absenData.tanggalAbsen)
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ??
+        false)
+  );
+
+  const paginatedAbsenData = filteredAbsenData.slice(
+    (currentPage - 1) * limit,
+    currentPage * limit
+  );
+
+  const [searchTerm2, setSearchTerm2] = useState("");
+  const [limit2, setLimit2] = useState(5);
+  const [currentPage2, setCurrentPage2] = useState(1);
+  const [totalPages2, setTotalPages2] = useState(1);
+
+  useEffect(() => {
+    const filteredData = cutiData.filter(
+      (cutiData) =>
+        (cutiData.user?.username
+          .toLowerCase()
+          .includes(searchTerm2.toLowerCase()) ??
+          false) ||
+        (cutiData.keperluan
+          ?.toLowerCase()
+          .includes(searchTerm2.toLowerCase()) ??
+          false) ||
+        (cutiData.status?.toLowerCase().includes(searchTerm2.toLowerCase()) ??
+          false) ||
+        (formatDate(cutiData.awalCuti)
+          ?.toLowerCase()
+          .includes(searchTerm2.toLowerCase()) ??
+          false) ||
+        (formatDate(cutiData.akhirCuti)
+          ?.toLowerCase()
+          .includes(searchTerm2.toLowerCase()) ??
+          false)
+    );
+    setTotalPages2(Math.ceil(filteredData.length / limit2));
+  }, [searchTerm2, limit2, cutiData]);
+
+  const handleSearch2 = (event) => {
+    setSearchTerm2(event.target.value);
+  };
+
+  const handleLimitChange2 = (event) => {
+    setLimit2(parseInt(event.target.value));
+    setCurrentPage2(1); // Reset to the first page when limit changes
+  };
+
+  function onPageChange2(page) {
+    setCurrentPage2(page);
+  }
+
+  const filteredCuti = cutiData.filter(
+    (cutiData) =>
+      (cutiData.user?.username
+        .toLowerCase()
+        .includes(searchTerm2.toLowerCase()) ??
+        false) ||
+      (cutiData.keperluan?.toLowerCase().includes(searchTerm2.toLowerCase()) ??
+        false) ||
+      (cutiData.status?.toLowerCase().includes(searchTerm2.toLowerCase()) ??
+        false) ||
+      (formatDate(cutiData.awalCuti)
+        ?.toLowerCase()
+        .includes(searchTerm2.toLowerCase()) ??
+        false) ||
+      (formatDate(cutiData.akhirCuti)
+        ?.toLowerCase()
+        .includes(searchTerm2.toLowerCase()) ??
+        false)
+  );
+
+  const paginatedCuti = filteredCuti.slice(
+    (currentPage2 - 1) * limit2,
+    currentPage2 * limit2
+  );
+
+  const [searchTerm3, setSearchTerm3] = useState("");
+  const [limit3, setLimit3] = useState(5);
+  const [currentPage3, setCurrentPage3] = useState(1);
+  const [totalPages3, setTotalPages3] = useState(1);
+
+  useEffect(() => {
+    const filteredData = jabatanData.filter(
+      (jabatan) =>
+        jabatan.namaJabatan
+          ?.toLowerCase()
+          .includes(searchTerm3.toLowerCase()) ||
+        jabatan.admin?.username
+          ?.toLowerCase()
+          .includes(searchTerm3.toLowerCase())
+    );
+    setTotalPages3(Math.ceil(filteredData.length / limit3));
+  }, [searchTerm3, limit3, jabatanData]);
+
+  const handleSearch3 = (event) => {
+    setSearchTerm3(event.target.value);
+  };
+
+  const handleLimitChange3 = (event) => {
+    setLimit3(parseInt(event.target.value));
+    setCurrentPage3(1); // Reset to the first page when limit changes
+  };
+
+  function onPageChange3(page) {
+    setCurrentPage3(page);
+  }
+
+  const filteredJabatan = jabatanData.filter(
+    (jabatan) =>
+      jabatan.namaJabatan?.toLowerCase().includes(searchTerm3.toLowerCase()) ||
+      jabatan.admin?.username?.toLowerCase().includes(searchTerm3.toLowerCase())
+  );
+
+  const paginatedJabatan = filteredJabatan.slice(
+    (currentPage3 - 1) * limit3,
+    currentPage3 * limit3
+  );
+
+  const [searchTerm4, setSearchTerm4] = useState("");
+  const [limit4, setLimit4] = useState(5);
+  const [currentPage4, setCurrentPage4] = useState(1);
+  const [totalPages4, setTotalPages4] = useState(1);
+
+  useEffect(() => {
+    const filteredData = lokasiData.filter(
+      (lokasi) =>
+        lokasi.namaLokasi?.toLowerCase().includes(searchTerm4.toLowerCase()) ||
+        lokasi.alamat?.toLowerCase().includes(searchTerm4.toLowerCase()) ||
+        lokasi.organisasi?.namaOrganisasi
+          ?.toLowerCase()
+          .includes(searchTerm4.toLowerCase())
+    );
+    setTotalPages4(Math.ceil(filteredData.length / limit4));
+  }, [searchTerm4, limit4, lokasiData]);
+
+  const handleSearch4 = (event) => {
+    setSearchTerm4(event.target.value);
+  };
+
+  const handleLimitChange4 = (event) => {
+    setLimit4(parseInt(event.target.value));
+    setCurrentPage4(1); // Reset to the first page when limit changes
+  };
+
+  function onPageChange4(page) {
+    setCurrentPage4(page);
+  }
+
+  const filteredLokasi = lokasiData.filter(
+    (lokasi) =>
+      lokasi.namaLokasi?.toLowerCase().includes(searchTerm4.toLowerCase()) ||
+      lokasi.alamat?.toLowerCase().includes(searchTerm4.toLowerCase()) ||
+      lokasi.organisasi?.namaOrganisasi
+        ?.toLowerCase()
+        .includes(searchTerm4.toLowerCase())
+  );
+
+  const paginatedLokasi = filteredLokasi.slice(
+    (currentPage4 - 1) * limit4,
+    currentPage4 * limit4
+  );
+
+  const [searchTerm5, setSearchTerm5] = useState("");
+  const [limit5, setLimit5] = useState(5);
+  const [currentPage5, setCurrentPage5] = useState(1);
+  const [totalPages5, setTotalPages5] = useState(1);
+
+  useEffect(() => {
+    const filteredData = organisasiData.filter(
+      (organisasi) =>
+        organisasi.namaOrganisasi
+          ?.toLowerCase()
+          .includes(searchTerm5.toLowerCase()) ||
+        organisasi.alamat?.toLowerCase().includes(searchTerm5.toLowerCase()) ||
+        organisasi.nomerTelepon
+          ?.toLowerCase()
+          .includes(searchTerm5.toLowerCase()) ||
+        organisasi.emailOrganisasi
+          ?.toLowerCase()
+          .includes(searchTerm5.toLowerCase())
+    );
+    setTotalPages(Math.ceil(filteredData.length / limit5));
+  }, [searchTerm5, limit5, organisasiData]);
+
+  const handleSearch5 = (event) => {
+    setSearchTerm5(event.target.value);
+  };
+
+  const handleLimitChange5 = (event) => {
+    setLimit5(parseInt(event.target.value));
+    setCurrentPage5(1); // Reset to the first page when limit changes
+  };
+
+  function onPageChange5(page) {
+    setCurrentPage5(page);
+  }
+
+  const filteredOrganisasi = organisasiData.filter(
+    (organisasi) =>
+      organisasi.namaOrganisasi
+        ?.toLowerCase()
+        .includes(searchTerm5.toLowerCase()) ||
+      organisasi.alamat?.toLowerCase().includes(searchTerm5.toLowerCase()) ||
+      organisasi.nomerTelepon
+        ?.toLowerCase()
+        .includes(searchTerm5.toLowerCase()) ||
+      organisasi.emailOrganisasi
+        ?.toLowerCase()
+        .includes(searchTerm5.toLowerCase())
+  );
+
+  const paginatedOrganisasi = filteredOrganisasi.slice(
+    (currentPage5 - 1) * limit5,
+    currentPage5 * limit5
+  );
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
@@ -196,12 +458,35 @@ function Dashboard() {
 
           {/* Tabel Absensi */}
           <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex justify-between">
-              <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                History absensi
-              </h6>
+            <div className="flex flex-col md:flex-row justify-between">
+              <h2 className="text-xl font-bold mb-4 md:mb-0">
+                History Absensi
+              </h2>
+              <div className="flex items-center gap-2 mt-2">
+                <div className="relative w-64">
+                  <input
+                    type="search"
+                    id="search-dropdown"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                    placeholder="Search name..."
+                    required
+                  />
+                </div>
+                <select
+                  value={limit}
+                  onChange={handleLimitChange}
+                  className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                >
+                  <option value="5">05</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
             </div>
-            <hr />
+            <hr className="mt-3" />
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -227,14 +512,14 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {absenData.length === 0 ? (
+                  {filteredAbsenData.length === 0 ? (
                     <tr>
                       <td colSpan="6" className="px-6 py-4">
                         Tidak ada data yang ditampilkan
                       </td>
                     </tr>
                   ) : (
-                    absenData
+                    paginatedAbsenData
                       .slice()
                       .reverse()
                       .map((absen, index) => (
@@ -246,7 +531,7 @@ function Dashboard() {
                             scope="row"
                             className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
                           >
-                            {index + 1}
+                            {(currentPage - 1) * limit + index + 1}
                           </th>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {absen.user.username}
@@ -269,18 +554,45 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
+            <Pagination
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+            />
           </div>
-
           <br />
-
           {/* Tabel Cuti */}
           <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex justify-between">
-              <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                History Cuti
-              </h6>
+            <div className="flex flex-col md:flex-row justify-between">
+              <h2 className="text-xl font-bold mb-4 md:mb-0">History Cuti</h2>
+              <div className="flex items-center gap-2 mt-2">
+                <div className="relative w-64">
+                  <input
+                    type="search"
+                    id="search-dropdown"
+                    value={searchTerm2}
+                    onChange={handleSearch2}
+                    className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                    placeholder="Search name..."
+                    required
+                  />
+                </div>
+                <select
+                  value={limit2}
+                  onChange={handleLimitChange2}
+                  className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                >
+                  <option value="5">05</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
             </div>
-            <hr />
+            <hr className="mt-3" />
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -303,14 +615,14 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {cutiData.length === 0 ? (
+                  {filteredCuti.length === 0 ? (
                     <tr>
                       <td colSpan="5" className="px-6 py-4">
                         Tidak ada data yang ditampilkan
                       </td>
                     </tr>
                   ) : (
-                    cutiData
+                    paginatedCuti
                       .slice()
                       .reverse()
                       .map((cuti, index) => (
@@ -322,7 +634,7 @@ function Dashboard() {
                             scope="row"
                             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                           >
-                            {index + 1}
+                            {(currentPage2 - 1) * limit2 + index + 1}
                           </th>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {cuti.user.username}
@@ -342,18 +654,45 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
+            <Pagination
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage2}
+              totalPages={totalPages2}
+              onPageChange={onPageChange2}
+              showIcons
+            />
           </div>
-
           <br />
-
           {/* Tabel Jabatan */}
           <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex justify-between">
-              <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                Data Jabatan
-              </h6>
+            <div className="flex flex-col md:flex-row justify-between">
+              <h2 className="text-xl font-bold mb-4 md:mb-0">Data Jabatan</h2>
+              <div className="flex items-center gap-2 mt-2">
+                <div className="relative w-64">
+                  <input
+                    type="search"
+                    id="search-dropdown"
+                    value={searchTerm3}
+                    onChange={handleSearch3}
+                    className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                    placeholder="Search name..."
+                    required
+                  />
+                </div>
+                <select
+                  value={limit3}
+                  onChange={handleLimitChange3}
+                  className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                >
+                  <option value="5">05</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
             </div>
-            <hr />
+            <hr className="mt-3" />
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -367,14 +706,14 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {jabatanData.length === 0 ? (
+                  {filteredJabatan.length === 0 ? (
                     <tr>
                       <td colSpan="2" className="px-6 py-4">
                         Tidak ada data yang ditampilkan
                       </td>
                     </tr>
                   ) : (
-                    jabatanData
+                    paginatedJabatan
                       .slice()
                       .reverse()
                       .map((jabatan, index) => (
@@ -386,7 +725,7 @@ function Dashboard() {
                             scope="row"
                             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                           >
-                            {index + 1}
+                            {(currentPage3 - 1) * limit3 + index + 1}
                           </th>
                           <td className="px-6 py-4 capitalize whitespace-nowrap">
                             {jabatan.namaJabatan}
@@ -397,18 +736,47 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
+            <Pagination
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage3}
+              totalPages={totalPages3}
+              onPageChange={onPageChange3}
+              showIcons
+            />
           </div>
 
           <br />
 
           {/* Tabel Lokasi */}
           <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex justify-between">
-              <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                Data Lokasi
-              </h6>
+            <div className="flex flex-col md:flex-row justify-between">
+              <h2 className="text-xl font-bold mb-4 md:mb-0">Data Lokasi</h2>
+              <div className="flex items-center gap-2 mt-2">
+                <div className="relative w-64">
+                  <input
+                    type="search"
+                    id="search-dropdown"
+                    value={searchTerm4}
+                    onChange={handleSearch4}
+                    className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                    placeholder="Search name..."
+                    required
+                  />
+                </div>
+                <select
+                  value={limit4}
+                  onChange={handleLimitChange4}
+                  className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                >
+                  <option value="5">05</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
             </div>
-            <hr />
+            <hr className="mt-3" />
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -431,14 +799,14 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {lokasiData.length === 0 ? (
+                  {filteredLokasi.length === 0 ? (
                     <tr>
                       <td colSpan="5" className="px-6 py-4">
                         Tidak ada data yang ditampilkan
                       </td>
                     </tr>
                   ) : (
-                    lokasiData
+                    paginatedLokasi
                       .slice()
                       .reverse()
                       .map((lokasi, index) => (
@@ -450,7 +818,7 @@ function Dashboard() {
                             scope="row"
                             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                           >
-                            {index + 1}
+                            {(currentPage4 - 1) * limit4 + index + 1}
                           </th>
                           <td className="px-6 py-4 capitalize whitespace-nowrap">
                             {lokasi.namaLokasi}
@@ -470,18 +838,49 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
+            <Pagination
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage4}
+              totalPages={totalPages4}
+              onPageChange={onPageChange4}
+              showIcons
+            />
           </div>
 
           <br />
 
           {/* Tabel Organisasi */}
           <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex justify-between">
-              <h6 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+            <div className="flex flex-col md:flex-row justify-between">
+              <h2 className="text-xl font-bold mb-4 md:mb-0">
                 Data Organisasi
-              </h6>
+              </h2>
+              <div className="flex items-center gap-2 mt-2">
+                <div className="relative w-64">
+                  <input
+                    type="search"
+                    id="search-dropdown"
+                    value={searchTerm5}
+                    onChange={handleSearch5}
+                    className="block p-2.5 w-full z-20 text-sm rounded-l-md text-gray-900 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                    placeholder="Search name..."
+                    required
+                  />
+                </div>
+                <select
+                  value={limit5}
+                  onChange={handleLimitChange5}
+                  className="flex-shrink-0 z-10 inline-flex rounded-r-md items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                >
+                  <option value="5">05</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
             </div>
-            <hr />
+            <hr className="mt-3" />
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -498,14 +897,14 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {organisasiData.length === 0 ? (
+                  {filteredOrganisasi.length === 0 ? (
                     <tr>
                       <td colSpan="3" className="px-6 py-4">
                         Tidak ada data yang ditampilkan
                       </td>
                     </tr>
                   ) : (
-                    organisasiData
+                    paginatedOrganisasi
                       .slice()
                       .reverse()
                       .map((organisasi, index) => (
@@ -517,7 +916,7 @@ function Dashboard() {
                             scope="row"
                             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                           >
-                            {index + 1}
+                            {(currentPage5 - 1) * limit5 + index + 1}
                           </th>
                           <td className="px-6 py-4 capitalize whitespace-nowrap">
                             {organisasi.namaOrganisasi}
@@ -531,6 +930,14 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
+            <Pagination
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage5}
+              totalPages={totalPages5}
+              onPageChange={onPageChange5}
+              showIcons
+            />
           </div>
         </div>
       </div>
