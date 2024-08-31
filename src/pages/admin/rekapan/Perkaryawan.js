@@ -41,34 +41,39 @@ function Perkaryawan() {
       const abs = await axios.get(
         `${API_DUMMY}/api/absensi/getByUserId/${userId}`
       );
-      console.log("Response:", abs);
+
       if (abs.status === 200) {
         if (abs.data.length === 0) {
-          Swal.fire("Informasi", "User belum pernah absensi", "info");
-          setListAbsensi([]);
+          return []; // Return an empty array if no attendance records are found
         } else {
-          setListAbsensi(abs.data);
+          return abs.data; // Return the attendance data
         }
-      } else if (abs.status === 404) {
-        Swal.fire("Gagal", "Data tidak ditemukan", "error");
       } else {
         Swal.fire("Gagal", "Gagal Mengambil data", "error");
+        return [];
       }
     } catch (error) {
       console.log("Error:", error);
-      if (error.response && error.response.status === 404) {
-        Swal.fire("Gagal", "User belum pernah absensi", "info");
-      } else {
-        Swal.fire("Gagal", "Gagal Mengambil data", "error");
-      }
+      Swal.fire("Gagal", "Gagal Mengambil data", "error");
+      return [];
     }
   };
 
   // Handle user selection
-  const handleUserChange = (selectedOption) => {
+  const handleUserChange = async (selectedOption) => {
     setSelectedUser(selectedOption);
+
     if (selectedOption) {
-      getAbsensiByUserId(selectedOption.value);
+      const userId = selectedOption.value;
+      const abs = await getAbsensiByUserId(userId);
+
+      if (abs.length === 0) {
+        Swal.fire("Informasi", "User belum pernah absensi", "info");
+        setSelectedUser(null); // Clear the selected user
+        setListAbsensi([]); // Clear the attendance list
+      } else {
+        setListAbsensi(abs);
+      }
     } else {
       setListAbsensi([]);
     }
@@ -222,11 +227,13 @@ function Perkaryawan() {
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </button>
                 <button
+                  type="button"
                   className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
                   onClick={exportPerkaryawan}
                 >
                   <FontAwesomeIcon icon={faFileExport} />
                 </button>
+
               </div>
             </form>
 
