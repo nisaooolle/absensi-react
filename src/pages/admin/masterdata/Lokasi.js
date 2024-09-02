@@ -41,7 +41,7 @@ function Lokasi() {
       console.error("Error fetching data:", error);
     }
   };
-  const deleteData = async (id) => {
+  const deleteData = async (idLokasi) => {
     Swal.fire({
       title: "Anda Ingin Menghapus Data ?",
       icon: "warning",
@@ -53,7 +53,8 @@ function Lokasi() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`${API_DUMMY}/api/lokasi/delete/` + id, {
+ 
+          await axios.delete(`${API_DUMMY}/api/lokasi/delete/` + idLokasi, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
