@@ -26,7 +26,7 @@ function Lokasi() {
     try {
       const res = await axios.get(`${API_DUMMY}/api/user/${idAdmin}/users`);
       setKaryawan(res.data.length);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const getAllLokasibyAdmin = async () => {
@@ -53,6 +53,7 @@ function Lokasi() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
+ 
           await axios.delete(`${API_DUMMY}/api/lokasi/delete/` + idLokasi, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -211,57 +212,68 @@ function Lokasi() {
                       </td>
                     </tr>
                   ) : (
-                    paginatedLokasi.slice().reverse().map((lokasi, index) => (
-                      <tr
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                        key={index}
-                      >
-                        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
-                          {(currentPage - 1) * limit + index + 1}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {lokasi.namaLokasi}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {lokasi.alamat}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {karyawan}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {lokasi.organisasi.namaOrganisasi}
-                        </td>
-                        <td className="py-3">
-                          <div className="flex items-center -space-x-4 ml-12">
-                            <a href={`/admin/detailL/${lokasi.idLokasi}`}>
-                              <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
+                    paginatedLokasi
+                      .slice()
+                      .reverse()
+                      .map((lokasi, index) => (
+                        <tr
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          key={index}
+                        >
+                          <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                            {(currentPage - 1) * limit + index + 1}
+                          </td>
+                          <td className="px-6 py-4 capitalize whitespace-nowrap">
+                            {lokasi.namaLokasi}
+                          </td>
+                          <td className="px-6 py-4 capitalize whitespace-nowrap">
+                            {lokasi.alamat}
+                          </td>
+                          <td className="px-6 py-4 capitalize whitespace-nowrap">
+                            {karyawan}
+                          </td>
+                          <td className="px-6 py-4 capitalize whitespace-nowrap">
+                            {lokasi.organisasi.namaOrganisasi}
+                          </td>
+                          <td className="py-3">
+                            <div className="flex items-center -space-x-4 ml-12">
+                              <a href={`/admin/detailL/${lokasi.idLokasi}`}>
+                                <button className="z-20 block rounded-full border-2 border-white bg-blue-100 p-4 text-blue-700 active:bg-blue-50">
+                                  <span className="relative inline-block">
+                                    <FontAwesomeIcon
+                                      icon={faInfo}
+                                      className="h-4 w-4"
+                                    />
+                                  </span>
+                                </button>
+                              </a>
+                              <a href={`/admin/editL/${lokasi.idLokasi}`}>
+                                <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                                  <span className="relative inline-block">
+                                    <FontAwesomeIcon
+                                      icon={faPenToSquare}
+                                      className="h-4 w-4"
+                                    />
+                                  </span>
+                                </button>
+                              </a>
+                              <button
+                                className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                                onClick={() => deleteData(lokasi.idLokasi)}
+                              >
                                 <span className="relative inline-block">
-                                  <FontAwesomeIcon icon={faInfo} className="h-4 w-4" />
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="h-4 w-4"
+                                  />
                                 </span>
                               </button>
-                            </a>
-                            <a href={`/admin/editL/${lokasi.idLokasi}`}>
-                              <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
-                                <span className="relative inline-block">
-                                  <FontAwesomeIcon icon={faPenToSquare} className="h-4 w-4" />
-                                </span>
-                              </button>
-                            </a>
-                            <button
-                              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                              onClick={() => deleteData(lokasi.idLokasi)}
-                            >
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
-                              </span>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
+                            </div>
+                          </td>
+                        </tr>
+                      ))
                   )}
                 </tbody>
-
               </table>
             </div>
             <Pagination
