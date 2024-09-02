@@ -45,6 +45,8 @@ function AbsenMasuk() {
         const { latitude, longitude } = position.coords;
         setLatitude(latitude);
         setLongitude(longitude);
+        console.log("latitude: ", latitude);
+        console.log("logitude: ", longitude);
 
         try {
           const response = await fetch(

@@ -5,12 +5,15 @@ import {
   faPenToSquare,
   faPlus,
   faTrash,
+  faFileExport, 
+  faFileImport,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Pagination } from "flowbite-react";
 import { API_DUMMY } from "../../../utils/api";
 import SidebarNavbar from "../../../components/SidebarNavbar";
+import { Button, Modal } from "flowbite-react";
 import NavbarAdmin from "../../../components/NavbarAdmin";
 
 function Karyawan() {
@@ -19,6 +22,7 @@ function Karyawan() {
   const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [openModal, setOpenModal] = useState(false);
   const idAdmin = localStorage.getItem("adminId");
 
   const getAllKaryawan = async () => {
@@ -37,6 +41,86 @@ function Karyawan() {
       setUserData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
+    }
+  };
+
+  const exportKaryawan = async () => {
+    if (userData.length === 0) {
+      Swal.fire("Error", "Tidak ada data untuk diekspor", "error");
+      return;
+    }
+    try {
+      const response = await axios.get(
+        `${API_DUMMY}/api/user/export/${idAdmin}`,
+        {
+          responseType: "blob",
+        }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Data-Karyawab.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      Swal.fire("Berhasil", "Berhasil mengunduh data", "success");
+    } catch (error) {
+      console.error("Error exporting data:", error);
+      Swal.fire("Error", "Gagal mengunduh data", "error");
+    }
+  };
+
+  const [file, setFile] = useState("");
+  const importData = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      await axios.post(
+        `${API_DUMMY}/api/import/data-karyawan/admin/${idAdmin}`,
+        formData
+      );
+      Swal.fire("Sukses!", "Berhasil menambahkan", "success");
+      setOpenModal(false);
+      getAllKaryawan();
+    } catch (err) {
+      console.error("Error during import:", err);
+
+      if (err.response && err.response.data) {
+        Swal.fire("Error", err.response.data, "error");
+      } else {
+        Swal.fire("Error", "Terjadi kesalahan saat mengimpor data.", "error");
+      }
+    }
+  };
+
+  const downloadTemplate = async () => {
+    try {
+      const response = await axios.get(
+        `${API_DUMMY}/api/download/template-excel-karyawan`,
+        {
+          responseType: "blob",
+        }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Template-Excel-Karyawan.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      Swal.fire("Berhasil", "Berhasil mengunduh data", "success");
+    } catch (error) {
+      console.error("Error exporting data:", error);
+      Swal.fire("Error", "Gagal mengunduh data", "error");
     }
   };
 
@@ -160,6 +244,18 @@ function Karyawan() {
                 >
                   <FontAwesomeIcon icon={faPlus} size="lg" />
                 </a>
+                <button
+                      type="button"
+                      className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded-lg inline-block ml-auto"
+                      onClick={exportKaryawan}>
+                      <FontAwesomeIcon icon={faFileExport} />
+                    </button>
+                    <button
+                      type="button"
+                      className="imp bg-blue-500 hover:bg-blue text-white font-bold py-2 px-4 rounded-lg inline-block ml-auto"
+                      onClick={() => setOpenModal(true)}>
+                      <FontAwesomeIcon icon={faFileImport} />
+                    </button>
               </div>
             </div>
             <hr />
@@ -269,6 +365,41 @@ function Karyawan() {
                 </tbody>
               </table>
             </div>
+            <Modal
+                popup
+                className="w-fit ml-auto mr-auto fixed inset-0 flex items-center justify-center"
+                show={openModal}
+                onClose={() => setOpenModal(false)}>
+                <Modal.Header>Import Data Karyawan</Modal.Header>
+                <hr />
+                <Modal.Body>
+                  <form className="space-y-6">
+                    <Button
+                      className="mb-3 bg-green-500 text-white"
+                      type="submit"
+                      onClick={downloadTemplate}>
+                      Download Template
+                    </Button>
+                    <input
+                      required
+                      autoComplete="off"
+                      type="file"
+                      accept=".xlsx"
+                      onChange={(e) => setFile(e.target.files[0])}
+                    />
+                  </form>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    className="bg-red-500"
+                    onClick={() => setOpenModal(false)}>
+                    Batal
+                  </Button>
+                  <Button color="blue" type="submit" onClick={importData}>
+                    Simpan
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             <Pagination
               className="mt-5"
               layout="table"
