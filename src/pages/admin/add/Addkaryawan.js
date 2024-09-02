@@ -93,18 +93,29 @@ function AddKaryawan() {
         email: trimmedEmail,
         username: trimmedUsername,
         password: password,
+        jabatan: {
+          idJabatan: idJabatan,
+        },
+        organisasi: {
+          id: idOrganisasi,
+        },
+        shift: {
+          id: idShift,
+        },
       };
 
       await axios.post(
-        `${API_DUMMY}/api/user/tambahkaryawan/${idAdmin}?&idOrganisasi=${idOrganisasi}&idShift=${idShift}`,
+        `${API_DUMMY}/api/user/tambahkaryawan/${idAdmin}?idJabatan=${idJabatan}&idOrganisasi=${idOrganisasi}&idShift=${idShift}`,
         newUser
       );
+
       Swal.fire({
         title: "Berhasil",
         text: "Berhasil menambahkan data",
         icon: "success",
         showConfirmButton: false,
       });
+
       setTimeout(() => {
         window.location.href = "/admin/karyawan";
       }, 2000);
@@ -113,6 +124,7 @@ function AddKaryawan() {
       Swal.fire("Error", "Gagal menambahkan data", "error");
     }
   };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">
