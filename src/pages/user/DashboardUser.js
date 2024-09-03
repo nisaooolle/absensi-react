@@ -333,33 +333,29 @@ function Dashboard() {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 mt-7">
               <Link to={isAbsenMasuk ? "#" : "/user/absen"}>
                 <div
-                  className={`pl-2 h-24 rounded-lg shadow-md md:w-auto ${
-                    isAbsenMasuk
-                      ? "bg-gray-500 cursor-not-allowed"
-                      : "bg-blue-500"
-                  }`}
+                  className={`pl-2 h-24 rounded-lg shadow-md md:w-auto ${isAbsenMasuk
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-blue-500"
+                    }`}
                 >
                   <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
                       <p
-                        className={`font-bold ${
-                          isAbsenMasuk ? "text-gray-400" : "text-black"
-                        }`}
+                        className={`font-bold ${isAbsenMasuk ? "text-gray-400" : "text-black"
+                          }`}
                       >
                         Masuk
                       </p>
                       <p
-                        className={`text-lg ${
-                          isAbsenMasuk ? "text-gray-400" : "text-black"
-                        }`}
+                        className={`text-lg ${isAbsenMasuk ? "text-gray-400" : "text-black"
+                          }`}
                       >
                         Absen Masuk.
                       </p>
                     </div>
                     <div
-                      className={`my-auto ${
-                        isAbsenMasuk ? "text-gray-400" : "text-black"
-                      }`}
+                      className={`my-auto ${isAbsenMasuk ? "text-gray-400" : "text-black"
+                        }`}
                     >
                       <FontAwesomeIcon
                         icon={faArrowRightFromBracket}
@@ -372,33 +368,29 @@ function Dashboard() {
 
               <Link to={isPulangDisabled ? "#" : "/user/pulang"}>
                 <div
-                  className={`pl-2 h-24 rounded-lg shadow-md md:w-auto ${
-                    isPulangDisabled
-                      ? "bg-gray-500 cursor-not-allowed"
-                      : "bg-green-500"
-                  }`}
+                  className={`pl-2 h-24 rounded-lg shadow-md md:w-auto ${isPulangDisabled
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-green-500"
+                    }`}
                 >
                   <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
                       <p
-                        className={`font-bold ${
-                          isPulangDisabled ? "text-gray-400" : "text-black"
-                        }`}
+                        className={`font-bold ${isPulangDisabled ? "text-gray-400" : "text-black"
+                          }`}
                       >
                         Pulang
                       </p>
                       <p
-                        className={`text-lg ${
-                          isPulangDisabled ? "text-gray-400" : "text-black"
-                        }`}
+                        className={`text-lg ${isPulangDisabled ? "text-gray-400" : "text-black"
+                          }`}
                       >
                         Absen Pulang.
                       </p>
                     </div>
                     <div
-                      className={`my-auto ${
-                        isPulangDisabled ? "text-gray-400" : "text-black"
-                      }`}
+                      className={`my-auto ${isPulangDisabled ? "text-gray-400" : "text-black"
+                        }`}
                     >
                       <FontAwesomeIcon
                         icon={faArrowRightFromBracket}
@@ -411,33 +403,29 @@ function Dashboard() {
 
               <Link to={isIzinDisabled ? "#" : "/user/izin"}>
                 <div
-                  className={`pl-2 h-24 rounded-lg shadow-md md:w-auto ${
-                    isIzinDisabled
-                      ? "bg-gray-500 cursor-not-allowed"
-                      : "bg-orange-500"
-                  }`}
+                  className={`pl-2 h-24 rounded-lg shadow-md md:w-auto ${isIzinDisabled
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-orange-500"
+                    }`}
                 >
                   <div className="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
                     <div className="my-auto">
                       <p
-                        className={`font-bold ${
-                          isIzinDisabled ? "text-gray-400" : "text-black"
-                        }`}
+                        className={`font-bold ${isIzinDisabled ? "text-gray-400" : "text-black"
+                          }`}
                       >
                         Izin
                       </p>
                       <p
-                        className={`text-lg ${
-                          isIzinDisabled ? "text-gray-400" : "text-black"
-                        }`}
+                        className={`text-lg ${isIzinDisabled ? "text-gray-400" : "text-black"
+                          }`}
                       >
                         Permohonan Izin.
                       </p>
                     </div>
                     <div
-                      className={`my-auto ${
-                        isIzinDisabled ? "text-gray-400" : "text-black"
-                      }`}
+                      className={`my-auto ${isIzinDisabled ? "text-gray-400" : "text-black"
+                        }`}
                     >
                       <FontAwesomeIcon icon={faCircleXmark} size="2x" />
                     </div>
@@ -615,6 +603,8 @@ function Dashboard() {
               totalPages={totalPages}
               onPageChange={onPageChange}
               showIcons
+              previousLabel=""
+              nextLabel=""
             />
             <div className="flex justify-end mt-5">
               <button
@@ -693,10 +683,12 @@ function Dashboard() {
             <Pagination
               className="mt-5"
               layout="table"
-              currentPage={currentPage1}
-              totalPages={totalPages1}
-              onPageChange={onPageChange1}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
               showIcons
+              previousLabel=""
+              nextLabel=""
             />
             <div className="flex justify-end mt-5">
               <button

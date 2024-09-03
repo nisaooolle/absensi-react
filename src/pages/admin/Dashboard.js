@@ -30,7 +30,7 @@ function Dashboard() {
     try {
       const res = await axios.get(`${API_DUMMY}/api/user/${idAdmin}/users`);
       setKaryawan(res.data.length);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -561,6 +561,8 @@ function Dashboard() {
               totalPages={totalPages}
               onPageChange={onPageChange}
               showIcons
+              previousLabel=""
+              nextLabel=""
             />
           </div>
           <br />
@@ -657,10 +659,12 @@ function Dashboard() {
             <Pagination
               className="mt-5"
               layout="table"
-              currentPage={currentPage2}
-              totalPages={totalPages2}
-              onPageChange={onPageChange2}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
               showIcons
+              previousLabel=""
+              nextLabel=""
             />
           </div>
           <br />
@@ -739,10 +743,12 @@ function Dashboard() {
             <Pagination
               className="mt-5"
               layout="table"
-              currentPage={currentPage3}
-              totalPages={totalPages3}
-              onPageChange={onPageChange3}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
               showIcons
+              previousLabel=""
+              nextLabel=""
             />
           </div>
 
@@ -841,10 +847,12 @@ function Dashboard() {
             <Pagination
               className="mt-5"
               layout="table"
-              currentPage={currentPage4}
-              totalPages={totalPages4}
-              onPageChange={onPageChange4}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
               showIcons
+              previousLabel=""
+              nextLabel=""
             />
           </div>
 
@@ -933,10 +941,12 @@ function Dashboard() {
             <Pagination
               className="mt-5"
               layout="table"
-              currentPage={currentPage5}
-              totalPages={totalPages5}
-              onPageChange={onPageChange5}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
               showIcons
+              previousLabel=""
+              nextLabel=""
             />
           </div>
         </div>
