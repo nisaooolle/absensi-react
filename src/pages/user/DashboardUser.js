@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
   faArrowRightFromBracket,
+  faArrowRightToBracket,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -320,8 +321,8 @@ function Dashboard() {
         <div className="sticky top-16 z-40">
           <Navbar />
         </div>
-        <div className="content-page container p-8 min-h-screen ml-0 md:ml-64 mt-5">
-          <div className="mt-12 bg-slate-200 p-5 rounded-xl shadow-xl">
+        <div className="content-page container p-8 min-h-screen ml-0 md:ml-64 mt-2 md:mt-8">
+          <div className="mt-2 md:mt-8 bg-slate-200 p-5 rounded-xl shadow-xl">
             <h1 className="judul text-3xl font-semibold text-center capitalize">
               Selamat Datang @{username.username}
             </h1>
@@ -361,10 +362,7 @@ function Dashboard() {
                         isAbsenMasuk ? "text-gray-400" : "text-black"
                       }`}
                     >
-                      <FontAwesomeIcon
-                        icon={faArrowRightFromBracket}
-                        size="2x"
-                      />
+                      <FontAwesomeIcon icon={faArrowRightToBracket} size="2x" />
                     </div>
                   </div>
                 </div>
