@@ -265,13 +265,15 @@ function Lembur() {
               </table>
             </div>
             <Pagination
-              className="mt-5"
-              layout="table"
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={onPageChange}
-              showIcons
-            />
+                className="mt-5"
+                layout="table"
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={onPageChange}
+                showIcons
+                previousLabel=""
+                nextLabel=""
+              />
           </div>
         </div>
       </div>

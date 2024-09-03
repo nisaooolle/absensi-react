@@ -400,14 +400,16 @@ function Karyawan() {
                   </Button>
                 </Modal.Footer>
               </Modal>
-            <Pagination
-              className="mt-5"
-              layout="table"
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={onPageChange}
-              showIcons
-            />
+              <Pagination
+                className="mt-5"
+                layout="table"
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={onPageChange}
+                showIcons
+                previousLabel=""
+                nextLabel=""
+              />
           </div>
         </div>
       </div>
