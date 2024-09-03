@@ -27,7 +27,7 @@ function AddIzin() {
     }
 
     try {
-      await axios.post(`${API_DUMMY}/api/absensi/izin/${userId}`, add, {
+      await axios.post(`${API_DUMMY}/api/absensi/izin/${userId}?keteranganIzin=${encodeURIComponent(keteranganIzin)}`, {}, {
         headers: {
           Authorization: `${token}`,
         },
