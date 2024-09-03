@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import Loader from "../../../components/Loader";
 import { API_DUMMY } from "../../../utils/api";
 import SidebarNavbar from "../../../components/SidebarNavbar";
-// import "../css/AbsenMasuk.css"
+import "../css/AbenMasuk.css"
 
 function AbsenMasuk() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
