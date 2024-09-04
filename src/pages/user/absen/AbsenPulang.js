@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { toBeDisabled } from "@testing-library/jest-dom/matchers";
 import { API_DUMMY } from "../../../utils/api";
 import SidebarNavbar from "../../../components/SidebarNavbar";
-import "../css/AbsenMasuk.css"
+// import "../css/AbsenMasuk.css"
 
 function AbsenPulang() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
