@@ -170,14 +170,14 @@ function Profil() {
     <>
       {loading && <Loader />}
       <div className="flex flex-col h-screen">
-        <div className="sticky top-0 z-50">
+        <div className=" top-0 z-50">
           <SidebarNavbar />
         </div>
         <div className="flex h-full">
-          <div className="sticky top-16 z-40">
+          <div className=" top-16 z-40">
             <NavbarAdmin />
           </div>
-          <div className="content-page container p-8 min-h-screen ml-0 md:ml-64 mt-20">
+          <div className="content-page container p-8 ml-0 md:ml-72 mt-10">
             <Tabs aria-label="Tabs with underline" style="underline">
               <Tabs.Item active title="Profile" icon={HiUserCircle}>
                 {/* Konten tab Profil */}
