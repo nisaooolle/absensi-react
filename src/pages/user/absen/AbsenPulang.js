@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import Sidebar from "../../../components/SidebarUser";
 import Navbar from "../../../components/NavbarUser";
 import Webcam from "react-webcam";
 import axios from "axios";
@@ -7,6 +6,7 @@ import Swal from "sweetalert2";
 import { toBeDisabled } from "@testing-library/jest-dom/matchers";
 import { API_DUMMY } from "../../../utils/api";
 import SidebarNavbar from "../../../components/SidebarNavbar";
+import "../css/AbsenMasuk.css"
 
 function AbsenPulang() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -19,6 +19,31 @@ function AbsenPulang() {
   const [fetchingLocation, setFetchingLocation] = useState(true);
   const [keteranganPulangAwal, setKeteranganPulangAwal] = useState("");
   const [waktuPulang, setWaktuPulang] = useState("");
+
+  // Batas koordinat yang diizinkan
+  const allowedCoordinates = {
+    north: -6.975496541825257, // Pojok Masjid
+    south: -6.976353915653226, // Pojok Bootcamp
+    west: 110.30093865296837, // Pojok R. Guru
+    east: 110.30157620693905, // Pojok Satpam
+  };
+
+    // koordinat excelent
+  // const allowedCoordinates = {
+  //   northWest: { lat: -6.982580885, lon: 110.404028235 },
+  //   northEast: { lat: -6.982580885, lon: 110.404118565 },
+  //   southWest: { lat: -6.982670715, lon: 110.404028235 },
+  //   southEast: { lat: -6.982670715, lon: 110.404118565 },
+  // };
+
+  const isWithinAllowedCoordinates = (latitude, longitude) => {
+    return (
+      latitude <= allowedCoordinates.north &&
+      latitude >= allowedCoordinates.south &&
+      longitude >= allowedCoordinates.west &&
+      longitude <= allowedCoordinates.east
+    );
+  };
 
   const getShift = async () => {
     try {
@@ -52,24 +77,31 @@ function AbsenPulang() {
       return;
     }
 
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
 
-      try {
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
-        );
-        const data = await response.json();
-        const address = data.display_name;
-        setAddress(address);
-      } catch (error) {
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+          );
+          const data = await response.json();
+          const address = data.display_name;
+          setAddress(address);
+        } catch (error) {
+          console.error("Error:", error);
+          setError("Gagal mendapatkan alamat");
+        }
+
+        setFetchingLocation(false);
+      },
+      (error) => {
         console.error("Error:", error);
-        setError("Gagal mendapatkan alamat");
+        setError("Gagal mendapatkan lokasi");
+        setFetchingLocation(false);
       }
-
-      setFetchingLocation(false);
-    });
+    );
   }, [fetchingLocation]);
 
   // Fungsi untuk menambahkan nol di depan angka jika angka kurang dari 10
@@ -101,79 +133,116 @@ function AbsenPulang() {
     const imageBlob = await fetch(imageSrc).then((res) => res.blob());
 
     setFetchingLocation(true);
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
 
-      try {
-        const absensiCheckResponse = await axios.get(
-          `${API_DUMMY}/api/absensi/checkAbsensi/${userId}`
-        );
-        const isUserAlreadyAbsenToday =
-          absensiCheckResponse.data ===
-          "Pengguna sudah melakukan absensi hari ini.";
-
-        const currentTime = new Date();
-        const currentHours = currentTime.getHours();
-        const currentMinutes = currentTime.getMinutes();
-        const [shiftHours, shiftMinutes] = waktuPulang.split(":").map(Number);
-
-        const formData = new FormData();
-        formData.append("image", imageBlob);
-        formData.append("lokasiPulang", address);
-        if (keteranganPulangAwal) {
-          formData.append("keteranganPulangAwal", keteranganPulangAwal);
+        if (!isWithinAllowedCoordinates(latitude, longitude)) {
+          Swal.fire(
+            "Lokasi tidak valid",
+            "Anda berada di luar kawasan yang diizinkan.",
+            "error"
+          );
+          setFetchingLocation(false);
+          return;
         }
 
-        if (isUserAlreadyAbsenToday) {
-          if (
-            currentHours > shiftHours ||
-            (currentHours === shiftHours && currentMinutes >= shiftMinutes)
-          ) {
-            // Sudah melewati waktu pulang, absensi diperbolehkan
-            await axios.put(
-              `${API_DUMMY}/api/absensi/pulang/${userId}?keteranganPulangAwal=${keteranganPulangAwal}&lokasiPulang=${encodeURIComponent(
-                address
-              )}`,
-              formData,
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              }
-            );
+        try {
+          const absensiCheckResponse = await axios.get(
+            `${API_DUMMY}/api/absensi/checkAbsensi/${userId}`
+          );
+          const isUserAlreadyAbsenToday =
+            absensiCheckResponse.data ===
+            "Pengguna sudah melakukan absensi hari ini.";
 
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Berhasil Pulang",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            setTimeout(() => {
-              window.location.href = "/user/history_absen";
-            }, 1500);
+          const currentTime = new Date();
+          const currentHours = currentTime.getHours();
+          const currentMinutes = currentTime.getMinutes();
+          const [shiftHours, shiftMinutes] = waktuPulang.split(":").slice().reverse().map(Number);
+          if (isUserAlreadyAbsenToday) {
+            if (
+              currentHours > shiftHours ||
+              (currentHours === shiftHours && currentMinutes >= shiftMinutes)
+            ) {
+              const formData = new FormData();
+              formData.append("image", imageBlob);
+              formData.append("lokasiPulang", address);
+              formData.append("keteranganPulangAwal", keteranganPulangAwal);
+
+              await axios.put(
+                `${API_DUMMY}/api/absensi/pulang/${userId}`,
+                formData,
+                {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                }
+              );
+
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Berhasil Pulang",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              setTimeout(() => {
+                window.location.href = "/user/history_absen";
+              }, 1500);
+            } else if (keteranganPulangAwal) {
+              const formData = new FormData();
+              formData.append("image", imageBlob);
+              formData.append("lokasiPulang", address);
+              formData.append("keteranganPulangAwal", keteranganPulangAwal);
+
+              await axios.put(
+                `${API_DUMMY}/api/absensi/pulang/${userId}`,
+                formData,
+                {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                }
+              );
+
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Berhasil Pulang",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              setTimeout(() => {
+                window.location.href = "/user/history_absen";
+              }, 1500);
+            } else {
+              Swal.fire(
+                "Info",
+                `Anda belum dapat melakukan absensi pulang sebelum pukul ${waktuPulang}.`,
+                "info"
+              );
+            }
           } else {
             Swal.fire(
               "Info",
-              `Anda belum dapat melakukan absensi pulang sebelum pukul ${waktuPulang}.`,
+              "Anda belum melakukan absensi masuk hari ini.",
               "info"
             );
           }
-        } else {
-          Swal.fire(
-            "Info",
-            "Anda belum melakukan absensi masuk hari ini.",
-            "info"
-          );
+        } catch (err) {
+          console.error("Error:", err);
+          Swal.fire("Error", "Gagal Absen", "error");
         }
-      } catch (err) {
-        console.error("Error:", err);
-        Swal.fire("Error", "Gagal Absen", "error");
-      }
 
-      setFetchingLocation(false);
-    });
+        setFetchingLocation(false);
+      },
+      (error) => {
+        console.error("Error:", error);
+        setError("Gagal mendapatkan lokasi");
+        setFetchingLocation(false);
+      }
+    );
   };
 
   return (
@@ -207,9 +276,12 @@ function AbsenPulang() {
             <div className="text-base text-center mt-2">{ucapan}</div>
             <form onSubmit={""}>
               <p className="font-bold text-center mt-8">Foto:</p>
-              <div className="flex justify-center">
-                <Webcam audio={false} ref={webcamRef} />
-              </div>
+              <div className="flex justify-center webcam-container">
+                  <Webcam 
+                    audio={false} 
+                    ref={webcamRef} 
+                  />
+                </div>
               <div className="flex justify-center mt-6">
                 {fetchingLocation ? (
                   <p>Mendapatkan lokasi...</p>

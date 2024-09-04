@@ -29,6 +29,14 @@ function AbsenMasuk() {
     southEast: { lat: -6.982790272517673, lon: 110.40416448162483 },
   };
 
+    // koordinat excelent
+  // const allowedCoordinates = {
+  //   northWest: { lat: -6.982580885, lon: 110.404028235 },
+  //   northEast: { lat: -6.982580885, lon: 110.404118565 },
+  //   southWest: { lat: -6.982670715, lon: 110.404028235 },
+  //   southEast: { lat: -6.982670715, lon: 110.404118565 },
+  // };
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
