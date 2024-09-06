@@ -9,13 +9,12 @@ import SidebarNavbar from "../../../components/SidebarNavbar";
 import "../css/AbenMasuk.css"
 
 function AbsenMasuk() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const webcamRef = useRef(null);
   const [keteranganTerlambat, setKeteranganTerlambat] = useState("");
   const [error, setError] = useState("");
   const userId = localStorage.getItem("userId");
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [address, setAddress] = useState("");
   const [fetchingLocation, setFetchingLocation] = useState(true);
   const [latitude, setLatitude] = useState(null);
@@ -95,10 +94,6 @@ function AbsenMasuk() {
     ucapan = "Selamat Malam";
   }
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
   // validasi
   const isWithinAllowedCoordinates = (lat, lon) => {
     const { northWest, northEast, southWest, southEast } = allowedCoordinates;
@@ -153,7 +148,7 @@ function AbsenMasuk() {
         formData.append("lokasiMasuk", `${address}`);
         formData.append("keteranganTerlambat", keteranganTerlambat || "-");
 
-        const response = await axios.post(
+        await axios.post(
           `${API_DUMMY}/api/absensi/masuk/${userId}`,
           formData,
           {
