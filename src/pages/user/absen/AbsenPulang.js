@@ -10,8 +10,7 @@ import SidebarNavbar from "../../../components/SidebarNavbar";
 function AbsenPulang() {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const webcamRef = useRef(null);
-  const [error, setError] = useState("");
-  console.log(error);
+  const [, setError] = useState("");
   const userId = localStorage.getItem("userId");
   const [address, setAddress] = useState("");
   const [fetchingLocation, setFetchingLocation] = useState(true);
@@ -43,32 +42,34 @@ function AbsenPulang() {
     );
   };
 
-  const getShift = async () => {
-    try {
-      const response = await axios.get(
-        `${API_DUMMY}/api/shift/getShift-byUserId/${userId}`
-      );
-
-      if (response.data && response.data.waktuPulang) {
-        setWaktuPulang(response.data.waktuPulang);
-      } else {
-        console.error(
-          "Data shift tidak ditemukan atau tidak memiliki properti waktuPulang."
-        );
-      }
-    } catch (error) {
-      console.error("Error saat mengambil data shift:", error);
-    }
-  };
-
   useEffect(() => {
+    const getShift = async () => {
+      try {
+        const response = await axios.get(
+          `${API_DUMMY}/api/shift/getShift-byUserId/${userId}`
+        );
+  
+        if (response.data && response.data.waktuPulang) {
+          setWaktuPulang(response.data.waktuPulang);
+        } else {
+          console.error(
+            "Data shift tidak ditemukan atau tidak memiliki properti waktuPulang."
+          );
+        }
+      } catch (error) {
+        console.error("Error saat mengambil data shift:", error);
+      }
+    };
+  
     getShift();
+  
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
     }, 1000); // Perbarui setiap detik
-
+  
     return () => clearInterval(interval);
-  });
+  }, [userId]); // Now, 'userId' is the only dependency
+
 
   useEffect(() => {
     if (!fetchingLocation) {

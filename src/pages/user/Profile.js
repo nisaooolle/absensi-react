@@ -24,7 +24,7 @@ function Profile() {
   const [showPasswordd, setShowPasswordd] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [ubahUsername, setUbahUsername] = useState(false);
-  const [profile, setProfile] = useState([]);
+  const [, setProfile] = useState([]);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,26 +40,31 @@ function Profile() {
     }
   });
 
-  const getProfile = async () => {
-    try {
-      const response = await axios.get(
-        `${API_DUMMY}/api/user/getUserBy/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setProfile(response.data);
-      setFotoUser(response.data.fotoUser);
-      setEmail(response.data.email);
-      setUsername(response.data.username);
-      setOrganisasi(response.data.organisasi.namaOrganisasi);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const response = await axios.get(
+          `${API_DUMMY}/api/user/getUserBy/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
+        setProfile(response.data);
+        setFotoUser(response.data.fotoUser);
+        setEmail(response.data.email);
+        setUsername(response.data.username);
+        setOrganisasi(response.data.organisasi.namaOrganisasi);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    getProfile();
+  }, [id, token]); // Include dependencies if necessary
+  
 
   const HandleUbahUsernameEmail = async (e) => {
     e.preventDefault();
@@ -100,7 +105,7 @@ function Profile() {
   useEffect(() => {
     getProfile();
   });
-
+ 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
@@ -187,7 +192,8 @@ function Profile() {
             <Navbar />
           </div>
           <div className="content-page container p-8 ml-0 md:ml-72 mt-10">
-            <Tabs aria-label="Tabs with underline" style="underline">
+            <Tabs aria-label="Tabs with underline" className="border-b border-gray-300">
+
               <Tabs.Item active title="Profile" icon={HiUserCircle}>
                 {/* Konten tab Profil */}
                 <div className="font-medium text-gray-800 dark:text-white">
