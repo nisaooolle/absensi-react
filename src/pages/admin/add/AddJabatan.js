@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
@@ -13,9 +11,9 @@ function AddJabatan() {
   const [namaJabatan, setNamaJabatan] = useState("");
   const adminId = localStorage.getItem("adminId");
   const idAdmin = localStorage.getItem("adminId");
-  const [jumlahKaryawan, setJumlahKaryawan] = useState("");
+  const [, setJumlahKaryawan] = useState("");
 
-  const getKaryawanByadmin = async () => {
+  const getKaryawanByadmin = useCallback(async () => {
     try {
       const response = await axios.get(
         `${API_DUMMY}/api/user/${idAdmin}/users`
@@ -25,7 +23,7 @@ function AddJabatan() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [idAdmin]);
 
   const tambahJabatan = async (e) => {
     e.preventDefault();
@@ -57,7 +55,8 @@ function AddJabatan() {
 
   useEffect(() => {
     getKaryawanByadmin();
-  }, [adminId]);
+  }, [getKaryawanByadmin, adminId]);
+
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50">

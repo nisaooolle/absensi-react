@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { Pagination } from "flowbite-react";
 import { API_DUMMY } from "../../../utils/api";
@@ -11,73 +9,87 @@ function Kehadiran() {
   const [kehadiran, setKehadiran] = useState([]);
   const [allAbsensi, setAllAbsensi] = useState([]);
   const idAdmin = localStorage.getItem("adminId");
-  const adminId = localStorage.getItem("adminId");
-  const [lateCount, setLateCount] = useState(0);
-  const [earlyCount, setEarlyCount] = useState(0);
-  const [permissionCount, setPermissionCount] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const getAllKaryawanUser = async () => {
+  const getAllKaryawanUser = useCallback(async () => {
     try {
       const all = await axios.get(`${API_DUMMY}/api/user/${idAdmin}/users`);
       setKehadiran(all.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [idAdmin]);
 
-  const getAllAbsensiByAdmin = async () => {
+  const getAllAbsensiByAdmin = useCallback(async () => {
     try {
-      const abs = await axios.get(`${API_DUMMY}/api/absensi/admin/${adminId}`);
+      const abs = await axios.get(`${API_DUMMY}/api/absensi/admin/${idAdmin}`);
 
       setAllAbsensi(abs.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [idAdmin]);
 
   useEffect(() => {
     getAllKaryawanUser();
     getAllAbsensiByAdmin();
-  }, []);
+  }, [getAllKaryawanUser, getAllAbsensiByAdmin]);
 
-  const getAbsensiByUserId = (userId, status) => {
-    return allAbsensi.filter(
-      (abs) => abs.user.id === userId && abs.statusAbsen === status
-    ).length;
-  };
+  const getAbsensiByUserId = useCallback(
+    (userId, status) => {
+      return allAbsensi.filter(
+        (abs) => abs.user.id === userId && abs.statusAbsen === status
+      ).length;
+    },
+    [allAbsensi]
+  );
 
-  const getTotalMasukPerBulan = (userId) => {
-    const currentMonth = new Date().getMonth() + 1;
-    return allAbsensi.filter(
-      (abs) =>
-        abs.user.id === userId &&
-        (abs.statusAbsen === "Lebih Awal" || abs.statusAbsen === "Terlambat") &&
-        new Date(abs.tanggalAbsen).getMonth() + 1 === currentMonth
-    ).length;
-  };
+  const getTotalMasukPerBulan = useCallback(
+    (userId) => {
+      const currentMonth = new Date().getMonth() + 1;
+      return allAbsensi.filter(
+        (abs) =>
+          abs.user.id === userId &&
+          (abs.statusAbsen === "Lebih Awal" ||
+            abs.statusAbsen === "Terlambat") &&
+          new Date(abs.tanggalAbsen).getMonth() + 1 === currentMonth
+      ).length;
+    },
+    [allAbsensi]
+  );
 
   useEffect(() => {
-    const userAbsensiCounts = kehadiran.map((user) => ({
-      userId: user.id,
-      lateCount: getAbsensiByUserId(user.id, "Terlambat"),
-      earlyCount: getAbsensiByUserId(user.id, "Lebih Awal"),
-      permissionCount: getAbsensiByUserId(user.id, "Izin"),
-      totalMasuk: getTotalMasukPerBulan(user.id),
-    }));
+    if (kehadiran.length > 0 && allAbsensi.length > 0) {
+      // Perform calculations outside of setKehadiran to avoid continuous updates
+      const userAbsensiCounts = kehadiran.map((user) => ({
+        userId: user.id,
+        lateCount: getAbsensiByUserId(user.id, "Terlambat"),
+        earlyCount: getAbsensiByUserId(user.id, "Lebih Awal"),
+        permissionCount: getAbsensiByUserId(user.id, "Izin"),
+        totalMasuk: getTotalMasukPerBulan(user.id),
+      }));
 
-    setKehadiran((prevUsers) =>
-      prevUsers.map((user) => {
-        const updatedCounts = userAbsensiCounts.find(
-          (u) => u.userId === user.id
-        );
-        return updatedCounts ? { ...user, ...updatedCounts } : user;
-      })
-    );
-  }, [allAbsensi]);
+      // Update the state only if necessary to avoid unnecessary re-renders
+      setKehadiran((prevUsers) => {
+        const updatedUsers = prevUsers.map((user) => {
+          const updatedCounts = userAbsensiCounts.find(
+            (u) => u.userId === user.id
+          );
+          return updatedCounts ? { ...user, ...updatedCounts } : user;
+        });
+
+        // Check if the updated data is different to avoid setting state if not needed
+        if (JSON.stringify(updatedUsers) !== JSON.stringify(prevUsers)) {
+          return updatedUsers;
+        }
+
+        return prevUsers;
+      });
+    }
+  }, [allAbsensi, getAbsensiByUserId, getTotalMasukPerBulan, kehadiran]);
 
   useEffect(() => {
     const filteredData = kehadiran.filter(
@@ -238,15 +250,15 @@ function Kehadiran() {
               </table>
             </div>
             <Pagination
-                className="mt-5"
-                layout="table"
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={onPageChange}
-                showIcons
-                previousLabel=""
-                nextLabel=""
-              />
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+              previousLabel=""
+              nextLabel=""
+            />
           </div>
         </div>
       </div>

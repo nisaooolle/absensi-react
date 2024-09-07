@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInfo,
   faPenToSquare,
   faPlus,
   faTrash,
-  faFileExport, 
+  faFileExport,
   faFileImport,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
@@ -25,7 +25,7 @@ function Karyawan() {
   const [openModal, setOpenModal] = useState(false);
   const idAdmin = localStorage.getItem("adminId");
 
-  const getAllKaryawan = async () => {
+  const getAllKaryawan = useCallback(async () => {
     const token = localStorage.getItem("token");
 
     try {
@@ -42,7 +42,7 @@ function Karyawan() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [idAdmin]);
 
   const exportKaryawan = async () => {
     if (userData.length === 0) {
@@ -163,7 +163,7 @@ function Karyawan() {
   };
   useEffect(() => {
     getAllKaryawan();
-  }, []);
+  }, [getAllKaryawan]);
 
   useEffect(() => {
     const filteredData = userData.filter(
@@ -245,17 +245,19 @@ function Karyawan() {
                   <FontAwesomeIcon icon={faPlus} size="lg" />
                 </a>
                 <button
-                      type="button"
-                      className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded-lg inline-block ml-auto"
-                      onClick={exportKaryawan}>
-                      <FontAwesomeIcon icon={faFileExport} />
-                    </button>
-                    <button
-                      type="button"
-                      className="imp bg-blue-500 hover:bg-blue text-white font-bold py-2 px-4 rounded-lg inline-block ml-auto"
-                      onClick={() => setOpenModal(true)}>
-                      <FontAwesomeIcon icon={faFileImport} />
-                    </button>
+                  type="button"
+                  className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded-lg inline-block ml-auto"
+                  onClick={exportKaryawan}
+                >
+                  <FontAwesomeIcon icon={faFileExport} />
+                </button>
+                <button
+                  type="button"
+                  className="imp bg-blue-500 hover:bg-blue text-white font-bold py-2 px-4 rounded-lg inline-block ml-auto"
+                  onClick={() => setOpenModal(true)}
+                >
+                  <FontAwesomeIcon icon={faFileImport} />
+                </button>
               </div>
             </div>
             <hr />
@@ -366,50 +368,53 @@ function Karyawan() {
               </table>
             </div>
             <Modal
-                popup
-                className="w-fit ml-auto mr-auto fixed inset-0 flex items-center justify-center"
-                show={openModal}
-                onClose={() => setOpenModal(false)}>
-                <Modal.Header>Import Data Karyawan</Modal.Header>
-                <hr />
-                <Modal.Body>
-                  <form className="space-y-6">
-                    <Button
-                      className="mb-3 bg-green-500 text-white"
-                      type="submit"
-                      onClick={downloadTemplate}>
-                      Download Template
-                    </Button>
-                    <input
-                      required
-                      autoComplete="off"
-                      type="file"
-                      accept=".xlsx"
-                      onChange={(e) => setFile(e.target.files[0])}
-                    />
-                  </form>
-                </Modal.Body>
-                <Modal.Footer>
+              popup
+              className="w-fit ml-auto mr-auto fixed inset-0 flex items-center justify-center"
+              show={openModal}
+              onClose={() => setOpenModal(false)}
+            >
+              <Modal.Header>Import Data Karyawan</Modal.Header>
+              <hr />
+              <Modal.Body>
+                <form className="space-y-6">
                   <Button
-                    className="bg-red-500"
-                    onClick={() => setOpenModal(false)}>
-                    Batal
+                    className="mb-3 bg-green-500 text-white"
+                    type="submit"
+                    onClick={downloadTemplate}
+                  >
+                    Download Template
                   </Button>
-                  <Button color="blue" type="submit" onClick={importData}>
-                    Simpan
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-              <Pagination
-                className="mt-5"
-                layout="table"
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={onPageChange}
-                showIcons
-                previousLabel=""
-                nextLabel=""
-              />
+                  <input
+                    required
+                    autoComplete="off"
+                    type="file"
+                    accept=".xlsx"
+                    onChange={(e) => setFile(e.target.files[0])}
+                  />
+                </form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button
+                  className="bg-red-500"
+                  onClick={() => setOpenModal(false)}
+                >
+                  Batal
+                </Button>
+                <Button color="blue" type="submit" onClick={importData}>
+                  Simpan
+                </Button>
+              </Modal.Footer>
+            </Modal>
+            <Pagination
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+              previousLabel=""
+              nextLabel=""
+            />
           </div>
         </div>
       </div>

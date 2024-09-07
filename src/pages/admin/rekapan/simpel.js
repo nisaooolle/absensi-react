@@ -1,6 +1,4 @@
 import React from "react";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFileExport,
@@ -232,51 +230,54 @@ function Simpel() {
                 </thead>
                 <tbody className="text-left">
                   {absensiData.length > 0 && absensiData != null ? (
-                    absensiData.slice().reverse().map((absensi, index) => (
-                      <tr key={index}>
-                        <td className="px-5 py-4 whitespace-nowrap">
-                          {index + 1}
-                        </td>
-                        <td className="px-5 py-4 whitespace-nowrap capitalize text-center">
-                          {absensi.user.username}
-                        </td>
-                        <td className="px-5 py-4 whitespace-nowrap capitalize text-center">
-                          {formatDate(absensi.tanggalAbsen)}
-                        </td>
-                        <td className="px-5 py-4 whitespace-nowrap capitalize text-center">
-                          {absensi.jamMasuk}
-                        </td>
-                        <td className="px-5 py-4 whitespace-nowrap">
-                          <img
-                            src={absensi.fotoMasuk}
-                            alt="foto masuk"
-                            className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                          />
-                        </td>
-                        <td className="px-5 py-4 whitespace-nowrap capitalize text-center">
-                          {absensi.lokasiMasuk}
-                        </td>
-                        <td className="px-5 py-4 whitespace-nowrap text-center">
-                          {absensi.jamPulang}
-                        </td>
-                        <td className="px-5 py-4 whitespace-nowrap">
-                          <img
-                            src={absensi.fotoPulang}
-                            alt="Foto Pulang"
-                            className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                          />
-                        </td>
-                        <td className="px-5 py-4 whitespace-nowrap capitalize text-center">
-                          {absensi.lokasiPulang}
-                        </td>
-                        <td className="px-5 py-4 whitespace-nowrap">
-                          {formatLamaKerja(absensi.user.startKerja)}
-                        </td>
-                        <td className="px-5 py-4 whitespace-nowrap capitalize text-center">
-                          {absensi.statusAbsen}
-                        </td>
-                      </tr>
-                    ))
+                    absensiData
+                      .slice()
+                      .reverse()
+                      .map((absensi, index) => (
+                        <tr key={index}>
+                          <td className="px-5 py-4 whitespace-nowrap">
+                            {index + 1}
+                          </td>
+                          <td className="px-5 py-4 whitespace-nowrap capitalize text-center">
+                            {absensi.user.username}
+                          </td>
+                          <td className="px-5 py-4 whitespace-nowrap capitalize text-center">
+                            {formatDate(absensi.tanggalAbsen)}
+                          </td>
+                          <td className="px-5 py-4 whitespace-nowrap capitalize text-center">
+                            {absensi.jamMasuk}
+                          </td>
+                          <td className="px-5 py-4 whitespace-nowrap">
+                            <img
+                              src={absensi.fotoMasuk}
+                              alt="foto masuk"
+                              className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            />
+                          </td>
+                          <td className="px-5 py-4 whitespace-nowrap capitalize text-center">
+                            {absensi.lokasiMasuk}
+                          </td>
+                          <td className="px-5 py-4 whitespace-nowrap text-center">
+                            {absensi.jamPulang}
+                          </td>
+                          <td className="px-5 py-4 whitespace-nowrap">
+                            <img
+                              src={absensi.fotoPulang}
+                              alt="Foto Pulang"
+                              className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            />
+                          </td>
+                          <td className="px-5 py-4 whitespace-nowrap capitalize text-center">
+                            {absensi.lokasiPulang}
+                          </td>
+                          <td className="px-5 py-4 whitespace-nowrap">
+                            {formatLamaKerja(absensi.user.startKerja)}
+                          </td>
+                          <td className="px-5 py-4 whitespace-nowrap capitalize text-center">
+                            {absensi.statusAbsen}
+                          </td>
+                        </tr>
+                      ))
                   ) : (
                     <tr>
                       <td colSpan="10" className="text-center py-3">

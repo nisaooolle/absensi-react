@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Sidebar from "../../components/SidebarUser";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
@@ -26,12 +25,12 @@ function Dashboard() {
   const adminId = localStorage.getItem("adminId");
   const [karyawan, setKaryawan] = useState("");
 
-  const getallUser = async () => {
+  const getallUser = useCallback(() => {
     try {
-      const res = await axios.get(`${API_DUMMY}/api/user/${idAdmin}/users`);
+      const res = axios.get(`${API_DUMMY}/api/user/${idAdmin}/users`);
       setKaryawan(res.data.length);
-    } catch (error) { }
-  };
+    } catch (error) {}
+  }, [idAdmin]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -70,37 +69,50 @@ function Dashboard() {
     }
   };
 
-  const getUser = () =>
+  const getUser = useCallback(() => {
     fetchData(`${API_DUMMY}/api/user/byAdmin/${idAdmin}`, setUserData);
-  const getAbsensi = () =>
+  }, [idAdmin]);
+
+  const getAbsensi = useCallback(() => {
     fetchData(`${API_DUMMY}/api/absensi/admin/${idAdmin}`, setAbsenData);
-  const getCuti = () =>
+  }, [idAdmin]);
+
+  const getCuti = useCallback(() => {
     fetchData(`${API_DUMMY}/api/cuti/admin/${idAdmin}`, setCutiData);
-  const getJabatan = () =>
+  }, [idAdmin]);
+
+  const getJabatan = useCallback(() => {
     fetchData(`${API_DUMMY}/api/jabatan/getByAdmin/${adminId}`, setJabatanData);
-  const getLokasi = () =>
+  }, [adminId]);
+
+  const getLokasi = useCallback(() => {
     fetchData(`${API_DUMMY}/api/lokasi/get-admin/${idAdmin}`, setLokasiData);
-  const getOrganisasi = () =>
+  }, [idAdmin]);
+
+  const getOrganisasi = useCallback(() => {
     fetchData(
       `${API_DUMMY}/api/organisasi/all-by-admin/${idAdmin}`,
       setOrganisasiData
     );
+  }, [idAdmin]);
 
-  const getUsername = async () => {
+  const getUsername = useCallback(async () => {
     const token = localStorage.getItem("token");
-    const id = localStorage.getItem("adminId");
 
     try {
-      const response = await axios.get(`${API_DUMMY}/api/admin/getById/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `${API_DUMMY}/api/admin/getById/${idAdmin}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setUsername(response.data.username);
     } catch (error) {
       console.error("Error fetching username:", error);
     }
-  };
+  }, [idAdmin]);
 
   const formatDate = (dateString) => {
     const options = {
@@ -121,7 +133,16 @@ function Dashboard() {
     getLokasi();
     getOrganisasi();
     getallUser();
-  }, []);
+  }, [
+    getUser,
+    getAbsensi,
+    getCuti,
+    getUsername,
+    getJabatan,
+    getLokasi,
+    getOrganisasi,
+    getallUser,
+  ]);
 
   useEffect(() => {
     if (localStorage.getItem("loginSuccess") === "true") {
@@ -358,7 +379,7 @@ function Dashboard() {
           ?.toLowerCase()
           .includes(searchTerm5.toLowerCase())
     );
-    setTotalPages(Math.ceil(filteredData.length / limit5));
+    setTotalPages5(Math.ceil(filteredData.length / limit5));
   }, [searchTerm5, limit5, organisasiData]);
 
   const handleSearch5 = (event) => {
@@ -409,9 +430,9 @@ function Dashboard() {
                 Selamat Datang di Absensi
                 <span> @{username}</span>
               </h2>
-              <a className="profile-menu-link">{day}, </a>
-              <a className="profile-menu-link active">{date} - </a>
-              <a className="profile-menu-link">{time}</a>
+              <button className="profile-menu-link">{day}, </button>
+              <button className="profile-menu-link active">{date} - </button>
+              <button className="profile-menu-link">{time}</button>
             </div>
           </div>
 
@@ -659,9 +680,9 @@ function Dashboard() {
             <Pagination
               className="mt-5"
               layout="table"
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={onPageChange}
+              currentPage={currentPage2}
+              totalPages={totalPages2}
+              onPageChange={onPageChange2}
               showIcons
               previousLabel=""
               nextLabel=""
@@ -743,9 +764,9 @@ function Dashboard() {
             <Pagination
               className="mt-5"
               layout="table"
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={onPageChange}
+              currentPage={currentPage3}
+              totalPages={totalPages3}
+              onPageChange={onPageChange3}
               showIcons
               previousLabel=""
               nextLabel=""
@@ -847,9 +868,9 @@ function Dashboard() {
             <Pagination
               className="mt-5"
               layout="table"
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={onPageChange}
+              currentPage={currentPage4}
+              totalPages={totalPages4}
+              onPageChange={onPageChange4}
               showIcons
               previousLabel=""
               nextLabel=""
@@ -941,9 +962,9 @@ function Dashboard() {
             <Pagination
               className="mt-5"
               layout="table"
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={onPageChange}
+              currentPage={currentPage5}
+              totalPages={totalPages5}
+              onPageChange={onPageChange5}
               showIcons
               previousLabel=""
               nextLabel=""

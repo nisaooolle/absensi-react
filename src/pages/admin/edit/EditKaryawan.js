@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarAdmin";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
@@ -18,7 +18,7 @@ function EditKaryawan() {
   const adminId = localStorage.getItem("adminId");
   const history = useHistory();
 
-  const getUser = async () => {
+  const getUser = useCallback(async () => {
     try {
       const res = await axios.get(`${API_DUMMY}/api/user/getUserBy/${id}`);
       setUsername(res.data.username);
@@ -27,9 +27,9 @@ function EditKaryawan() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [id]);
 
-  const getJabatanOptions = async () => {
+  const getJabatanOptions = useCallback(async () => {
     try {
       const res = await axios.get(
         `${API_DUMMY}/api/jabatan/getByAdmin/${adminId}`
@@ -38,9 +38,9 @@ function EditKaryawan() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [adminId]);
 
-  const getShiftOptions = async () => {
+  const getShiftOptions = useCallback(async () => {
     try {
       const res = await axios.get(
         `${API_DUMMY}/api/shift/getall-byadmin/${adminId}`
@@ -49,13 +49,13 @@ function EditKaryawan() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [adminId]);
 
   useEffect(() => {
     getUser();
     getJabatanOptions();
     getShiftOptions();
-  }, [id, adminId]);
+  }, [getUser, getJabatanOptions, getShiftOptions]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -138,7 +138,10 @@ function EditKaryawan() {
                         >
                           <option value="">Belum memiliki</option>
                           {jabatanOptions.map((option) => (
-                            <option key={option.idJabatan} value={option.idJabatan}>
+                            <option
+                              key={option.idJabatan}
+                              value={option.idJabatan}
+                            >
                               {option.namaJabatan}
                             </option>
                           ))}

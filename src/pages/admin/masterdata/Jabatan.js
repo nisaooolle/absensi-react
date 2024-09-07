@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPenToSquare,
@@ -22,7 +22,7 @@ function Jabatan() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const getAllJabatan = async () => {
+  const getAllJabatan = useCallback(async () => {
     try {
       const response = await axios.get(
         `${API_DUMMY}/api/jabatan/getByAdmin/${idAdmin}`,
@@ -32,32 +32,33 @@ function Jabatan() {
           },
         }
       );
-
       setUserData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [idAdmin, token]);
 
-  const getAllUser = async (idJabatan) => {
-    try {
-      const response = await axios.get(
-        `${API_DUMMY}/api/user/byJabatan/${idJabatan}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setJumlahKaryawan((prevState) => ({
-        ...prevState,
-        [idJabatan]: response.data.length,
-      }));
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  const getAllUser = useCallback(
+    async (idJabatan) => {
+      try {
+        const response = await axios.get(
+          `${API_DUMMY}/api/user/byJabatan/${idJabatan}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setJumlahKaryawan((prevState) => ({
+          ...prevState,
+          [idJabatan]: response.data.length,
+        }));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    },
+    [token]
+  );
 
   const deleteData = async (id) => {
     Swal.fire({
@@ -99,13 +100,13 @@ function Jabatan() {
 
   useEffect(() => {
     getAllJabatan();
-  }, []);
+  }, [getAllJabatan]);
 
   useEffect(() => {
     userData.forEach((jabatan) => {
       getAllUser(jabatan.idJabatan);
     });
-  }, [userData]);
+  }, [userData, getAllUser]);
 
   useEffect(() => {
     const filteredData = userData.filter(
@@ -265,7 +266,10 @@ function Jabatan() {
                                 onClick={() => deleteData(jabatan.idJabatan)}
                               >
                                 <span className="relative inline-block">
-                                  <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="h-4 w-4"
+                                  />
                                 </span>
                               </button>
                             </div>
@@ -274,19 +278,18 @@ function Jabatan() {
                       ))
                   )}
                 </tbody>
-
               </table>
             </div>
             <Pagination
-                className="mt-5"
-                layout="table"
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={onPageChange}
-                showIcons
-                previousLabel=""
-                nextLabel=""
-              />
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+              previousLabel=""
+              nextLabel=""
+            />
           </div>
         </div>
       </div>

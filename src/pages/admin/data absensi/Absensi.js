@@ -180,12 +180,12 @@ function Absensi() {
                     >
                       <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button> */}
-                <a
+                <button
                   onClick={exportAbsensi}
                   className="exp bg-green-500 hover:bg-green text-white font-bold py-2 px-4 rounded inline-block ml-auto"
                 >
                   <FontAwesomeIcon icon={faFileExport} />
-                </a>
+                </button>
               </div>
             </div>
             <hr className="mt-3" />

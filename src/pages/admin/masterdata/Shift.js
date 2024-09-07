@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCircleInfo,
   faPenToSquare,
   faPlus,
   faTrash,
@@ -47,7 +46,7 @@ function Shift() {
   //     console.error("Error fetching data:", error);
   //   }
   // };
-  const getAllShift = async () => {
+  const getAllShift = useCallback(async () => {
     try {
       const response = await axios.get(
         `${API_DUMMY}/api/shift/getall-byadmin/${idAdmin}`,
@@ -62,24 +61,31 @@ function Shift() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [idAdmin, token]);
 
-  const getAllUser = async (id) => {
-    try {
-      const response = await axios.get(`${API_DUMMY}/api/user/byShift/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  const getAllUser = useCallback(
+    async (id) => {
+      try {
+        const response = await axios.get(
+          `${API_DUMMY}/api/user/byShift/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      setJumlahKaryawan((prevState) => ({
-        ...prevState,
-        [id]: response.data.length,
-      }));
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+        setJumlahKaryawan((prevState) => ({
+          ...prevState,
+          [id]: response.data.length,
+        }));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    },
+    [token]
+  );
+
   const deleteData = async (id) => {
     Swal.fire({
       title: "Anda Ingin Menghapus Data ?",
@@ -120,13 +126,13 @@ function Shift() {
 
   useEffect(() => {
     getAllShift();
-  }, []);
+  }, [getAllShift]);
 
   useEffect(() => {
     userData.forEach((shift) => {
       getAllUser(shift.id);
     });
-  }, [userData]);
+  }, [userData, getAllUser]);
 
   useEffect(() => {
     const filteredData = userData.filter(
@@ -258,67 +264,75 @@ function Shift() {
                       </td>
                     </tr>
                   ) : (
-                    paginatedShift.slice().reverse().map((shift, index) => (
-                      <tr
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                        key={index}
-                      >
-                        <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
-                          {(currentPage - 1) * limit + index + 1}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {shift.namaShift}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {shift.waktuMasuk}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {shift.waktuPulang}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {jumlahKaryawan[shift.id] !== undefined
-                            ? jumlahKaryawan[shift.id] || "Kosong"
-                            : "Loading..."}
-                        </td>
-                        <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {shift.admin.username}
-                        </td>
-                        <td className="py-3">
-                          <div className="flex items-center -space-x-4 ml-12">
-                            <a href={`/admin/editS/${shift.id}`}>
-                              <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                    paginatedShift
+                      .slice()
+                      .reverse()
+                      .map((shift, index) => (
+                        <tr
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          key={index}
+                        >
+                          <td className="px-4 py-2 text-gray-700 capitalize whitespace-nowrap">
+                            {(currentPage - 1) * limit + index + 1}
+                          </td>
+                          <td className="px-6 py-4 capitalize whitespace-nowrap">
+                            {shift.namaShift}
+                          </td>
+                          <td className="px-6 py-4 capitalize whitespace-nowrap">
+                            {shift.waktuMasuk}
+                          </td>
+                          <td className="px-6 py-4 capitalize whitespace-nowrap">
+                            {shift.waktuPulang}
+                          </td>
+                          <td className="px-6 py-4 capitalize whitespace-nowrap">
+                            {jumlahKaryawan[shift.id] !== undefined
+                              ? jumlahKaryawan[shift.id] || "Kosong"
+                              : "Loading..."}
+                          </td>
+                          <td className="px-6 py-4 capitalize whitespace-nowrap">
+                            {shift.admin.username}
+                          </td>
+                          <td className="py-3">
+                            <div className="flex items-center -space-x-4 ml-12">
+                              <a href={`/admin/editS/${shift.id}`}>
+                                <button className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
+                                  <span className="relative inline-block">
+                                    <FontAwesomeIcon
+                                      icon={faPenToSquare}
+                                      className="h-4 w-4"
+                                    />
+                                  </span>
+                                </button>
+                              </a>
+                              <button
+                                className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
+                                onClick={() => deleteData(shift.id)}
+                              >
                                 <span className="relative inline-block">
-                                  <FontAwesomeIcon icon={faPenToSquare} className="h-4 w-4" />
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="h-4 w-4"
+                                  />
                                 </span>
                               </button>
-                            </a>
-                            <button
-                              className="z-30 block rounded-full border-2 border-white bg-red-100 p-4 text-red-700 active:bg-red-50"
-                              onClick={() => deleteData(shift.id)}
-                            >
-                              <span className="relative inline-block">
-                                <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
-                              </span>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
+                            </div>
+                          </td>
+                        </tr>
+                      ))
                   )}
                 </tbody>
-
               </table>
             </div>
             <Pagination
-                className="mt-5"
-                layout="table"
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={onPageChange}
-                showIcons
-                previousLabel=""
-                nextLabel=""
-              />
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+              previousLabel=""
+              nextLabel=""
+            />
           </div>
         </div>
       </div>

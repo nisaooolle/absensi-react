@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../utils/api";
 import SidebarNavbar from "../../../components/SidebarNavbar";
@@ -15,10 +13,9 @@ function EditShift() {
   const [waktuMasuk, setWaktuMasuk] = useState("");
   const [waktuPulang, setWaktuPulang] = useState("");
   const { id } = useParams();
-  const history = useHistory();
   const idAdmin = localStorage.getItem("adminId");
 
-  const getShift = async () => {
+  const getShift = useCallback(async () => {
     try {
       const res = await axios.get(`${API_DUMMY}/api/shift/getbyId/${id}`);
       setNamaShift(res.data.namaShift);
@@ -27,7 +24,8 @@ function EditShift() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [id]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const shift = {
@@ -62,7 +60,7 @@ function EditShift() {
 
   useEffect(() => {
     getShift();
-  }, [id]);
+  }, [getShift, id]);
 
   return (
     <div className="flex flex-col h-screen">

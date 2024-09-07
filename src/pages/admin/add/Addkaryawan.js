@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
@@ -18,7 +16,6 @@ function AddKaryawan() {
   const [idShift, setIdShift] = useState("");
   const [password, setPassword] = useState("");
   const idAdmin = localStorage.getItem("adminId");
-  const adminId = localStorage.getItem("adminId");
   const [organisasiList, setOrganisasiList] = useState([]);
   const [jabatanList, setJabatanList] = useState([]);
   const [shiftList, setShiftList] = useState([]);
@@ -27,13 +24,7 @@ function AddKaryawan() {
     setShowPassword(!showPassword);
   };
 
-  useEffect(() => {
-    GetAllOrganisasi();
-    GetAllJabatan();
-    GetAllShift();
-  }, []);
-
-  const GetAllOrganisasi = async () => {
+  const GetAllOrganisasi = useCallback(async () => {
     try {
       const response = await axios.get(
         `${API_DUMMY}/api/organisasi/all-by-admin/${idAdmin}`
@@ -42,20 +33,20 @@ function AddKaryawan() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [idAdmin]);
 
-  const GetAllJabatan = async () => {
+  const GetAllJabatan = useCallback(async () => {
     try {
       const response = await axios.get(
-        `${API_DUMMY}/api/jabatan/getByAdmin/${adminId}`
+        `${API_DUMMY}/api/jabatan/getByAdmin/${idAdmin}`
       );
       setJabatanList(response.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [idAdmin]);
 
-  const GetAllShift = async () => {
+  const GetAllShift = useCallback(async () => {
     try {
       const response = await axios.get(
         `${API_DUMMY}/api/shift/getall-byadmin/${idAdmin}`
@@ -64,7 +55,13 @@ function AddKaryawan() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [idAdmin]);
+
+  useEffect(() => {
+    GetAllOrganisasi();
+    GetAllJabatan();
+    GetAllShift();
+  }, [GetAllOrganisasi, GetAllJabatan, GetAllShift]);
 
   const tambahKaryawan = async (e) => {
     e.preventDefault();

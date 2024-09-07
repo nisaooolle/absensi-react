@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -9,7 +7,6 @@ import {
 } from "react-router-dom/cjs/react-router-dom.min";
 import Swal from "sweetalert2";
 import axios from "axios";
-import Lokasi from "../masterdata/Lokasi";
 import { API_DUMMY } from "../../../utils/api";
 import SidebarNavbar from "../../../components/SidebarNavbar";
 import NavbarAdmin from "../../../components/NavbarAdmin";
@@ -30,7 +27,7 @@ function EditLokasi() {
   const token = localStorage.getItem("token");
   const history = useHistory();
 
-  const getLokasi = async () => {
+  const getLokasi = useCallback(async () => {
     try {
       const res = await axios.get(`${API_DUMMY}/api/lokasi/GetById/${id}`);
       setNamaLokasi(res.data.namaLokasi || "");
@@ -49,7 +46,7 @@ function EditLokasi() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,7 +84,7 @@ function EditLokasi() {
   };
   useEffect(() => {
     getLokasi();
-  }, [id]);
+  }, [getLokasi, id]);
 
   return (
     <div className="flex flex-col h-screen">
