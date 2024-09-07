@@ -1,8 +1,6 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import { API_DUMMY } from "../../../utils/api";
@@ -13,18 +11,20 @@ function DetailLokasi() {
   const [lokasi, setLokasi] = useState(null);
   const { id } = useParams();
 
-  const getLokasiId = async () => {
+  const getLokasiId = useCallback(async () => {
     try {
       const res = await axios.get(`${API_DUMMY}/api/lokasi/GetById/${id}`);
       setLokasi(res.data);
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching lokasi:", error);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
-    getLokasiId();
-  }, [id]);
+    if (id) {
+      getLokasiId();
+    }
+  }, [getLokasiId, id]);
 
   return (
     <div className="flex flex-col h-screen">

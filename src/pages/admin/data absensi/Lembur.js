@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faPrint } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
@@ -265,15 +263,15 @@ function Lembur() {
               </table>
             </div>
             <Pagination
-                className="mt-5"
-                layout="table"
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={onPageChange}
-                showIcons
-                previousLabel=""
-                nextLabel=""
-              />
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+              previousLabel=""
+              nextLabel=""
+            />
           </div>
         </div>
       </div>

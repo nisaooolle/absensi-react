@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
@@ -10,7 +8,6 @@ import {
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import Loader from "../../../components/Loader";
 import { API_DUMMY } from "../../../utils/api";
 import SidebarNavbar from "../../../components/SidebarNavbar";
 import NavbarAdmin from "../../../components/NavbarAdmin";
@@ -26,7 +23,7 @@ function EditOrganisasi() {
   const [provinsi, setProvinsi] = useState("");
   const [fotoOrganisasi, setFotoOrganisasi] = useState(null);
   const [fotoUrl, setFotoUrl] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const idAdmin = localStorage.getItem("adminId");
 
   useEffect(() => {

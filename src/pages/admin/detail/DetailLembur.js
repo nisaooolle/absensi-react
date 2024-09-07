@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import NavbarAdmin from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -12,27 +11,27 @@ function DetailLembur() {
   const [lembur, setLembur] = useState(null);
   const { id } = useParams();
 
-  const getLemburId = async () => {
+  const getLemburId = useCallback(async () => {
     try {
       const res = await axios.get(`${API_DUMMY}/api/lembur/getByid/${id}`);
       setLembur(res.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     getLemburId();
-  }, [id]);
-
-  if (!lembur) {
-    return <div>Loading...</div>;
-  }
+  }, [getLemburId]);
 
   const formatDateIndo = (date) => {
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };
     return new Date(date).toLocaleDateString("id-ID", options);
   };
+
+  if (!lembur) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex flex-col h-screen">

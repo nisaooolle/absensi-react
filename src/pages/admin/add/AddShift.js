@@ -22,10 +22,7 @@ function AddShift() {
     };
 
     try {
-      const response = await axios.post(
-        `${API_DUMMY}/api/shift/tambahShift/${idAdmin}`,
-        shift
-      );
+      await axios.post(`${API_DUMMY}/api/shift/tambahShift/${idAdmin}`, shift);
       Swal.fire({
         title: "Berhasil",
         text: "Berhasil menambahkan data",

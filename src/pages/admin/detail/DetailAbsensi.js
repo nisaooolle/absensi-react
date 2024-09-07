@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
@@ -11,18 +11,18 @@ function DetailAbsensi() {
   const [absensi, setAbsensi] = useState(null);
   const { id } = useParams();
 
-  const getAbsensiId = async () => {
+  const getAbsensiId = useCallback(async () => {
     try {
       const res = await axios.get(`${API_DUMMY}/api/absensi/getData/${id}`);
       setAbsensi(res.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     getAbsensiId();
-  }, [id]);
+  }, [getAbsensiId, id]);
 
   const formatDate = (dateString) => {
     const options = {

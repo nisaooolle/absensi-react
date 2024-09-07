@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Tabs } from "flowbite-react";
-import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
+import { HiAdjustments, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
-import Navbar from "../../components/NavbarAdmin";
-import Sidebar from "../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFloppyDisk,
@@ -11,7 +9,6 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import Loader from "../../components/Loader";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../utils/api";
 import SidebarNavbar from "../../components/SidebarNavbar";
@@ -22,7 +19,7 @@ function Profil() {
   const [showPasswordd, setShowPasswordd] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [ubahUsername, setUbahUsername] = useState(false);
-  const [profile, setProfile] = useState([]);
+  const [, setProfile] = useState([]);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,12 +27,11 @@ function Profil() {
   const id = localStorage.getItem("adminId");
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [edit, setEdit] = useState(false);
   const [passwordLama, setPasswordLama] = useState("");
   const [passwordBaru, setPasswordBaru] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const getProfile = async () => {
+  const getProfile = useCallback(async () => {
     try {
       const response = await axios.get(`${API_DUMMY}/api/admin/getById/${id}`, {
         headers: {
@@ -50,7 +46,7 @@ function Profil() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [id, token]);
 
   const HandleUbahUsernameEmail = async (e) => {
     e.preventDefault();
@@ -89,7 +85,7 @@ function Profil() {
 
   useEffect(() => {
     getProfile();
-  }, [id]);
+  }, [getProfile, id]);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -110,7 +106,7 @@ function Profil() {
     }
 
     try {
-      const response = await axios.put(
+      await axios.put(
         `${API_DUMMY}/api/admin/edit-password/${id}`,
         {
           old_password: passwordLama,
@@ -168,7 +164,7 @@ function Profil() {
 
   return (
     <>
-      {loading && <Loader />}
+      {/* {loading && <Loader />} */}
       <div className="flex flex-col h-screen">
         <div className=" top-0 z-50">
           <SidebarNavbar />
@@ -178,7 +174,7 @@ function Profil() {
             <NavbarAdmin />
           </div>
           <div className="content-page container p-8 ml-0 md:ml-72 mt-10">
-            <Tabs aria-label="Tabs with underline" style="underline">
+            <Tabs aria-label="Tabs with underline">
               <Tabs.Item active title="Profile" icon={HiUserCircle}>
                 {/* Konten tab Profil */}
                 <div className="font-medium text-gray-800 dark:text-white">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   faInfo,
   faPenToSquare,
@@ -22,15 +22,14 @@ function Lokasi() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const getallUser = async () => {
+  const getallUser = useCallback(async () => {
     try {
       const res = await axios.get(`${API_DUMMY}/api/user/${idAdmin}/users`);
       setKaryawan(res.data.length);
     } catch (error) {}
-  };
+  }, [idAdmin]);
 
-  const getAllLokasibyAdmin = async () => {
-    const token = localStorage.getItem("token");
+  const getAllLokasibyAdmin = useCallback(async () => {
     try {
       const response = await axios.get(
         `${API_DUMMY}/api/lokasi/get-admin/${idAdmin}`
@@ -40,7 +39,8 @@ function Lokasi() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [idAdmin]);
+
   const deleteData = async (idLokasi) => {
     Swal.fire({
       title: "Anda Ingin Menghapus Data ?",
@@ -53,7 +53,6 @@ function Lokasi() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
- 
           await axios.delete(`${API_DUMMY}/api/lokasi/delete/` + idLokasi, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -82,7 +81,7 @@ function Lokasi() {
   useEffect(() => {
     getAllLokasibyAdmin();
     getallUser();
-  }, []);
+  }, [getAllLokasibyAdmin, getallUser]);
 
   useEffect(() => {
     const filteredData = userData.filter(
@@ -277,15 +276,15 @@ function Lokasi() {
               </table>
             </div>
             <Pagination
-                className="mt-5"
-                layout="table"
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={onPageChange}
-                showIcons
-                previousLabel=""
-                nextLabel=""
-              />
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+              previousLabel=""
+              nextLabel=""
+            />
           </div>
         </div>
       </div>

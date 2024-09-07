@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import axios, { all } from "axios";
+import axios from "axios";
 import Swal from "sweetalert2";
-import { Toast } from "flowbite-react";
 import { API_DUMMY } from "../../../utils/api";
 import SidebarNavbar from "../../../components/SidebarNavbar";
 import NavbarAdmin from "../../../components/NavbarAdmin";
@@ -18,7 +15,7 @@ function AddLokasi() {
 
   const idAdmin = localStorage.getItem("adminId");
 
-  const getLokasi = async () => {
+  const getOrganisasi = useCallback(async () => {
     try {
       const org = await axios.get(
         `${API_DUMMY}/api/organisasi/all-by-admin/${idAdmin}`
@@ -27,7 +24,7 @@ function AddLokasi() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [idAdmin]);
 
   const tambahLokasi = async (e) => {
     e.preventDefault();
@@ -59,8 +56,8 @@ function AddLokasi() {
   };
 
   useEffect(() => {
-    getLokasi();
-  }, [idAdmin]);
+    getOrganisasi();
+  }, [getOrganisasi, idAdmin]);
 
   return (
     <div className="flex flex-col h-screen">

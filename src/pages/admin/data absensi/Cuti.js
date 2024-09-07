@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPrint, faXmark } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
@@ -11,16 +9,14 @@ import SidebarNavbar from "../../../components/SidebarNavbar";
 import NavbarAdmin from "../../../components/NavbarAdmin";
 
 function Cuti() {
-  const [userData, setUserData] = useState([]);
   const adminId = localStorage.getItem("adminId");
-
   const [cuti, setCuti] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const getAllCuti = async () => {
+  const getAllCuti = useCallback(async () => {
     const token = localStorage.getItem("token");
 
     try {
@@ -37,7 +33,7 @@ function Cuti() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [adminId]);
 
   const DownloadPdfCuti = async (id) => {
     const token = localStorage.getItem("token");
@@ -142,7 +138,7 @@ function Cuti() {
   };
   useEffect(() => {
     getAllCuti();
-  }, []);
+  }, [getAllCuti]);
 
   const formatDate = (dateString) => {
     const options = {
@@ -356,16 +352,17 @@ function Cuti() {
                                 </span>
                               </button>
 
-                              <a onClick={() => DownloadPdfCuti(cuti.id)}>
-                                <button className="z-30 block rounded-full border-2 border-white  bg-yellow-100 p-4 text-yellow-700 active:bg-red-50">
-                                  <span className="relative inline-block">
-                                    <FontAwesomeIcon
-                                      icon={faPrint}
-                                      className="h-4 w-4"
-                                    />
-                                  </span>
-                                </button>
-                              </a>
+                              <button
+                                onClick={() => DownloadPdfCuti(cuti.id)}
+                                className="z-30 block rounded-full border-2 border-white bg-yellow-100 p-4 text-yellow-700 active:bg-red-50"
+                              >
+                                <span className="relative inline-block">
+                                  <FontAwesomeIcon
+                                    icon={faPrint}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              </button>
                             </div>
                           </td>
                         </tr>
@@ -381,15 +378,15 @@ function Cuti() {
               </table>
             </div>
             <Pagination
-                className="mt-5"
-                layout="table"
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={onPageChange}
-                showIcons
-                previousLabel=""
-                nextLabel=""
-              />
+              className="mt-5"
+              layout="table"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              showIcons
+              previousLabel=""
+              nextLabel=""
+            />
           </div>
         </div>
       </div>

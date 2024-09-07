@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Select from "react-select";
-import Navbar from "../../../components/NavbarAdmin";
-import Sidebar from "../../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFileExport,
@@ -20,7 +18,7 @@ function Perkaryawan() {
   const idAdmin = localStorage.getItem("adminId");
 
   // Fetch user data
-  const getAllUserByAdmin = async () => {
+  const getAllUserByAdmin = useCallback(async () => {
     try {
       const usList = await axios.get(`${API_DUMMY}/api/user/${idAdmin}/users`);
       const userOptions = usList.data.map((user) => ({
@@ -34,7 +32,7 @@ function Perkaryawan() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [idAdmin]);
 
   const getAbsensiByUserId = async (userId) => {
     try {
@@ -116,7 +114,7 @@ function Perkaryawan() {
   // Initialize data on component mount
   useEffect(() => {
     getAllUserByAdmin();
-  }, []);
+  }, [getAllUserByAdmin]);
 
   // Format date
   const formatDate = (dateString) => {
@@ -233,7 +231,6 @@ function Perkaryawan() {
                 >
                   <FontAwesomeIcon icon={faFileExport} />
                 </button>
-
               </div>
             </form>
 
@@ -271,45 +268,48 @@ function Perkaryawan() {
                   </tr>
                 </thead>
                 <tbody>
-                  {listAbsensi.slice().reverse().map((absensi, index) => (
-                    <tr key={absensi.id}>
-                      <td className="px-6 py-3 whitespace-nowrap">
-                        {index + 1}
-                      </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
-                        {absensi.user.username}
-                      </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
-                        {formatDate(absensi.tanggalAbsen)}
-                      </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
-                        {absensi.jamMasuk}
-                      </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
-                        <img
-                          src={absensi.fotoMasuk}
-                          className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                          alt="Foto Masuk"
-                        />
-                      </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
-                        {absensi.jamPulang}
-                      </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
-                        <img
-                          src={absensi.fotoPulang}
-                          className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                          alt="Foto Pulang"
-                        />
-                      </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
-                        {formatLamaKerja(absensi.user.startKerja)}
-                      </td>
-                      <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
-                        {absensi.statusAbsen}
-                      </td>
-                    </tr>
-                  ))}
+                  {listAbsensi
+                    .slice()
+                    .reverse()
+                    .map((absensi, index) => (
+                      <tr key={absensi.id}>
+                        <td className="px-6 py-3 whitespace-nowrap">
+                          {index + 1}
+                        </td>
+                        <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
+                          {absensi.user.username}
+                        </td>
+                        <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
+                          {formatDate(absensi.tanggalAbsen)}
+                        </td>
+                        <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
+                          {absensi.jamMasuk}
+                        </td>
+                        <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
+                          <img
+                            src={absensi.fotoMasuk}
+                            className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            alt="Foto Masuk"
+                          />
+                        </td>
+                        <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
+                          {absensi.jamPulang}
+                        </td>
+                        <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
+                          <img
+                            src={absensi.fotoPulang}
+                            className="block py-2.5 px-0 w-25 max-h-32 h-25 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            alt="Foto Pulang"
+                          />
+                        </td>
+                        <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
+                          {formatLamaKerja(absensi.user.startKerja)}
+                        </td>
+                        <td className="px-6 py-3 whitespace-nowrap capitalize text-center">
+                          {absensi.statusAbsen}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
