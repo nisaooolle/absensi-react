@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/NavbarUser";
-import Sidebar from "../../../components/SidebarUser";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { API_DUMMY } from "../../../utils/api";
 import SidebarNavbar from "../../../components/SidebarNavbar";
 
 function AddIzin() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [keteranganIzin, setKeteranganIzin] = useState("");
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   const AddIzin = async (e) => {
     e.preventDefault();
 
-    const add = {
-      keteranganIzin: keteranganIzin,
-    };
+  
 
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
@@ -79,10 +75,7 @@ function AddIzin() {
   } else {
     ucapan = "Selamat Malam";
   }
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
+ 
 
   const handleBack = () => {
     window.location.href = "/user/dashboard";

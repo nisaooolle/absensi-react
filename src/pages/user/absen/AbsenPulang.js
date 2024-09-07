@@ -3,18 +3,16 @@ import Navbar from "../../../components/NavbarUser";
 import Webcam from "react-webcam";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { toBeDisabled } from "@testing-library/jest-dom/matchers";
 import { API_DUMMY } from "../../../utils/api";
 import SidebarNavbar from "../../../components/SidebarNavbar";
 // import "../css/AbsenMasuk.css"
 
 function AbsenPulang() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const webcamRef = useRef(null);
   const [error, setError] = useState("");
+  console.log(error);
   const userId = localStorage.getItem("userId");
-  const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
   const [fetchingLocation, setFetchingLocation] = useState(true);
   const [keteranganPulangAwal, setKeteranganPulangAwal] = useState("");
@@ -28,7 +26,7 @@ function AbsenPulang() {
     east: 110.30157620693905, // Pojok Satpam
   };
 
-    // koordinat excelent
+  // koordinat excelent
   // const allowedCoordinates = {
   //   northWest: { lat: -6.982580885, lon: 110.404028235 },
   //   northEast: { lat: -6.982580885, lon: 110.404118565 },
@@ -70,7 +68,7 @@ function AbsenPulang() {
     }, 1000); // Perbarui setiap detik
 
     return () => clearInterval(interval);
-  }, []);
+  });
 
   useEffect(() => {
     if (!fetchingLocation) {
@@ -124,10 +122,6 @@ function AbsenPulang() {
     ucapan = "Selamat Malam";
   }
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
   const handleCaptureAndSubmitPulang = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
     const imageBlob = await fetch(imageSrc).then((res) => res.blob());
@@ -159,7 +153,11 @@ function AbsenPulang() {
           const currentTime = new Date();
           const currentHours = currentTime.getHours();
           const currentMinutes = currentTime.getMinutes();
-          const [shiftHours, shiftMinutes] = waktuPulang.split(":").slice().reverse().map(Number);
+          const [shiftHours, shiftMinutes] = waktuPulang
+            .split(":")
+            .slice()
+            .reverse()
+            .map(Number);
           if (isUserAlreadyAbsenToday) {
             if (
               currentHours > shiftHours ||
@@ -277,11 +275,8 @@ function AbsenPulang() {
             <form onSubmit={""}>
               <p className="font-bold text-center mt-8">Foto:</p>
               <div className="flex justify-center webcam-container">
-                  <Webcam 
-                    audio={false} 
-                    ref={webcamRef} 
-                  />
-                </div>
+                <Webcam audio={false} ref={webcamRef} />
+              </div>
               <div className="flex justify-center mt-6">
                 {fetchingLocation ? (
                   <p>Mendapatkan lokasi...</p>

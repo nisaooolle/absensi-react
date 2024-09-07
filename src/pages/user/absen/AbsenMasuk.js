@@ -6,10 +6,9 @@ import Swal from "sweetalert2";
 import Loader from "../../../components/Loader";
 import { API_DUMMY } from "../../../utils/api";
 import SidebarNavbar from "../../../components/SidebarNavbar";
-import "../css/AbenMasuk.css"
+import "../css/AbenMasuk.css";
 
 function AbsenMasuk() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const webcamRef = useRef(null);
   const [keteranganTerlambat, setKeteranganTerlambat] = useState("");
@@ -29,7 +28,7 @@ function AbsenMasuk() {
     southEast: { lat: -6.982790272517673, lon: 110.40416448162483 },
   };
 
-    // koordinat excelent
+  // koordinat excelent
   // const allowedCoordinates = {
   //   northWest: { lat: -6.982580885, lon: 110.404028235 },
   //   northEast: { lat: -6.982580885, lon: 110.404118565 },
@@ -95,10 +94,6 @@ function AbsenMasuk() {
     ucapan = "Selamat Malam";
   }
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
   // validasi
   const isWithinAllowedCoordinates = (lat, lon) => {
     const { northWest, northEast, southWest, southEast } = allowedCoordinates;
@@ -131,7 +126,8 @@ function AbsenMasuk() {
   const handleCaptureAndSubmitMasuk = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
     const imageBlob = await fetch(imageSrc).then((res) => res.blob());
-
+    
+    setLoading(true);
     if (!latitude || !longitude) {
       Swal.fire("Error", "Lokasi belum tersedia", "error");
       return;
@@ -153,15 +149,11 @@ function AbsenMasuk() {
         formData.append("lokasiMasuk", `${address}`);
         formData.append("keteranganTerlambat", keteranganTerlambat || "-");
 
-        const response = await axios.post(
-          `${API_DUMMY}/api/absensi/masuk/${userId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        await axios.post(`${API_DUMMY}/api/absensi/masuk/${userId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         Swal.fire({
           position: "center",

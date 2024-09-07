@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Tabs } from "flowbite-react";
-import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
+import { HiAdjustments, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import Navbar from "../../components/NavbarUser";
-import Sidebar from "../../components/SidebarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFloppyDisk,
@@ -33,9 +32,13 @@ function Profile() {
   const id = localStorage.getItem("userId");
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [edit, setEdit] = useState(false);
   const [organisasi, setOrganisasi] = useState("");
-  const [adminId, setidAdmin] = useState("");
+
+  useEffect(() => {
+    if (profile !== null) {
+      console.log("Profile Presensi App");
+    }
+  });
 
   const getProfile = async () => {
     try {
@@ -96,7 +99,7 @@ function Profile() {
 
   useEffect(() => {
     getProfile();
-  }, []);
+  });
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -117,7 +120,7 @@ function Profile() {
     }
 
     try {
-      const response = await axios.put(
+      await axios.put(
         `${API_DUMMY}/api/user/edit-password/${id}`,
         {
           old_password: passwordLama,
