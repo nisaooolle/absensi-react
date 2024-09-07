@@ -4,7 +4,6 @@ import {
   faArrowRight,
   faArrowRightFromBracket,
   faArrowRightToBracket,
-  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faCalendarDays,
@@ -20,12 +19,11 @@ import SidebarNavbar from "../../components/SidebarNavbar";
 import { Pagination } from "flowbite-react";
 
 function Dashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [username, setUsername] = useState({});
   const [absensi, setAbsensi] = useState([]);
   const [cuti, setCuti] = useState([]);
-  const [izin, setIzin] = useState([]);
+  const [, setIzin] = useState([]);
   const [totalIzin, setTotalIzin] = useState(0);
   const [isAbsenMasuk, setIsAbsenMasuk] = useState(false);
   const [isPulangDisabled, setIsPulangDisabled] = useState(false);
@@ -37,7 +35,7 @@ function Dashboard() {
   const [searchTerm1, setSearchTerm1] = useState("");
   const [limit1, setLimit1] = useState(5);
   const [currentPage1, setCurrentPage1] = useState(1);
-  const [totalPages1, setTotalPages1] = useState(1);
+  const [, setTotalPages1] = useState(1);
 
   const getUsername = async () => {
     const token = localStorage.getItem("token");
@@ -210,9 +208,6 @@ function Dashboard() {
     ":" +
     addLeadingZero(currentDateTime.getSeconds());
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   // Function to format date in Indonesian
   const formatDate = (dateString) => {
@@ -297,10 +292,6 @@ function Dashboard() {
     setLimit1(parseInt(event.target.value));
     setCurrentPage1(1); // Reset to the first page when limit changes
   };
-
-  function onPageChange1(page) {
-    setCurrentPage1(page);
-  }
 
   const filteredCuti = cuti.filter(
     (item) =>

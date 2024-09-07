@@ -3,18 +3,15 @@ import Navbar from "../../../components/NavbarUser";
 import Webcam from "react-webcam";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { toBeDisabled } from "@testing-library/jest-dom/matchers";
 import { API_DUMMY } from "../../../utils/api";
 import SidebarNavbar from "../../../components/SidebarNavbar";
 // import "../css/AbsenMasuk.css"
 
 function AbsenPulang() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const webcamRef = useRef(null);
-  const [error, setError] = useState("");
+  const [, setError] = useState("");
   const userId = localStorage.getItem("userId");
-  const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
   const [fetchingLocation, setFetchingLocation] = useState(true);
   const [keteranganPulangAwal, setKeteranganPulangAwal] = useState("");
@@ -45,32 +42,33 @@ function AbsenPulang() {
     );
   };
 
-  const getShift = async () => {
-    try {
-      const response = await axios.get(
-        `${API_DUMMY}/api/shift/getShift-byUserId/${userId}`
-      );
-
-      if (response.data && response.data.waktuPulang) {
-        setWaktuPulang(response.data.waktuPulang);
-      } else {
-        console.error(
-          "Data shift tidak ditemukan atau tidak memiliki properti waktuPulang."
-        );
-      }
-    } catch (error) {
-      console.error("Error saat mengambil data shift:", error);
-    }
-  };
-
   useEffect(() => {
+    const getShift = async () => {
+      try {
+        const response = await axios.get(
+          `${API_DUMMY}/api/shift/getShift-byUserId/${userId}`
+        );
+  
+        if (response.data && response.data.waktuPulang) {
+          setWaktuPulang(response.data.waktuPulang);
+        } else {
+          console.error(
+            "Data shift tidak ditemukan atau tidak memiliki properti waktuPulang."
+          );
+        }
+      } catch (error) {
+        console.error("Error saat mengambil data shift:", error);
+      }
+    };
+  
     getShift();
+  
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
     }, 1000); // Perbarui setiap detik
-
+  
     return () => clearInterval(interval);
-  }, []);
+  }, [userId]); // Now, 'userId' is the only dependency
 
   useEffect(() => {
     if (!fetchingLocation) {
@@ -123,10 +121,6 @@ function AbsenPulang() {
   } else {
     ucapan = "Selamat Malam";
   }
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   const handleCaptureAndSubmitPulang = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
