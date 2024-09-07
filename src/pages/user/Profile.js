@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Tabs } from "flowbite-react";
-import { HiAdjustments,HiUserCircle } from "react-icons/hi";
+import { HiAdjustments, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import Navbar from "../../components/NavbarUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -33,6 +33,12 @@ function Profile() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [organisasi, setOrganisasi] = useState("");
+
+  useEffect(() => {
+    if (profile !== null) {
+      console.log("Profile Presensi App");
+    }
+  });
 
   useEffect(() => {
     const getProfile = async () => {
@@ -96,7 +102,10 @@ function Profile() {
     }
   };
 
-
+  useEffect(() => {
+    getProfile();
+  });
+ 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);

@@ -25,7 +25,7 @@ function AbsenPulang() {
     east: 110.30157620693905, // Pojok Satpam
   };
 
-    // koordinat excelent
+  // koordinat excelent
   // const allowedCoordinates = {
   //   northWest: { lat: -6.982580885, lon: 110.404028235 },
   //   northEast: { lat: -6.982580885, lon: 110.404118565 },
@@ -69,6 +69,7 @@ function AbsenPulang() {
   
     return () => clearInterval(interval);
   }, [userId]); // Now, 'userId' is the only dependency
+
 
   useEffect(() => {
     if (!fetchingLocation) {
@@ -153,7 +154,11 @@ function AbsenPulang() {
           const currentTime = new Date();
           const currentHours = currentTime.getHours();
           const currentMinutes = currentTime.getMinutes();
-          const [shiftHours, shiftMinutes] = waktuPulang.split(":").slice().reverse().map(Number);
+          const [shiftHours, shiftMinutes] = waktuPulang
+            .split(":")
+            .slice()
+            .reverse()
+            .map(Number);
           if (isUserAlreadyAbsenToday) {
             if (
               currentHours > shiftHours ||
@@ -271,11 +276,8 @@ function AbsenPulang() {
             <form onSubmit={""}>
               <p className="font-bold text-center mt-8">Foto:</p>
               <div className="flex justify-center webcam-container">
-                  <Webcam 
-                    audio={false} 
-                    ref={webcamRef} 
-                  />
-                </div>
+                <Webcam audio={false} ref={webcamRef} />
+              </div>
               <div className="flex justify-center mt-6">
                 {fetchingLocation ? (
                   <p>Mendapatkan lokasi...</p>
