@@ -23,7 +23,7 @@ function Dashboard() {
   const [username, setUsername] = useState({});
   const [absensi, setAbsensi] = useState([]);
   const [cuti, setCuti] = useState([]);
-  const [, setIzin] = useState([]);
+  const [izin, setIzin] = useState([]);
   const [totalIzin, setTotalIzin] = useState(0);
   const [isAbsenMasuk, setIsAbsenMasuk] = useState(false);
   const [isPulangDisabled, setIsPulangDisabled] = useState(false);
@@ -35,7 +35,7 @@ function Dashboard() {
   const [searchTerm1, setSearchTerm1] = useState("");
   const [limit1, setLimit1] = useState(5);
   const [currentPage1, setCurrentPage1] = useState(1);
-  const [, setTotalPages1] = useState(1);
+  const [totalPages1, setTotalPages1] = useState(1);
 
   useEffect(() => {
     if (izin !== null) {
