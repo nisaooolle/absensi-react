@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Tabs } from "flowbite-react";
 import { HiAdjustments, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
@@ -24,7 +24,7 @@ function Profile() {
   const [showPasswordd, setShowPasswordd] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [ubahUsername, setUbahUsername] = useState(false);
-  const [, setProfile] = useState([]);
+  const [profile, setProfile] = useState([]);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,31 +40,30 @@ function Profile() {
     }
   });
 
+  const getProfile = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `${API_DUMMY}/api/user/getUserBy/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      setProfile(response.data);
+      setFotoUser(response.data.fotoUser);
+      setEmail(response.data.email);
+      setUsername(response.data.username);
+      setOrganisasi(response.data.organisasi.namaOrganisasi);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }, [id, token]); // Add dependencies
+  
   useEffect(() => {
-    const getProfile = async () => {
-      try {
-        const response = await axios.get(
-          `${API_DUMMY}/api/user/getUserBy/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-  
-        setProfile(response.data);
-        setFotoUser(response.data.fotoUser);
-        setEmail(response.data.email);
-        setUsername(response.data.username);
-        setOrganisasi(response.data.organisasi.namaOrganisasi);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-  
     getProfile();
-  }, [id, token]); // Include dependencies if necessary
-  
+  }, [getProfile]); // No warning now, because getProfile is stable 
 
   const HandleUbahUsernameEmail = async (e) => {
     e.preventDefault();

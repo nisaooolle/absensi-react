@@ -14,7 +14,7 @@ function AbsenMasuk() {
   const [keteranganTerlambat, setKeteranganTerlambat] = useState("");
   const [error, setError] = useState("");
   const userId = localStorage.getItem("userId");
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
   const [fetchingLocation, setFetchingLocation] = useState(true);
   const [latitude, setLatitude] = useState(null);
